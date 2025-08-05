@@ -2,99 +2,113 @@
 <html>
 <head>
     <title>Pokédex</title>
-    <style>
-        body { font-family: Arial; text-align: center; }
-        .pokemon-card {
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 8px;
-            width: 150px;
-            border-radius: 10px;
-            box-shadow: 0 0 5px #aaa;
-        }
-        .pokemon-card img {
-            width: 100px;
-            height: 100px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        select, input[type="checkbox"] {
-            margin: 0 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Pokédex</h1>
+    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
-    <form method="get">
-        <label>Filter by Type:</label>
-        <select name="type">
-            <option value="">All</option>
-            {% for t in all_types %}
-                <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
-            {% endfor %}
-        </select>
+    <header>
+        <h1>
+            <a href="/pokedex" class="reset-link">Pokédex</a>
+        </h1>
 
-        <label>Sort by:</label>
-        <select name="sort">
-            <option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
-            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
-        </select>
-
-        <label>Generation:</label>
-        <select name="generation">
-            <option value="">All</option>
+        <div class="gen-links">
             {% for g in all_gens %}
-                <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
+                <a href="/generation/{{ g }}" class="button-link">Gen {{ g }}</a>
             {% endfor %}
-        </select>
-
-        <label>Pokémon:</label>
-        <select name="pokemon">
-            <option value="">--</option>
-            {% for name in all_pokemon_names %}
-                <option value="{{ name }}" {% if request.args.get('pokemon') == name %}selected{% endif %}>{{ name.capitalize() }}</option>
-            {% endfor %}
-        </select>
-
-        <label>Random?</label>
-        <input type="checkbox" name="random" value="true" {% if request.args.get("random") == "true" %}checked{% endif %}>
-
-        <button type="submit">Apply</button>
-    </form>
-
-    {% for p in pokemon_list %}
-        <div class="pokemon-card">
-            <a href="/pokemon/{{ p.name | lower }}" style="text-decoration: none; color: inherit;">
-                <img src="{{ p.sprite }}" alt="{{ p.name }}">
-                <h3>{{ p.name }}</h3>
-                <p>ID: {{ p.id }}</p>
-                <p>Types: {{ ", ".join(p.types) }}</p>
-            </a>
         </div>
-    {% endfor %}
 
-	<div style="margin-top: 20px;">
-		{% if not request.args.get('random') and not request.args.get('pokemon') %}
-			{% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
-			{% set next_offset = offset + limit %}
+        <div class="type-links">
+            {% for t in all_types %}
+                <a href="/type/{{ t }}" class="button-link type-label type-{{ t }}">{{ t }}</a>
+            {% endfor %}
+        </div>
 
-			{% set base_args = [] %}
-			{% for key, value in request.args.items() %}
-				{% if key != 'offset' %}
-					{% set _ = base_args.append(key ~ '=' ~ value) %}
-				{% endif %}
-			{% endfor %}
+        <form method="get" class="form-controls">
+            <input type="text" name="search" placeholder="Search by name..." value="{{ search }}">
 
-			{% set base_query = '&'.join(base_args) %}
+            <label>Type:</label>
+            <select name="type">
+                <option value="">All</option>
+                {% for t in all_types %}
+                    <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
 
-			<a href="/pokedex?{{ base_query }}&offset={{ prev_offset }}&limit={{ limit }}">Prev</a>
-			|
-			<a href="/pokedex?{{ base_query }}&offset={{ next_offset }}&limit={{ limit }}">Next</a>
-		{% endif %}
-	</div>
+            <label>Sort:</label>
+            <select name="sort">
+                <option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+            </select>
 
+            <label>Generation:</label>
+            <select name="generation">
+                <option value="">All</option>
+                {% for g in all_gens %}
+                    <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Random?</label>
+            <input type="checkbox" name="random" value="true" {% if request.args.get("random") == "true" %}checked{% endif %}>
+
+            <button type="submit">Apply</button>
+        </form>
+    </header>
+
+    {% if not pokemon_list %}
+        <p>No Pokémon found.</p>
+    {% endif %}
+
+    <div class="pokemon-grid">
+        {% for p in pokemon_list %}
+            <div class="pokemon-card">
+                <span class="pokemon-id">#{{ p.id }}</span>
+                <a href="/pokemon/{{ p.name | lower }}" style="text-decoration: none; color: inherit;">
+                    <img src="{{ p.sprite }}" alt="{{ p.name }}">
+                    <h3>{{ p.name }}</h3>
+                    <div class="type-container">
+                        {% for t in p.types %}
+                            <span class="type-label type-{{ t }}">{{ t }}</span>
+                        {% endfor %}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if not request.args.get('random') and not request.args.get('pokemon') %}
+        <div class="pagination">
+            {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
+            {% set next_offset = offset + limit %}
+
+            {% set base_args = [] %}
+            {% for key, value in request.args.items() %}
+                {% if key != 'offset' %}
+                    {% set _ = base_args.append(key ~ '=' ~ value) %}
+                {% endif %}
+            {% endfor %}
+            {% set base_query = '&'.join(base_args) %}
+
+            <a href="/pokedex?{{ base_query }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
+            <a href="/pokedex?{{ base_query }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
+        </div>
+    {% endif %}
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+            body.classList.toggle("dark");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode", "dark");
+            }
+        };
+    </script>
 </body>
 </html>

@@ -11,26 +11,40 @@ def home():
 
 @app.route('/pokedex')
 def pokedex():
-    limit = int(request.args.get("limit", 20))
-    offset = int(request.args.get("offset", 0))
+    limit = int(request.args.get("limit") or 12)
+    offset = int(request.args.get("offset") or 0)
     sort_by = request.args.get("sort", "id")
     type_filter = request.args.get("type")
     randomize = request.args.get("random", "false") == "true"
     generation = request.args.get("generation")
     selected_name = request.args.get("pokemon")
+    search = request.args.get("search", "").lower()
 
-    # get full list of Pokémon for dropdown
+    # get full list of Pokémon names
     full_res = requests.get("https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0")
-    all_pokemon_names = [p["name"] for p in full_res.json()["results"]]
+    all_pokemon_urls = full_res.json()["results"]
+    all_pokemon_names = [p["name"] for p in all_pokemon_urls]
 
-    # apply generation filter
+    species_list = all_pokemon_names
+
+    # if type filter is set, narrow species list
+    if type_filter:
+        type_res = requests.get(f"https://pokeapi.co/api/v2/type/{type_filter.lower()}")
+        if type_res.status_code == 200:
+            type_pokemon_names = [entry["pokemon"]["name"] for entry in type_res.json()["pokemon"]]
+            species_list = list(set(species_list) & set(type_pokemon_names))
+
+    # apply generation filter (if any)
     if generation:
         gen_res = requests.get(f"https://pokeapi.co/api/v2/generation/{generation}/")
-        species_list = [s["name"] for s in gen_res.json()["pokemon_species"]]
-    else:
-        species_list = all_pokemon_names
+        gen_species = [s["name"] for s in gen_res.json()["pokemon_species"]]
+        species_list = list(set(species_list) & set(gen_species))
 
-    # select names to load
+    # apply search
+    if search:
+        species_list = [name for name in species_list if name.startswith(search)]
+
+    # decide what names to display
     if selected_name:
         selected_names = [selected_name]
     elif randomize:
@@ -38,16 +52,18 @@ def pokedex():
     else:
         selected_names = species_list[offset:offset + limit]
 
-    # fetch data for selected Pokémon
+    # fetch data for displayed Pokémon
     pokemon_data = []
+    all_types_seen = set()
+
     for name in selected_names:
         poke = get_pokemon(name)
         if not poke:
             continue
         types = [t["type"]["name"] for t in poke["types"]]
+        all_types_seen.update(types)
         if type_filter and type_filter.lower() not in types:
             continue
-
         pokemon_data.append({
             "name": poke["name"].capitalize(),
             "id": poke["id"],
@@ -55,15 +71,17 @@ def pokedex():
             "types": types
         })
 
-    # sorting
+    # sort if needed
     if sort_by == "name":
         pokemon_data.sort(key=lambda x: x["name"])
     else:
         pokemon_data.sort(key=lambda x: x["id"])
 
-    # prepare values for UI
-    all_types = sorted(set(t for p in pokemon_data for t in p["types"]))
-    all_gens = list(range(1, 10))  # Generation 1 to 9
+    # fetch full list of all Pokémon types (static source)
+    type_res = requests.get("https://pokeapi.co/api/v2/type")
+    all_types = sorted([t["name"] for t in type_res.json()["results"]])
+
+    all_gens = list(range(1, 10))  # gen 1–9
 
     return render_template("pokedex.html",
         pokemon_list=pokemon_data,
@@ -73,7 +91,9 @@ def pokedex():
         current_type=type_filter,
         current_sort=sort_by,
         offset=offset,
-        limit=limit
+        limit=limit,
+        search=search,
+        total_matches=len(species_list)
     )
 
 
@@ -121,6 +141,52 @@ def pokemon_detail(name):
 
 
     return render_template("pokemon_detail.html", p=data)
+
+@app.route('/generation/<int:gen_id>')
+def generation_view(gen_id):
+    res = requests.get(f"https://pokeapi.co/api/v2/generation/{gen_id}/")
+    if res.status_code != 200:
+        return f"Generation {gen_id} not found", 404
+
+    data = res.json()
+    species_list = sorted(data["pokemon_species"], key=lambda x: x["name"])
+    
+    pokemon_list = []
+    for s in species_list:
+        # get ID from species URL
+        url_parts = s["url"].rstrip("/").split("/")
+        poke_id = int(url_parts[-1])
+        pokemon_list.append({
+            "name": s["name"].capitalize(),
+            "id": poke_id
+        })
+
+    return render_template("generation_view.html", gen_id=gen_id, pokemon_list=pokemon_list)
+
+@app.route('/type/<type_name>')
+def type_view(type_name):
+    # fetch all Pokémon by type
+    type_res = requests.get(f"https://pokeapi.co/api/v2/type/{type_name.lower()}")
+    if type_res.status_code != 200:
+        return f"Type '{type_name}' not found", 404
+
+    type_data = type_res.json()
+    pokemon_entries = type_data["pokemon"]
+    pokemon_list = []
+
+    for entry in pokemon_entries:
+        poke = get_pokemon(entry["pokemon"]["name"])
+        if poke:
+            pokemon_list.append({
+                "name": poke["name"].capitalize(),
+                "id": poke["id"],
+                "types": [t["type"]["name"] for t in poke["types"]]
+            })
+
+    pokemon_list.sort(key=lambda x: x["id"])
+
+    return render_template("type_view.html", type_name=type_name, pokemon_list=pokemon_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

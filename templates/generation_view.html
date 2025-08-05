@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generation {{ gen_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+
+    <div class="container">
+        <h1>Generation {{ gen_id }} Pokémon</h1>
+
+        <div class="pokemon-grid">
+            {% for p in pokemon_list %}
+				<a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
+					<div class="pokemon-id">#{{ '%03d' % p.id }}</div>
+					<div class="pokemon-name plain-name">{{ p.name }}</div>
+					<div class="type-container">
+						{% for t in p.types %}
+							<span class="type-label type-{{ t }}">{{ t }}</span>
+						{% endfor %}
+					</div>
+				</a>
+            {% endfor %}
+        </div>
+
+        <div class="back-link">
+            <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+            body.classList.toggle("dark");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode", "dark");
+            }
+        };
+    </script>
+</body>
+</html>

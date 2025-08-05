@@ -2,77 +2,84 @@
 <html>
 <head>
     <title>{{ p.name }} - Details</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            padding: 20px;
-        }
-        .pokemon-img {
-            width: 200px;
-            height: 200px;
-        }
-        .stat-box {
-            display: inline-block;
-            text-align: left;
-            margin-top: 10px;
-        }
-        .stat {
-            margin: 5px 0;
-            padding: 4px 8px;
-            background-color: #f3f3f3;
-            border-radius: 4px;
-        }
-        .back-link {
-            margin-top: 20px;
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{{ p.name }}</h1>
+    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
-    <img src="{{ p.sprite }}" alt="{{ p.name }}" class="pokemon-img">
+    <div class="container">
+        <h1>{{ p.name }}</h1>
+        <img src="{{ p.sprite }}" alt="{{ p.name }}" class="pokemon-img large">
+        <p><strong>ID:</strong> {{ p.id }}</p>
 
-    <p><strong>ID:</strong> {{ p.id }}</p>
-    <p><strong>Types:</strong> {{ ", ".join(p.types) }}</p>
-    <p><strong>Description:</strong> {{ p.description }}</p>
+        <div class="type-container large">
+            {% for t in p.types %}
+                <span class="type-label type-{{ t }} large">{{ t }}</span>
+            {% endfor %}
+        </div>
 
-    <h2>Base Stats</h2>
-    <div class="stat-box">
-        {% for stat, value in p.stats.items() %}
-            <div class="stat">{{ stat.capitalize() }}: {{ value }}</div>
-        {% endfor %}
+        <div class="description-box">
+            <p>{{ p.description }}</p>
+        </div>
+
+        <div class="section-title">Base Stats</div>
+        <div class="stats-bar">
+            {% for stat, value in p.stats.items() %}
+                <div class="stat-row">
+                    <span class="stat-name">{{ stat.capitalize() }}</span>
+                    <div class="stat-bar-bg">
+                        <div class="stat-bar-fill" style="width: {{ (value / 256) * 100 }}%"></div>
+                    </div>
+                    <span class="stat-value">{{ value }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if p.forms %}
+        <div class="section-title">Forms</div>
+        <div class="horizontal-scroll">
+            {% for form in p.forms %}
+                <a href="/pokemon/{{ form.name | lower }}" class="button-card">
+                    <img src="{{ form.sprite }}" alt="{{ form.name }}">
+                    <div>
+                        {{ form.name }}{% if form.is_default %}<br>(Default){% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if p.evolutions %}
+        <div class="section-title">Evolution Line</div>
+        <div class="horizontal-scroll">
+            {% for evo in p.evolutions %}
+                <a href="/pokemon/{{ evo.name | lower }}" class="button-card">
+                    <img src="{{ evo.sprite }}" alt="{{ evo.name }}">
+                    <div>{{ evo.name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+        </div>
     </div>
-	<h2>Forms</h2>
-	<div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-		{% for form in p.forms %}
-			<a href="/pokemon/{{ form.name | lower }}" style="text-decoration: none; color: inherit;">
-				<div>
-					<img src="{{ form.sprite }}" alt="{{ form.name }}" width="100">
-					<div>
-						{{ form.name }}
-						{% if form.is_default %} (Default) {% endif %}
-					</div>
-				</div>
-			</a>
-		{% endfor %}
-	</div>
-	<h2>Evolution Line</h2>
-	<div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-		{% for evo in p.evolutions %}
-			<a href="/pokemon/{{ evo.name | lower }}" style="text-decoration: none; color: inherit;">
-				<div>
-					<img src="{{ evo.sprite }}" alt="{{ evo.name }}" width="100">
-					<div>{{ evo.name }}</div>
-				</div>
-			</a>
-		{% endfor %}
-	</div>
-	<br>	
-    <div class="back-link">
-        <br>
-        <a href="/pokedex">← Back to Pokédex</a>
-    </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+            body.classList.toggle("dark");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode", "dark");
+            }
+        };
+    </script>
 </body>
 </html>
