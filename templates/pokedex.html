@@ -1,0 +1,30 @@
+<body>
+    <h1>Pokédex</h1>
+
+    <form method="get" style="margin-bottom: 20px;">
+        <label>Filter by Type:</label>
+        <select name="type">
+            <option value="">All</option>
+            {% for t in all_types %}
+                <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Sort by:</label>
+        <select name="sort">
+            <option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    {% for p in pokemon_list %}
+        <div class="pokemon-card">
+            <img src="{{ p.sprite }}" alt="{{ p.name }}">
+            <h3>{{ p.name }}</h3>
+            <p>ID: {{ p.id }}</p>
+            <p>Types: {{ ", ".join(p.types) }}</p>
+        </div>
+    {% endfor %}
+</body>
