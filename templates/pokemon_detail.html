@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ p.name }} - Details</title>
+    <style>
+        body { font-family: Arial; text-align: center; }
+        .stat { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>{{ p.name }}</h1>
+    <img src="{{ p.sprite }}" alt="{{ p.name }}" width="200">
+    <p><strong>ID:</strong> {{ p.id }}</p>
+    <p><strong>Types:</strong> {{ ", ".join(p.types) }}</p>
+    <p><strong>Description:</strong> {{ p.description }}</p>
+
+    <h2>Base Stats</h2>
+    {% for stat, value in p.stats.items() %}
+        <div class="stat">{{ stat }}: {{ value }}</div>
+    {% endfor %}
+
+    <br>
+    <a href="/pokedex">← Back to Pokédex</a>
+</body>
+</html>

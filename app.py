@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from utils.pokeapi import get_pokemon
+from utils.pokeapi import get_pokemon, get_species, get_flavor_text
 import requests
 
 app = Flask(__name__)
@@ -48,6 +49,26 @@ def pokedex():
                            all_types=all_types,
                            current_type=type_filter,
                            current_sort=sort_by)
+
+@app.route('/pokemon/<name>')
+def pokemon_detail(name):
+    poke = get_pokemon(name)
+    species = get_species(name)
+    flavor = get_flavor_text(species)
+
+    if not poke:
+        return "Pokémon not found", 404
+
+    data = {
+        "name": poke["name"].capitalize(),
+        "id": poke["id"],
+        "sprite": poke["sprites"]["other"]["official-artwork"]["front_default"],
+        "types": [t["type"]["name"] for t in poke["types"]],
+        "stats": {s["stat"]["name"]: s["base_stat"] for s in poke["stats"]},
+        "description": flavor
+    }
+    return render_template("pokemon_detail.html", p=data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
