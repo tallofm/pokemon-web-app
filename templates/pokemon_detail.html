@@ -3,23 +3,76 @@
 <head>
     <title>{{ p.name }} - Details</title>
     <style>
-        body { font-family: Arial; text-align: center; }
-        .stat { margin: 5px 0; }
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding: 20px;
+        }
+        .pokemon-img {
+            width: 200px;
+            height: 200px;
+        }
+        .stat-box {
+            display: inline-block;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .stat {
+            margin: 5px 0;
+            padding: 4px 8px;
+            background-color: #f3f3f3;
+            border-radius: 4px;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <h1>{{ p.name }}</h1>
-    <img src="{{ p.sprite }}" alt="{{ p.name }}" width="200">
+
+    <img src="{{ p.sprite }}" alt="{{ p.name }}" class="pokemon-img">
+
     <p><strong>ID:</strong> {{ p.id }}</p>
     <p><strong>Types:</strong> {{ ", ".join(p.types) }}</p>
     <p><strong>Description:</strong> {{ p.description }}</p>
 
     <h2>Base Stats</h2>
-    {% for stat, value in p.stats.items() %}
-        <div class="stat">{{ stat }}: {{ value }}</div>
-    {% endfor %}
-
-    <br>
-    <a href="/pokedex">← Back to Pokédex</a>
+    <div class="stat-box">
+        {% for stat, value in p.stats.items() %}
+            <div class="stat">{{ stat.capitalize() }}: {{ value }}</div>
+        {% endfor %}
+    </div>
+	<h2>Forms</h2>
+	<div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+		{% for form in p.forms %}
+			<a href="/pokemon/{{ form.name | lower }}" style="text-decoration: none; color: inherit;">
+				<div>
+					<img src="{{ form.sprite }}" alt="{{ form.name }}" width="100">
+					<div>
+						{{ form.name }}
+						{% if form.is_default %} (Default) {% endif %}
+					</div>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+	<h2>Evolution Line</h2>
+	<div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+		{% for evo in p.evolutions %}
+			<a href="/pokemon/{{ evo.name | lower }}" style="text-decoration: none; color: inherit;">
+				<div>
+					<img src="{{ evo.sprite }}" alt="{{ evo.name }}" width="100">
+					<div>{{ evo.name }}</div>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+	<br>	
+    <div class="back-link">
+        <br>
+        <a href="/pokedex">← Back to Pokédex</a>
+    </div>
 </body>
 </html>
