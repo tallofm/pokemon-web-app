@@ -15,6 +15,7 @@ from utils.cache import (
 )
 import requests
 import random
+import re
 from utils import cache
 
 app = Flask(__name__)
@@ -89,7 +90,14 @@ def pokedex():
             species_list = list(set(species_list) & set(gen_species))
 
     if search:
-        species_list = [name for name in species_list if name.startswith(search)]
+        def wildcard_to_regex(pattern):
+            escaped = re.escape(pattern)
+            regex_pattern = '^' + escaped.replace(r'\*', '.*') + '$'
+            return regex_pattern
+
+        pattern = wildcard_to_regex(search)
+        regex = re.compile(pattern)
+        species_list = [name for name in species_list if regex.search(name)]
 
     if selected_name:
         selected_names = [selected_name]
