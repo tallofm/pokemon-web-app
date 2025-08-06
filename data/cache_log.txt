@@ -1,0 +1,1507 @@
+[2025-08-06 02:02:29] CACHE HIT: bulbasaur
+[2025-08-06 02:02:29] CACHE HIT: ivysaur
+[2025-08-06 02:02:29] CACHE HIT: venusaur
+[2025-08-06 02:02:29] CACHE HIT: charmander
+[2025-08-06 02:02:29] CACHE HIT: charmeleon
+[2025-08-06 02:02:29] CACHE HIT: charizard
+[2025-08-06 02:02:29] CACHE HIT: squirtle
+[2025-08-06 02:02:29] CACHE HIT: wartortle
+[2025-08-06 02:02:29] CACHE HIT: blastoise
+[2025-08-06 02:02:29] CACHE HIT: caterpie
+[2025-08-06 02:02:29] CACHE HIT: metapod
+[2025-08-06 02:02:29] CACHE HIT: butterfree
+[2025-08-06 02:04:25] CACHE HIT: bulbasaur
+[2025-08-06 02:04:25] CACHE HIT: ivysaur
+[2025-08-06 02:04:25] CACHE HIT: venusaur
+[2025-08-06 02:04:25] CACHE HIT: charmander
+[2025-08-06 02:04:25] CACHE HIT: charmeleon
+[2025-08-06 02:04:25] CACHE HIT: charizard
+[2025-08-06 02:04:25] CACHE HIT: squirtle
+[2025-08-06 02:04:25] CACHE HIT: wartortle
+[2025-08-06 02:04:25] CACHE HIT: blastoise
+[2025-08-06 02:04:25] CACHE HIT: caterpie
+[2025-08-06 02:04:25] CACHE HIT: metapod
+[2025-08-06 02:04:25] CACHE HIT: butterfree
+[2025-08-06 02:08:42] CACHE HIT: bulbasaur
+[2025-08-06 02:08:42] CACHE HIT: ivysaur
+[2025-08-06 02:08:42] CACHE HIT: venusaur
+[2025-08-06 02:08:42] CACHE HIT: charmander
+[2025-08-06 02:08:42] CACHE HIT: charmeleon
+[2025-08-06 02:08:42] CACHE HIT: charizard
+[2025-08-06 02:08:42] CACHE HIT: squirtle
+[2025-08-06 02:08:42] CACHE HIT: wartortle
+[2025-08-06 02:08:42] CACHE HIT: blastoise
+[2025-08-06 02:08:42] CACHE HIT: caterpie
+[2025-08-06 02:08:42] CACHE HIT: metapod
+[2025-08-06 02:08:42] CACHE HIT: butterfree
+[2025-08-06 02:08:45] extra_cache.json saved
+[2025-08-06 02:08:45] CACHE HIT: abra
+[2025-08-06 02:08:45] CACHE HIT: aerodactyl
+[2025-08-06 02:08:45] CACHE HIT: alakazam
+[2025-08-06 02:08:45] CACHE HIT: arbok
+[2025-08-06 02:08:45] CACHE HIT: arcanine
+[2025-08-06 02:08:45] CACHE HIT: articuno
+[2025-08-06 02:08:45] CACHE HIT: beedrill
+[2025-08-06 02:08:45] CACHE HIT: bellsprout
+[2025-08-06 02:08:45] CACHE HIT: blastoise
+[2025-08-06 02:08:45] CACHE HIT: bulbasaur
+[2025-08-06 02:08:45] CACHE HIT: butterfree
+[2025-08-06 02:08:45] CACHE HIT: caterpie
+[2025-08-06 02:08:45] CACHE HIT: chansey
+[2025-08-06 02:08:45] CACHE HIT: charizard
+[2025-08-06 02:08:45] CACHE HIT: charmander
+[2025-08-06 02:08:45] CACHE HIT: charmeleon
+[2025-08-06 02:08:45] CACHE HIT: clefable
+[2025-08-06 02:08:45] CACHE HIT: clefairy
+[2025-08-06 02:08:45] CACHE HIT: cloyster
+[2025-08-06 02:08:45] CACHE HIT: cubone
+[2025-08-06 02:08:45] CACHE HIT: dewgong
+[2025-08-06 02:08:45] CACHE HIT: diglett
+[2025-08-06 02:08:45] CACHE HIT: ditto
+[2025-08-06 02:08:45] CACHE HIT: dodrio
+[2025-08-06 02:08:45] CACHE HIT: doduo
+[2025-08-06 02:08:45] CACHE HIT: dragonair
+[2025-08-06 02:08:45] CACHE HIT: dragonite
+[2025-08-06 02:08:45] CACHE HIT: dratini
+[2025-08-06 02:08:45] CACHE HIT: drowzee
+[2025-08-06 02:08:45] CACHE HIT: dugtrio
+[2025-08-06 02:08:45] CACHE HIT: eevee
+[2025-08-06 02:08:45] CACHE HIT: ekans
+[2025-08-06 02:08:45] CACHE HIT: electabuzz
+[2025-08-06 02:08:45] CACHE HIT: electrode
+[2025-08-06 02:08:45] CACHE HIT: exeggcute
+[2025-08-06 02:08:45] CACHE HIT: exeggutor
+[2025-08-06 02:08:45] CACHE HIT: farfetchd
+[2025-08-06 02:08:45] CACHE HIT: fearow
+[2025-08-06 02:08:45] CACHE HIT: flareon
+[2025-08-06 02:08:45] CACHE HIT: gastly
+[2025-08-06 02:08:45] CACHE HIT: gengar
+[2025-08-06 02:08:45] CACHE HIT: geodude
+[2025-08-06 02:08:45] CACHE HIT: gloom
+[2025-08-06 02:08:45] CACHE HIT: golbat
+[2025-08-06 02:08:45] CACHE HIT: goldeen
+[2025-08-06 02:08:45] CACHE HIT: golduck
+[2025-08-06 02:08:45] CACHE HIT: golem
+[2025-08-06 02:08:45] CACHE HIT: graveler
+[2025-08-06 02:08:45] CACHE HIT: grimer
+[2025-08-06 02:08:45] CACHE HIT: growlithe
+[2025-08-06 02:08:45] CACHE HIT: gyarados
+[2025-08-06 02:08:45] CACHE HIT: haunter
+[2025-08-06 02:08:45] CACHE HIT: hitmonchan
+[2025-08-06 02:08:45] CACHE HIT: hitmonlee
+[2025-08-06 02:08:45] CACHE HIT: horsea
+[2025-08-06 02:08:45] CACHE HIT: hypno
+[2025-08-06 02:08:45] CACHE HIT: ivysaur
+[2025-08-06 02:08:45] CACHE HIT: jigglypuff
+[2025-08-06 02:08:45] CACHE HIT: jolteon
+[2025-08-06 02:08:45] CACHE HIT: jynx
+[2025-08-06 02:08:45] CACHE HIT: kabuto
+[2025-08-06 02:08:45] CACHE HIT: kabutops
+[2025-08-06 02:08:45] CACHE HIT: kadabra
+[2025-08-06 02:08:45] CACHE HIT: kakuna
+[2025-08-06 02:08:45] CACHE HIT: kangaskhan
+[2025-08-06 02:08:45] CACHE HIT: kingler
+[2025-08-06 02:08:45] CACHE HIT: koffing
+[2025-08-06 02:08:45] CACHE HIT: krabby
+[2025-08-06 02:08:45] CACHE HIT: lapras
+[2025-08-06 02:08:45] CACHE HIT: lickitung
+[2025-08-06 02:08:45] CACHE HIT: machamp
+[2025-08-06 02:08:45] CACHE HIT: machoke
+[2025-08-06 02:08:45] CACHE HIT: machop
+[2025-08-06 02:08:45] CACHE HIT: magikarp
+[2025-08-06 02:08:45] CACHE HIT: magmar
+[2025-08-06 02:08:45] CACHE HIT: magnemite
+[2025-08-06 02:08:45] CACHE HIT: magneton
+[2025-08-06 02:08:45] CACHE HIT: mankey
+[2025-08-06 02:08:45] CACHE HIT: marowak
+[2025-08-06 02:08:45] CACHE HIT: meowth
+[2025-08-06 02:08:45] CACHE HIT: metapod
+[2025-08-06 02:08:45] CACHE HIT: mew
+[2025-08-06 02:08:45] CACHE HIT: mewtwo
+[2025-08-06 02:08:45] CACHE HIT: moltres
+[2025-08-06 02:08:45] CACHE HIT: mr-mime
+[2025-08-06 02:08:45] CACHE HIT: muk
+[2025-08-06 02:08:45] CACHE HIT: nidoking
+[2025-08-06 02:08:45] CACHE HIT: nidoqueen
+[2025-08-06 02:08:45] CACHE HIT: nidoran-f
+[2025-08-06 02:08:45] CACHE HIT: nidoran-m
+[2025-08-06 02:08:45] CACHE HIT: nidorina
+[2025-08-06 02:08:45] CACHE HIT: nidorino
+[2025-08-06 02:08:45] CACHE HIT: ninetales
+[2025-08-06 02:08:45] CACHE HIT: oddish
+[2025-08-06 02:08:45] CACHE HIT: omanyte
+[2025-08-06 02:08:45] CACHE HIT: omastar
+[2025-08-06 02:08:45] CACHE HIT: onix
+[2025-08-06 02:08:45] CACHE HIT: paras
+[2025-08-06 02:08:45] CACHE HIT: parasect
+[2025-08-06 02:08:45] CACHE HIT: persian
+[2025-08-06 02:08:45] CACHE HIT: pidgeot
+[2025-08-06 02:08:45] CACHE HIT: pidgeotto
+[2025-08-06 02:08:45] CACHE HIT: pidgey
+[2025-08-06 02:08:45] CACHE HIT: pikachu
+[2025-08-06 02:08:45] CACHE HIT: pinsir
+[2025-08-06 02:08:45] CACHE HIT: poliwag
+[2025-08-06 02:08:45] CACHE HIT: poliwhirl
+[2025-08-06 02:08:45] CACHE HIT: poliwrath
+[2025-08-06 02:08:45] CACHE HIT: ponyta
+[2025-08-06 02:08:45] CACHE HIT: porygon
+[2025-08-06 02:08:45] CACHE HIT: primeape
+[2025-08-06 02:08:45] CACHE HIT: psyduck
+[2025-08-06 02:08:45] CACHE HIT: raichu
+[2025-08-06 02:08:45] CACHE HIT: rapidash
+[2025-08-06 02:08:45] CACHE HIT: raticate
+[2025-08-06 02:08:45] CACHE HIT: rattata
+[2025-08-06 02:08:45] CACHE HIT: rhydon
+[2025-08-06 02:08:45] CACHE HIT: rhyhorn
+[2025-08-06 02:08:45] CACHE HIT: sandshrew
+[2025-08-06 02:08:45] CACHE HIT: sandslash
+[2025-08-06 02:08:45] CACHE HIT: scyther
+[2025-08-06 02:08:45] CACHE HIT: seadra
+[2025-08-06 02:08:45] CACHE HIT: seaking
+[2025-08-06 02:08:45] CACHE HIT: seel
+[2025-08-06 02:08:45] CACHE HIT: shellder
+[2025-08-06 02:08:45] CACHE HIT: slowbro
+[2025-08-06 02:08:45] CACHE HIT: slowpoke
+[2025-08-06 02:08:45] CACHE HIT: snorlax
+[2025-08-06 02:08:45] CACHE HIT: spearow
+[2025-08-06 02:08:45] CACHE HIT: squirtle
+[2025-08-06 02:08:45] CACHE HIT: starmie
+[2025-08-06 02:08:45] CACHE HIT: staryu
+[2025-08-06 02:08:45] CACHE HIT: tangela
+[2025-08-06 02:08:45] CACHE HIT: tauros
+[2025-08-06 02:08:45] CACHE HIT: tentacool
+[2025-08-06 02:08:45] CACHE HIT: tentacruel
+[2025-08-06 02:08:45] CACHE HIT: vaporeon
+[2025-08-06 02:08:45] CACHE HIT: venomoth
+[2025-08-06 02:08:45] CACHE HIT: venonat
+[2025-08-06 02:08:45] CACHE HIT: venusaur
+[2025-08-06 02:08:45] CACHE HIT: victreebel
+[2025-08-06 02:08:45] CACHE HIT: vileplume
+[2025-08-06 02:08:45] CACHE HIT: voltorb
+[2025-08-06 02:08:45] CACHE HIT: vulpix
+[2025-08-06 02:08:45] CACHE HIT: wartortle
+[2025-08-06 02:08:45] CACHE HIT: weedle
+[2025-08-06 02:08:45] CACHE HIT: weepinbell
+[2025-08-06 02:08:45] CACHE HIT: weezing
+[2025-08-06 02:08:45] CACHE HIT: wigglytuff
+[2025-08-06 02:08:45] CACHE HIT: zapdos
+[2025-08-06 02:08:45] CACHE HIT: zubat
+[2025-08-06 02:09:26] CACHE HIT: bulbasaur
+[2025-08-06 02:09:26] CACHE HIT: ivysaur
+[2025-08-06 02:09:26] CACHE HIT: venusaur
+[2025-08-06 02:09:26] CACHE HIT: charmander
+[2025-08-06 02:09:26] CACHE HIT: charmeleon
+[2025-08-06 02:09:26] CACHE HIT: charizard
+[2025-08-06 02:09:26] CACHE HIT: squirtle
+[2025-08-06 02:09:26] CACHE HIT: wartortle
+[2025-08-06 02:09:26] CACHE HIT: blastoise
+[2025-08-06 02:09:26] CACHE HIT: caterpie
+[2025-08-06 02:09:26] CACHE HIT: metapod
+[2025-08-06 02:09:26] CACHE HIT: butterfree
+[2025-08-06 02:09:29] extra_cache.json saved
+[2025-08-06 02:09:29] CACHE HIT: dratini
+[2025-08-06 02:09:29] CACHE HIT: dragonair
+[2025-08-06 02:09:29] CACHE HIT: dragonite
+[2025-08-06 02:09:29] CACHE HIT: kingdra
+[2025-08-06 02:09:29] CACHE HIT: vibrava
+[2025-08-06 02:09:29] CACHE HIT: flygon
+[2025-08-06 02:09:29] CACHE HIT: altaria
+[2025-08-06 02:09:29] CACHE HIT: bagon
+[2025-08-06 02:09:29] CACHE HIT: shelgon
+[2025-08-06 02:09:29] CACHE HIT: salamence
+[2025-08-06 02:09:29] CACHE HIT: latias
+[2025-08-06 02:09:29] CACHE HIT: latios
+[2025-08-06 02:09:29] CACHE HIT: rayquaza
+[2025-08-06 02:09:29] CACHE HIT: gible
+[2025-08-06 02:09:29] CACHE HIT: gabite
+[2025-08-06 02:09:29] CACHE HIT: garchomp
+[2025-08-06 02:09:29] CACHE HIT: dialga
+[2025-08-06 02:09:29] CACHE HIT: palkia
+[2025-08-06 02:09:29] CACHE HIT: giratina-altered
+[2025-08-06 02:09:29] CACHE HIT: axew
+[2025-08-06 02:09:29] CACHE HIT: fraxure
+[2025-08-06 02:09:29] CACHE HIT: haxorus
+[2025-08-06 02:09:29] CACHE HIT: druddigon
+[2025-08-06 02:09:29] CACHE HIT: deino
+[2025-08-06 02:09:29] CACHE HIT: zweilous
+[2025-08-06 02:09:29] CACHE HIT: hydreigon
+[2025-08-06 02:09:29] CACHE HIT: reshiram
+[2025-08-06 02:09:29] CACHE HIT: zekrom
+[2025-08-06 02:09:29] CACHE HIT: kyurem
+[2025-08-06 02:09:29] CACHE HIT: dragalge
+[2025-08-06 02:09:29] CACHE HIT: tyrunt
+[2025-08-06 02:09:29] CACHE HIT: tyrantrum
+[2025-08-06 02:09:29] CACHE HIT: goomy
+[2025-08-06 02:09:29] CACHE HIT: sliggoo
+[2025-08-06 02:09:29] CACHE HIT: goodra
+[2025-08-06 02:09:29] CACHE HIT: noibat
+[2025-08-06 02:09:29] CACHE HIT: noivern
+[2025-08-06 02:09:29] CACHE HIT: zygarde-50
+[2025-08-06 02:09:29] CACHE HIT: turtonator
+[2025-08-06 02:09:29] CACHE HIT: drampa
+[2025-08-06 02:09:29] CACHE HIT: jangmo-o
+[2025-08-06 02:09:29] CACHE HIT: hakamo-o
+[2025-08-06 02:09:29] CACHE HIT: kommo-o
+[2025-08-06 02:09:29] CACHE HIT: guzzlord
+[2025-08-06 02:09:29] CACHE HIT: naganadel
+[2025-08-06 02:09:29] CACHE HIT: applin
+[2025-08-06 02:09:29] CACHE HIT: flapple
+[2025-08-06 02:09:29] CACHE HIT: appletun
+[2025-08-06 02:09:29] CACHE HIT: dracozolt
+[2025-08-06 02:09:29] CACHE HIT: dracovish
+[2025-08-06 02:09:29] CACHE HIT: duraludon
+[2025-08-06 02:09:29] CACHE HIT: dreepy
+[2025-08-06 02:09:29] CACHE HIT: drakloak
+[2025-08-06 02:09:29] CACHE HIT: dragapult
+[2025-08-06 02:09:29] CACHE HIT: eternatus
+[2025-08-06 02:09:29] CACHE HIT: regidrago
+[2025-08-06 02:09:29] CACHE HIT: cyclizar
+[2025-08-06 02:09:29] CACHE HIT: tatsugiri-curly
+[2025-08-06 02:09:29] CACHE HIT: frigibax
+[2025-08-06 02:09:29] CACHE HIT: arctibax
+[2025-08-06 02:09:29] CACHE HIT: baxcalibur
+[2025-08-06 02:09:29] CACHE HIT: roaring-moon
+[2025-08-06 02:09:29] CACHE HIT: koraidon
+[2025-08-06 02:09:29] CACHE HIT: miraidon
+[2025-08-06 02:09:29] CACHE HIT: walking-wake
+[2025-08-06 02:09:29] CACHE HIT: dipplin
+[2025-08-06 02:09:29] CACHE HIT: archaludon
+[2025-08-06 02:09:29] CACHE HIT: hydrapple
+[2025-08-06 02:09:29] CACHE HIT: gouging-fire
+[2025-08-06 02:09:29] CACHE HIT: raging-bolt
+[2025-08-06 02:09:29] CACHE HIT: giratina-origin
+[2025-08-06 02:09:29] CACHE HIT: kyurem-black
+[2025-08-06 02:09:29] CACHE HIT: kyurem-white
+[2025-08-06 02:09:29] CACHE HIT: charizard-mega-x
+[2025-08-06 02:09:29] CACHE HIT: ampharos-mega
+[2025-08-06 02:09:29] CACHE HIT: garchomp-mega
+[2025-08-06 02:09:29] CACHE HIT: latias-mega
+[2025-08-06 02:09:29] CACHE HIT: latios-mega
+[2025-08-06 02:09:29] CACHE HIT: sceptile-mega
+[2025-08-06 02:09:29] CACHE HIT: altaria-mega
+[2025-08-06 02:09:29] CACHE HIT: rayquaza-mega
+[2025-08-06 02:09:29] CACHE HIT: salamence-mega
+[2025-08-06 02:09:29] CACHE HIT: exeggutor-alola
+[2025-08-06 02:09:29] CACHE HIT: zygarde-10-power-construct
+[2025-08-06 02:09:29] CACHE HIT: zygarde-50-power-construct
+[2025-08-06 02:09:29] CACHE HIT: zygarde-complete
+[2025-08-06 02:09:29] CACHE HIT: kommo-o-totem
+[2025-08-06 02:09:29] CACHE HIT: necrozma-ultra
+[2025-08-06 02:09:29] CACHE HIT: zygarde-10
+[2025-08-06 02:09:29] CACHE HIT: eternatus-eternamax
+[2025-08-06 02:09:29] CACHE HIT: flapple-gmax
+[2025-08-06 02:09:29] CACHE HIT: appletun-gmax
+[2025-08-06 02:09:29] CACHE HIT: duraludon-gmax
+[2025-08-06 02:09:29] CACHE HIT: sliggoo-hisui
+[2025-08-06 02:09:29] CACHE HIT: goodra-hisui
+[2025-08-06 02:09:29] CACHE HIT: dialga-origin
+[2025-08-06 02:09:29] CACHE HIT: palkia-origin
+[2025-08-06 02:09:29] CACHE HIT: tatsugiri-droopy
+[2025-08-06 02:09:29] CACHE HIT: tatsugiri-stretchy
+[2025-08-06 02:09:29] CACHE HIT: koraidon-limited-build
+[2025-08-06 02:09:29] CACHE HIT: koraidon-sprinting-build
+[2025-08-06 02:09:29] CACHE HIT: koraidon-swimming-build
+[2025-08-06 02:09:29] CACHE HIT: koraidon-gliding-build
+[2025-08-06 02:09:29] CACHE HIT: miraidon-low-power-mode
+[2025-08-06 02:09:29] CACHE HIT: miraidon-drive-mode
+[2025-08-06 02:09:29] CACHE HIT: miraidon-aquatic-mode
+[2025-08-06 02:09:29] CACHE HIT: miraidon-glide-mode
+[2025-08-06 02:09:30] ERROR fetching type none
+[2025-08-06 02:09:33] CACHE HIT: bulbasaur
+[2025-08-06 02:09:33] CACHE HIT: ivysaur
+[2025-08-06 02:09:33] CACHE HIT: venusaur
+[2025-08-06 02:09:33] CACHE HIT: charmander
+[2025-08-06 02:09:33] CACHE HIT: charmeleon
+[2025-08-06 02:09:33] CACHE HIT: charizard
+[2025-08-06 02:09:33] CACHE HIT: squirtle
+[2025-08-06 02:09:33] CACHE HIT: wartortle
+[2025-08-06 02:09:33] CACHE HIT: blastoise
+[2025-08-06 02:09:33] CACHE HIT: caterpie
+[2025-08-06 02:09:33] CACHE HIT: metapod
+[2025-08-06 02:09:33] CACHE HIT: butterfree
+[2025-08-06 02:09:37] CACHE HIT: weedle
+[2025-08-06 02:09:37] CACHE HIT: kakuna
+[2025-08-06 02:09:37] CACHE HIT: beedrill
+[2025-08-06 02:09:37] CACHE HIT: pidgey
+[2025-08-06 02:09:37] CACHE HIT: pidgeotto
+[2025-08-06 02:09:37] CACHE HIT: pidgeot
+[2025-08-06 02:09:37] CACHE HIT: rattata
+[2025-08-06 02:09:37] CACHE HIT: raticate
+[2025-08-06 02:09:37] CACHE HIT: spearow
+[2025-08-06 02:09:37] CACHE HIT: fearow
+[2025-08-06 02:09:37] CACHE HIT: ekans
+[2025-08-06 02:09:37] CACHE HIT: arbok
+[2025-08-06 02:09:38] CACHE HIT: pikachu
+[2025-08-06 02:09:38] CACHE HIT: raichu
+[2025-08-06 02:09:38] CACHE HIT: sandshrew
+[2025-08-06 02:09:38] CACHE HIT: sandslash
+[2025-08-06 02:09:38] CACHE HIT: nidoran-f
+[2025-08-06 02:09:38] CACHE HIT: nidorina
+[2025-08-06 02:09:38] CACHE HIT: nidoqueen
+[2025-08-06 02:09:38] CACHE HIT: nidoran-m
+[2025-08-06 02:09:38] CACHE HIT: nidorino
+[2025-08-06 02:09:38] CACHE HIT: nidoking
+[2025-08-06 02:09:38] CACHE HIT: clefairy
+[2025-08-06 02:09:38] CACHE HIT: clefable
+[2025-08-06 02:09:40] CACHE HIT: vulpix
+[2025-08-06 02:09:40] CACHE HIT: ninetales
+[2025-08-06 02:09:40] CACHE HIT: jigglypuff
+[2025-08-06 02:09:40] CACHE HIT: wigglytuff
+[2025-08-06 02:09:40] CACHE HIT: zubat
+[2025-08-06 02:09:40] CACHE HIT: golbat
+[2025-08-06 02:09:40] CACHE HIT: oddish
+[2025-08-06 02:09:40] CACHE HIT: gloom
+[2025-08-06 02:09:40] CACHE HIT: vileplume
+[2025-08-06 02:09:40] CACHE HIT: paras
+[2025-08-06 02:09:40] CACHE HIT: parasect
+[2025-08-06 02:09:40] CACHE HIT: venonat
+[2025-08-06 02:09:42] extra_cache.json saved
+[2025-08-06 02:09:42] CACHE MISS: aipom - Fetching from API
+[2025-08-06 02:09:50] Cache saved to disk
+[2025-08-06 02:09:50] CACHE HIT: ampharos
+[2025-08-06 02:09:50] CACHE HIT: ariados
+[2025-08-06 02:09:50] CACHE HIT: azumarill
+[2025-08-06 02:09:50] CACHE MISS: bayleef - Fetching from API
+[2025-08-06 02:09:57] Cache saved to disk
+[2025-08-06 02:09:57] CACHE MISS: bellossom - Fetching from API
+[2025-08-06 02:10:05] Cache saved to disk
+[2025-08-06 02:10:05] CACHE MISS: blissey - Fetching from API
+[2025-08-06 02:10:12] Cache saved to disk
+[2025-08-06 02:10:12] CACHE MISS: celebi - Fetching from API
+[2025-08-06 02:10:19] Cache saved to disk
+[2025-08-06 02:10:19] CACHE MISS: chikorita - Fetching from API
+[2025-08-06 02:10:27] Cache saved to disk
+[2025-08-06 02:10:27] CACHE HIT: chinchou
+[2025-08-06 02:10:27] CACHE HIT: cleffa
+[2025-08-06 02:10:27] CACHE MISS: corsola - Fetching from API
+[2025-08-06 02:10:34] Cache saved to disk
+[2025-08-06 02:10:34] CACHE MISS: crobat - Fetching from API
+[2025-08-06 02:10:42] Cache saved to disk
+[2025-08-06 02:10:42] CACHE MISS: croconaw - Fetching from API
+[2025-08-06 02:10:50] Cache saved to disk
+[2025-08-06 02:10:50] CACHE MISS: cyndaquil - Fetching from API
+[2025-08-06 02:10:57] Cache saved to disk
+[2025-08-06 02:10:57] CACHE MISS: delibird - Fetching from API
+[2025-08-06 02:11:05] Cache saved to disk
+[2025-08-06 02:11:05] CACHE MISS: donphan - Fetching from API
+[2025-08-06 02:11:12] Cache saved to disk
+[2025-08-06 02:11:12] CACHE MISS: dunsparce - Fetching from API
+[2025-08-06 02:11:20] Cache saved to disk
+[2025-08-06 02:11:20] CACHE HIT: elekid
+[2025-08-06 02:11:20] CACHE MISS: entei - Fetching from API
+[2025-08-06 02:11:27] Cache saved to disk
+[2025-08-06 02:11:27] CACHE MISS: espeon - Fetching from API
+[2025-08-06 02:11:35] Cache saved to disk
+[2025-08-06 02:11:35] CACHE MISS: feraligatr - Fetching from API
+[2025-08-06 02:11:43] Cache saved to disk
+[2025-08-06 02:11:43] CACHE HIT: flaaffy
+[2025-08-06 02:11:43] CACHE HIT: forretress
+[2025-08-06 02:11:43] CACHE MISS: furret - Fetching from API
+[2025-08-06 02:11:51] Cache saved to disk
+[2025-08-06 02:11:51] CACHE MISS: girafarig - Fetching from API
+[2025-08-06 02:11:58] Cache saved to disk
+[2025-08-06 02:11:58] CACHE MISS: gligar - Fetching from API
+[2025-08-06 02:12:06] Cache saved to disk
+[2025-08-06 02:12:06] CACHE HIT: granbull
+[2025-08-06 02:12:06] CACHE HIT: heracross
+[2025-08-06 02:12:06] CACHE MISS: hitmontop - Fetching from API
+[2025-08-06 02:12:13] Cache saved to disk
+[2025-08-06 02:12:13] CACHE MISS: ho-oh - Fetching from API
+[2025-08-06 02:12:21] Cache saved to disk
+[2025-08-06 02:12:21] CACHE MISS: hoothoot - Fetching from API
+[2025-08-06 02:12:29] Cache saved to disk
+[2025-08-06 02:12:29] CACHE MISS: hoppip - Fetching from API
+[2025-08-06 02:12:37] Cache saved to disk
+[2025-08-06 02:12:37] CACHE HIT: houndoom
+[2025-08-06 02:12:37] CACHE HIT: houndour
+[2025-08-06 02:12:37] CACHE HIT: igglybuff
+[2025-08-06 02:12:37] CACHE MISS: jumpluff - Fetching from API
+[2025-08-06 02:12:44] Cache saved to disk
+[2025-08-06 02:12:44] CACHE HIT: kingdra
+[2025-08-06 02:12:44] CACHE HIT: lanturn
+[2025-08-06 02:12:44] CACHE MISS: larvitar - Fetching from API
+[2025-08-06 02:12:52] Cache saved to disk
+[2025-08-06 02:12:52] CACHE HIT: ledian
+[2025-08-06 02:12:52] CACHE HIT: ledyba
+[2025-08-06 02:12:52] CACHE MISS: lugia - Fetching from API
+[2025-08-06 02:13:00] Cache saved to disk
+[2025-08-06 02:13:00] CACHE MISS: magby - Fetching from API
+[2025-08-06 02:13:08] Cache saved to disk
+[2025-08-06 02:13:08] CACHE MISS: magcargo - Fetching from API
+[2025-08-06 02:13:16] Cache saved to disk
+[2025-08-06 02:13:16] CACHE MISS: mantine - Fetching from API
+[2025-08-06 02:13:24] Cache saved to disk
+[2025-08-06 02:13:24] CACHE HIT: mareep
+[2025-08-06 02:13:24] CACHE HIT: marill
+[2025-08-06 02:13:24] CACHE MISS: meganium - Fetching from API
+[2025-08-06 02:13:32] Cache saved to disk
+[2025-08-06 02:13:32] CACHE MISS: miltank - Fetching from API
+[2025-08-06 02:13:40] Cache saved to disk
+[2025-08-06 02:13:40] CACHE MISS: misdreavus - Fetching from API
+[2025-08-06 02:13:48] Cache saved to disk
+[2025-08-06 02:13:48] CACHE HIT: murkrow
+[2025-08-06 02:13:48] CACHE MISS: natu - Fetching from API
+[2025-08-06 02:13:56] Cache saved to disk
+[2025-08-06 02:13:56] CACHE MISS: noctowl - Fetching from API
+[2025-08-06 02:14:04] Cache saved to disk
+[2025-08-06 02:14:04] CACHE MISS: octillery - Fetching from API
+[2025-08-06 02:14:12] Cache saved to disk
+[2025-08-06 02:14:12] CACHE MISS: phanpy - Fetching from API
+[2025-08-06 02:14:20] Cache saved to disk
+[2025-08-06 02:14:20] CACHE HIT: pichu
+[2025-08-06 02:14:20] CACHE MISS: piloswine - Fetching from API
+[2025-08-06 02:14:28] Cache saved to disk
+[2025-08-06 02:14:28] CACHE HIT: pineco
+[2025-08-06 02:14:28] CACHE MISS: politoed - Fetching from API
+[2025-08-06 02:14:36] Cache saved to disk
+[2025-08-06 02:14:36] CACHE MISS: porygon2 - Fetching from API
+[2025-08-06 02:14:44] Cache saved to disk
+[2025-08-06 02:14:44] CACHE MISS: pupitar - Fetching from API
+[2025-08-06 02:14:52] Cache saved to disk
+[2025-08-06 02:14:52] CACHE MISS: quagsire - Fetching from API
+[2025-08-06 02:15:00] Cache saved to disk
+[2025-08-06 02:15:00] CACHE MISS: quilava - Fetching from API
+[2025-08-06 02:15:09] Cache saved to disk
+[2025-08-06 02:15:09] CACHE MISS: qwilfish - Fetching from API
+[2025-08-06 02:15:17] Cache saved to disk
+[2025-08-06 02:15:17] CACHE HIT: raikou
+[2025-08-06 02:15:17] CACHE MISS: remoraid - Fetching from API
+[2025-08-06 02:15:25] Cache saved to disk
+[2025-08-06 02:15:25] CACHE HIT: scizor
+[2025-08-06 02:15:25] CACHE MISS: sentret - Fetching from API
+[2025-08-06 02:15:33] Cache saved to disk
+[2025-08-06 02:15:33] CACHE HIT: shuckle
+[2025-08-06 02:15:33] CACHE MISS: skarmory - Fetching from API
+[2025-08-06 02:15:42] Cache saved to disk
+[2025-08-06 02:15:42] CACHE MISS: skiploom - Fetching from API
+[2025-08-06 02:15:50] Cache saved to disk
+[2025-08-06 02:15:50] CACHE MISS: slowking - Fetching from API
+[2025-08-06 02:15:58] Cache saved to disk
+[2025-08-06 02:15:58] CACHE MISS: slugma - Fetching from API
+[2025-08-06 02:16:07] Cache saved to disk
+[2025-08-06 02:16:07] CACHE MISS: smeargle - Fetching from API
+[2025-08-06 02:16:15] Cache saved to disk
+[2025-08-06 02:16:15] CACHE MISS: smoochum - Fetching from API
+[2025-08-06 02:16:24] Cache saved to disk
+[2025-08-06 02:16:24] CACHE HIT: sneasel
+[2025-08-06 02:16:24] CACHE HIT: snubbull
+[2025-08-06 02:16:24] CACHE HIT: spinarak
+[2025-08-06 02:16:24] CACHE MISS: stantler - Fetching from API
+[2025-08-06 02:16:32] Cache saved to disk
+[2025-08-06 02:16:32] CACHE MISS: steelix - Fetching from API
+[2025-08-06 02:16:40] Cache saved to disk
+[2025-08-06 02:16:40] CACHE MISS: sudowoodo - Fetching from API
+[2025-08-06 02:16:49] Cache saved to disk
+[2025-08-06 02:16:49] CACHE MISS: suicune - Fetching from API
+[2025-08-06 02:16:57] Cache saved to disk
+[2025-08-06 02:16:57] CACHE MISS: sunflora - Fetching from API
+[2025-08-06 02:17:06] Cache saved to disk
+[2025-08-06 02:17:06] CACHE MISS: sunkern - Fetching from API
+[2025-08-06 02:17:14] Cache saved to disk
+[2025-08-06 02:17:14] CACHE MISS: swinub - Fetching from API
+[2025-08-06 02:17:22] Cache saved to disk
+[2025-08-06 02:17:22] CACHE MISS: teddiursa - Fetching from API
+[2025-08-06 02:17:31] Cache saved to disk
+[2025-08-06 02:17:31] CACHE HIT: togepi
+[2025-08-06 02:17:31] CACHE HIT: togetic
+[2025-08-06 02:17:31] CACHE MISS: totodile - Fetching from API
+[2025-08-06 02:17:40] Cache saved to disk
+[2025-08-06 02:17:40] CACHE MISS: typhlosion - Fetching from API
+[2025-08-06 02:17:48] Cache saved to disk
+[2025-08-06 02:17:48] CACHE HIT: tyranitar
+[2025-08-06 02:17:48] CACHE MISS: tyrogue - Fetching from API
+[2025-08-06 02:17:57] Cache saved to disk
+[2025-08-06 02:17:57] CACHE HIT: umbreon
+[2025-08-06 02:17:57] CACHE MISS: unown - Fetching from API
+[2025-08-06 02:18:05] Cache saved to disk
+[2025-08-06 02:18:05] CACHE MISS: ursaring - Fetching from API
+[2025-08-06 02:18:14] Cache saved to disk
+[2025-08-06 02:18:14] CACHE MISS: wobbuffet - Fetching from API
+[2025-08-06 02:18:23] Cache saved to disk
+[2025-08-06 02:18:23] CACHE MISS: wooper - Fetching from API
+[2025-08-06 02:18:32] Cache saved to disk
+[2025-08-06 02:18:32] CACHE MISS: xatu - Fetching from API
+[2025-08-06 02:18:40] Cache saved to disk
+[2025-08-06 02:18:40] CACHE HIT: yanma
+[2025-08-06 02:18:55] CACHE HIT: bulbasaur
+[2025-08-06 02:18:55] CACHE HIT: ivysaur
+[2025-08-06 02:18:55] CACHE HIT: venusaur
+[2025-08-06 02:18:55] CACHE HIT: charmander
+[2025-08-06 02:18:55] CACHE HIT: charmeleon
+[2025-08-06 02:18:55] CACHE HIT: charizard
+[2025-08-06 02:18:55] CACHE HIT: squirtle
+[2025-08-06 02:18:55] CACHE HIT: wartortle
+[2025-08-06 02:18:55] CACHE HIT: blastoise
+[2025-08-06 02:18:55] CACHE HIT: caterpie
+[2025-08-06 02:18:55] CACHE HIT: metapod
+[2025-08-06 02:18:55] CACHE HIT: butterfree
+[2025-08-06 02:19:07] Backup created: data/pokemon_cache_backup_20250806_021859.json
+[2025-08-06 02:19:07] CACHE HIT: bulbasaur
+[2025-08-06 02:19:07] CACHE HIT: ivysaur
+[2025-08-06 02:19:07] CACHE HIT: venusaur
+[2025-08-06 02:19:07] CACHE HIT: charmander
+[2025-08-06 02:19:07] CACHE HIT: charmeleon
+[2025-08-06 02:19:07] CACHE HIT: charizard
+[2025-08-06 02:19:07] CACHE HIT: squirtle
+[2025-08-06 02:19:07] CACHE HIT: wartortle
+[2025-08-06 02:19:07] CACHE HIT: blastoise
+[2025-08-06 02:19:07] CACHE HIT: caterpie
+[2025-08-06 02:19:07] CACHE HIT: metapod
+[2025-08-06 02:19:07] CACHE HIT: butterfree
+[2025-08-06 02:24:53] CACHE HIT: bulbasaur
+[2025-08-06 02:24:53] CACHE HIT: ivysaur
+[2025-08-06 02:24:53] CACHE HIT: venusaur
+[2025-08-06 02:24:53] CACHE HIT: charmander
+[2025-08-06 02:24:53] CACHE HIT: charmeleon
+[2025-08-06 02:24:53] CACHE HIT: charizard
+[2025-08-06 02:24:53] CACHE HIT: squirtle
+[2025-08-06 02:24:53] CACHE HIT: wartortle
+[2025-08-06 02:24:53] CACHE HIT: blastoise
+[2025-08-06 02:24:53] CACHE HIT: caterpie
+[2025-08-06 02:24:53] CACHE HIT: metapod
+[2025-08-06 02:24:53] CACHE HIT: butterfree
+[2025-08-06 02:28:40] CACHE HIT: bulbasaur
+[2025-08-06 02:28:40] CACHE HIT: ivysaur
+[2025-08-06 02:28:40] CACHE HIT: venusaur
+[2025-08-06 02:28:40] CACHE HIT: charmander
+[2025-08-06 02:28:40] CACHE HIT: charmeleon
+[2025-08-06 02:28:40] CACHE HIT: charizard
+[2025-08-06 02:28:40] CACHE HIT: squirtle
+[2025-08-06 02:28:40] CACHE HIT: wartortle
+[2025-08-06 02:28:40] CACHE HIT: blastoise
+[2025-08-06 02:28:40] CACHE HIT: caterpie
+[2025-08-06 02:28:40] CACHE HIT: metapod
+[2025-08-06 02:28:40] CACHE HIT: butterfree
+[2025-08-06 02:29:39] CACHE HIT: bulbasaur
+[2025-08-06 02:29:39] CACHE HIT: ivysaur
+[2025-08-06 02:29:39] CACHE HIT: venusaur
+[2025-08-06 02:29:39] CACHE HIT: charmander
+[2025-08-06 02:29:39] CACHE HIT: charmeleon
+[2025-08-06 02:29:39] CACHE HIT: charizard
+[2025-08-06 02:29:39] CACHE HIT: squirtle
+[2025-08-06 02:29:39] CACHE HIT: wartortle
+[2025-08-06 02:29:39] CACHE HIT: blastoise
+[2025-08-06 02:29:39] CACHE HIT: caterpie
+[2025-08-06 02:29:39] CACHE HIT: metapod
+[2025-08-06 02:29:39] CACHE HIT: butterfree
+[2025-08-06 02:29:42] CACHE HIT: bulbasaur
+[2025-08-06 02:29:42] CACHE HIT: ivysaur
+[2025-08-06 02:29:42] CACHE HIT: venusaur
+[2025-08-06 02:29:42] CACHE HIT: charmander
+[2025-08-06 02:29:42] CACHE HIT: charmeleon
+[2025-08-06 02:29:42] CACHE HIT: charizard
+[2025-08-06 02:29:42] CACHE HIT: squirtle
+[2025-08-06 02:29:42] CACHE HIT: wartortle
+[2025-08-06 02:29:42] CACHE HIT: blastoise
+[2025-08-06 02:29:42] CACHE HIT: caterpie
+[2025-08-06 02:29:42] CACHE HIT: metapod
+[2025-08-06 02:29:42] CACHE HIT: butterfree
+[2025-08-06 02:29:57] CACHE HIT: bulbasaur
+[2025-08-06 02:29:57] CACHE HIT: ivysaur
+[2025-08-06 02:29:57] CACHE HIT: venusaur
+[2025-08-06 02:29:57] CACHE HIT: charmander
+[2025-08-06 02:29:57] CACHE HIT: charmeleon
+[2025-08-06 02:29:57] CACHE HIT: charizard
+[2025-08-06 02:29:57] CACHE HIT: squirtle
+[2025-08-06 02:29:57] CACHE HIT: wartortle
+[2025-08-06 02:29:57] CACHE HIT: blastoise
+[2025-08-06 02:29:57] CACHE HIT: caterpie
+[2025-08-06 02:29:57] CACHE HIT: metapod
+[2025-08-06 02:29:57] CACHE HIT: butterfree
+[2025-08-06 02:30:30] extra_cache.json saved
+[2025-08-06 02:30:30] extra_cache.json saved
+[2025-08-06 02:31:18] CACHE MISS: yamask - Fetching from API
+[2025-08-06 02:31:27] Cache saved to disk
+[2025-08-06 02:31:27] CACHE MISS: yungoos - Fetching from API
+[2025-08-06 02:31:36] Cache saved to disk
+[2025-08-06 02:31:36] CACHE MISS: yamask-galar - Fetching from API
+[2025-08-06 02:31:45] Cache saved to disk
+[2025-08-06 02:32:14] extra_cache.json saved
+[2025-08-06 02:32:19] extra_cache.json saved
+[2025-08-06 02:32:36] extra_cache.json saved
+[2025-08-06 02:32:36] CACHE MISS: mudkip - Fetching from API
+[2025-08-06 02:32:45] Cache saved to disk
+[2025-08-06 02:32:45] CACHE MISS: marshtomp - Fetching from API
+[2025-08-06 02:32:55] Cache saved to disk
+[2025-08-06 02:32:55] CACHE MISS: swampert - Fetching from API
+[2025-08-06 02:33:04] Cache saved to disk
+[2025-08-06 02:33:04] CACHE MISS: lotad - Fetching from API
+[2025-08-06 02:33:13] Cache saved to disk
+[2025-08-06 02:33:13] CACHE MISS: lombre - Fetching from API
+[2025-08-06 02:33:22] Cache saved to disk
+[2025-08-06 02:33:22] CACHE MISS: ludicolo - Fetching from API
+[2025-08-06 02:33:32] Cache saved to disk
+[2025-08-06 02:33:32] CACHE MISS: wingull - Fetching from API
+[2025-08-06 02:33:41] Cache saved to disk
+[2025-08-06 02:33:41] CACHE MISS: pelipper - Fetching from API
+[2025-08-06 02:33:51] Cache saved to disk
+[2025-08-06 02:33:51] CACHE MISS: wailmer - Fetching from API
+[2025-08-06 02:34:00] Cache saved to disk
+[2025-08-06 02:34:00] CACHE MISS: wailord - Fetching from API
+[2025-08-06 02:34:09] Cache saved to disk
+[2025-08-06 02:34:09] CACHE MISS: barboach - Fetching from API
+[2025-08-06 02:34:18] Cache saved to disk
+[2025-08-06 02:34:18] CACHE MISS: whiscash - Fetching from API
+[2025-08-06 02:34:28] Cache saved to disk
+[2025-08-06 02:34:28] CACHE MISS: corphish - Fetching from API
+[2025-08-06 02:34:37] Cache saved to disk
+[2025-08-06 02:34:37] CACHE MISS: feebas - Fetching from API
+[2025-08-06 02:34:47] Cache saved to disk
+[2025-08-06 02:34:47] CACHE MISS: milotic - Fetching from API
+[2025-08-06 02:34:57] Cache saved to disk
+[2025-08-06 02:34:57] CACHE MISS: spheal - Fetching from API
+[2025-08-06 02:35:07] Cache saved to disk
+[2025-08-06 02:35:07] CACHE MISS: sealeo - Fetching from API
+[2025-08-06 02:35:17] Cache saved to disk
+[2025-08-06 02:35:17] CACHE MISS: walrein - Fetching from API
+[2025-08-06 02:35:27] Cache saved to disk
+[2025-08-06 02:35:27] CACHE MISS: clamperl - Fetching from API
+[2025-08-06 02:35:37] Cache saved to disk
+[2025-08-06 02:35:37] CACHE MISS: huntail - Fetching from API
+[2025-08-06 02:35:47] Cache saved to disk
+[2025-08-06 02:35:47] CACHE MISS: gorebyss - Fetching from API
+[2025-08-06 02:35:56] Cache saved to disk
+[2025-08-06 02:35:56] CACHE MISS: relicanth - Fetching from API
+[2025-08-06 02:36:06] Cache saved to disk
+[2025-08-06 02:36:06] CACHE MISS: luvdisc - Fetching from API
+[2025-08-06 02:36:15] Cache saved to disk
+[2025-08-06 02:36:15] CACHE MISS: kyogre - Fetching from API
+[2025-08-06 02:36:25] Cache saved to disk
+[2025-08-06 02:36:25] CACHE MISS: piplup - Fetching from API
+[2025-08-06 02:36:35] Cache saved to disk
+[2025-08-06 02:36:35] CACHE MISS: prinplup - Fetching from API
+[2025-08-06 02:36:45] Cache saved to disk
+[2025-08-06 02:36:45] CACHE MISS: empoleon - Fetching from API
+[2025-08-06 02:36:55] Cache saved to disk
+[2025-08-06 02:36:55] CACHE MISS: bibarel - Fetching from API
+[2025-08-06 02:37:04] Cache saved to disk
+[2025-08-06 02:37:04] CACHE MISS: buizel - Fetching from API
+[2025-08-06 02:37:14] Cache saved to disk
+[2025-08-06 02:37:14] CACHE MISS: floatzel - Fetching from API
+[2025-08-06 02:37:24] Cache saved to disk
+[2025-08-06 02:37:24] CACHE MISS: shellos - Fetching from API
+[2025-08-06 02:37:34] Cache saved to disk
+[2025-08-06 02:37:34] CACHE MISS: gastrodon - Fetching from API
+[2025-08-06 02:37:44] Cache saved to disk
+[2025-08-06 02:37:44] CACHE MISS: finneon - Fetching from API
+[2025-08-06 02:37:53] Cache saved to disk
+[2025-08-06 02:37:53] CACHE MISS: lumineon - Fetching from API
+[2025-08-06 02:38:03] Cache saved to disk
+[2025-08-06 02:38:03] CACHE MISS: mantyke - Fetching from API
+[2025-08-06 02:38:13] Cache saved to disk
+[2025-08-06 02:38:13] CACHE MISS: phione - Fetching from API
+[2025-08-06 02:38:23] Cache saved to disk
+[2025-08-06 02:38:23] CACHE MISS: manaphy - Fetching from API
+[2025-08-06 02:38:33] Cache saved to disk
+[2025-08-06 02:38:33] CACHE MISS: oshawott - Fetching from API
+[2025-08-06 02:38:42] Cache saved to disk
+[2025-08-06 02:38:42] CACHE MISS: dewott - Fetching from API
+[2025-08-06 02:38:51] Cache saved to disk
+[2025-08-06 02:38:51] CACHE MISS: samurott - Fetching from API
+[2025-08-06 02:39:01] Cache saved to disk
+[2025-08-06 02:39:01] CACHE MISS: panpour - Fetching from API
+[2025-08-06 02:39:10] Cache saved to disk
+[2025-08-06 02:39:10] CACHE MISS: simipour - Fetching from API
+[2025-08-06 02:39:19] Cache saved to disk
+[2025-08-06 02:39:19] CACHE MISS: tympole - Fetching from API
+[2025-08-06 02:39:29] Cache saved to disk
+[2025-08-06 02:39:29] CACHE MISS: palpitoad - Fetching from API
+[2025-08-06 02:39:38] Cache saved to disk
+[2025-08-06 02:39:38] CACHE MISS: seismitoad - Fetching from API
+[2025-08-06 02:39:48] Cache saved to disk
+[2025-08-06 02:39:48] CACHE MISS: basculin-red-striped - Fetching from API
+[2025-08-06 02:39:58] Cache saved to disk
+[2025-08-06 02:39:58] CACHE MISS: tirtouga - Fetching from API
+[2025-08-06 02:40:08] Cache saved to disk
+[2025-08-06 02:40:08] CACHE MISS: carracosta - Fetching from API
+[2025-08-06 02:40:18] Cache saved to disk
+[2025-08-06 02:40:18] CACHE MISS: ducklett - Fetching from API
+[2025-08-06 02:40:28] Cache saved to disk
+[2025-08-06 02:40:28] CACHE MISS: swanna - Fetching from API
+[2025-08-06 02:40:37] Cache saved to disk
+[2025-08-06 02:40:37] CACHE MISS: frillish - Fetching from API
+[2025-08-06 02:40:47] Cache saved to disk
+[2025-08-06 02:40:47] CACHE MISS: jellicent - Fetching from API
+[2025-08-06 02:40:57] Cache saved to disk
+[2025-08-06 02:40:57] CACHE MISS: alomomola - Fetching from API
+[2025-08-06 02:41:06] Cache saved to disk
+[2025-08-06 02:41:06] CACHE MISS: keldeo-ordinary - Fetching from API
+[2025-08-06 02:41:16] Cache saved to disk
+[2025-08-06 02:41:16] CACHE MISS: froakie - Fetching from API
+[2025-08-06 02:41:26] Cache saved to disk
+[2025-08-06 02:41:26] CACHE MISS: frogadier - Fetching from API
+[2025-08-06 02:41:36] Cache saved to disk
+[2025-08-06 02:41:36] CACHE MISS: binacle - Fetching from API
+[2025-08-06 02:41:45] Cache saved to disk
+[2025-08-06 02:41:45] CACHE MISS: barbaracle - Fetching from API
+[2025-08-06 02:41:55] Cache saved to disk
+[2025-08-06 02:41:55] CACHE MISS: skrelp - Fetching from API
+[2025-08-06 02:42:05] Cache saved to disk
+[2025-08-06 02:42:05] CACHE MISS: clauncher - Fetching from API
+[2025-08-06 02:42:15] Cache saved to disk
+[2025-08-06 02:42:15] CACHE MISS: clawitzer - Fetching from API
+[2025-08-06 02:42:26] Cache saved to disk
+[2025-08-06 02:42:26] CACHE MISS: volcanion - Fetching from API
+[2025-08-06 02:42:36] Cache saved to disk
+[2025-08-06 02:42:36] CACHE MISS: popplio - Fetching from API
+[2025-08-06 02:42:46] Cache saved to disk
+[2025-08-06 02:42:46] CACHE MISS: brionne - Fetching from API
+[2025-08-06 02:42:55] Cache saved to disk
+[2025-08-06 02:42:55] CACHE MISS: wishiwashi-solo - Fetching from API
+[2025-08-06 02:43:05] Cache saved to disk
+[2025-08-06 02:43:05] CACHE MISS: mareanie - Fetching from API
+[2025-08-06 02:43:15] Cache saved to disk
+[2025-08-06 02:43:15] CACHE MISS: toxapex - Fetching from API
+[2025-08-06 02:43:25] Cache saved to disk
+[2025-08-06 02:43:25] CACHE MISS: pyukumuku - Fetching from API
+[2025-08-06 02:43:35] Cache saved to disk
+[2025-08-06 02:43:35] CACHE MISS: bruxish - Fetching from API
+[2025-08-06 02:43:46] Cache saved to disk
+[2025-08-06 02:43:46] CACHE MISS: sobble - Fetching from API
+[2025-08-06 02:43:55] Cache saved to disk
+[2025-08-06 02:43:55] CACHE MISS: drizzile - Fetching from API
+[2025-08-06 02:44:05] Cache saved to disk
+[2025-08-06 02:44:05] CACHE MISS: inteleon - Fetching from API
+[2025-08-06 02:44:14] Cache saved to disk
+[2025-08-06 02:44:14] CACHE MISS: chewtle - Fetching from API
+[2025-08-06 02:44:23] Cache saved to disk
+[2025-08-06 02:44:23] CACHE MISS: drednaw - Fetching from API
+[2025-08-06 02:44:33] Cache saved to disk
+[2025-08-06 02:44:33] CACHE MISS: cramorant - Fetching from API
+[2025-08-06 02:44:42] Cache saved to disk
+[2025-08-06 02:44:42] CACHE MISS: arrokuda - Fetching from API
+[2025-08-06 02:44:52] Cache saved to disk
+[2025-08-06 02:44:52] CACHE MISS: barraskewda - Fetching from API
+[2025-08-06 02:45:01] Cache saved to disk
+[2025-08-06 02:45:01] CACHE MISS: arctovish - Fetching from API
+[2025-08-06 02:45:11] Cache saved to disk
+[2025-08-06 02:45:11] CACHE MISS: basculegion-male - Fetching from API
+[2025-08-06 02:45:20] Cache saved to disk
+[2025-08-06 02:45:20] CACHE MISS: quaxly - Fetching from API
+[2025-08-06 02:45:30] Cache saved to disk
+[2025-08-06 02:45:30] CACHE MISS: quaxwell - Fetching from API
+[2025-08-06 02:45:39] Cache saved to disk
+[2025-08-06 02:45:39] CACHE MISS: quaquaval - Fetching from API
+[2025-08-06 02:45:49] Cache saved to disk
+[2025-08-06 02:45:49] CACHE MISS: wiglett - Fetching from API
+[2025-08-06 02:45:58] Cache saved to disk
+[2025-08-06 02:45:58] CACHE MISS: wugtrio - Fetching from API
+[2025-08-06 02:46:08] Cache saved to disk
+[2025-08-06 02:46:08] CACHE MISS: finizen - Fetching from API
+[2025-08-06 02:46:17] Cache saved to disk
+[2025-08-06 02:46:17] CACHE MISS: palafin-zero - Fetching from API
+[2025-08-06 02:46:26] Cache saved to disk
+[2025-08-06 02:46:26] CACHE MISS: veluza - Fetching from API
+[2025-08-06 02:46:36] Cache saved to disk
+[2025-08-06 02:46:36] CACHE MISS: dondozo - Fetching from API
+[2025-08-06 02:46:45] Cache saved to disk
+[2025-08-06 02:46:45] CACHE MISS: iron-bundle - Fetching from API
+[2025-08-06 02:46:55] Cache saved to disk
+[2025-08-06 02:46:55] CACHE MISS: castform-rainy - Fetching from API
+[2025-08-06 02:47:05] Cache saved to disk
+[2025-08-06 02:47:05] CACHE MISS: basculin-blue-striped - Fetching from API
+[2025-08-06 02:47:15] Cache saved to disk
+[2025-08-06 02:47:15] CACHE MISS: keldeo-resolute - Fetching from API
+[2025-08-06 02:47:25] Cache saved to disk
+[2025-08-06 02:47:25] CACHE MISS: blastoise-mega - Fetching from API
+[2025-08-06 02:47:34] Cache saved to disk
+[2025-08-06 02:47:34] CACHE MISS: swampert-mega - Fetching from API
+[2025-08-06 02:47:44] Cache saved to disk
+[2025-08-06 02:47:44] CACHE MISS: slowbro-mega - Fetching from API
+[2025-08-06 02:47:54] Cache saved to disk
+[2025-08-06 02:47:54] CACHE MISS: kyogre-primal - Fetching from API
+[2025-08-06 02:48:04] Cache saved to disk
+[2025-08-06 02:48:04] CACHE MISS: wishiwashi-school - Fetching from API
+[2025-08-06 02:48:14] Cache saved to disk
+[2025-08-06 02:48:14] CACHE MISS: cramorant-gulping - Fetching from API
+[2025-08-06 02:48:24] Cache saved to disk
+[2025-08-06 02:48:24] CACHE MISS: cramorant-gorging - Fetching from API
+[2025-08-06 02:48:33] Cache saved to disk
+[2025-08-06 02:48:33] CACHE MISS: urshifu-rapid-strike - Fetching from API
+[2025-08-06 02:48:44] Cache saved to disk
+[2025-08-06 02:48:44] CACHE MISS: blastoise-gmax - Fetching from API
+[2025-08-06 02:48:53] Cache saved to disk
+[2025-08-06 02:48:53] CACHE MISS: kingler-gmax - Fetching from API
+[2025-08-06 02:49:03] Cache saved to disk
+[2025-08-06 02:49:03] CACHE MISS: lapras-gmax - Fetching from API
+[2025-08-06 02:49:13] Cache saved to disk
+[2025-08-06 02:49:13] CACHE MISS: inteleon-gmax - Fetching from API
+[2025-08-06 02:49:23] Cache saved to disk
+[2025-08-06 02:49:23] CACHE MISS: drednaw-gmax - Fetching from API
+[2025-08-06 02:49:33] Cache saved to disk
+[2025-08-06 02:49:33] CACHE MISS: urshifu-rapid-strike-gmax - Fetching from API
+[2025-08-06 02:49:43] Cache saved to disk
+[2025-08-06 02:49:43] CACHE MISS: basculin-white-striped - Fetching from API
+[2025-08-06 02:49:53] Cache saved to disk
+[2025-08-06 02:49:53] CACHE MISS: basculegion-female - Fetching from API
+[2025-08-06 02:50:03] Cache saved to disk
+[2025-08-06 02:50:03] CACHE MISS: tauros-paldea-aqua-breed - Fetching from API
+[2025-08-06 02:50:13] Cache saved to disk
+[2025-08-06 02:50:13] CACHE MISS: palafin-hero - Fetching from API
+[2025-08-06 02:50:23] Cache saved to disk
+[2025-08-06 02:50:23] CACHE MISS: ogerpon-wellspring-mask - Fetching from API
+[2025-08-06 02:50:33] Cache saved to disk
+[2025-08-06 02:50:33] ERROR fetching type none
+[2025-08-06 02:53:44] Backup created: data/pokemon_cache_backup_20250806_025335.json
+[2025-08-06 02:57:17] extra_cache.json saved
+[2025-08-06 02:57:18] extra_cache.json saved
+[2025-08-06 02:58:13] extra_cache.json saved
+[2025-08-06 02:58:13] CACHE MISS: venusaur-mega - Fetching from API
+[2025-08-06 02:58:23] Cache saved to disk
+[2025-08-06 02:58:23] CACHE MISS: venusaur-gmax - Fetching from API
+[2025-08-06 02:58:32] Cache saved to disk
+[2025-08-06 03:04:50] extra_cache.json saved
+[2025-08-06 03:04:50] extra_cache.json saved
+[2025-08-06 03:16:04] extra_cache.json saved
+[2025-08-06 03:16:04] extra_cache.json saved
+[2025-08-06 03:16:04] CACHE MISS: none - Fetching from API
+[2025-08-06 03:18:55] CACHE MISS: none - Fetching from API
+[2025-08-06 03:26:34] CACHE MISS: none - Fetching from API
+[2025-08-06 03:26:42] extra_cache.json saved
+[2025-08-06 03:26:56] CACHE MISS: blaziken - Fetching from API
+[2025-08-06 03:27:06] Cache saved to disk
+[2025-08-06 03:27:06] CACHE MISS: breloom - Fetching from API
+[2025-08-06 03:27:16] Cache saved to disk
+[2025-08-06 03:29:01] extra_cache.json saved
+[2025-08-06 03:29:01] CACHE MISS: blaziken-mega - Fetching from API
+[2025-08-06 03:29:11] Cache saved to disk
+[2025-08-06 03:29:11] extra_cache.json saved
+[2025-08-06 03:29:11] CACHE MISS: torchic - Fetching from API
+[2025-08-06 03:29:21] Cache saved to disk
+[2025-08-06 03:29:21] CACHE MISS: combusken - Fetching from API
+[2025-08-06 03:29:31] Cache saved to disk
+[2025-08-06 03:29:47] extra_cache.json saved
+[2025-08-06 03:29:48] extra_cache.json saved
+[2025-08-06 03:29:48] CACHE MISS: happiny - Fetching from API
+[2025-08-06 03:29:57] Cache saved to disk
+[2025-08-06 03:30:25] Backup created: data/pokemon_cache_backup_20250806_033015.json
+[2025-08-06 03:38:44] CACHE MISS: flittle - Fetching from API
+[2025-08-06 03:38:54] Cache saved to disk
+[2025-08-06 03:38:54] CACHE MISS: poipole - Fetching from API
+[2025-08-06 03:39:04] Cache saved to disk
+[2025-08-06 03:39:04] CACHE MISS: shuppet - Fetching from API
+[2025-08-06 03:39:15] Cache saved to disk
+[2025-08-06 03:40:02] CACHE MISS: tsareena - Fetching from API
+[2025-08-06 03:40:13] Cache saved to disk
+[2025-08-06 03:40:13] CACHE MISS: hattrem - Fetching from API
+[2025-08-06 03:40:22] Cache saved to disk
+[2025-08-06 03:40:22] CACHE MISS: chatot - Fetching from API
+[2025-08-06 03:40:32] Cache saved to disk
+[2025-08-06 03:40:32] CACHE MISS: great-tusk - Fetching from API
+[2025-08-06 03:40:42] Cache saved to disk
+[2025-08-06 03:40:42] CACHE MISS: crabominable - Fetching from API
+[2025-08-06 03:40:52] Cache saved to disk
+[2025-08-06 03:40:52] CACHE MISS: swalot - Fetching from API
+[2025-08-06 03:41:03] Cache saved to disk
+[2025-08-06 03:41:17] Backup created: data/pokemon_cache_backup_20250806_034107.json
+[2025-08-06 03:41:17] CACHE MISS: solrock - Fetching from API
+[2025-08-06 03:41:28] Cache saved to disk
+[2025-08-06 03:41:28] CACHE MISS: bewear - Fetching from API
+[2025-08-06 03:41:38] Cache saved to disk
+[2025-08-06 03:41:38] CACHE MISS: glastrier - Fetching from API
+[2025-08-06 03:41:47] Cache saved to disk
+[2025-08-06 03:41:47] CACHE MISS: camerupt-mega - Fetching from API
+[2025-08-06 03:41:58] Cache saved to disk
+[2025-08-06 03:42:44] CACHE MISS: avalugg - Fetching from API
+[2025-08-06 03:42:54] Cache saved to disk
+[2025-08-06 03:42:54] CACHE MISS: aegislash-blade - Fetching from API
+[2025-08-06 03:43:05] Cache saved to disk
+[2025-08-06 03:43:05] CACHE MISS: armarouge - Fetching from API
+[2025-08-06 03:43:15] Cache saved to disk
+[2025-08-06 03:43:15] CACHE MISS: azelf - Fetching from API
+[2025-08-06 03:43:25] Cache saved to disk
+[2025-08-06 03:43:25] CACHE MISS: audino - Fetching from API
+[2025-08-06 03:43:35] Cache saved to disk
+[2025-08-06 03:43:35] CACHE MISS: arboliva - Fetching from API
+[2025-08-06 03:43:45] Cache saved to disk
+[2025-08-06 03:44:50] Backup created: data/pokemon_cache_backup_20250806_034440.json
+[2025-08-06 03:44:50] CACHE MISS: landorus-therian - Fetching from API
+[2025-08-06 03:45:01] Cache saved to disk
+[2025-08-06 03:45:01] CACHE MISS: squawkabilly-blue-plumage - Fetching from API
+[2025-08-06 03:45:12] Cache saved to disk
+[2025-08-06 03:45:12] CACHE MISS: quilladin - Fetching from API
+[2025-08-06 03:45:23] Cache saved to disk
+[2025-08-06 03:45:23] CACHE MISS: lopunny - Fetching from API
+[2025-08-06 03:45:33] Cache saved to disk
+[2025-08-06 03:45:33] CACHE MISS: snorunt - Fetching from API
+[2025-08-06 03:45:44] Cache saved to disk
+[2025-08-06 03:46:01] extra_cache.json saved
+[2025-08-06 03:46:07] extra_cache.json saved
+[2025-08-06 03:46:07] CACHE MISS: bunnelby - Fetching from API
+[2025-08-06 03:46:17] Cache saved to disk
+[2025-08-06 03:46:17] CACHE MISS: watchog - Fetching from API
+[2025-08-06 03:46:28] Cache saved to disk
+[2025-08-06 03:46:28] CACHE MISS: deerling - Fetching from API
+[2025-08-06 03:46:38] Cache saved to disk
+[2025-08-06 03:46:38] CACHE MISS: furfrou - Fetching from API
+[2025-08-06 03:46:49] Cache saved to disk
+[2025-08-06 03:46:49] CACHE MISS: whismur - Fetching from API
+[2025-08-06 03:46:59] Cache saved to disk
+[2025-08-06 03:46:59] CACHE MISS: rufflet - Fetching from API
+[2025-08-06 03:47:10] Cache saved to disk
+[2025-08-06 03:47:10] CACHE MISS: staravia - Fetching from API
+[2025-08-06 03:47:20] Cache saved to disk
+[2025-08-06 03:47:20] CACHE MISS: toucannon - Fetching from API
+[2025-08-06 03:47:32] Cache saved to disk
+[2025-08-06 03:47:32] CACHE MISS: eevee-gmax - Fetching from API
+[2025-08-06 03:47:42] Cache saved to disk
+[2025-08-06 03:47:49] extra_cache.json saved
+[2025-08-06 03:47:49] extra_cache.json saved
+[2025-08-06 03:47:49] CACHE MISS: sawsbuck - Fetching from API
+[2025-08-06 03:48:00] Cache saved to disk
+[2025-08-06 03:48:04] extra_cache.json saved
+[2025-08-06 03:48:17] CACHE MISS: minior-green - Fetching from API
+[2025-08-06 03:48:29] Cache saved to disk
+[2025-08-06 03:48:29] CACHE MISS: metagross - Fetching from API
+[2025-08-06 03:48:40] Cache saved to disk
+[2025-08-06 03:48:40] CACHE MISS: indeedee-female - Fetching from API
+[2025-08-06 03:48:50] Cache saved to disk
+[2025-08-06 03:48:50] CACHE MISS: gumshoos - Fetching from API
+[2025-08-06 03:49:01] Cache saved to disk
+[2025-08-06 03:49:01] CACHE MISS: gogoat - Fetching from API
+[2025-08-06 03:49:11] Cache saved to disk
+[2025-08-06 03:50:13] Backup created: data/pokemon_cache_backup_20250806_035003.json
+[2025-08-06 03:50:13] CACHE MISS: cetitan - Fetching from API
+[2025-08-06 03:50:23] Cache saved to disk
+[2025-08-06 03:50:23] CACHE MISS: aurorus - Fetching from API
+[2025-08-06 03:50:34] Cache saved to disk
+[2025-08-06 03:50:34] CACHE MISS: rolycoly - Fetching from API
+[2025-08-06 03:50:44] Cache saved to disk
+[2025-08-06 03:50:44] CACHE MISS: arceus - Fetching from API
+[2025-08-06 03:50:55] Cache saved to disk
+[2025-08-06 03:50:55] CACHE MISS: castform - Fetching from API
+[2025-08-06 03:51:06] Cache saved to disk
+[2025-08-06 03:55:18] CACHE MISS: roserade - Fetching from API
+[2025-08-06 03:55:28] Cache saved to disk
+[2025-08-06 03:55:28] CACHE MISS: beartic - Fetching from API
+[2025-08-06 03:55:39] Cache saved to disk
+[2025-08-06 03:55:39] CACHE MISS: chingling - Fetching from API
+[2025-08-06 03:55:50] Cache saved to disk
+[2025-08-06 03:55:50] CACHE MISS: calyrex - Fetching from API
+[2025-08-06 03:56:00] Cache saved to disk
+[2025-08-06 03:56:00] CACHE MISS: cherubi - Fetching from API
+[2025-08-06 03:56:11] Cache saved to disk
+[2025-08-06 03:56:11] CACHE MISS: amoonguss - Fetching from API
+[2025-08-06 03:56:22] Cache saved to disk
+[2025-08-06 03:56:36] Backup created: data/pokemon_cache_backup_20250806_035626.json
+[2025-08-06 03:56:49] Extra cache backup created: data/extra_cache_backup_20250806_035649.json
+[2025-08-06 03:57:01] Cache manually refreshed
+[2025-08-06 03:57:01] CACHE MISS: bulbasaur - Fetching from API
+[2025-08-06 03:57:01] Cache saved to disk
+[2025-08-06 03:57:01] CACHE MISS: ivysaur - Fetching from API
+[2025-08-06 03:57:02] Cache saved to disk
+[2025-08-06 03:57:02] CACHE MISS: venusaur - Fetching from API
+[2025-08-06 03:57:02] Cache saved to disk
+[2025-08-06 03:57:02] CACHE MISS: charmander - Fetching from API
+[2025-08-06 03:57:02] Cache saved to disk
+[2025-08-06 03:57:02] CACHE MISS: charmeleon - Fetching from API
+[2025-08-06 03:57:03] Cache saved to disk
+[2025-08-06 03:57:03] CACHE MISS: charizard - Fetching from API
+[2025-08-06 03:57:03] Cache saved to disk
+[2025-08-06 03:57:03] CACHE MISS: squirtle - Fetching from API
+[2025-08-06 03:57:04] Cache saved to disk
+[2025-08-06 03:57:04] CACHE MISS: wartortle - Fetching from API
+[2025-08-06 03:57:04] Cache saved to disk
+[2025-08-06 03:57:04] CACHE MISS: blastoise - Fetching from API
+[2025-08-06 03:57:05] Cache saved to disk
+[2025-08-06 03:57:05] CACHE MISS: caterpie - Fetching from API
+[2025-08-06 03:57:05] Cache saved to disk
+[2025-08-06 03:57:05] CACHE MISS: metapod - Fetching from API
+[2025-08-06 03:57:06] Cache saved to disk
+[2025-08-06 03:57:06] CACHE MISS: butterfree - Fetching from API
+[2025-08-06 03:57:06] Cache saved to disk
+[2025-08-06 03:57:09] Extra cache manually refreshed
+[2025-08-06 03:57:29] Cache saved to disk
+[2025-08-06 03:57:29] Recovered from: data\pokemon_cache_backup_20250806_035626.json
+[2025-08-06 03:57:31] extra_cache.json saved
+[2025-08-06 03:57:31] Extra cache recovered from: data\extra_cache_backup_20250806_035649.json
+[2025-08-06 03:57:52] extra_cache.json saved
+[2025-08-06 03:57:52] extra_cache.json saved
+[2025-08-06 04:00:51] extra_cache.json saved
+[2025-08-06 04:00:55] extra_cache.json saved
+[2025-08-06 04:04:53] CACHE MISS: shroodle - Fetching from API
+[2025-08-06 04:05:03] Cache saved to disk
+[2025-08-06 04:05:03] CACHE MISS: crocalor - Fetching from API
+[2025-08-06 04:05:13] Cache saved to disk
+[2025-08-06 04:05:13] CACHE MISS: litleo - Fetching from API
+[2025-08-06 04:05:24] Cache saved to disk
+[2025-08-06 04:05:28] extra_cache.json saved
+[2025-08-06 04:05:28] extra_cache.json saved
+[2025-08-06 04:08:49] Backup created: data/pokemon_cache_backup_20250806_040839.json
+[2025-08-06 04:09:01] extra_cache.json saved
+[2025-08-06 04:09:01] extra_cache.json saved
+[2025-08-06 04:09:16] CACHE MISS: zigzagoon - Fetching from API
+[2025-08-06 04:09:27] Cache saved to disk
+[2025-08-06 04:09:27] CACHE MISS: linoone - Fetching from API
+[2025-08-06 04:09:38] Cache saved to disk
+[2025-08-06 04:09:38] CACHE MISS: taillow - Fetching from API
+[2025-08-06 04:09:49] Cache saved to disk
+[2025-08-06 04:09:49] CACHE MISS: swellow - Fetching from API
+[2025-08-06 04:10:01] Cache saved to disk
+[2025-08-06 04:10:01] CACHE MISS: slakoth - Fetching from API
+[2025-08-06 04:10:13] Cache saved to disk
+[2025-08-06 04:10:13] CACHE MISS: vigoroth - Fetching from API
+[2025-08-06 04:10:24] Cache saved to disk
+[2025-08-06 04:10:24] CACHE MISS: slaking - Fetching from API
+[2025-08-06 04:10:35] Cache saved to disk
+[2025-08-06 04:10:35] CACHE MISS: loudred - Fetching from API
+[2025-08-06 04:10:47] Cache saved to disk
+[2025-08-06 04:10:47] CACHE MISS: exploud - Fetching from API
+[2025-08-06 04:10:57] Cache saved to disk
+[2025-08-06 04:10:57] CACHE MISS: skitty - Fetching from API
+[2025-08-06 04:11:09] Cache saved to disk
+[2025-08-06 04:11:09] CACHE MISS: delcatty - Fetching from API
+[2025-08-06 04:11:21] Cache saved to disk
+[2025-08-06 04:11:21] CACHE MISS: spinda - Fetching from API
+[2025-08-06 04:11:33] Cache saved to disk
+[2025-08-06 04:11:33] CACHE MISS: swablu - Fetching from API
+[2025-08-06 04:11:44] Cache saved to disk
+[2025-08-06 04:11:44] CACHE MISS: zangoose - Fetching from API
+[2025-08-06 04:11:55] Cache saved to disk
+[2025-08-06 04:11:55] CACHE MISS: kecleon - Fetching from API
+[2025-08-06 04:12:06] Cache saved to disk
+[2025-08-06 04:12:06] CACHE MISS: starly - Fetching from API
+[2025-08-06 04:12:18] Cache saved to disk
+[2025-08-06 04:12:18] CACHE MISS: staraptor - Fetching from API
+[2025-08-06 04:12:29] Cache saved to disk
+[2025-08-06 04:12:29] CACHE MISS: bidoof - Fetching from API
+[2025-08-06 04:12:39] Cache saved to disk
+[2025-08-06 04:12:39] CACHE MISS: ambipom - Fetching from API
+[2025-08-06 04:12:50] Cache saved to disk
+[2025-08-06 04:12:50] CACHE MISS: buneary - Fetching from API
+[2025-08-06 04:13:01] Cache saved to disk
+[2025-08-06 04:13:01] CACHE MISS: glameow - Fetching from API
+[2025-08-06 04:13:12] Cache saved to disk
+[2025-08-06 04:13:12] CACHE MISS: purugly - Fetching from API
+[2025-08-06 04:13:24] Cache saved to disk
+[2025-08-06 04:13:24] CACHE MISS: munchlax - Fetching from API
+[2025-08-06 04:13:35] Cache saved to disk
+[2025-08-06 04:13:35] CACHE MISS: lickilicky - Fetching from API
+[2025-08-06 04:13:47] Cache saved to disk
+[2025-08-06 04:13:47] CACHE MISS: porygon-z - Fetching from API
+[2025-08-06 04:13:57] Cache saved to disk
+[2025-08-06 04:13:57] CACHE MISS: regigigas - Fetching from API
+[2025-08-06 04:14:08] Cache saved to disk
+[2025-08-06 04:14:08] CACHE MISS: patrat - Fetching from API
+[2025-08-06 04:14:19] Cache saved to disk
+[2025-08-06 04:14:19] CACHE MISS: lillipup - Fetching from API
+[2025-08-06 04:14:29] Cache saved to disk
+[2025-08-06 04:14:29] CACHE MISS: herdier - Fetching from API
+[2025-08-06 04:14:40] Cache saved to disk
+[2025-08-06 04:14:40] CACHE MISS: stoutland - Fetching from API
+[2025-08-06 04:14:51] Cache saved to disk
+[2025-08-06 04:14:51] CACHE MISS: pidove - Fetching from API
+[2025-08-06 04:15:02] Cache saved to disk
+[2025-08-06 04:15:02] CACHE MISS: tranquill - Fetching from API
+[2025-08-06 04:15:13] Cache saved to disk
+[2025-08-06 04:15:13] CACHE MISS: unfezant - Fetching from API
+[2025-08-06 04:15:24] Cache saved to disk
+[2025-08-06 04:15:24] CACHE MISS: minccino - Fetching from API
+[2025-08-06 04:15:35] Cache saved to disk
+[2025-08-06 04:15:35] CACHE MISS: cinccino - Fetching from API
+[2025-08-06 04:15:47] Cache saved to disk
+[2025-08-06 04:15:47] CACHE MISS: bouffalant - Fetching from API
+[2025-08-06 04:15:58] Cache saved to disk
+[2025-08-06 04:15:58] CACHE MISS: braviary - Fetching from API
+[2025-08-06 04:16:09] Cache saved to disk
+[2025-08-06 04:16:09] CACHE MISS: meloetta-aria - Fetching from API
+[2025-08-06 04:16:20] Cache saved to disk
+[2025-08-06 04:16:20] CACHE MISS: diggersby - Fetching from API
+[2025-08-06 04:16:32] Cache saved to disk
+[2025-08-06 04:16:32] CACHE MISS: fletchling - Fetching from API
+[2025-08-06 04:16:43] Cache saved to disk
+[2025-08-06 04:16:43] CACHE MISS: pyroar - Fetching from API
+[2025-08-06 04:16:54] Cache saved to disk
+[2025-08-06 04:16:54] CACHE MISS: pikipek - Fetching from API
+[2025-08-06 04:17:06] Cache saved to disk
+[2025-08-06 04:17:06] CACHE MISS: trumbeak - Fetching from API
+[2025-08-06 04:17:17] Cache saved to disk
+[2025-08-06 04:17:17] CACHE MISS: stufful - Fetching from API
+[2025-08-06 04:17:28] Cache saved to disk
+[2025-08-06 04:17:28] CACHE MISS: oranguru - Fetching from API
+[2025-08-06 04:17:40] Cache saved to disk
+[2025-08-06 04:17:40] CACHE MISS: type-null - Fetching from API
+[2025-08-06 04:17:51] Cache saved to disk
+[2025-08-06 04:17:51] CACHE MISS: silvally - Fetching from API
+[2025-08-06 04:18:03] Cache saved to disk
+[2025-08-06 04:18:03] CACHE MISS: komala - Fetching from API
+[2025-08-06 04:18:14] Cache saved to disk
+[2025-08-06 04:18:14] CACHE MISS: skwovet - Fetching from API
+[2025-08-06 04:18:25] Cache saved to disk
+[2025-08-06 04:18:25] CACHE MISS: greedent - Fetching from API
+[2025-08-06 04:18:36] Cache saved to disk
+[2025-08-06 04:18:36] CACHE MISS: wooloo - Fetching from API
+[2025-08-06 04:18:47] Cache saved to disk
+[2025-08-06 04:18:47] CACHE MISS: dubwool - Fetching from API
+[2025-08-06 04:18:58] Cache saved to disk
+[2025-08-06 04:18:58] CACHE MISS: indeedee-male - Fetching from API
+[2025-08-06 04:19:10] Cache saved to disk
+[2025-08-06 04:19:10] CACHE MISS: wyrdeer - Fetching from API
+[2025-08-06 04:19:21] Cache saved to disk
+[2025-08-06 04:19:21] CACHE MISS: ursaluna - Fetching from API
+[2025-08-06 04:19:32] Cache saved to disk
+[2025-08-06 04:19:32] CACHE MISS: lechonk - Fetching from API
+[2025-08-06 04:19:44] Cache saved to disk
+[2025-08-06 04:19:44] CACHE MISS: oinkologne-male - Fetching from API
+[2025-08-06 04:19:56] Cache saved to disk
+[2025-08-06 04:19:56] CACHE MISS: tandemaus - Fetching from API
+[2025-08-06 04:20:08] Cache saved to disk
+[2025-08-06 04:20:08] CACHE MISS: maushold-family-of-four - Fetching from API
+[2025-08-06 04:20:20] Cache saved to disk
+[2025-08-06 04:20:20] CACHE MISS: smoliv - Fetching from API
+[2025-08-06 04:20:32] Cache saved to disk
+[2025-08-06 04:20:32] CACHE MISS: dolliv - Fetching from API
+[2025-08-06 04:20:43] Cache saved to disk
+[2025-08-06 04:20:43] CACHE MISS: squawkabilly-green-plumage - Fetching from API
+[2025-08-06 04:20:55] Cache saved to disk
+[2025-08-06 04:20:55] CACHE MISS: grafaiai - Fetching from API
+[2025-08-06 04:21:07] Cache saved to disk
+[2025-08-06 04:21:07] CACHE MISS: farigiraf - Fetching from API
+[2025-08-06 04:21:19] Cache saved to disk
+[2025-08-06 04:21:19] CACHE MISS: dudunsparce-two-segment - Fetching from API
+[2025-08-06 04:21:31] Cache saved to disk
+[2025-08-06 04:21:31] CACHE MISS: terapagos - Fetching from API
+[2025-08-06 04:21:43] Cache saved to disk
+[2025-08-06 04:21:43] CACHE MISS: meloetta-pirouette - Fetching from API
+[2025-08-06 04:21:54] Cache saved to disk
+[2025-08-06 04:21:54] CACHE MISS: kangaskhan-mega - Fetching from API
+[2025-08-06 04:22:05] Cache saved to disk
+[2025-08-06 04:22:05] CACHE MISS: pidgeot-mega - Fetching from API
+[2025-08-06 04:22:16] Cache saved to disk
+[2025-08-06 04:22:16] CACHE MISS: lopunny-mega - Fetching from API
+[2025-08-06 04:22:28] Cache saved to disk
+[2025-08-06 04:22:28] CACHE MISS: gumshoos-totem - Fetching from API
+[2025-08-06 04:22:38] Cache saved to disk
+[2025-08-06 04:22:38] CACHE MISS: eevee-starter - Fetching from API
+[2025-08-06 04:22:49] Cache saved to disk
+[2025-08-06 04:22:49] CACHE MISS: meowth-gmax - Fetching from API
+[2025-08-06 04:23:00] Cache saved to disk
+[2025-08-06 04:23:00] CACHE MISS: snorlax-gmax - Fetching from API
+[2025-08-06 04:23:12] Cache saved to disk
+[2025-08-06 04:23:12] CACHE MISS: zorua-hisui - Fetching from API
+[2025-08-06 04:23:23] Cache saved to disk
+[2025-08-06 04:23:23] CACHE MISS: zoroark-hisui - Fetching from API
+[2025-08-06 04:23:34] Cache saved to disk
+[2025-08-06 04:23:34] CACHE MISS: oinkologne-female - Fetching from API
+[2025-08-06 04:23:46] Cache saved to disk
+[2025-08-06 04:23:46] CACHE MISS: dudunsparce-three-segment - Fetching from API
+[2025-08-06 04:23:58] Cache saved to disk
+[2025-08-06 04:23:58] CACHE MISS: maushold-family-of-three - Fetching from API
+[2025-08-06 04:24:09] Cache saved to disk
+[2025-08-06 04:24:09] CACHE MISS: squawkabilly-yellow-plumage - Fetching from API
+[2025-08-06 04:24:21] Cache saved to disk
+[2025-08-06 04:24:21] CACHE MISS: squawkabilly-white-plumage - Fetching from API
+[2025-08-06 04:24:32] Cache saved to disk
+[2025-08-06 04:24:32] CACHE MISS: ursaluna-bloodmoon - Fetching from API
+[2025-08-06 04:24:43] Cache saved to disk
+[2025-08-06 04:24:43] CACHE MISS: terapagos-terastal - Fetching from API
+[2025-08-06 04:24:54] Cache saved to disk
+[2025-08-06 04:24:54] CACHE MISS: terapagos-stellar - Fetching from API
+[2025-08-06 04:25:05] Cache saved to disk
+[2025-08-06 04:25:06] ERROR fetching type none
+[2025-08-06 04:25:40] Backup created: data/pokemon_cache_backup_20250806_042529.json
+[2025-08-06 04:25:48] ERROR fetching type none
+[2025-08-06 04:26:29] extra_cache.json saved
+[2025-08-06 04:26:29] extra_cache.json saved
+[2025-08-06 04:26:51] CACHE MISS: zamazenta - Fetching from API
+[2025-08-06 04:27:02] Cache saved to disk
+[2025-08-06 04:27:02] CACHE MISS: zamazenta-crowned - Fetching from API
+[2025-08-06 04:27:13] Cache saved to disk
+[2025-08-06 04:27:55] Backup created: data/pokemon_cache_backup_20250806_042744.json
+[2025-08-06 04:34:08] extra_cache.json saved
+[2025-08-06 04:34:08] extra_cache.json saved
+[2025-08-06 04:34:12] extra_cache.json saved
+[2025-08-06 04:34:13] ERROR fetching type none
+[2025-08-06 04:39:48] extra_cache.json saved
+[2025-08-06 04:39:48] ERROR fetching type none
+[2025-08-06 04:40:06] ERROR fetching type none
+[2025-08-06 04:40:10] ERROR fetching type none
+[2025-08-06 04:40:40] ERROR fetching type none
+[2025-08-06 04:41:43] ERROR fetching type none
+[2025-08-06 04:41:45] ERROR fetching type none
+[2025-08-06 04:41:52] ERROR fetching type none
+[2025-08-06 04:41:54] ERROR fetching type none
+[2025-08-06 04:42:06] ERROR fetching type none
+[2025-08-06 04:42:15] ERROR fetching type none
+[2025-08-06 04:43:13] ERROR fetching type none
+[2025-08-06 04:43:19] ERROR fetching type none
+[2025-08-06 04:45:40] ERROR fetching type none
+[2025-08-06 04:45:42] ERROR fetching type none
+[2025-08-06 04:46:10] ERROR fetching type none
+[2025-08-06 04:46:58] ERROR fetching type none
+[2025-08-06 04:50:29] ERROR fetching type none
+[2025-08-06 04:50:36] ERROR fetching type none
+[2025-08-06 04:50:55] CACHE MISS: duosion - Fetching from API
+[2025-08-06 04:51:07] Cache saved to disk
+[2025-08-06 04:51:07] CACHE MISS: cresselia - Fetching from API
+[2025-08-06 04:51:18] Cache saved to disk
+[2025-08-06 04:51:18] CACHE MISS: darmanitan-galar-standard - Fetching from API
+[2025-08-06 04:51:29] Cache saved to disk
+[2025-08-06 04:51:29] CACHE MISS: gimmighoul-roaming - Fetching from API
+[2025-08-06 04:51:41] Cache saved to disk
+[2025-08-06 04:51:41] CACHE MISS: sinistcha - Fetching from API
+[2025-08-06 04:51:52] Cache saved to disk
+[2025-08-06 04:52:13] Backup created: data/pokemon_cache_backup_20250806_045203.json
+[2025-08-06 04:55:34] CACHE MISS: lilligant-hisui - Fetching from API
+[2025-08-06 04:55:45] Cache saved to disk
+[2025-08-06 04:55:45] CACHE MISS: chandelure - Fetching from API
+[2025-08-06 04:55:56] Cache saved to disk
+[2025-08-06 04:55:56] CACHE MISS: lucario - Fetching from API
+[2025-08-06 04:56:08] Cache saved to disk
+[2025-08-06 04:56:08] CACHE MISS: gholdengo - Fetching from API
+[2025-08-06 04:56:19] Cache saved to disk
+[2025-08-06 04:56:19] CACHE MISS: clobbopus - Fetching from API
+[2025-08-06 04:56:30] Cache saved to disk
+[2025-08-06 04:58:54] CACHE MISS: klang - Fetching from API
+[2025-08-06 04:59:05] Cache saved to disk
+[2025-08-06 04:59:05] CACHE MISS: trapinch - Fetching from API
+[2025-08-06 04:59:16] Cache saved to disk
+[2025-08-06 04:59:16] CACHE MISS: monferno - Fetching from API
+[2025-08-06 04:59:28] Cache saved to disk
+[2025-08-06 04:59:28] CACHE MISS: gothitelle - Fetching from API
+[2025-08-06 04:59:39] Cache saved to disk
+[2025-08-06 04:59:48] CACHE MISS: metang - Fetching from API
+[2025-08-06 05:00:00] Cache saved to disk
+[2025-08-06 05:00:00] CACHE MISS: metagross-mega - Fetching from API
+[2025-08-06 05:00:12] Cache saved to disk
+[2025-08-06 05:00:16] extra_cache.json saved
+[2025-08-06 05:00:16] extra_cache.json saved
+[2025-08-06 05:00:16] CACHE MISS: beldum - Fetching from API
+[2025-08-06 05:00:28] Cache saved to disk
+[2025-08-06 05:00:40] CACHE MISS: meltan - Fetching from API
+[2025-08-06 05:00:51] Cache saved to disk
+[2025-08-06 05:00:53] extra_cache.json saved
+[2025-08-06 05:00:53] extra_cache.json saved
+[2025-08-06 05:01:20] CACHE MISS: melmetal - Fetching from API
+[2025-08-06 05:01:32] Cache saved to disk
+[2025-08-06 05:01:32] CACHE MISS: melmetal-gmax - Fetching from API
+[2025-08-06 05:01:43] Cache saved to disk
+[2025-08-06 05:01:46] extra_cache.json saved
+[2025-08-06 05:01:46] extra_cache.json saved
+[2025-08-06 05:02:07] Backup created: data/pokemon_cache_backup_20250806_050156.json
+[2025-08-06 05:02:25] extra_cache.json saved
+[2025-08-06 05:02:25] CACHE MISS: glalie - Fetching from API
+[2025-08-06 05:02:38] Cache saved to disk
+[2025-08-06 05:02:38] CACHE MISS: regice - Fetching from API
+[2025-08-06 05:02:50] Cache saved to disk
+[2025-08-06 05:02:50] CACHE MISS: snover - Fetching from API
+[2025-08-06 05:03:02] Cache saved to disk
+[2025-08-06 05:03:02] CACHE MISS: abomasnow - Fetching from API
+[2025-08-06 05:03:14] Cache saved to disk
+[2025-08-06 05:03:14] CACHE MISS: glaceon - Fetching from API
+[2025-08-06 05:03:26] Cache saved to disk
+[2025-08-06 05:03:26] CACHE MISS: mamoswine - Fetching from API
+[2025-08-06 05:03:38] Cache saved to disk
+[2025-08-06 05:03:38] CACHE MISS: froslass - Fetching from API
+[2025-08-06 05:03:50] Cache saved to disk
+[2025-08-06 05:03:50] CACHE MISS: vanillite - Fetching from API
+[2025-08-06 05:04:02] Cache saved to disk
+[2025-08-06 05:04:02] CACHE MISS: vanillish - Fetching from API
+[2025-08-06 05:04:14] Cache saved to disk
+[2025-08-06 05:04:14] CACHE MISS: vanilluxe - Fetching from API
+[2025-08-06 05:04:25] Cache saved to disk
+[2025-08-06 05:04:25] CACHE MISS: cubchoo - Fetching from API
+[2025-08-06 05:04:37] Cache saved to disk
+[2025-08-06 05:04:37] CACHE MISS: cryogonal - Fetching from API
+[2025-08-06 05:04:49] Cache saved to disk
+[2025-08-06 05:04:49] CACHE MISS: amaura - Fetching from API
+[2025-08-06 05:05:00] Cache saved to disk
+[2025-08-06 05:05:00] CACHE MISS: bergmite - Fetching from API
+[2025-08-06 05:05:12] Cache saved to disk
+[2025-08-06 05:05:12] CACHE MISS: mr-rime - Fetching from API
+[2025-08-06 05:05:23] Cache saved to disk
+[2025-08-06 05:05:23] CACHE MISS: eiscue-ice - Fetching from API
+[2025-08-06 05:05:35] Cache saved to disk
+[2025-08-06 05:05:35] CACHE MISS: cetoddle - Fetching from API
+[2025-08-06 05:05:46] Cache saved to disk
+[2025-08-06 05:05:46] CACHE MISS: castform-snowy - Fetching from API
+[2025-08-06 05:05:58] Cache saved to disk
+[2025-08-06 05:05:58] CACHE MISS: abomasnow-mega - Fetching from API
+[2025-08-06 05:06:09] Cache saved to disk
+[2025-08-06 05:06:09] CACHE MISS: glalie-mega - Fetching from API
+[2025-08-06 05:06:21] Cache saved to disk
+[2025-08-06 05:06:21] CACHE MISS: sandshrew-alola - Fetching from API
+[2025-08-06 05:06:33] Cache saved to disk
+[2025-08-06 05:06:33] CACHE MISS: sandslash-alola - Fetching from API
+[2025-08-06 05:06:45] Cache saved to disk
+[2025-08-06 05:06:45] CACHE MISS: vulpix-alola - Fetching from API
+[2025-08-06 05:06:56] Cache saved to disk
+[2025-08-06 05:06:56] CACHE MISS: mr-mime-galar - Fetching from API
+[2025-08-06 05:07:08] Cache saved to disk
+[2025-08-06 05:07:08] CACHE MISS: darumaka-galar - Fetching from API
+[2025-08-06 05:07:19] Cache saved to disk
+[2025-08-06 05:07:19] CACHE MISS: darmanitan-galar-zen - Fetching from API
+[2025-08-06 05:07:30] Cache saved to disk
+[2025-08-06 05:07:30] CACHE MISS: eiscue-noice - Fetching from API
+[2025-08-06 05:07:42] Cache saved to disk
+[2025-08-06 05:07:42] CACHE MISS: calyrex-ice - Fetching from API
+[2025-08-06 05:07:54] Cache saved to disk
+[2025-08-06 05:07:54] CACHE MISS: avalugg-hisui - Fetching from API
+[2025-08-06 05:08:05] Cache saved to disk
+[2025-08-06 05:08:27] Backup created: data/pokemon_cache_backup_20250806_050816.json
+[2025-08-06 05:08:49] Extra cache backup created: data/extra_cache_backup_20250806_050849.json
+[2025-08-06 05:09:10] CACHE HIT: bulbasaur
+[2025-08-06 05:09:10] CACHE HIT: ivysaur
+[2025-08-06 05:09:10] CACHE HIT: venusaur
+[2025-08-06 05:09:10] CACHE HIT: charmander
+[2025-08-06 05:09:10] CACHE HIT: charmeleon
+[2025-08-06 05:09:10] CACHE HIT: charizard
+[2025-08-06 05:09:10] CACHE HIT: squirtle
+[2025-08-06 05:09:10] CACHE HIT: wartortle
+[2025-08-06 05:09:10] CACHE HIT: blastoise
+[2025-08-06 05:09:10] CACHE HIT: caterpie
+[2025-08-06 05:09:10] CACHE HIT: metapod
+[2025-08-06 05:09:10] CACHE HIT: butterfree
+[2025-08-06 05:09:12] CACHE HIT: bulbasaur
+[2025-08-06 05:09:12] CACHE HIT: species bulbasaur
+[2025-08-06 05:09:12] CACHE HIT: bulbasaur
+[2025-08-06 05:09:12] CACHE HIT: evolution https://pokeapi.co/api/v2/evolution-chain/1/
+[2025-08-06 05:09:12] CACHE HIT: bulbasaur
+[2025-08-06 05:09:12] CACHE HIT: ivysaur
+[2025-08-06 05:09:12] CACHE HIT: venusaur
+[2025-08-06 05:09:43] CACHE HIT: bulbasaur
+[2025-08-06 05:09:43] CACHE HIT: ivysaur
+[2025-08-06 05:09:43] CACHE HIT: venusaur
+[2025-08-06 05:09:43] CACHE HIT: charmander
+[2025-08-06 05:09:43] CACHE HIT: charmeleon
+[2025-08-06 05:09:43] CACHE HIT: charizard
+[2025-08-06 05:09:43] CACHE HIT: squirtle
+[2025-08-06 05:09:43] CACHE HIT: wartortle
+[2025-08-06 05:09:43] CACHE HIT: blastoise
+[2025-08-06 05:09:43] CACHE HIT: caterpie
+[2025-08-06 05:09:43] CACHE HIT: metapod
+[2025-08-06 05:09:43] CACHE HIT: butterfree
+[2025-08-06 05:10:20] ERROR fetching type none
+[2025-08-06 05:11:22] extra_cache.json saved
+[2025-08-06 05:11:22] CACHE MISS: banette - Fetching from API
+[2025-08-06 05:11:34] Cache saved to disk
+[2025-08-06 05:11:34] CACHE MISS: duskull - Fetching from API
+[2025-08-06 05:11:46] Cache saved to disk
+[2025-08-06 05:11:46] CACHE MISS: dusclops - Fetching from API
+[2025-08-06 05:11:59] Cache saved to disk
+[2025-08-06 05:11:59] CACHE MISS: drifloon - Fetching from API
+[2025-08-06 05:12:11] Cache saved to disk
+[2025-08-06 05:12:11] CACHE MISS: drifblim - Fetching from API
+[2025-08-06 05:12:24] Cache saved to disk
+[2025-08-06 05:12:24] CACHE MISS: mismagius - Fetching from API
+[2025-08-06 05:12:36] Cache saved to disk
+[2025-08-06 05:12:36] CACHE MISS: dusknoir - Fetching from API
+[2025-08-06 05:12:49] Cache saved to disk
+[2025-08-06 05:12:49] CACHE MISS: cofagrigus - Fetching from API
+[2025-08-06 05:13:01] Cache saved to disk
+[2025-08-06 05:13:01] CACHE MISS: litwick - Fetching from API
+[2025-08-06 05:13:13] Cache saved to disk
+[2025-08-06 05:13:13] CACHE MISS: lampent - Fetching from API
+[2025-08-06 05:13:25] Cache saved to disk
+[2025-08-06 05:13:25] CACHE MISS: golett - Fetching from API
+[2025-08-06 05:13:36] Cache saved to disk
+[2025-08-06 05:13:36] CACHE MISS: golurk - Fetching from API
+[2025-08-06 05:13:48] Cache saved to disk
+[2025-08-06 05:13:48] CACHE MISS: honedge - Fetching from API
+[2025-08-06 05:14:00] Cache saved to disk
+[2025-08-06 05:14:00] CACHE MISS: doublade - Fetching from API
+[2025-08-06 05:14:12] Cache saved to disk
+[2025-08-06 05:14:12] CACHE MISS: aegislash-shield - Fetching from API
+[2025-08-06 05:14:23] Cache saved to disk
+[2025-08-06 05:14:23] CACHE MISS: phantump - Fetching from API
+[2025-08-06 05:14:35] Cache saved to disk
+[2025-08-06 05:14:35] CACHE MISS: trevenant - Fetching from API
+[2025-08-06 05:14:47] Cache saved to disk
+[2025-08-06 05:14:47] CACHE MISS: pumpkaboo-average - Fetching from API
+[2025-08-06 05:14:59] Cache saved to disk
+[2025-08-06 05:14:59] CACHE MISS: gourgeist-average - Fetching from API
+[2025-08-06 05:15:11] Cache saved to disk
+[2025-08-06 05:15:11] CACHE MISS: hoopa - Fetching from API
+[2025-08-06 05:15:23] Cache saved to disk
+[2025-08-06 05:15:23] CACHE MISS: decidueye - Fetching from API
+[2025-08-06 05:15:35] Cache saved to disk
+[2025-08-06 05:15:35] CACHE MISS: sandygast - Fetching from API
+[2025-08-06 05:15:47] Cache saved to disk
+[2025-08-06 05:15:47] CACHE MISS: palossand - Fetching from API
+[2025-08-06 05:15:59] Cache saved to disk
+[2025-08-06 05:15:59] CACHE MISS: dhelmise - Fetching from API
+[2025-08-06 05:16:11] Cache saved to disk
+[2025-08-06 05:16:11] CACHE MISS: lunala - Fetching from API
+[2025-08-06 05:16:23] Cache saved to disk
+[2025-08-06 05:16:23] CACHE MISS: marshadow - Fetching from API
+[2025-08-06 05:16:34] Cache saved to disk
+[2025-08-06 05:16:34] CACHE MISS: blacephalon - Fetching from API
+[2025-08-06 05:16:46] Cache saved to disk
+[2025-08-06 05:16:46] CACHE MISS: sinistea - Fetching from API
+[2025-08-06 05:16:58] Cache saved to disk
+[2025-08-06 05:16:58] CACHE MISS: polteageist - Fetching from API
+[2025-08-06 05:17:10] Cache saved to disk
+[2025-08-06 05:17:10] CACHE MISS: cursola - Fetching from API
+[2025-08-06 05:17:21] Cache saved to disk
+[2025-08-06 05:17:21] CACHE MISS: runerigus - Fetching from API
+[2025-08-06 05:17:33] Cache saved to disk
+[2025-08-06 05:17:33] CACHE MISS: spectrier - Fetching from API
+[2025-08-06 05:17:44] Cache saved to disk
+[2025-08-06 05:17:44] CACHE MISS: skeledirge - Fetching from API
+[2025-08-06 05:17:56] Cache saved to disk
+[2025-08-06 05:17:56] CACHE MISS: ceruledge - Fetching from API
+[2025-08-06 05:18:07] Cache saved to disk
+[2025-08-06 05:18:07] CACHE MISS: bramblin - Fetching from API
+[2025-08-06 05:18:19] Cache saved to disk
+[2025-08-06 05:18:19] CACHE MISS: brambleghast - Fetching from API
+[2025-08-06 05:18:30] Cache saved to disk
+[2025-08-06 05:18:30] CACHE MISS: greavard - Fetching from API
+[2025-08-06 05:18:42] Cache saved to disk
+[2025-08-06 05:18:42] CACHE MISS: houndstone - Fetching from API
+[2025-08-06 05:18:53] Cache saved to disk
+[2025-08-06 05:18:53] CACHE MISS: annihilape - Fetching from API
+[2025-08-06 05:19:05] Cache saved to disk
+[2025-08-06 05:19:05] CACHE MISS: gimmighoul - Fetching from API
+[2025-08-06 05:19:17] Cache saved to disk
+[2025-08-06 05:19:17] CACHE MISS: poltchageist - Fetching from API
+[2025-08-06 05:19:28] Cache saved to disk
+[2025-08-06 05:19:28] CACHE MISS: pecharunt - Fetching from API
+[2025-08-06 05:19:40] Cache saved to disk
+[2025-08-06 05:19:40] CACHE MISS: pumpkaboo-small - Fetching from API
+[2025-08-06 05:19:52] Cache saved to disk
+[2025-08-06 05:19:52] CACHE MISS: pumpkaboo-large - Fetching from API
+[2025-08-06 05:20:04] Cache saved to disk
+[2025-08-06 05:20:04] CACHE MISS: pumpkaboo-super - Fetching from API
+[2025-08-06 05:20:16] Cache saved to disk
+[2025-08-06 05:20:16] CACHE MISS: gourgeist-small - Fetching from API
+[2025-08-06 05:20:29] Cache saved to disk
+[2025-08-06 05:20:29] CACHE MISS: gourgeist-large - Fetching from API
+[2025-08-06 05:20:41] Cache saved to disk
+[2025-08-06 05:20:41] CACHE MISS: gourgeist-super - Fetching from API
+[2025-08-06 05:20:53] Cache saved to disk
+[2025-08-06 05:20:53] CACHE MISS: gengar-mega - Fetching from API
+[2025-08-06 05:21:05] Cache saved to disk
+[2025-08-06 05:21:05] CACHE MISS: banette-mega - Fetching from API
+[2025-08-06 05:21:17] Cache saved to disk
+[2025-08-06 05:21:17] CACHE MISS: marowak-alola - Fetching from API
+[2025-08-06 05:21:30] Cache saved to disk
+[2025-08-06 05:21:30] CACHE MISS: oricorio-sensu - Fetching from API
+[2025-08-06 05:21:41] Cache saved to disk
+[2025-08-06 05:21:41] CACHE MISS: marowak-totem - Fetching from API
+[2025-08-06 05:21:53] Cache saved to disk
+[2025-08-06 05:21:53] CACHE MISS: necrozma-dawn - Fetching from API
+[2025-08-06 05:22:06] Cache saved to disk
+[2025-08-06 05:22:06] CACHE MISS: corsola-galar - Fetching from API
+[2025-08-06 05:22:18] Cache saved to disk
+[2025-08-06 05:22:18] CACHE MISS: calyrex-shadow - Fetching from API
+[2025-08-06 05:22:30] Cache saved to disk
+[2025-08-06 05:22:30] CACHE MISS: gengar-gmax - Fetching from API
+[2025-08-06 05:22:42] Cache saved to disk
+[2025-08-06 05:22:42] CACHE MISS: typhlosion-hisui - Fetching from API
+[2025-08-06 05:22:54] Cache saved to disk
+[2025-08-06 05:23:18] Backup created: data/pokemon_cache_backup_20250806_052307.json
+[2025-08-06 05:23:52] extra_cache.json saved
+[2025-08-06 05:23:53] extra_cache.json saved
+[2025-08-06 05:24:44] extra_cache.json saved
+[2025-08-06 05:24:45] extra_cache.json saved
+[2025-08-06 05:24:45] CACHE MISS: leafeon - Fetching from API
+[2025-08-06 05:24:57] Cache saved to disk
+[2025-08-06 05:25:25] Backup created: data/pokemon_cache_backup_20250806_052513.json
+[2025-08-06 05:25:41] ERROR fetching type none
+[2025-08-06 05:25:59] extra_cache.json saved
+[2025-08-06 05:25:59] CACHE MISS: meditite - Fetching from API
+[2025-08-06 05:26:11] Cache saved to disk
+[2025-08-06 05:26:11] CACHE MISS: aron - Fetching from API
+[2025-08-06 05:26:23] Cache saved to disk
+[2025-08-06 05:26:23] CACHE MISS: regirock - Fetching from API
+[2025-08-06 05:26:35] Cache saved to disk

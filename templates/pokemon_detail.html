@@ -8,32 +8,56 @@
     <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
     <div class="container">
-        <h1>{{ p.name }}</h1>
-        <img src="{{ p.sprite }}" alt="{{ p.name }}" class="pokemon-img large">
-        <p><strong>ID:</strong> {{ p.id }}</p>
+		<div class="pokemon-header">
+			<div class="pokemon-id">#{{ "%03d"|format(p.id) }}</div>
+			<div class="sprite-pair">
+				<img src="{{ p.sprite }}" alt="{{ p.name }} (normal)" class="pokemon-img extra-large">
+				<img src="{{ p.shiny_sprite }}" alt="{{ p.name }} (shiny)" class="pokemon-img extra-large">
+			</div>
+		</div>
 
-        <div class="type-container large">
-            {% for t in p.types %}
-                <span class="type-label type-{{ t }} large">{{ t }}</span>
-            {% endfor %}
-        </div>
+		<h1 class="pokemon-name">{{ p.name }}</h1>
+
+		<div class="type-container large">
+			{% for t in p.types %}
+				<span class="type-label type-{{ t }} large">{{ t }}</span>
+			{% endfor %}
+		</div>
+
+		<div class="ability-tags">
+			{% for ab in p.abilities %}
+				<span class="type-label type-{{ p.types[0]|lower }}">{{ ab }}</span>
+			{% endfor %}
+		</div>
 
         <div class="description-box">
             <p>{{ p.description }}</p>
         </div>
 
-        <div class="section-title">Base Stats</div>
-        <div class="stats-bar">
-            {% for stat, value in p.stats.items() %}
-                <div class="stat-row">
-                    <span class="stat-name">{{ stat.capitalize() }}</span>
-                    <div class="stat-bar-bg">
-                        <div class="stat-bar-fill" style="width: {{ (value / 256) * 100 }}%"></div>
-                    </div>
-                    <span class="stat-value">{{ value }}</span>
-                </div>
-            {% endfor %}
-        </div>
+		<div class="stats-info-wrapper">
+			<div class="stats-bar">
+				{% for stat, value in p.stats.items() %}
+					<div class="stat-row">
+						<span class="stat-name">{{ stat.capitalize() }}</span>
+						<div class="stat-bar-bg">
+							<div class="stat-bar-fill"
+								style="width: {{ (value / 256) * 100 }}%; background-color: {{ stat_color(value) }}">
+							</div>
+						</div>
+						<span class="stat-value">{{ value }}</span>
+					</div>
+				{% endfor %}
+			</div>
+
+			<div class="info-table">
+				<table>
+					<tr><td>Height</td><td>{{ p.height }} dm</td></tr>
+					<tr><td>Weight</td><td>{{ p.weight }} hg</td></tr>
+					<tr><td>Base XP</td><td>{{ p.base_experience }}</td></tr>
+					<tr><td>Egg Groups</td><td>{{ p.egg_groups | join(', ') }}</td></tr>
+				</table>
+			</div>
+		</div>
 
         {% if p.forms %}
         <div class="section-title">Forms</div>

@@ -1,4 +1,3 @@
-<!-- templates/type_view.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,8 @@
             {% for p in pokemon_list %}
                 <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
                     <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
-                    <div class="pokemon-name plain-name">{{ p.name }}</div>
+                    <img src="{{ p.sprite }}" alt="{{ p.name }}">
+                    <h3>{{ p.name }}</h3>
                     <div class="type-container">
                         {% for t in p.types %}
                             <span class="type-label type-{{ t }}">{{ t }}</span>

@@ -6,12 +6,11 @@
 </head>
 <body>
     <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
-
     <header>
         <h1>
             <a href="/pokedex" class="reset-link">Pokédex</a>
         </h1>
-
+		<a href="/pokedex?random=true" class="button-link" style="margin-left: 10px;">🎲 Random</a>
         <div class="gen-links">
             {% for g in all_gens %}
                 <a href="/generation/{{ g }}" class="button-link">Gen {{ g }}</a>
@@ -20,7 +19,7 @@
 
         <div class="type-links">
             {% for t in all_types %}
-                <a href="/type/{{ t }}" class="button-link type-label type-{{ t }}">{{ t }}</a>
+                <a href="/type/{{ t }}" class="type-label type-{{ t }}">{{ t }}</a>
             {% endfor %}
         </div>
 
@@ -49,10 +48,8 @@
                 {% endfor %}
             </select>
 
-            <label>Random?</label>
-            <input type="checkbox" name="random" value="true" {% if request.args.get("random") == "true" %}checked{% endif %}>
-
             <button type="submit">Apply</button>
+
         </form>
     </header>
 
@@ -95,20 +92,80 @@
         </div>
     {% endif %}
 
-    <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle("dark-mode");
-            body.classList.toggle("dark");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
-        }
+	<div class="developer-tools" style="text-align: center; margin-top: 2em;">
+		<h3 style="margin-bottom: 0.5em;">Developer Tools</h3>
 
-        window.onload = function () {
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "dark") {
-                document.body.classList.add("dark-mode", "dark");
-            }
-        };
-    </script>
+		<div style="margin-bottom: 1em;">
+			<strong>Pokémon Cache:</strong><br>
+			<a href="/backup_cache" class="button-link" title="Save a timestamped copy of the Pokémon cache">📁 Backup Pokémon Cache</a>
+			<a href="#" class="button-link" onclick="confirmRefresh(event)" title="Clear and reset Pokémon cache">♻️ Refresh Pokémon Cache</a>
+			<a href="#" class="button-link" onclick="confirmRecover(event)" title="Recover from latest Pokémon backup">⏪ Recover Pokémon Backup</a>
+		</div>
+
+		<div style="margin-bottom: 1em;">
+			<strong>Extra Cache (Species, Types, Evolution, Generation):</strong><br>
+			<a href="/backup_extra_cache" class="button-link" title="Save a timestamped copy of the extra cache">📁 Backup Extra Cache</a>
+			<a href="#" class="button-link" onclick="confirmExtraRefresh(event)" title="Clear and reset extra cache">♻️ Refresh Extra Cache</a>
+			<a href="#" class="button-link" onclick="confirmExtraRecover(event)" title="Recover from latest extra cache backup">⏪ Recover Extra Backup</a>
+		</div>
+		
+		<div>
+			<a href="/toggle_logging" class="button-link" title="Toggle detailed logging on or off">
+				📝 Toggle Logging
+				<span style="margin-left: 0.3em; font-weight: bold; color: {{ 'limegreen' if logging_enabled else 'crimson' }}">
+					{{ '✅' if logging_enabled else '❌' }}
+				</span>
+			</a>
+		</div>
+	</div>
+
+	<script>
+		function toggleDarkMode() {
+			const body = document.body;
+			body.classList.toggle("dark-mode");
+			body.classList.toggle("dark");
+			localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
+		}
+
+		window.onload = function () {
+			const savedTheme = localStorage.getItem("theme");
+			if (savedTheme === "dark") {
+				document.body.classList.add("dark-mode", "dark");
+			}
+		};
+
+		function confirmRefresh(e) {
+			if (confirm("Are you sure you want to refresh (clear) the Pokémon cache? This cannot be undone.")) {
+				window.location.href = "/refresh_cache";
+			} else {
+				e.preventDefault();
+			}
+		}
+
+		function confirmRecover(e) {
+			if (confirm("Are you sure you want to recover the latest Pokémon cache backup? This will overwrite the current cache.")) {
+				window.location.href = "/recover_cache";
+			} else {
+				e.preventDefault();
+			}
+		}
+
+		function confirmExtraRefresh(e) {
+			if (confirm("Are you sure you want to refresh (clear) the Extra cache? This cannot be undone.")) {
+				window.location.href = "/refresh_extra_cache";
+			} else {
+				e.preventDefault();
+			}
+		}
+
+		function confirmExtraRecover(e) {
+			if (confirm("Are you sure you want to recover the latest Extra cache backup? This will overwrite the current extra cache.")) {
+				window.location.href = "/recover_extra_cache";
+			} else {
+				e.preventDefault();
+			}
+		}
+	</script>
+
 </body>
 </html>
