@@ -1,49 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Type: {{ type_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Type: {{ type_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+  <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
-    <div class="container">
-        <h1>Type: {{ type_name.capitalize() }}</h1>
+  <div class="container">
+    <h1>Type: {{ type_name|capitalize }}</h1>
 
-        <div class="pokemon-grid">
-            {% for p in pokemon_list %}
-                <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
-                    <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
-                    <img src="{{ p.sprite }}" alt="{{ p.name }}">
-                    <h3>{{ p.name }}</h3>
-                    <div class="type-container">
-                        {% for t in p.types %}
-                            <span class="type-label type-{{ t }}">{{ t }}</span>
-                        {% endfor %}
-                    </div>
-                </a>
+    <!-- Type effectiveness (for this single type) -->
+    {% set dd_from = (rel.double_damage_from or []) | map(attribute='name') | list %}
+    {% set hd_from = (rel.half_damage_from   or []) | map(attribute='name') | list %}
+    {% set nd_from = (rel.no_damage_from     or []) | map(attribute='name') | list %}
+
+    {% set dd_to   = (rel.double_damage_to   or []) | map(attribute='name') | list %}
+    {% set hd_to   = (rel.half_damage_to     or []) | map(attribute='name') | list %}
+    {% set nd_to   = (rel.no_damage_to       or []) | map(attribute='name') | list %}
+
+    {# compute “normal” buckets by excluding other buckets #}
+    {% set def_norm = [] %}
+    {% for t in all_types %}
+      {% if t not in dd_from and t not in hd_from and t not in nd_from %}
+        {% set _ = def_norm.append(t) %}
+      {% endif %}
+    {% endfor %}
+
+    {% set off_norm = [] %}
+    {% for t in all_types %}
+      {% if t not in dd_to and t not in hd_to and t not in nd_to %}
+        {% set _ = off_norm.append(t) %}
+      {% endif %}
+    {% endfor %}
+
+    <section class="eff-card">
+      <h2 class="eff-title">Type Effectiveness</h2>
+
+      <!-- Defense card -->
+      <div class="eff-block">
+        <h3 class="eff-sub">Defense ({{ type_name|capitalize }})</h3>
+        <div class="eff-table">
+          {% if dd_from %}
+          <div class="eff-row">
+            <span class="eff-label">Weak To</span>
+            <div class="eff-cells">
+              {% for t in dd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if nd_from %}
+          <div class="eff-row">
+            <span class="eff-label">Immune To</span>
+            <div class="eff-cells">
+              {% for t in nd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if hd_from %}
+          <div class="eff-row">
+            <span class="eff-label">Resistant To</span>
+            <div class="eff-cells">
+              {% for t in hd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if def_norm %}
+          <details class="eff-row eff-muted">
+            <summary class="eff-label">Normal</summary>
+            <div class="eff-cells">
+              {% for t in def_norm %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </details>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Offense card -->
+      <div class="eff-block">
+        <h3 class="eff-sub">Offense (Using {{ type_name|capitalize }})</h3>
+        <div class="eff-table">
+          {% if dd_to %}
+          <div class="eff-row">
+            <span class="eff-label">Super Effective</span>
+            <div class="eff-cells">
+              {% for t in dd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if nd_to %}
+          <div class="eff-row">
+            <span class="eff-label">No Effect</span>
+            <div class="eff-cells">
+              {% for t in nd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if hd_to %}
+          <div class="eff-row">
+            <span class="eff-label">Not Very</span>
+            <div class="eff-cells">
+              {% for t in hd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if off_norm %}
+          <details class="eff-row eff-muted">
+            <summary class="eff-label">Normal</summary>
+            <div class="eff-cells">
+              {% for t in off_norm %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
+            </div>
+          </details>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Pokémon of this type -->
+    <div class="pokemon-grid">
+      {% for p in pokemon_list %}
+        <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
+          <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
+          <img src="{{ p.sprite }}" alt="{{ p.name }}">
+          <h3>{{ p.name }}</h3>
+          <div class="type-container">
+            {% for t in p.types %}
+              <span class="type-label type-{{ t }}">{{ t }}</span>
             {% endfor %}
-        </div>
-
-        <div class="back-link">
-            <a href="/pokedex" class="button-link">← Back to Pokédex</a>
-        </div>
+          </div>
+        </a>
+      {% endfor %}
     </div>
 
-    <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle("dark-mode");
-            body.classList.toggle("dark");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
-        }
+    <div class="back-link">
+      <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+    </div>
+  </div>
 
-        window.onload = function () {
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "dark") {
-                document.body.classList.add("dark-mode", "dark");
-            }
-        };
-    </script>
+  <script>
+    function toggleDarkMode(){
+      const b=document.body;
+      b.classList.toggle("dark-mode");
+      b.classList.toggle("dark");
+      localStorage.setItem("theme", (b.classList.contains("dark-mode")||b.classList.contains("dark")) ? "dark":"light");
+    }
+    window.onload=function(){
+      const t=localStorage.getItem("theme");
+      if(t==="dark"){ document.body.classList.add("dark-mode","dark"); }
+    }
+  </script>
 </body>
 </html>

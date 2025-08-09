@@ -16,7 +16,6 @@
                 <a href="/generation/{{ g }}" class="button-link">Gen {{ g }}</a>
             {% endfor %}
         </div>
-
         <div class="type-links">
             {% for t in all_types %}
                 <a href="/type/{{ t }}" class="type-label type-{{ t }}">{{ t }}</a>
@@ -92,20 +91,29 @@
         </div>
     {% endif %}
 
+    <!-- === Other Resources Section === -->
+    <div class="other-resources" style="text-align: center; margin-top: 2em;">
+        <h3 style="margin-bottom: 0.5em;">Other Resources</h3>
+        <div>
+            <a href="/type_tool" class="button-link" title="Calculate type effectiveness for defense and offense">📊 Type Effectiveness Tool</a>
+        </div>
+    </div>
+
 	<div class="developer-tools" style="text-align: center; margin-top: 2em;">
 		<h3 style="margin-bottom: 0.5em;">Developer Tools</h3>
 
 		<div style="margin-bottom: 1em;">
 			<strong>Pokémon Cache:</strong><br>
 			<a href="/backup_cache" class="button-link" title="Save a timestamped copy of the Pokémon cache">📁 Backup Pokémon Cache</a>
-			<a href="#" class="button-link" onclick="confirmRefresh(event)" title="Clear and reset Pokémon cache">♻️ Refresh Pokémon Cache</a>
+			<a href="#" class="button-link" onclick="confirmRefresh(event)" title="Clear and reset Pokémon cache">🧹 Reset Pokémon Cache</a>
 			<a href="#" class="button-link" onclick="confirmRecover(event)" title="Recover from latest Pokémon backup">⏪ Recover Pokémon Backup</a>
 		</div>
 
 		<div style="margin-bottom: 1em;">
 			<strong>Extra Cache (Species, Types, Evolution, Generation):</strong><br>
 			<a href="/backup_extra_cache" class="button-link" title="Save a timestamped copy of the extra cache">📁 Backup Extra Cache</a>
-			<a href="#" class="button-link" onclick="confirmExtraRefresh(event)" title="Clear and reset extra cache">♻️ Refresh Extra Cache</a>
+			<a href="#" class="button-link" onclick="confirmExtraRefresh(event)" title="Clear and reset extra cache">🧹 Reset Extra Cache</a>
+			<a href="/refresh_lists" class="button-link" title="Re-fetch and refresh cached lists">♻️ Refresh Pokemon/Types</a>
 			<a href="#" class="button-link" onclick="confirmExtraRecover(event)" title="Recover from latest extra cache backup">⏪ Recover Extra Backup</a>
 		</div>
 		

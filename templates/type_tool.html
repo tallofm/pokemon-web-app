@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Type Effectiveness Tool</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+
+  <div class="container" style="max-width: 840px">
+	<h1>Type Effectiveness</h1>
+
+	<div class="te-toolbar">
+	  <div class="mode-toggle">
+		<label class="switch">
+		  <input id="modeToggle" type="checkbox" />
+		  <span class="slider"></span>
+		</label>
+		<div class="mode-labels">
+		  <span id="lblDef" class="on">Defense</span>
+		  <span id="lblOff">Offense</span>
+		</div>
+	  </div>
+
+	  <div class="slot-row">
+		<!-- Defense slots (3) -->
+		<div id="defSlots" class="slot-group">
+		  <span class="slot-label">Defense:</span>
+		  <button class="slot pill" id="def1" data-slot="def-0">(type 1)</button>
+		  <button class="slot pill" id="def2" data-slot="def-1">(optional)</button>
+		  <button class="slot pill" id="def3" data-slot="def-2">(optional)</button>
+		  <span class="cursor-note" id="defCursor">← filling</span>
+		</div>
+
+		<!-- Offense slots (2) -->
+		<div id="offSlots" class="slot-group hidden">
+		  <span class="slot-label">Offense:</span>
+		  <button class="slot pill" id="off1" data-slot="off-0">(type 1)</button>
+		  <button class="slot pill" id="off2" data-slot="off-1">(optional)</button>
+		  <span class="cursor-note" id="offCursor">← filling</span>
+		</div>
+	  </div>
+
+	  <div class="apply-row">
+		<button class="button-link" id="applyBtn">Apply</button>
+		<a class="button-link" id="resetBtn" href="/type_tool">Reset</a>
+	  </div>
+	</div>
+
+	<!-- Type buttons (same look as on Pokédex) -->
+	<div class="type-links te-buttons">
+	  {% for t in all_types %}
+		<button type="button"
+		  class="type-label type-{{ t }}"
+		  onclick="teChoose('{{ t }}')">{{ t }}</button>
+	  {% endfor %}
+	</div>
+
+    <!-- Defense output -->
+    {% if defense %}
+	<section class="eff-card">
+	  <div class="eff-block">
+		<h3 class="eff-sub">Defense{% if defense_types %} ({{ defense_types|map('capitalize')|join(' / ') }}){% endif %}</h3>
+		<div class="eff-table">
+
+		  {% set rows = [
+			('8× Weak To', defense['8x']),
+			('4× Weak To', defense['4x']),
+			('2× Weak To', defense['2x']),
+			('Immune To',  defense['0x']),
+			('½× Resistant To', defense['1/2x']),
+			('¼× Resistant To', defense['1/4x']),
+			('⅛× Resistant To', defense['1/8x']),
+			('Normal', defense['1x'])
+		  ] %}
+
+		  {% for label, arr in rows %}
+			{% if arr|length %}
+			<div class="eff-row">
+			  <span class="eff-label">{{ label }}</span>
+			  <div class="eff-cells">
+				{% for t in arr %}<span class="type-chip type-{{t}}">{{ t|capitalize }}</span>{% endfor %}
+			  </div>
+			</div>
+			{% endif %}
+		  {% endfor %}
+
+		</div>
+	  </div>
+	</section>
+
+    {% endif %}
+
+    <!-- Matching Pokémon (defense typing) -->
+    {% if matched %}
+      <div class="section-title">Pokémon with {{ defense_types|map('capitalize')|join(' / ') }}</div>
+      <div class="horizontal-scroll">
+        {% for m in matched %}
+          <a href="/pokemon/{{ m.name|lower }}" class="button-card">
+            <img src="{{ m.sprite }}" alt="{{ m.name }}">
+            <div>{{ m.name }}</div>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Offense output -->
+    {% if offense %}
+	<section class="eff-card">
+	  <div class="eff-block">
+		<h3 class="eff-sub">Offense{% if offense_types %} (Using {{ offense_types|map('capitalize')|join(' × ') }}){% endif %}</h3>
+		<div class="eff-table">
+
+		  {% set rows = [
+			('Super Effective (4×)', offense['4x']),
+			('Super Effective (2×)', offense['2x']),
+			('No Effect (0×)',     offense['0x']),
+			('Not Very (½×)',      offense['1/2x']),
+			('Not Very (¼×)',      offense['1/4x']),
+			('Normal (1×)',        offense['1x'])
+		  ] %}
+
+		  {% for label, arr in rows %}
+			{% if arr|length %}
+			<div class="eff-row">
+			  <span class="eff-label">{{ label }}</span>
+			  <div class="eff-cells">
+				{% for t in arr %}<span class="type-chip type-{{t}}">{{ t|capitalize }}</span>{% endfor %}
+			  </div>
+			</div>
+			{% endif %}
+		  {% endfor %}
+
+		</div>
+	  </div>
+	</section>
+
+    {% endif %}
+
+    <div class="back-link">
+      <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+    </div>
+  </div>
+
+  <script>
+	function toggleDarkMode(){
+	  const b=document.body;
+	  b.classList.toggle("dark-mode");
+	  b.classList.toggle("dark");
+	  localStorage.setItem("theme", b.classList.contains("dark-mode")||b.classList.contains("dark") ? "dark":"light");
+	}
+	window.onload=function(){
+	  const t=localStorage.getItem("theme");
+	  if(t==="dark"){ document.body.classList.add("dark-mode","dark"); }
+	}
+  </script>
+	<script>
+	  // Initial state with defaults: Water in both primary slots
+	  const allTypes = {{ all_types|tojson }};
+	  const init = {
+		def: [{{ (d1 or 'water')|tojson }}, {{ (d2 or '')|tojson }}, {{ (d3 or '')|tojson }}],
+		off: [{{ (a1 or 'water')|tojson }}, {{ (a2 or '')|tojson }}],
+	  };
+	  const state = {
+		mode: 'def',                 // 'def' or 'off'
+		idx: { def: 0, off: 0 },     // cursor per group
+		def: [...init.def],
+		off: [...init.off],
+	  };
+
+	  const el = id => document.getElementById(id);
+
+	  function stripTypeClasses(button){
+		// remove any previous type-* class and the type-label helper
+		[...button.classList].forEach(c => { if (c.startsWith('type-')) button.classList.remove(c); });
+		button.classList.remove('type-label');
+	  }
+
+	  function paintSlot(button, typeName){
+		// reset to base slot look
+		button.className = 'slot pill';
+		stripTypeClasses(button);
+
+		// placeholder text
+		const isFirst = button.id.endsWith('1');
+		button.textContent = typeName ? typeName : (isFirst ? '(type 1)' : '(optional)');
+
+		// when a type is present, color it using your existing type classes
+		if (typeName){
+		  button.classList.add('type-label', `type-${typeName}`);
+		  button.textContent = typeName; // keep lowercase to match your chips
+		}
+	  }
+
+	  function applySlotStyles(){
+		// Defense slots
+		['def1','def2','def3'].forEach((id,i)=>paintSlot(el(id), state.def[i]));
+		// Offense slots
+		['off1','off2'].forEach((id,i)=>paintSlot(el(id), state.off[i]));
+
+		// cursor notes
+		el('defCursor').style.visibility = state.mode==='def' ? 'visible' : 'hidden';
+		el('offCursor').style.visibility = state.mode==='off' ? 'visible' : 'hidden';
+	  }
+
+	  // choose a type button
+	  window.teChoose = function(typeName){
+		const group = state.mode;
+		const cap = (group==='def' ? 3 : 2);
+		state[group][state.idx[group]] = typeName;
+		state.idx[group] = (state.idx[group] + 1) % cap; // advance cursor
+		applySlotStyles();
+	  };
+
+	  // Clicking a slot focuses the cursor on it (and clears it)
+	  document.querySelectorAll('.slot').forEach(btn=>{
+		btn.addEventListener('click', ()=>{
+		  const [group, pos] = btn.dataset.slot.split('-'); // "def-0" or "off-1"
+		  state.mode = group;
+		  state.idx[group] = +pos;
+		  state[group][+pos] = ''; // clear this slot
+		  syncToggle();
+		  applySlotStyles();
+		});
+	  });
+
+	  // Toggle mode
+	  const modeToggle = el('modeToggle');
+	  modeToggle.addEventListener('change', ()=>{
+		state.mode = modeToggle.checked ? 'off' : 'def';
+		syncToggle();
+		applySlotStyles();
+	  });
+
+	  function syncToggle(){
+		// show/hide slot groups
+		el('defSlots').classList.toggle('hidden', state.mode!=='def');
+		el('offSlots').classList.toggle('hidden', state.mode!=='off');
+		// label emphasis
+		el('lblDef').classList.toggle('on', state.mode==='def');
+		el('lblOff').classList.toggle('on', state.mode==='off');
+	  }
+
+	  // Apply → build querystring with both groups (omit empties)
+	  el('applyBtn').addEventListener('click', ()=>{
+		const params = new URLSearchParams();
+		const d = state.def, o = state.off;
+		if (d[0]) params.set('d1', d[0]); if (d[1]) params.set('d2', d[1]); if (d[2]) params.set('d3', d[2]);
+		if (o[0]) params.set('a1', o[0]); if (o[1]) params.set('a2', o[1]);
+		const url = '/type_tool' + (params.toString() ? ('?' + params.toString()) : '');
+		location.href = url;
+	  });
+
+	  // Initialize view based on current query/defaults
+	  (function initUI(){
+		modeToggle.checked = false; // checkbox OFF → Defense by default
+		state.mode = 'def';
+		syncToggle();
+		applySlotStyles();
+	  })();
+	</script>
+
+  
+  
+</body>
+</html>

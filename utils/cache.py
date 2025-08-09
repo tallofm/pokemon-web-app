@@ -1,5 +1,5 @@
 # utils/cache.py
-# simple disk cache for pokemon + related resources with safe writes and retries
+# Simple disk cache for Pokémon + related resources with safe writes and retries
 
 import os
 import json
@@ -14,17 +14,29 @@ from urllib3.util.retry import Retry
 
 from utils.logger import log_action
 
-# --- paths & flags ---
-CACHE_FILE = "data/pokemon_cache.json"
-EXTRA_CACHE_FILE = "data/extra_cache.json"
+# --------------------------------------------------------------------------- #
+# Paths & flags
+# --------------------------------------------------------------------------- #
+
+DATA_DIR = "data"
+CACHE_FILE = os.path.join(DATA_DIR, "pokemon_cache.json")
+EXTRA_CACHE_FILE = os.path.join(DATA_DIR, "extra_cache.json")
+
+# Sections expected to exist inside extra_cache
 REQUIRED_EXTRA_KEYS = ["species", "evolution", "type", "generation", "species_default"]
+
+# Lists (big, rarely-changing collections) live under this key
+LISTS_KEY = "lists"
+
 ENABLE_VERBOSE_LOGGING = False
 
-# ensure data dir exists
-if not os.path.exists("data"):
-    os.makedirs("data")
+# Ensure data dir exists
+os.makedirs(DATA_DIR, exist_ok=True)
 
-# --- shared http session (retries + timeout) ---
+# --------------------------------------------------------------------------- #
+# Shared HTTP session (retries + timeout)
+# --------------------------------------------------------------------------- #
+
 _session = requests.Session()
 _retry = Retry(total=3, backoff_factor=0.3, status_forcelist=(429, 500, 502, 503, 504))
 _adapter = HTTPAdapter(max_retries=_retry)
@@ -32,13 +44,12 @@ _session.mount("https://", _adapter)
 _session.mount("http://", _adapter)
 
 def _json_fetch(url: str, timeout: float = 10.0):
-    """get json with retry + timeout"""
     r = _session.get(url, timeout=timeout)
     r.raise_for_status()
     return r.json()
 
 def _atomic_write(path: str, obj: dict):
-    """atomically write json (utf-8) to avoid corrupt files on windows"""
+    """Atomically write JSON (utf-8) to avoid corrupt files on Windows."""
     d = os.path.dirname(path) or "."
     tmp_path = None
     try:
@@ -56,7 +67,11 @@ def _atomic_write(path: str, obj: dict):
             pass
         raise e
 
-# --- load caches (robust to corruption) ---
+# --------------------------------------------------------------------------- #
+# Load caches (robust to corruption)
+# --------------------------------------------------------------------------- #
+
+# Main Pokémon cache
 try:
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, "r", encoding="utf-8") as f:
@@ -73,6 +88,7 @@ except Exception as e:
         pass
     pokemon_cache = {}
 
+# Extra cache (species, evolution, type, generation, lists, etc.)
 try:
     if os.path.exists(EXTRA_CACHE_FILE):
         with open(EXTRA_CACHE_FILE, "r", encoding="utf-8") as f:
@@ -89,11 +105,12 @@ except Exception as e:
         pass
     extra_cache = {}
 
-# ensure required sections exist
+# Normalize required sections & lists bucket
 for key in REQUIRED_EXTRA_KEYS:
     extra_cache.setdefault(key, {})
+extra_cache.setdefault(LISTS_KEY, {})  # <-- ensure lists bucket exists
 
-# ensure json files exist on disk
+# Ensure json files exist on disk
 try:
     if not os.path.exists(CACHE_FILE):
         _atomic_write(CACHE_FILE, pokemon_cache)
@@ -102,23 +119,114 @@ try:
 except Exception as e:
     log_action(f"ERROR creating initial cache files: {e}")
 
-# remove stale tmp files (from interrupted writes)
+# Remove stale tmp files (from interrupted writes)
 try:
-    for p in glob(os.path.join("data", "tmp*")):
+    for p in glob(os.path.join(DATA_DIR, "tmp*")):
         os.remove(p)
         log_action(f"removed stale temp file: {p}")
 except Exception:
     pass
 
-# --- public api ---
+# --------------------------------------------------------------------------- #
+# Public API
+# --------------------------------------------------------------------------- #
 
 def set_verbose(on: bool):
-    """enable/disable verbose cache logs"""
+    """Enable/disable verbose cache logs."""
     global ENABLE_VERBOSE_LOGGING
     ENABLE_VERBOSE_LOGGING = bool(on)
 
+# ---- Bulk lists (cached once) --------------------------------------------- #
+
+def get_all_pokemon_names_cached() -> list[str]:
+    """
+    One-time fetch of all Pokémon names (default varieties handled elsewhere).
+    Cached under extra_cache['lists']['all_pokemon'].
+    """
+    lists = extra_cache.setdefault(LISTS_KEY, {})
+    key = "all_pokemon"
+    if key in lists:
+        if ENABLE_VERBOSE_LOGGING:
+            log_action("CACHE HIT: all_pokemon list")
+        return lists[key]
+
+    try:
+        data = _json_fetch("https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0")
+        names = [p.get("name") for p in (data or {}).get("results", []) if p.get("name")]
+        lists[key] = names
+        save_extra_cache()
+        log_action(f"Primed all_pokemon ({len(names)})")
+        return names
+    except Exception as e:
+        log_action(f"ERROR fetching all_pokemon list: {e}")
+        return []
+
+def get_all_types_cached(exclude_special: bool = False) -> list[str]:
+    """
+    Fetch and cache all type names with your custom order.
+    New/unknown types are appended at the end (future-proof).
+    Set exclude_special=True to omit 'stellar' and 'unknown'.
+    """
+    lists = extra_cache.setdefault(LISTS_KEY, {})
+    cache_key = "all_types_no_special" if exclude_special else "all_types"
+
+    if cache_key in lists:
+        if ENABLE_VERBOSE_LOGGING:
+            log_action(f"CACHE HIT: {cache_key}")
+        return lists[cache_key]
+
+    # Desired order:
+    # water→grass→electric→psychic→ice→dragon→dark→fairy,
+    # then normal→...→steel, then stellar, unknown
+    custom_order = [
+        "grass", "fire", "water", "electric", "psychic", "dark", "fairy", "ice", "dragon",
+        "normal", "flying", "fighting", "bug", "poison", "ground", "rock", "ghost", "steel",
+        "stellar", "unknown",
+    ]
+
+    try:
+        data = _json_fetch("https://pokeapi.co/api/v2/type")
+        api_names = {t.get("name") for t in (data or {}).get("results", []) if t.get("name")}
+
+        ordered = [t for t in custom_order if t in api_names]
+        # Append any new types the API adds in the future
+        extras = sorted(api_names - set(custom_order))
+        ordered.extend(extras)
+
+        if exclude_special:
+            ordered = [t for t in ordered if t not in ("stellar", "unknown")]
+
+        lists[cache_key] = ordered
+        save_extra_cache()
+        log_action(f"Primed {cache_key} ({len(ordered)})")
+        return ordered
+
+    except Exception as e:
+        log_action(f"ERROR fetching type list: {e}")
+        fallback = custom_order
+        if not exclude_special:
+            fallback += ["stellar", "unknown"]
+        return fallback
+
+def refresh_lists(keys: list[str] | None = None) -> None:
+    """
+    Remove cached list entries and persist. If keys is None, clears all lists.
+    Known keys: 'all_pokemon', 'all_types', 'all_types_no_special'
+    """
+    lists = extra_cache.setdefault(LISTS_KEY, {})
+    if keys:
+        for k in keys:
+            if k in lists:
+                del lists[k]
+    else:
+        lists.clear()
+    save_extra_cache()
+    log_action(f"Refreshed lists: {keys or 'ALL'}")
+
+# ---- Pokémon, species, evo, generation, type ------------------------------ #
+
 def get_pokemon_cached(name, get_pokemon_fn):
-    """cache for pokemon endpoint; preserves existing schema"""
+    """Cache for pokemon endpoint; preserves existing schema."""
     name = str(name).lower()
     if name in pokemon_cache:
         if ENABLE_VERBOSE_LOGGING:
@@ -132,7 +240,7 @@ def get_pokemon_cached(name, get_pokemon_fn):
     return data
 
 def get_species_cached(name, autosave: bool = True):
-    """cache for species data"""
+    """Cache for species data."""
     name = str(name).lower()
     if name in extra_cache["species"]:
         if ENABLE_VERBOSE_LOGGING:
@@ -146,9 +254,8 @@ def get_species_cached(name, autosave: bool = True):
             save_extra_cache()
     return data
 
-
 def get_evolution_chain_cached(species_data):
-    """cache for evolution chains keyed by chain url"""
+    """Cache for evolution chains keyed by chain url."""
     url = species_data["evolution_chain"]["url"]
     if url in extra_cache["evolution"]:
         if ENABLE_VERBOSE_LOGGING:
@@ -162,7 +269,7 @@ def get_evolution_chain_cached(species_data):
     return data
 
 def get_generation_cached(gen_id):
-    """cache for generation metadata; stores trimmed payload"""
+    """Cache for generation metadata; stores trimmed payload."""
     key = str(gen_id)
     if key in extra_cache["generation"]:
         if ENABLE_VERBOSE_LOGGING:
@@ -183,19 +290,32 @@ def get_generation_cached(gen_id):
         return None
 
 def get_type_cached(type_name):
-    """cache for type damage relations; stores only what's needed"""
+    """Cache for type damage relations; stores what's needed + member list."""
     type_name = str(type_name).lower()
-    if type_name in extra_cache["type"]:
+    m = extra_cache["type"]
+
+    # Cache hit (backfill 'pokemon' if missing from older cache entries)
+    if type_name in m:
+        if "pokemon" not in m[type_name]:
+            try:
+                data = _json_fetch(f"https://pokeapi.co/api/v2/type/{type_name}")
+                m[type_name]["pokemon"] = data.get("pokemon", [])
+                save_extra_cache()
+            except Exception as e:
+                log_action(f"ERROR backfilling type members for {type_name}: {e}")
         if ENABLE_VERBOSE_LOGGING:
             log_action(f"CACHE HIT: type {type_name}")
-        return extra_cache["type"][type_name]
+        return m[type_name]
+
+    # Cache miss
     try:
         data = _json_fetch(f"https://pokeapi.co/api/v2/type/{type_name}")
         cleaned = {
             "name": data.get("name", type_name),
-            "damage_relations": data.get("damage_relations", {})
+            "damage_relations": data.get("damage_relations", {}),
+            "pokemon": data.get("pokemon", []),   # keep member list
         }
-        extra_cache["type"][type_name] = cleaned
+        m[type_name] = cleaned
         save_extra_cache()
         return cleaned
     except Exception as e:
@@ -203,7 +323,7 @@ def get_type_cached(type_name):
         return None
 
 def get_default_variety_cached(species_name: str) -> str:
-    """map species -> default pokemon name (single lookup, no disk write)"""
+    """Map species -> default pokemon name (single lookup, no disk write)."""
     m = extra_cache.setdefault("species_default", {})
     key = str(species_name).lower()
     if key in m:
@@ -221,7 +341,7 @@ def get_default_variety_cached(species_name: str) -> str:
     return name
 
 def bulk_prime_default_varieties(species_names):
-    """batch-resolve species -> default pokemon; single save + single log"""
+    """Batch-resolve species -> default pokemon; single save + single log."""
     m = extra_cache.setdefault("species_default", {})
     added = 0
     out = []
@@ -245,8 +365,11 @@ def bulk_prime_default_varieties(species_names):
         log_action(f"bulk default varieties: +{added}, total={len(m)}")
     return out
 
+# --------------------------------------------------------------------------- #
+# Save / backup / refresh
+# --------------------------------------------------------------------------- #
+
 def save_cache():
-    """persist pokemon_cache atomically"""
     try:
         _atomic_write(CACHE_FILE, pokemon_cache)
         log_action("Cache saved to disk")
@@ -254,7 +377,6 @@ def save_cache():
         log_action(f"ERROR saving cache: {e}")
 
 def save_extra_cache():
-    """persist extra_cache atomically"""
     try:
         _atomic_write(EXTRA_CACHE_FILE, extra_cache)
         log_action("extra_cache.json saved")
@@ -262,7 +384,7 @@ def save_extra_cache():
         log_action(f"ERROR saving extra_cache: {e}")
 
 def refresh_cache():
-    """clear pokemon cache file + memory"""
+    """Clear Pokémon cache file + memory."""
     global pokemon_cache
     pokemon_cache = {}
     if os.path.exists(CACHE_FILE):
@@ -273,9 +395,8 @@ def refresh_cache():
     log_action("Cache manually refreshed")
 
 def backup_cache():
-    """write a timestamped backup of pokemon_cache"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_path = f"data/pokemon_cache_backup_{timestamp}.json"
+    backup_path = os.path.join(DATA_DIR, f"pokemon_cache_backup_{timestamp}.json")
     try:
         _atomic_write(backup_path, pokemon_cache)
         log_action(f"Backup created: {backup_path}")
@@ -283,8 +404,8 @@ def backup_cache():
         log_action(f"ERROR creating backup: {e}")
 
 def recover_cache():
-    """restore pokemon_cache.json from most recent backup (byte-for-byte)"""
-    backups = sorted(glob("data/pokemon_cache_backup_*.json"), reverse=True)
+    """Restore pokemon_cache.json from most recent backup (byte-for-byte)."""
+    backups = sorted(glob(os.path.join(DATA_DIR, "pokemon_cache_backup_*.json")), reverse=True)
     if not backups:
         log_action("Recover failed: no Pokémon cache backups found")
         return False
@@ -295,7 +416,7 @@ def recover_cache():
             recovered = json.load(f)
         global pokemon_cache
         pokemon_cache = recovered
-        save_cache() # will reduce file size
+        save_cache()  # normalize
         log_action(f"Recovered Pokémon cache from: {src} (size={os.path.getsize(src)} bytes)")
         return True
     except Exception as e:
@@ -303,9 +424,8 @@ def recover_cache():
         return False
 
 def backup_extra_cache():
-    """write a timestamped backup of extra_cache"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_path = f"data/extra_cache_backup_{timestamp}.json"
+    backup_path = os.path.join(DATA_DIR, f"extra_cache_backup_{timestamp}.json")
     try:
         _atomic_write(backup_path, extra_cache)
         log_action(f"Extra cache backup created: {backup_path}")
@@ -313,19 +433,21 @@ def backup_extra_cache():
         log_action(f"ERROR creating extra cache backup: {e}")
 
 def refresh_extra_cache():
-    """clear extra cache (all sections)"""
+    """Clear extra cache (all sections), then recreate required keys & lists."""
     global extra_cache
     extra_cache = {k: {} for k in REQUIRED_EXTRA_KEYS}
+    extra_cache.setdefault(LISTS_KEY, {})  # keep lists bucket available
     if os.path.exists(EXTRA_CACHE_FILE):
         try:
             os.remove(EXTRA_CACHE_FILE)
         except Exception as e:
             log_action(f"ERROR removing extra cache file: {e}")
+    save_extra_cache()
     log_action("Extra cache manually refreshed")
 
 def recover_extra_cache():
-    """restore extra_cache.json from most recent backup (byte-for-byte)"""
-    backups = sorted(glob("data/extra_cache_backup_*.json"), reverse=True)
+    """Restore extra_cache.json from most recent backup (byte-for-byte)."""
+    backups = sorted(glob(os.path.join(DATA_DIR, "extra_cache_backup_*.json")), reverse=True)
     if not backups:
         log_action("Recover failed: no extra cache backups found")
         return False
@@ -336,12 +458,12 @@ def recover_extra_cache():
             recovered = json.load(f)
         for k in REQUIRED_EXTRA_KEYS:
             recovered.setdefault(k, {})
+        recovered.setdefault(LISTS_KEY, {})
         global extra_cache
         extra_cache = recovered
-        save_extra_cache()  # keep normalized
+        save_extra_cache()  # normalize
         log_action(f"Recovered extra cache from: {src} (size={os.path.getsize(src)} bytes)")
         return True
     except Exception as e:
         log_action(f"ERROR recovering extra cache from {src}: {e}")
         return False
-
