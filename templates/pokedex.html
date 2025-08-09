@@ -18,51 +18,66 @@
         </div>
         <div class="type-links">
             {% for t in all_types %}
-                <a href="/type/{{ t }}" class="type-label type-{{ t }}">{{ t }}</a>
+                <a href="/type/{{ t }}" class="type-label type-{{ t }}">{{ t|capitalize }}</a>
             {% endfor %}
         </div>
 
-        <form method="get" class="form-controls">
-		  <input type="text" name="search" placeholder="Search by name..." value="{{ search }}">
+        <form method="get" class="form-controls form-controls--compact">
+		  <div class="form-field form-field--search">
+			<label for="search">Search</label>
+			<input id="search" type="text" name="search" placeholder="e.g. re:pik.*" value="{{ search }}">
+		  </div>
 
-		  <label>Type:</label>
-		  <select name="type">
-			<option value="">All</option>
-			{% for t in all_types %}
-			  <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
-			{% endfor %}
-		  </select>
-
-			<label>Sort:</label>
-			<select name="sort">
-				<option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
-				<option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
-				{% for k, label in stat_labels.items() %}
-					<option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
-				{% endfor %}
+		  <div class="form-field">
+			<label for="type">Type</label>
+			<select id="type" name="type">
+			  <option value="">All</option>
+			  {% for t in all_types %}
+				<option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t|capitalize }}</option>
+			  {% endfor %}
 			</select>
+		  </div>
 
-			<label>
-				<input type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}>
-				Reverse
+		  <!-- Sort + (reverse) together -->
+		  <div class="form-field form-field--sort">
+			<label for="sort">
+			  Sort
+			  <span class="rev-inline">
+				(<input id="reverse" type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> reverse)
+			  </span>
 			</label>
+			<select id="sort" name="sort">
+			  <option value="id"   {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+			  <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+			  {% for k, label in stat_labels.items() %}
+				<option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
 
-		  <label>Generation:</label>
-		  <select name="generation">
-			<option value="">All</option>
-			{% for g in all_gens %}
-			  <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
-			{% endfor %}
-		  </select>
+		  <div class="form-field">
+			<label for="generation">Generation</label>
+			<select id="generation" name="generation">
+			  <option value="">All</option>
+			  {% for g in all_gens %}
+				<option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
 
-		  <label>Per Page:</label>
-		  <select name="limit">
-			{% for n in [6,12,18,24] %}
-			  <option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
-			{% endfor %}
-		  </select>
+		  <div class="form-field form-field--perpage">
+			<label for="limit">Per Page</label>
+			<select id="limit" name="limit">
+			  {% for n in [6,12,24,48] %}
+				<option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
 
-		  <button type="submit">Apply</button>
+		  <div class="form-field form-field--button">
+			<label class="visually-hidden">Apply</label>
+			<button type="submit">Apply</button>
+		  </div>
 		</form>
 
     </header>
