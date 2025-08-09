@@ -8,57 +8,186 @@
     <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
     <div class="container">
-		<div class="pokemon-header">
-			<div class="pokemon-id">#{{ "%03d"|format(p.id) }}</div>
-			<div class="sprite-pair">
-				<img src="{{ p.sprite }}" alt="{{ p.name }} (normal)" class="pokemon-img extra-large">
-				<img src="{{ p.shiny_sprite }}" alt="{{ p.name }} (shiny)" class="pokemon-img extra-large">
-			</div>
-		</div>
+        <!-- header: id + sprites -->
+        <div class="pokemon-header">
+            <div class="pokemon-id">#{{ "%03d"|format(p.id) }}</div>
+            <div class="sprite-pair">
+                <img src="{{ p.sprite }}" alt="{{ p.name }} (normal)" class="pokemon-img extra-large">
+                <img src="{{ p.shiny_sprite }}" alt="{{ p.name }} (shiny)" class="pokemon-img extra-large">
+            </div>
+        </div>
 
-		<h1 class="pokemon-name">{{ p.name }}</h1>
+        <h1 class="pokemon-name">{{ p.name }}</h1>
 
-		<div class="type-container large">
-			{% for t in p.types %}
-				<span class="type-label type-{{ t }} large">{{ t }}</span>
-			{% endfor %}
-		</div>
+        <!-- types + abilities -->
+        <div class="type-container large">
+            {% for t in p.types %}
+                <span class="type-label type-{{ t }} large">{{ t }}</span>
+            {% endfor %}
+        </div>
 
-		<div class="ability-tags">
-			{% for ab in p.abilities %}
-				<span class="type-label type-{{ p.types[0]|lower }}">{{ ab }}</span>
-			{% endfor %}
-		</div>
+        <div class="ability-tags">
+            {% for ab in p.abilities %}
+                <span class="type-label type-{{ p.types[0]|lower }}">{{ ab }}</span>
+            {% endfor %}
+        </div>
 
+        <!-- flavor text -->
         <div class="description-box">
             <p>{{ p.description }}</p>
         </div>
 
-		<div class="stats-info-wrapper">
+		<!-- stats + basic info -->
+		{% set base_total = p.stats.values() | sum %}
+		<div class="stats-and-info">
+		  <div>
+			<div class="subsection-title">Base Stats (Total = {{ base_total }})</div>
 			<div class="stats-bar">
-				{% for stat, value in p.stats.items() %}
-					<div class="stat-row">
-						<span class="stat-name">{{ stat.capitalize() }}</span>
-						<div class="stat-bar-bg">
-							<div class="stat-bar-fill"
-								style="width: {{ (value / 256) * 100 }}%; background-color: {{ stat_color(value) }}">
-							</div>
-						</div>
-						<span class="stat-value">{{ value }}</span>
-					</div>
-				{% endfor %}
+			  {% for stat, value in p.stats.items() %}
+				<div class="stat-row">
+				  <span class="stat-name">{{ stat|labelize }}</span>
+				  <div class="stat-bar-bg">
+					<div class="stat-bar-fill" style="width: {{ (value / 256) * 100 }}%; background-color: {{ p.stat_colors[stat] }}"></div>
+				  </div>
+				  <span class="stat-value">{{ value }}</span>
+				</div>
+			  {% endfor %}
 			</div>
+		  </div>
 
+		  <div>
+			<div class="subsection-title">Info</div>
 			<div class="info-table">
-				<table>
-					<tr><td>Height</td><td>{{ p.height }} dm</td></tr>
-					<tr><td>Weight</td><td>{{ p.weight }} hg</td></tr>
-					<tr><td>Base XP</td><td>{{ p.base_experience }}</td></tr>
-					<tr><td>Egg Groups</td><td>{{ p.egg_groups | join(', ') }}</td></tr>
-				</table>
+			  <table class="kv">
+				<tr><td>Height</td><td>{{ p.height }} dm</td></tr>
+				<tr><td>Weight</td><td>{{ p.weight }} hg</td></tr>
+				<tr><td>Base XP</td><td>{{ p.base_experience }}</td></tr>
+				<tr><td>Egg Groups</td><td>{{ p.egg_groups | map('labelize') | join(', ') }}</td></tr>
+			  </table>
 			</div>
+		  </div>
 		</div>
 
+		<!-- type effectiveness (defense) -->
+		<section class="eff-card">
+		  <h2 class="eff-title">Type Effectiveness</h2>
+
+		  <div class="eff-block">
+			<h3 class="eff-sub">Defense</h3>
+			<div class="eff-table">
+			  <div class="eff-row">
+				<span class="eff-label">Weak To</span>
+				<div class="eff-cells">
+				  {% set shown = false %}
+				  {% for t in p.all_types %}
+					{% set m = p.effectiveness.defense[t] %}
+					{% if m in [2,4] %}
+					  {% set shown = true %}
+					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ m|int }}×</b></span>
+					{% endif %}
+				  {% endfor %}
+				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+				</div>
+			  </div>
+
+			  <div class="eff-row">
+				<span class="eff-label">Immune To</span>
+				<div class="eff-cells">
+				  {% set shown = false %}
+				  {% for t in p.all_types %}
+					{% if p.effectiveness.defense[t] == 0 %}
+					  {% set shown = true %}
+					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>0×</b></span>
+					{% endif %}
+				  {% endfor %}
+				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+				</div>
+			  </div>
+
+			  <div class="eff-row">
+				<span class="eff-label">Resistant To</span>
+				<div class="eff-cells">
+				  {% set shown = false %}
+				  {% for t in p.all_types %}
+					{% set m = p.effectiveness.defense[t] %}
+					{% if m in [0.5,0.25] %}
+					  {% set shown = true %}
+					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ '½×' if m==0.5 else '¼×' }}</b></span>
+					{% endif %}
+				  {% endfor %}
+				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+				</div>
+			  </div>
+
+			  <details class="eff-row eff-muted">
+				<summary class="eff-label">Normal</summary>
+				<div class="eff-cells">
+				  {% for t in p.all_types if p.effectiveness.defense[t] == 1 %}
+					<span class="type-chip type-{{ t }}">{{ t|labelize }} <b>1×</b></span>
+				  {% endfor %}
+				</div>
+			  </details>
+			</div>
+		  </div>
+
+			<!-- type effectiveness (offense) -->
+			<h3 class="eff-sub" style="margin-top:8px;">Offense</h3>
+			{% for mtype, row in p.effectiveness.offense.items() %}
+			  <div class="eff-block">
+				<div class="eff-mtype-head">Using <span class="type-chip type-{{ mtype }}">{{ mtype|labelize }}</span></div>
+				<div class="eff-table">
+				  <div class="eff-row">
+					<span class="eff-label">Super Effective</span>
+					<div class="eff-cells">
+					  {% set shown = false %}
+					  {% for d in p.all_types if row[d] == 2 %}
+						{% set shown = true %}
+						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>2×</b></span>
+					  {% endfor %}
+					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+					</div>
+				  </div>
+
+				  <div class="eff-row">
+					<span class="eff-label">No Effect</span>
+					<div class="eff-cells">
+					  {% set shown = false %}
+					  {% for d in p.all_types if row[d] == 0 %}
+						{% set shown = true %}
+						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>0×</b></span>
+					  {% endfor %}
+					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+					</div>
+				  </div>
+
+				  <div class="eff-row">
+					<span class="eff-label">Not Very</span>
+					<div class="eff-cells">
+					  {% set shown = false %}
+					  {% for d in p.all_types if row[d] == 0.5 %}
+						{% set shown = true %}
+						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>½×</b></span>
+					  {% endfor %}
+					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+					</div>
+				  </div>
+
+				  <details class="eff-row eff-muted">
+					<summary class="eff-label">Normal</summary>
+					<div class="eff-cells">
+					  {% for d in p.all_types if row[d] == 1 %}
+						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>1×</b></span>
+					  {% endfor %}
+					</div>
+				  </details>
+				</div>
+			  </div>
+			{% endfor %}
+
+		</section>
+
+
+        <!-- forms -->
         {% if p.forms %}
         <div class="section-title">Forms</div>
         <div class="horizontal-scroll">
@@ -73,6 +202,7 @@
         </div>
         {% endif %}
 
+        <!-- evolutions -->
         {% if p.evolutions %}
         <div class="section-title">Evolution Line</div>
         <div class="horizontal-scroll">
@@ -91,6 +221,7 @@
     </div>
 
     <script>
+        // dark mode toggle
         function toggleDarkMode() {
             const body = document.body;
             body.classList.toggle("dark-mode");
@@ -98,6 +229,7 @@
             localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
         }
 
+        // restore theme on load
         window.onload = function () {
             const savedTheme = localStorage.getItem("theme");
             if (savedTheme === "dark") {

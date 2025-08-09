@@ -57,3 +57,15 @@ def get_form_variants(species_json):
             "is_default": var.get("is_default", False)
         })
     return forms
+
+def get_type(name: str):
+    # returns minimal payload needed by type effectiveness
+    n = str(name).lower()
+    url = f"https://pokeapi.co/api/v2/type/{n}"
+    r = requests.get(url, timeout=10)
+    r.raise_for_status()
+    data = r.json()
+    return {
+        "name": data.get("name", n),
+        "damage_relations": data.get("damage_relations", {})
+    }

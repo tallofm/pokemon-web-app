@@ -6,6 +6,8 @@ from utils.cache import (
     get_evolution_chain_cached,
     get_type_cached,
     get_generation_cached,
+    get_default_variety_cached,
+    bulk_prime_default_varieties,
     refresh_cache,
     backup_cache,
     recover_cache,
@@ -20,26 +22,36 @@ from utils import cache
 
 app = Flask(__name__)
 
+# helper: consistent labels for stats/types
+def labelize(s: str) -> str:
+    s = (s or "").replace("-", " ")
+    overrides = {"hp": "HP", "sp atk": "Sp. Atk", "sp def": "Sp. Def",
+                 "special attack": "SpAtk", "special defense": "SpDef"}
+    t = s.strip().title()
+    return overrides.get(s.strip().lower(), overrides.get(t.lower(), t))
+
+app.jinja_env.filters['labelize'] = labelize
+
 @app.route('/toggle_logging')
 def toggle_logging():
     cache.ENABLE_VERBOSE_LOGGING = not cache.ENABLE_VERBOSE_LOGGING
     state = "enabled" if cache.ENABLE_VERBOSE_LOGGING else "disabled"
     return redirect(url_for('pokedex', message=f"Verbose logging {state}"))
 
-@app.route('/refresh_cache')
-def refresh_cache_route():
-    refresh_cache()
-    return redirect(url_for('pokedex'))
-
 @app.route('/backup_cache')
 def backup_cache_route():
     backup_cache()
     return redirect(url_for('pokedex'))
 
+@app.route('/refresh_cache')
+def refresh_cache_route():
+    refresh_cache()
+    return redirect(url_for('pokedex'))
+
 @app.route('/recover_cache')
 def recover_cache_route():
-    recover_cache()
-    return redirect(url_for('pokedex'))
+    ok = recover_cache()
+    return redirect(url_for('pokedex', message=('Recovered Pokémon cache' if ok else 'Recover failed')))
 
 @app.route('/backup_extra_cache')
 def backup_extra_cache_route():
@@ -53,12 +65,23 @@ def refresh_extra_cache_route():
 
 @app.route('/recover_extra_cache')
 def recover_extra_cache_route():
-    recover_extra_cache()
-    return redirect(url_for('pokedex'))
+    ok = recover_extra_cache()
+    return redirect(url_for('pokedex', message=('Recovered extra cache' if ok else 'Recover failed')))
 
 @app.route('/')
 def home():
     return "<h1>Welcome to the Pokémon App!</h1>"
+
+def best_sprite(p):
+    """return the best available sprite url"""
+    s = p.get("sprites", {})
+    other = s.get("other", {})
+    return (
+        other.get("official-artwork", {}).get("front_default")
+        or s.get("front_default")
+        or other.get("dream_world", {}).get("front_default")
+        or other.get("home", {}).get("front_default")
+    )
 
 @app.route('/pokedex')
 def pokedex():
@@ -87,7 +110,8 @@ def pokedex():
         gen_data = get_generation_cached(generation)
         if gen_data:
             gen_species = [s["name"] for s in gen_data["pokemon_species"]]
-            species_list = list(set(species_list) & set(gen_species))
+            gen_pokemon_names = bulk_prime_default_varieties(gen_species)  # batch, single save
+            species_list = list(set(species_list) & set(gen_pokemon_names))
 
     if search:
         def wildcard_to_regex(pattern):
@@ -120,8 +144,8 @@ def pokedex():
         pokemon_data.append({
             "name": poke["name"].capitalize(),
             "id": poke["id"],
-            "sprite": poke["sprites"]["other"]["official-artwork"]["front_default"],
-            "shiny_sprite": poke["sprites"]["other"]["official-artwork"]["front_shiny"],
+            "sprite": best_sprite(poke),
+            "shiny_sprite": (poke.get("sprites", {}).get("other", {}).get("official-artwork", {}).get("front_shiny")),
             "types": types
         })
 
@@ -150,62 +174,89 @@ def pokedex():
 
 @app.route('/pokemon/<name>')
 def pokemon_detail(name):
-    def stat_color(value):
-        """Returns a color from red (0) → yellow (128) → green (256)"""
+    """pokemon detail page data loader"""
+
+    # helper for stat heat color (0→red, 128→yellow, 256→green)
+    def stat_color(value: int) -> str:
         if value <= 128:
-            r = 255
-            g = int((value / 128) * 255)
+            r, g = 255, int((value / 128) * 255)
         else:
-            r = int((1 - ((value - 128) / 128)) * 255)
-            g = 255
+            r, g = int((1 - ((value - 128) / 128)) * 255), 255
         return f'rgb({r},{g},0)'
 
+    # fetch core data
     poke = get_pokemon_cached(name, get_pokemon)
-    species = get_species_cached(name)
-    flavor = get_flavor_text(species) if species else "No description available."
-
-    form_variants = get_form_variants(species) if species else []
-    form_data = []
-    for f in form_variants:
-        poke_form = get_pokemon_cached(f["name"], get_pokemon)
-        if poke_form:
-            form_data.append({
-                "name": f["name"].capitalize(),
-                "sprite": poke_form["sprites"]["front_default"],
-                "is_default": f["is_default"]
-            })
-
-    evolutions = get_evolution_chain_cached(species) if species else []
-    evolution_data = []
-    for evo_name in evolutions:
-        evo_data = get_pokemon_cached(evo_name, get_pokemon)
-        if evo_data:
-            evolution_data.append({
-                "name": evo_name.capitalize(),
-                "sprite": evo_data["sprites"]["front_default"]
-            })
-
     if not poke:
         return "Pokémon not found", 404
 
-    data = {
+    species = get_species_cached(name)
+    flavor = get_flavor_text(species) if species else "No description available."
+
+    # build forms
+    form_data = []
+    if species:
+        for f in (get_form_variants(species) or []):
+            pf = get_pokemon_cached(f["name"], get_pokemon)
+            if pf:
+                form_data.append({
+                    "name": f["name"].capitalize(),
+                    "sprite": (pf.get("sprites", {})
+                                 .get("front_default")),
+                    "is_default": f.get("is_default", False),
+                })
+
+    # build evolutions
+    evolution_data = []
+    if species:
+        for evo_name in (get_evolution_chain_cached(species) or []):
+            ed = get_pokemon_cached(evo_name, get_pokemon)
+            if ed:
+                evolution_data.append({
+                    "name": evo_name.capitalize(),
+                    "sprite": (ed.get("sprites", {})
+                                 .get("front_default")),
+                })
+
+    # stats + colors
+    stats = {s["stat"]["name"]: s["base_stat"] for s in poke.get("stats", [])}
+    stat_colors = {k: stat_color(v) for k, v in stats.items()}
+
+    # type effectiveness (defense + offense)
+    from utils.type_effectiveness import build_effectiveness
+    types_list = [t["type"]["name"] for t in poke.get("types", [])]
+    effectiveness = build_effectiveness([t.lower() for t in types_list])
+    all_types = list(effectiveness["defense"].keys())
+
+    # assemble payload
+    p = {
         "name": poke["name"].capitalize(),
         "id": poke["id"],
-        "sprite": poke["sprites"]["other"]["official-artwork"]["front_default"],
-        "shiny_sprite": poke["sprites"]["other"]["official-artwork"]["front_shiny"],
-        "types": [t["type"]["name"] for t in poke["types"]],
-        "stats": {s["stat"]["name"]: s["base_stat"] for s in poke["stats"]},
+        "sprite": (poke.get("sprites", {})
+                        .get("other", {})
+                        .get("official-artwork", {})
+                        .get("front_default")),
+        "shiny_sprite": (poke.get("sprites", {})
+                             .get("other", {})
+                             .get("official-artwork", {})
+                             .get("front_shiny")),
+        "types": types_list,
+        "stats": stats,
+        "stat_colors": stat_colors,          # use in template: p.stat_colors['hp']
         "description": flavor,
         "evolutions": evolution_data,
         "forms": form_data,
-        "height": poke["height"],
-        "weight": poke["weight"],
-        "base_experience": poke["base_experience"],
-        "abilities": [a["ability"]["name"] for a in poke["abilities"]],
-        "egg_groups": [g["name"] for g in species["egg_groups"]] if species else [],
+        "height": poke.get("height"),
+        "weight": poke.get("weight"),
+        "base_experience": poke.get("base_experience"),
+        "abilities": [a["ability"]["name"] for a in poke.get("abilities", [])],
+        "egg_groups": [g["name"] for g in species.get("egg_groups", [])] if species else [],
+        "effectiveness": effectiveness,      # p.effectiveness.defense / offense
+        "all_types": all_types               # iterate grid headings
     }
 
-    return render_template("pokemon_detail.html", p=data, stat_color=stat_color)
+    # pass only p (keeps jinja clean)
+    return render_template("pokemon_detail.html", p=p)
+
 
 @app.route('/generation/<int:gen_id>')
 def generation_view(gen_id):
@@ -213,23 +264,22 @@ def generation_view(gen_id):
     if not data:
         return f"Generation {gen_id} not found", 404
 
-    species_list = sorted([s["name"].capitalize() for s in data["pokemon_species"]])
+    sp_names = [s["name"] for s in data.get("pokemon_species", [])]
+    default_names = bulk_prime_default_varieties(sp_names)
 
     pokemon_list = []
-    for name in species_list:
-        poke = get_pokemon_cached(name, get_pokemon)
-        if poke:
-            pokemon_list.append({
-                "name": poke["name"].capitalize(),
-                "id": poke["id"],
-                "types": [t["type"]["name"] for t in poke["types"]],
-                "sprite": poke["sprites"]["front_default"]
-            })
+    for poke_name in sorted(default_names):
+        p = get_pokemon_cached(poke_name, get_pokemon)
+        if not p:
+            continue
+        pokemon_list.append({
+            "name": p.get("name", "").capitalize(),
+            "id": p.get("id"),
+            "types": [t["type"]["name"] for t in p.get("types", [])],
+            "sprite": best_sprite(p) or url_for("static", filename="img/placeholder.png")
+        })
 
-    return render_template("generation_view.html",
-        gen_id=gen_id,
-        pokemon_list=pokemon_list
-    )
+    return render_template("generation_view.html", gen_id=gen_id, pokemon_list=pokemon_list)
 
 @app.route('/type/<type_name>')
 def type_view(type_name):
@@ -247,7 +297,7 @@ def type_view(type_name):
                 "name": poke["name"].capitalize(),
                 "id": poke["id"],
                 "types": [t["type"]["name"] for t in poke["types"]],
-                "sprite": poke["sprites"]["front_default"]
+                "sprite": best_sprite(poke) or url_for("static", filename="img/placeholder.png")
             })
 
     pokemon_list.sort(key=lambda x: x["id"])
