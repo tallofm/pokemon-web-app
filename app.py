@@ -109,15 +109,15 @@ def pokedex():
     search = request.args.get("search", "").lower()
     randomize = request.args.get("random") == "true"
 
-    # 🔸 cached once, re-used forever (until you refresh extra cache)
     all_pokemon_names = get_all_pokemon_names_cached()
+    ALL_POKE_TYPES = get_all_types_cached(exclude_special=False)
+
     species_list = list(all_pokemon_names)
 
     if type_filter:
         type_data = get_type_cached(type_filter)
-        if type_data:
-            # get_type_cached now carries "pokemon" members in your latest version
-            type_pokemon_names = [entry["pokemon"]["name"] for entry in type_data.get("pokemon", [])]
+        if type_data and "pokemon" in type_data:
+            type_pokemon_names = [entry["pokemon"]["name"] for entry in type_data["pokemon"]]
             species_list = list(set(species_list) & set(type_pokemon_names))
 
     if generation:
@@ -129,49 +129,101 @@ def pokedex():
 
     if search:
         def wildcard_to_regex(pattern):
+            import re
             escaped = re.escape(pattern)
             return '^' + escaped.replace(r'\*', '.*') + '$'
+        import re
         regex = re.compile(wildcard_to_regex(search))
         species_list = [name for name in species_list if regex.search(name)]
 
     if selected_name:
         selected_names = [selected_name]
     elif randomize:
+        import random
         selected_names = random.sample(species_list, min(limit, len(species_list)))
     else:
         selected_names = species_list[offset:offset + limit]
 
-    pokemon_data = []
-    all_types_seen = set()
+    # allowed stat keys
+    stat_keys = [
+        "hp", "attack", "defense", "special-attack", "special-defense", "speed",
+        "bst", "height", "weight"
+    ]
+    # 1) build labels dict first
+    stat_labels = {k: labelize(k) for k in stat_keys}
+    # 2) now you can safely compute sort_label
+    sort_label = stat_labels.get(sort_by) if sort_by in stat_labels else None
 
+    def display_for(sort_key, value):
+        if sort_key == "height":
+            return f"{value} dm"
+        if sort_key == "weight":
+            return f"{value} hg"
+        return str(value)
+
+    pokemon_data = []
     for name in selected_names:
         poke = get_pokemon_cached(name, get_pokemon)
         if not poke:
             continue
+
         types = [t["type"]["name"] for t in poke["types"]]
-        all_types_seen.update(types)
-        if type_filter and type_filter.lower() not in types:
-            continue
+        stats = {s["stat"]["name"]: s["base_stat"] for s in poke.get("stats", [])}
+        bst = sum(stats.values()) if stats else 0
+        height = poke.get("height") or 0
+        weight = poke.get("weight") or 0
+
+        metric_map = {
+            "id": poke.get("id"),
+            "name": poke.get("name", ""),
+            "hp": stats.get("hp", 0),
+            "attack": stats.get("attack", 0),
+            "defense": stats.get("defense", 0),
+            "special-attack": stats.get("special-attack", 0),
+            "special-defense": stats.get("special-defense", 0),
+            "speed": stats.get("speed", 0),
+            "bst": bst,
+            "height": height,
+            "weight": weight,
+        }
+
+        sort_value = metric_map.get(sort_by, metric_map["id"])
+        sort_display = display_for(sort_by, sort_value) if sort_by in stat_labels else None
+
         pokemon_data.append({
             "name": poke["name"].capitalize(),
             "id": poke["id"],
-            "sprite": best_sprite(poke),
-            "shiny_sprite": (poke.get("sprites", {}).get("other", {}).get("official-artwork", {}).get("front_shiny")),
-            "types": types
+            "sprite": (
+                poke.get("sprites", {}).get("other", {}).get("official-artwork", {}).get("front_default")
+                or poke.get("sprites", {}).get("front_default")
+            ),
+            "types": types,
+            "sort_value": sort_value,    # used for sorting
+            "sort_display": sort_display # shown on card
         })
 
-    pokemon_data.sort(key=(lambda x: x["name"]) if sort_by == "name" else (lambda x: x["id"]))
+    # sorting (use per-card sort_value for all metric sorts)
+    reverse_sort = request.args.get("reverse") == "true"
+    if sort_by == "name":
+        pokemon_data.sort(key=lambda x: x["name"], reverse=reverse_sort)
+    elif sort_by in stat_labels:
+        pokemon_data.sort(key=lambda x: x["sort_value"], reverse=reverse_sort)
+    else:
+        pokemon_data.sort(key=lambda x: x["id"], reverse=reverse_sort)
 
     all_gens = list(range(1, 10))
-    all_types = get_all_types_cached()  # 🔸 cached type list
 
-    return render_template("pokedex.html",
+    return render_template(
+        "pokedex.html",
         pokemon_list=pokemon_data,
-        all_types=all_types,
+        all_types=ALL_POKE_TYPES,
         all_gens=all_gens,
         all_pokemon_names=all_pokemon_names,
         current_type=type_filter,
         current_sort=sort_by,
+        reverse_sort=reverse_sort,
+        stat_labels=stat_labels,
+        sort_label=sort_label,      # <-- pass it so the card can show the label
         offset=offset,
         limit=limit,
         search=search,

@@ -23,55 +23,78 @@
         </div>
 
         <form method="get" class="form-controls">
-            <input type="text" name="search" placeholder="Search by name..." value="{{ search }}">
+		  <input type="text" name="search" placeholder="Search by name..." value="{{ search }}">
 
-            <label>Type:</label>
-            <select name="type">
-                <option value="">All</option>
-                {% for t in all_types %}
-                    <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
-                {% endfor %}
-            </select>
+		  <label>Type:</label>
+		  <select name="type">
+			<option value="">All</option>
+			{% for t in all_types %}
+			  <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
+			{% endfor %}
+		  </select>
 
-            <label>Sort:</label>
-            <select name="sort">
-                <option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
-                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
-            </select>
+			<label>Sort:</label>
+			<select name="sort">
+				<option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+				<option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+				{% for k, label in stat_labels.items() %}
+					<option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
+				{% endfor %}
+			</select>
 
-            <label>Generation:</label>
-            <select name="generation">
-                <option value="">All</option>
-                {% for g in all_gens %}
-                    <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
-                {% endfor %}
-            </select>
+			<label>
+				<input type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}>
+				Reverse
+			</label>
 
-            <button type="submit">Apply</button>
+		  <label>Generation:</label>
+		  <select name="generation">
+			<option value="">All</option>
+			{% for g in all_gens %}
+			  <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
+			{% endfor %}
+		  </select>
 
-        </form>
+		  <label>Per Page:</label>
+		  <select name="limit">
+			{% for n in [6,12,18,24] %}
+			  <option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
+			{% endfor %}
+		  </select>
+
+		  <button type="submit">Apply</button>
+		</form>
+
     </header>
 
     {% if not pokemon_list %}
         <p>No Pokémon found.</p>
     {% endif %}
 
-    <div class="pokemon-grid">
-        {% for p in pokemon_list %}
-            <div class="pokemon-card">
-                <span class="pokemon-id">#{{ p.id }}</span>
-                <a href="/pokemon/{{ p.name | lower }}" style="text-decoration: none; color: inherit;">
-                    <img src="{{ p.sprite }}" alt="{{ p.name }}">
-                    <h3>{{ p.name }}</h3>
-                    <div class="type-container">
-                        {% for t in p.types %}
-                            <span class="type-label type-{{ t }}">{{ t }}</span>
-                        {% endfor %}
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+	<div class="pokemon-grid">
+	  {% for p in pokemon_list %}
+		<div class="pokemon-card">
+		  <span class="pokemon-id">#{{ p.id }}</span>
+		  <a href="/pokemon/{{ p.name | lower }}" style="text-decoration: none; color: inherit;">
+			<img src="{{ p.sprite }}" alt="{{ p.name }}">
+			<h3>{{ p.name }}</h3>
+
+			<!-- show the sorted metric value if applicable -->
+			{% if p.sort_display and sort_label %}
+			  <div style="font-size: 0.8em; opacity: 0.85; margin-top: 2px;">
+				{{ sort_label }}: {{ p.sort_display }}
+			  </div>
+			{% endif %}
+
+			<div class="type-container">
+			  {% for t in p.types %}
+				<span class="type-label type-{{ t }}">{{ t }}</span>
+			  {% endfor %}
+			</div>
+		  </a>
+		</div>
+	  {% endfor %}
+	</div>
 
     {% if not request.args.get('random') and not request.args.get('pokemon') %}
         <div class="pagination">
