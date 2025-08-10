@@ -1,16 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Type: {{ type_name }}</title>
+  <title>Type: {{ type_name|capitalize }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
-  <div class="container">
-    <h1>Type: {{ type_name|capitalize }}</h1>
+  <div class="container container--wide">
+	<header>
+		<h1>
+			<a href="/type/{{ type_name }}" class="reset-link">Type: {{ type_name|capitalize }}</a>
+		</h1>
+		{% if total_matches > 0 %}
+		  <div class="results-count" style="margin-top:4px; font-size:0.9em; opacity:0.85;">
+			Showing results {{ start_idx }} to {{ end_idx }} of {{ total_matches }}
+		  </div>
+		{% else %}
+		  <div class="results-count" style="margin-top:4px; font-size:0.9em; opacity:0.85;">
+			No results found
+		  </div>
+		{% endif %}
 
-    <!-- Type effectiveness (for this single type) -->
+		<!-- filters (search, sort(+reverse), generation, per page, apply) -->
+		<form method="get" class="form-controls form-controls--compact">
+		  <div class="form-field form-field--search">
+			<label for="search">Search</label>
+			<input id="search" type="text" name="search" placeholder="e.g. re:pik.*" value="{{ request.args.get('search','') }}">
+		  </div>
+
+		  <!-- sort + reverse -->
+		  <div class="form-field form-field--sort">
+			<label for="sort">
+			  Sort
+			  <span class="rev-inline">
+				(<input id="reverse" type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> reverse)
+			  </span>
+			</label>
+			<select id="sort" name="sort">
+			  <option value="id"   {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+			  <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+			  {% for k, label in stat_labels.items() %}
+				<option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
+
+		  <div class="form-field">
+			<label for="generation">Generation</label>
+			<select id="generation" name="generation">
+			  <option value="">All</option>
+			  {% for g in all_gens %}
+				<option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
+
+		  <!-- per page (multiples of 5 to keep 5-per-row vibe) -->
+		  <div class="form-field form-field--perpage">
+			<label for="limit">Per Page</label>
+			<select id="limit" name="limit">
+			  {% for n in [5,10,20,40] %}
+				<option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
+			  {% endfor %}
+			</select>
+		  </div>
+
+		  <div class="form-field form-field--button">
+			<label class="visually-hidden">Apply</label>
+			<button type="submit">Apply</button>
+		  </div>
+		</form>
+	
+	</header>
+
+    <!-- compute damage-relations buckets for single type -->
     {% set dd_from = (rel.double_damage_from or []) | map(attribute='name') | list %}
     {% set hd_from = (rel.half_damage_from   or []) | map(attribute='name') | list %}
     {% set nd_from = (rel.no_damage_from     or []) | map(attribute='name') | list %}
@@ -19,7 +83,6 @@
     {% set hd_to   = (rel.half_damage_to     or []) | map(attribute='name') | list %}
     {% set nd_to   = (rel.no_damage_to       or []) | map(attribute='name') | list %}
 
-    {# compute “normal” buckets by excluding other buckets #}
     {% set def_norm = [] %}
     {% for t in all_types %}
       {% if t not in dd_from and t not in hd_from and t not in nd_from %}
@@ -37,7 +100,7 @@
     <section class="eff-card">
       <h2 class="eff-title">Type Effectiveness</h2>
 
-      <!-- Defense card -->
+      <!-- defense card -->
       <div class="eff-block">
         <h3 class="eff-sub">Defense ({{ type_name|capitalize }})</h3>
         <div class="eff-table">
@@ -79,7 +142,7 @@
         </div>
       </div>
 
-      <!-- Offense card -->
+      <!-- offense card -->
       <div class="eff-block">
         <h3 class="eff-sub">Offense (Using {{ type_name|capitalize }})</h3>
         <div class="eff-table">
@@ -122,13 +185,24 @@
       </div>
     </section>
 
-    <!-- Pokémon of this type -->
+    {% if not pokemon_list %}
+      <p>No Pokémon found.</p>
+    {% endif %}
+
+    <!-- pokemon list (kept large cards; css controls 5 per row) -->
     <div class="pokemon-grid">
       {% for p in pokemon_list %}
         <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
           <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
           <img src="{{ p.sprite }}" alt="{{ p.name }}">
           <h3>{{ p.name }}</h3>
+
+          {% if p.sort_display and sort_label %}
+            <div style="font-size: 0.8em; opacity: 0.85; margin-top: 2px;">
+              {{ sort_label }}: {{ p.sort_display }}
+            </div>
+          {% endif %}
+
           <div class="type-container">
             {% for t in p.types %}
               <span class="type-label type-{{ t }}">{{ t }}</span>
@@ -138,12 +212,40 @@
       {% endfor %}
     </div>
 
+<!-- pagination (preserve all args except offset) -->
+<div class="pagination">
+  {% set last_offset = ((total_matches - 1) // limit) * limit %}
+  {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
+  {% set next_offset = offset + limit if (offset + limit) < total_matches else last_offset %}
+
+  {% set base_args = [] %}
+  {% for key, value in request.args.items() %}
+    {% if key != 'offset' %}
+      {% set _ = base_args.append(key ~ '=' ~ value) %}
+    {% endif %}
+  {% endfor %}
+  {% set base_query = '&'.join(base_args) %}
+  {% set qprefix = ('?' ~ base_query) if base_query else '?' %}
+
+  {% if offset > 0 %}
+    <a href="/type/{{ type_name }}{{ qprefix }}&offset=0&limit={{ limit }}" class="button-link">⏮ First</a>
+    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
+  {% endif %}
+
+  {% if offset + limit < total_matches %}
+    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
+    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ last_offset }}&limit={{ limit }}" class="button-link">Last ⏭</a>
+  {% endif %}
+</div>
+
+
     <div class="back-link">
       <a href="/pokedex" class="button-link">← Back to Pokédex</a>
     </div>
   </div>
 
   <script>
+    // dark mode persistence
     function toggleDarkMode(){
       const b=document.body;
       b.classList.toggle("dark-mode");

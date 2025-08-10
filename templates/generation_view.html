@@ -1,49 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Generation {{ gen_id }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Generation {{ gen_id }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+  <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
 
-    <div class="container">
-        <h1>Generation {{ gen_id }} Pokémon</h1>
+  <div class="container container--wide">
+    <header>
+      <h1>
+        <a href="/generation/{{ gen_id }}" class="reset-link">Generation {{ gen_id }} Pokémon</a>
+      </h1>
+	  {% if total_matches > 0 %}
+		<div class="results-count">Showing results {{ start_idx }} to {{ end_idx }} of {{ total_matches }}</div>
+	  {% else %}
+		<div class="results-count">No results found</div>
+	  {% endif %}
+      <form method="get" class="form-controls form-controls--compact">
+        <div class="form-field form-field--search">
+          <label for="search">Search</label>
+          <input id="search" type="text" name="search" placeholder="e.g. re:pik.*" value="{{ request.args.get('search','') }}">
+        </div>
 
-        <div class="pokemon-grid">
-            {% for p in pokemon_list %}
-                <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
-                    <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
-                    <img src="{{ p.sprite }}" alt="{{ p.name }}">
-                    <h3>{{ p.name }}</h3>
-                    <div class="type-container">
-                        {% for t in p.types %}
-                            <span class="type-label type-{{ t }}">{{ t }}</span>
-                        {% endfor %}
-                    </div>
-                </a>
+        <div class="form-field">
+          <label for="type">Type</label>
+          <select id="type" name="type">
+            <option value="">All</option>
+            {% for t in all_types %}
+              <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t|capitalize }}</option>
             {% endfor %}
+          </select>
         </div>
 
-        <div class="back-link">
-            <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+        <div class="form-field form-field--sort">
+          <label for="sort">
+            Sort
+            <span class="rev-inline">
+              (<input id="reverse" type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> reverse)
+            </span>
+          </label>
+          <select id="sort" name="sort">
+            <option value="id"   {% if current_sort == 'id' %}selected{% endif %}>ID</option>
+            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+            {% for k, label in stat_labels.items() %}
+              <option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
         </div>
+
+        <div class="form-field form-field--perpage">
+          <label for="limit">Per Page</label>
+          <select id="limit" name="limit">
+            {% for n in [5,10,20,40] %}
+              <option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-field form-field--button">
+          <label class="visually-hidden">Apply</label>
+          <button type="submit">Apply</button>
+        </div>
+      </form>
+    </header>
+
+    {% if not pokemon_list %}
+      <p>No Pokémon found.</p>
+    {% endif %}
+
+    <div class="pokemon-grid">
+      {% for p in pokemon_list %}
+        <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
+          <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
+          <img src="{{ p.sprite }}" alt="{{ p.name }}">
+          <h3>{{ p.name }}</h3>
+
+          {% if p.sort_display and sort_label %}
+            <div style="font-size: 0.8em; opacity: 0.85; margin-top: 2px;">
+              {{ sort_label }}: {{ p.sort_display }}
+            </div>
+          {% endif %}
+
+          <div class="type-container">
+            {% for t in p.types %}
+              <span class="type-label type-{{ t }}">{{ t }}</span>
+            {% endfor %}
+          </div>
+        </a>
+      {% endfor %}
     </div>
 
-    <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle("dark-mode");
-            body.classList.toggle("dark");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
-        }
+	<!-- pagination (preserve all args except offset) -->
+	<div class="pagination">
+	  {% set last_offset = ((total_matches - 1) // limit) * limit %}
+	  {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
+	  {% set next_offset = offset + limit if (offset + limit) < total_matches else last_offset %}
 
-        window.onload = function () {
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "dark") {
-                document.body.classList.add("dark-mode", "dark");
-            }
-        };
-    </script>
+	  {% set base_args = [] %}
+	  {% for key, value in request.args.items() %}
+		{% if key != 'offset' %}
+		  {% set _ = base_args.append(key ~ '=' ~ value) %}
+		{% endif %}
+	  {% endfor %}
+	  {% set base_query = '&'.join(base_args) %}
+	  {% set qprefix = ('?' ~ base_query) if base_query else '?' %}
+
+	  {% if offset > 0 %}
+		<a href="/generation/{{ gen_id }}{{ qprefix }}&offset=0&limit={{ limit }}" class="button-link">⏮ First</a>
+		<a href="/generation/{{ gen_id }}{{ qprefix }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
+	  {% endif %}
+
+	  {% if offset + limit < total_matches %}
+		<a href="/generation/{{ gen_id }}{{ qprefix }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
+		<a href="/generation/{{ gen_id }}{{ qprefix }}&offset={{ last_offset }}&limit={{ limit }}" class="button-link">Last ⏭</a>
+	  {% endif %}
+	</div>
+
+    <div class="back-link">
+      <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleDarkMode(){
+      const b=document.body;
+      b.classList.toggle("dark-mode"); b.classList.toggle("dark");
+      localStorage.setItem("theme",(b.classList.contains("dark-mode")||b.classList.contains("dark"))?"dark":"light");
+    }
+    window.onload=function(){
+      const t=localStorage.getItem("theme");
+      if(t==="dark"){ document.body.classList.add("dark-mode","dark"); }
+    }
+  </script>
 </body>
 </html>

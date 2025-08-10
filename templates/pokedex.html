@@ -112,21 +112,35 @@
 	</div>
 
     {% if not request.args.get('random') and not request.args.get('pokemon') %}
-        <div class="pagination">
-            {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
-            {% set next_offset = offset + limit %}
+	  {% if total_matches > 0 %}
+		<div class="results-count">Showing results {{ start_idx }} to {{ end_idx }} of {{ total_matches }}</div>
+	  {% else %}
+		<div class="results-count">No results found</div>
+	  {% endif %}
+		<div class="pagination">
+		  {% set last_offset = ((total_matches - 1) // limit) * limit %}
+		  {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
+		  {% set next_offset = offset + limit if (offset + limit) < total_matches else last_offset %}
 
-            {% set base_args = [] %}
-            {% for key, value in request.args.items() %}
-                {% if key != 'offset' %}
-                    {% set _ = base_args.append(key ~ '=' ~ value) %}
-                {% endif %}
-            {% endfor %}
-            {% set base_query = '&'.join(base_args) %}
+		  {% set base_args = [] %}
+		  {% for key, value in request.args.items() %}
+			{% if key != 'offset' %}
+			  {% set _ = base_args.append(key ~ '=' ~ value) %}
+			{% endif %}
+		  {% endfor %}
+		  {% set base_query = '&'.join(base_args) %}
+		  {% set qprefix = ('?' ~ base_query) if base_query else '?' %}
 
-            <a href="/pokedex?{{ base_query }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
-            <a href="/pokedex?{{ base_query }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
-        </div>
+		  {% if offset > 0 %}
+			<a href="/pokedex{{ qprefix }}&offset=0&limit={{ limit }}" class="button-link">⏮ First</a>
+			<a href="/pokedex{{ qprefix }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
+		  {% endif %}
+
+		  {% if offset + limit < total_matches %}
+			<a href="/pokedex{{ qprefix }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
+			<a href="/pokedex{{ qprefix }}&offset={{ last_offset }}&limit={{ limit }}" class="button-link">Last ⏭</a>
+		  {% endif %}
+		</div>
     {% endif %}
 
     <!-- === Other Resources Section === -->

@@ -21,6 +21,11 @@ h1 img{ height:40px; width:40px; object-fit:contain; }
 header a.reset-link{ text-decoration:none; color:inherit; }
 header a.reset-link:hover{ text-decoration:underline; }
 
+.results-count {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
 /* ========= Form Controls ========= */
 .form-controls{
   display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px 0;
@@ -48,9 +53,12 @@ header a.reset-link:hover{ text-decoration:underline; }
 
 /* ========= Pokémon Cards & Grid ========= */
 .pokemon-grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:20px; padding:15px;
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* keep old card width */
+  gap:20px;
+  padding:15px;
 }
+
 .pokemon-card{
   position:relative; background:#fff; border-radius:10px; padding:15px 10px;
   box-shadow:0 2px 8px rgba(0,0,0,.1); transition:transform .2s;
@@ -94,6 +102,8 @@ a.pokemon-card img,div.pokemon-card img{
 
 /* ========= Detail Page ========= */
 .container{ max-width:800px; margin:30px auto; padding:20px; text-align:center; }
+/* only widen when you explicitly add container--wide */
+.container.container--wide{ max-width: 900px; }  /* 900 - 40 (container padding) - 30 (grid padding) = 830 */
 .pokemon-header{
   position:relative; display:flex; justify-content:center; align-items:center; margin-bottom:.1em;
 }

@@ -98,6 +98,13 @@ def best_sprite(p):
         or other.get("home", {}).get("front_default")
     )
 
+def page_bounds(offset: int, limit: int, total: int):
+    if total <= 0:
+        return 0, 0
+    s = offset + 1
+    e = min(offset + limit, total)
+    return s, e
+
 @app.route('/pokedex')
 def pokedex():
     limit = int(request.args.get("limit") or 12)
@@ -240,6 +247,7 @@ def pokedex():
         })
 
     all_gens = list(range(1, 10))
+    start_idx, end_idx = page_bounds(offset, limit, total_matches)
 
     return render_template(
         "pokedex.html",
@@ -255,6 +263,8 @@ def pokedex():
         offset=offset,
         limit=limit,
         search=search_lc,
+        start_idx=start_idx,
+        end_idx=end_idx,
         total_matches=total_matches,
         logging_enabled=cache.ENABLE_VERBOSE_LOGGING
     )
@@ -345,61 +355,264 @@ def pokemon_detail(name):
     # pass only p (keeps jinja clean)
     return render_template("pokemon_detail.html", p=p)
 
-
 @app.route('/generation/<int:gen_id>')
 def generation_view(gen_id):
+    """generation page with search, type filter, sorting, and pagination"""
+
+    # query params
+    limit = int(request.args.get("limit") or 20)
+    offset = int(request.args.get("offset") or 0)
+    type_filter = request.args.get("type")
+    sort_by = request.args.get("sort", "id")
+    reverse_sort = request.args.get("reverse") == "true"
+    search_raw = request.args.get("search", "")
+    search_lc = search_raw.lower()
+
+    # base lists
     data = get_generation_cached(gen_id)
     if not data:
         return f"Generation {gen_id} not found", 404
 
+    all_types = get_all_types_cached(exclude_special=True)
     sp_names = [s["name"] for s in data.get("pokemon_species", [])]
-    default_names = bulk_prime_default_varieties(sp_names)
+    species_list = bulk_prime_default_varieties(sp_names)
+
+    # optional: type filter via intersect with type endpoint
+    if type_filter:
+        td = get_type_cached(type_filter)
+        if td and "pokemon" in td:
+            type_names = [e["pokemon"]["name"] for e in td["pokemon"]]
+            species_list = list(set(species_list) & set(type_names))
+
+    # search (re:regex or * wildcard; case-insensitive)
+    if search_raw:
+        def wildcard_to_regex(pattern: str) -> str:
+            esc = re.escape(pattern)
+            return '^' + esc.replace(r'\*', '.*') + '$'
+        try:
+            if search_raw.startswith("re:"):
+                regex = re.compile(search_raw[3:], re.I)
+                species_list = [n for n in species_list if regex.search(n)]
+            else:
+                regex = re.compile(wildcard_to_regex(search_lc))
+                species_list = [n for n in species_list if regex.search(n.lower())]
+        except re.error:
+            q = search_lc
+            species_list = [n for n in species_list if q in n.lower()]
+
+    total_matches = len(species_list)
+
+    # stat keys/labels
+    stat_keys = ["hp","attack","defense","special-attack","special-defense","speed","bst","height","weight"]
+    stat_labels = {k: labelize(k) for k in stat_keys}
+    stat_labels["bst"] = "BST"
+    sort_label = stat_labels.get(sort_by) if sort_by in stat_labels else None
+
+    # sort
+    if sort_by == "name":
+        sorted_names = sorted(species_list, key=lambda n: n.capitalize(), reverse=reverse_sort)
+    else:
+        def metric_for(name: str):
+            p = get_pokemon_cached(name, get_pokemon) or {}
+            if sort_by == "id":
+                return p.get("id", 0)
+            stats = {s["stat"]["name"]: s["base_stat"] for s in p.get("stats", [])}
+            if sort_by in ("height","weight"):
+                return p.get(sort_by, 0) or 0
+            if sort_by == "bst":
+                return sum(stats.values()) if stats else 0
+            return stats.get(sort_by, 0)
+        metrics = {n: metric_for(n) for n in species_list}
+        sorted_names = sorted(species_list, key=lambda n: metrics[n], reverse=reverse_sort)
+
+    # paginate
+    page_names = sorted_names[offset:offset + limit]
+
+    # build cards
+    def display_for(k, v):
+        if k == "height": return f"{v} dm"
+        if k == "weight": return f"{v} hg"
+        return str(v)
 
     pokemon_list = []
-    for poke_name in sorted(default_names):
-        p = get_pokemon_cached(poke_name, get_pokemon)
+    for name in page_names:
+        p = get_pokemon_cached(name, get_pokemon)
         if not p:
             continue
         pokemon_list.append({
-            "name": p.get("name", "").capitalize(),
+            "name": p.get("name","").capitalize(),
             "id": p.get("id"),
             "types": [t["type"]["name"] for t in p.get("types", [])],
-            "sprite": best_sprite(p) or url_for("static", filename="img/placeholder.png")
+            "sprite": best_sprite(p) or url_for("static", filename="img/placeholder.png"),
+            "sort_value": None,  # optional: keep if you want to show metric
+            "sort_display": display_for(sort_by, (
+                p.get("id") if sort_by=="id" else
+                (p.get("height") or 0) if sort_by=="height" else
+                (p.get("weight") or 0) if sort_by=="weight" else
+                (sum({s["stat"]["name"]: s["base_stat"] for s in p.get("stats", [])}.values()) if sort_by=="bst" else
+                 {s["stat"]["name"]: s["base_stat"] for s in p.get("stats", [])}.get(sort_by, ""))
+            )) if sort_by in stat_labels else None
         })
 
-    return render_template("generation_view.html", gen_id=gen_id, pokemon_list=pokemon_list)
+    start_idx, end_idx = page_bounds(offset, limit, total_matches)
+
+    return render_template(
+        "generation_view.html",
+        gen_id=gen_id,
+        pokemon_list=pokemon_list,
+        all_types=all_types,
+        current_type=type_filter,
+        current_sort=sort_by,
+        reverse_sort=reverse_sort,
+        stat_labels=stat_labels,
+        sort_label=sort_label,
+        offset=offset,
+        limit=limit,
+        search=search_lc,
+        start_idx=start_idx,
+        end_idx=end_idx,
+        total_matches=total_matches
+    )
+
 
 ALLOWED_TYPES = get_all_types_cached(exclude_special=True)
 
 @app.route('/type/<type_name>')
 def type_view(type_name):
+    """type page with filters, sorting, and pagination"""
+
+    # query params
+    limit = int(request.args.get("limit") or 20)   # keep 5-per-row; defaults align with [5,10,20,40]
+    offset = int(request.args.get("offset") or 0)
+    sort_by = request.args.get("sort", "id")
+    reverse_sort = request.args.get("reverse") == "true"
+    generation = request.args.get("generation")
+    search_raw = request.args.get("search", "")
+    search_lc = search_raw.lower()
+
+    # base data
     type_data = get_type_cached(type_name)
     if not type_data:
         return f"Type '{type_name}' not found", 404
-
-    pokemon_entries = type_data["pokemon"]
     rel = type_data["damage_relations"]
+    ALLOWED_TYPES = get_all_types_cached(exclude_special=True)
+    all_gens = list(range(1, 10))
+
+    # build initial species set for this type
+    species_from_type = [e["pokemon"]["name"] for e in type_data.get("pokemon", [])]
+    species_list = list(species_from_type)
+
+    # generation filter (intersect default varieties from gen list)
+    if generation:
+        gd = get_generation_cached(generation)
+        if gd:
+            gen_species = [s["name"] for s in gd.get("pokemon_species", [])]
+            default_names = bulk_prime_default_varieties(gen_species)
+            species_list = list(set(species_list) & set(default_names))
+
+    # search (supports re:regex and * wildcards)
+    if search_raw:
+        def wildcard_to_regex(pattern: str) -> str:
+            esc = re.escape(pattern)
+            return '^' + esc.replace(r'\*', '.*') + '$'
+        try:
+            if search_raw.startswith("re:"):
+                regex = re.compile(search_raw[3:], re.I)
+                species_list = [n for n in species_list if regex.search(n)]
+            else:
+                regex = re.compile(wildcard_to_regex(search_lc))
+                species_list = [n for n in species_list if regex.search(n.lower())]
+        except re.error:
+            q = search_lc
+            species_list = [n for n in species_list if q in n.lower()]
+
+    total_matches = len(species_list)
+
+    # stat keys/labels (shared with pokedex)
+    stat_keys = ["hp","attack","defense","special-attack","special-defense","speed","bst","height","weight"]
+    stat_labels = {k: labelize(k) for k in stat_keys}
+    stat_labels["bst"] = "BST"
+    sort_label = stat_labels.get(sort_by) if sort_by in stat_labels else None
+
+    # sorting
+    if sort_by == "name":
+        sorted_names = sorted(species_list, key=lambda n: n.capitalize(), reverse=reverse_sort)
+    else:
+        def metric_for(name: str):
+            p = get_pokemon_cached(name, get_pokemon) or {}
+            if sort_by == "id":
+                return p.get("id", 0)
+            stats = {s["stat"]["name"]: s["base_stat"] for s in p.get("stats", [])}
+            if sort_by in ("height","weight"):
+                return p.get(sort_by, 0) or 0
+            if sort_by == "bst":
+                return sum(stats.values()) if stats else 0
+            return stats.get(sort_by, 0)
+        metrics = {n: metric_for(n) for n in species_list}
+        sorted_names = sorted(species_list, key=lambda n: metrics[n], reverse=reverse_sort)
+
+    # pagination
+    page_names = sorted_names[offset:offset + limit]
+
+    # build cards
+    def display_for(k, v):
+        if k == "height": return f"{v} dm"
+        if k == "weight": return f"{v} hg"
+        return str(v)
+
     pokemon_list = []
+    for name in page_names:
+        p = get_pokemon_cached(name, get_pokemon)
+        if not p:
+            continue
+        types = [t["type"]["name"] for t in p.get("types", [])]
+        stats = {s["stat"]["name"]: s["base_stat"] for s in p.get("stats", [])}
+        bst = sum(stats.values()) if stats else 0
+        metric_map = {
+            "id": p.get("id"),
+            "name": p.get("name",""),
+            "hp": stats.get("hp", 0),
+            "attack": stats.get("attack", 0),
+            "defense": stats.get("defense", 0),
+            "special-attack": stats.get("special-attack", 0),
+            "special-defense": stats.get("special-defense", 0),
+            "speed": stats.get("speed", 0),
+            "bst": bst,
+            "height": p.get("height") or 0,
+            "weight": p.get("weight") or 0,
+        }
+        sort_value = metric_map.get(sort_by, metric_map["id"])
+        sort_display = display_for(sort_by, sort_value) if sort_by in stat_labels else None
 
-    for entry in pokemon_entries:
-        poke = get_pokemon_cached(entry["pokemon"]["name"], get_pokemon)
-        if poke:
-            pokemon_list.append({
-                "name": poke["name"].capitalize(),
-                "id": poke["id"],
-                "types": [t["type"]["name"] for t in poke["types"]],
-                "sprite": best_sprite(poke) or url_for("static", filename="img/placeholder.png")
-            })
+        pokemon_list.append({
+            "name": p.get("name","").capitalize(),
+            "id": p.get("id"),
+            "sprite": best_sprite(p) or url_for("static", filename="img/placeholder.png"),
+            "types": types,
+            "sort_value": sort_value,
+            "sort_display": sort_display,
+        })
 
-    pokemon_list.sort(key=lambda x: x["id"])
+    start_idx, end_idx = page_bounds(offset, limit, total_matches)
 
     return render_template(
         "type_view.html",
         type_name=type_name,
         pokemon_list=pokemon_list,
         rel=rel,
-        all_types=ALLOWED_TYPES
-        )
+        all_types=ALLOWED_TYPES,
+        all_gens=all_gens,
+        current_sort=sort_by,
+        reverse_sort=reverse_sort,
+        stat_labels=stat_labels,
+        sort_label=sort_label,
+        offset=offset,
+        limit=limit,
+        search=search_lc,
+        start_idx=start_idx,   # <-- add
+        end_idx=end_idx,       # <-- add
+        total_matches=total_matches
+    )
         
 
 from fractions import Fraction
