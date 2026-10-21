@@ -175,4 +175,4 @@ source .venv/bin/activate
 python app.py
 ```
 
-The application will start at `http://127.0.0.1:5000/`.
+The application will start at `http://127.0.0.1:5001/` (configured to port 5001 by default to avoid macOS AirPlay Receiver conflicts on port 5000).

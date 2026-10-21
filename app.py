@@ -1813,4 +1813,7 @@ def developer_docs():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    print(f"\n🚀 Pokémon Web App running on http://127.0.0.1:{port}/")
+    print(f"ℹ️  Defaulting to port {port} to prevent conflicts with macOS AirPlay Receiver on port 5000.\n")
+    app.run(debug=True, host="127.0.0.1", port=port)
