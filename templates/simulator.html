@@ -3377,26 +3377,51 @@
             const isAssaultVest = !isGmaxArmedOrActive && pPoke.item === "assault-vest";
             const isTaunted = !isGmaxArmedOrActive && (pPoke.tauntTurns || 0) > 0;
 
+            const isChoiceLockedOutOfPp = isChoiceLocked && pPoke.moveDetails.some(m => m.id === pPoke.choiceLockedMove && m.pp !== undefined && m.pp <= 0);
             const allOutOfPp = pPoke.moveDetails.length > 0 && pPoke.moveDetails.every(m => m.pp !== undefined && m.pp <= 0) && !isGmaxArmedOrActive;
-            if (allOutOfPp) {
+
+            // Check if any move can legally be selected
+            const hasUsableMove = isGmaxArmedOrActive ? true : pPoke.moveDetails.some(m => {
+                if (m.pp !== undefined && m.pp <= 0) return false;
+                if (isChoiceLocked && m.id !== pPoke.choiceLockedMove) return false;
+                if (isAssaultVest && m.category === "status") return false;
+                if (isTaunted && m.category === "status") return false;
+                return true;
+            });
+
+            const mustStruggle = Boolean(pPoke.isStruggling || !hasUsableMove || allOutOfPp || isChoiceLockedOutOfPp);
+            if (mustStruggle) {
+                let reasonNotice = "⚠️ 0 PP Left across all moves (25% Recoil)";
+                if (isChoiceLockedOutOfPp) {
+                    const lockedMeta = pPoke.moveDetails.find(m => m.id === pPoke.choiceLockedMove);
+                    const lockedName = lockedMeta ? (lockedMeta.displayName || humanizeName(lockedMeta.id)) : "Locked move";
+                    reasonNotice = `🔒 ${lockedName} has 0 PP! Choice lock forces Struggle (25% Recoil)`;
+                } else if (isTaunted && !allOutOfPp) {
+                    reasonNotice = "🤬 Taunted with no usable attacks! Forced to Struggle (25% Recoil)";
+                } else if (isAssaultVest && !allOutOfPp) {
+                    reasonNotice = "🦺 Assault Vest blocks all moves! Forced to Struggle (25% Recoil)";
+                }
+
                 const sBtn = document.createElement("button");
                 sBtn.className = "btn-move";
                 sBtn.style.gridColumn = "1 / -1";
                 sBtn.style.borderColor = "#ef4444";
-                sBtn.style.background = "rgba(239, 68, 68, 0.12)";
+                sBtn.style.background = "linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.35))";
+                sBtn.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.3)";
                 sBtn.innerHTML = `
                     <div class="btn-move-top">
-                        <span class="btn-move-name">Struggle</span>
-                        <span class="type-pill-xs type-normal">TYPELESS</span>
+                        <span class="btn-move-name" style="color: #f87171; font-weight: 800; font-size: 1.05rem;">💥 Struggle</span>
+                        <span class="type-pill-xs type-normal" style="background: #ef4444; color: white;">FORCED</span>
                     </div>
-                    <div class="btn-move-meta">
+                    <div class="btn-move-meta" style="margin-top: 4px;">
                         <span class="cat-badge cat-physical">💥 Physical</span>
-                        <span>Pow: 50 | Acc: 100%</span>
-                        <span style="color: #f87171; font-weight: bold;">⚠️ 0 PP Left (25% Recoil)</span>
+                        <span>Pow: 50 | Acc: 100% | Typeless</span>
+                        <span style="color: #fca5a5; font-weight: 700;">${reasonNotice}</span>
                     </div>
                 `;
                 sBtn.onclick = () => submitPlayerAction({ type: "move", move: "struggle" });
                 c.appendChild(sBtn);
+                updateTeraButtonState();
                 return;
             }
 

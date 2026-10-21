@@ -894,6 +894,39 @@ class PokemonState:
         """Returns True if this Pokémon has 0 PP left across all known moves."""
         return len(self.moves) > 0 and all(self.pp.get(m, 0) <= 0 for m in self.moves)
 
+    @property
+    def is_struggling(self) -> bool:
+        """Returns True if this Pokémon has no usable moves and is forced into Struggle."""
+        if not self.moves or self.is_fainted:
+            return False
+
+        if self.is_gmax:
+            return False
+
+        is_taunted = getattr(self, "taunt_turns", 0) > 0
+        is_vest = self.has_item and self.item == "assault-vest"
+
+        # If choice-locked, the ONLY candidate move is the locked move
+        if self.has_item and self.item in ("choice-band", "choice-specs", "choice-scarf") and self.choice_locked_move:
+            locked_m = self.choice_locked_move
+            if self.pp.get(locked_m, 0) <= 0:
+                return True
+            cat = get_move_metadata(locked_m).get("category", "physical")
+            if (is_taunted or is_vest) and cat == "status":
+                return True
+            return False
+
+        # Otherwise, check if ANY move is usable
+        for m in self.moves:
+            if self.pp.get(m, 0) <= 0:
+                continue
+            cat = get_move_metadata(m).get("category", "physical")
+            if (is_taunted or is_vest) and cat == "status":
+                continue
+            return False
+
+        return True
+
     def to_dict(self) -> Dict[str, Any]:
         """Serializable representation for UI with rich move details and ability/item clarity."""
         detailed_moves = []
@@ -963,6 +996,7 @@ class PokemonState:
             "protoBoostActive": getattr(self, "proto_boost_active", False),
             "protoBoostStat": getattr(self, "proto_boost_stat", None),
             "choiceLockedMove": getattr(self, "choice_locked_move", None),
+            "isStruggling": self.is_struggling,
             "disguiseBusted": getattr(self, "disguise_busted", False),
             "yawnTurns": getattr(self, "yawn_turns", 0),
             "isDrowsy": getattr(self, "yawn_turns", 0) > 0,
@@ -2183,9 +2217,14 @@ class BattleSimulator:
 
         move_lower = move_name.lower().strip()
 
-        # Check if Pokémon is completely out of PP on all moves -> Struggle!
-        all_pp_depleted = len(user_poke.moves) > 0 and all(user_poke.pp.get(m, 0) <= 0 for m in user_poke.moves)
-        if all_pp_depleted or move_lower == "struggle":
+        # Check if Pokémon is forced into Struggle (0 PP across all moves, or choice-locked into a 0 PP move, or no usable moves)
+        is_choice_locked_0pp = (
+            not user_poke.is_gmax and user_poke.has_item and
+            user_poke.item in ("choice-band", "choice-specs", "choice-scarf") and
+            user_poke.choice_locked_move and
+            user_poke.pp.get(user_poke.choice_locked_move, 0) <= 0
+        )
+        if move_lower == "struggle" or user_poke.is_struggling or is_choice_locked_0pp:
             move_name = "struggle"
             move_lower = "struggle"
             m_data = {
@@ -2276,7 +2315,7 @@ class BattleSimulator:
 
         # Choice Lock check (Choice Band, Choice Specs, Choice Scarf - suspended while Dynamaxed!)
         move_lower = move_name.lower().strip()
-        if not user_poke.is_gmax and user_poke.has_item and user_poke.item in ("choice-band", "choice-specs", "choice-scarf"):
+        if not user_poke.is_gmax and user_poke.has_item and user_poke.item in ("choice-band", "choice-specs", "choice-scarf") and move_lower != "struggle":
             if user_poke.choice_locked_move and user_poke.choice_locked_move != move_lower:
                 self.log("move", f"⚔️ [{user_side.name}] {user_poke.display_name} tried to use {m_human}!", user_side.side_id)
                 self.log("fail", f"🔒 {user_poke.display_name} is locked into {humanize_name(user_poke.choice_locked_move)} by its {humanize_name(user_poke.item)}!", user_side.side_id)

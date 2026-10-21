@@ -68,7 +68,7 @@ A modern, responsive Flask web application for exploring Pokémon, moves, and ba
     - **Gigantamax**: 3-turn titan transformation with 1.5× HP multiplier, converting status moves to Max Guard (priority +4) and damaging attacks to standard Max Moves or exclusive species G-Max moves (Lapras Aurora Veil, Blastoise Rain, Charizard Sun, Corviknight Hazard/Screen Clear, Urshifu Protect Pierce).
   - **⚡ Dynamic Mid-Turn Speed Recalculation**: Mega Evolution speed shifts and Tailwind activation dynamically re-order queued actions mid-turn before the next combatant moves.
   - **🛡️ Consecutive Protection Decay Formula**: Protect, Detect, Spiky Shield, and Max Guard follow official Gen 6–9 exponential decay ($(1/3)^n \to 100\%, 33.3\%, 11.1\%, 3.7\% \dots$), resetting on failure, switches, or non-protection moves, with Champion AI anti-spam penalties.
-  - **🔋 PP Deduction, Pressure & Struggle Execution**: Every executed move decrements current PP; zero-PP moves are disabled in the HUD; when all moves reach 0 PP, Pokémon execute Struggle (50 BP physical typeless strike with 25% max HP recoil). Opponent's `Pressure` taxes 2 PP per attack targeting them and announces its presence on entry.
+  - **🔋 PP Deduction, Pressure & Struggle Execution**: Every executed move decrements current PP; zero-PP moves are disabled in the HUD. When all moves reach 0 PP or when a Pokémon is locked into a 0-PP move by a Choice item (Choice Band, Choice Specs, Choice Scarf), the simulator automatically executes Struggle (50 BP physical typeless strike with 25% max HP recoil), eliminating player soft-locks with an active Struggle button in the HUD. Opponent's `Pressure` taxes 2 PP per attack targeting them and announces its presence on entry.
   - **🔥 Thermal Exchange, Well-Baked Body & Absorption Suite**: Baxcalibur's `Thermal Exchange` provides complete burn immunity and +1 Attack on Fire hits. Dachsbun's `Well-Baked Body` provides 0× Fire damage and +2 Defense. Includes Earth Eater, Water/Volt Absorb, Sap Sipper, Motor Drive, and Lightning Rod/Storm Drain.
   - **☠️ Entry Hazard Switch-In Faint Suppression**: Fainting from entry hazards (Stealth Rock, Spikes, Steelsurge) upon switching in immediately suppresses the Pokémon's switch-in ability (Intimidate, Drizzle, Drought, etc.) and prompts for a replacement without activation.
   - **🧸 Generation 9 Substitute Mechanics**: Official decoy creation (25% max HP cost), exact damage absorption with zero spillover damage to Pokémon, full immunity to direct status moves and secondary effects, sound moves & Infiltrator bypass, and Baton Pass / Shed Tail inheritance.
@@ -92,7 +92,7 @@ A modern, responsive Flask web application for exploring Pokémon, moves, and ba
   - Exhaustive user manual covering all features, navigation shortcuts, teambuilder strategy, EV/IV optimization, and competitive battle mechanics.
 
 - **🛠️ Developer Technical Manual (`/developer`)**:
-  - Comprehensive reference documenting all 53 route decorators across 52 endpoints, 12 backend engines, 9 disk data schemas, 16 frontend templates, damage formulas, and 33 documented bugfixes.
+  - Comprehensive reference documenting all 53 route decorators across 52 endpoints, 12 backend engines, 9 disk data schemas, 16 frontend templates, damage formulas, and 34 documented bugfixes.
 
 - **💖 Cached Favorites & Shiny Mode**:
   - Heart icon on every Pokédex card with atomic disk persistence in `data/favorites_cache.json`.

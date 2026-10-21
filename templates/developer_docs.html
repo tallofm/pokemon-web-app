@@ -2128,6 +2128,20 @@ if attacker.ability == "supreme-overlord":
                     </p>
                 </div>
 
+                <div class="file-card">
+                    <h4>34. Choice Lock 0 PP Move Depletion, Forced Struggle Fallback & UI Soft-Lock Resolution</h4>
+                    <p><strong>Bug:</strong> When a Pokémon held a Choice item (<code>Choice Scarf</code>, <code>Choice Band</code>, <code>Choice Specs</code>) and was locked into a move that depleted all its Power Points (0 PP left), the simulator soft-locked the player: the three non-locked moves were disabled with <code>"🔒 Locked by Choice Item"</code>, while the locked move was blocked with <code>"0 PP Left"</code>. Attempting to click the locked move failed with <code>"❌ There's no PP left for this move!"</code>, leaving no selectable attack action.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Dynamic Struggle Evaluation (<code>is_struggling</code>):</strong> Implemented the canonical franchise and Pokémon Showdown mechanic: if a Pokémon is locked into a Choice move that has 0 PP left (or when all known moves reach 0 PP, or when all available moves are unusable due to Taunt/Assault Vest), <code>PokemonState.is_struggling</code> evaluates to <code>True</code> and is serialized across battle state as <code>isStruggling</code>.</li>
+                            <li><strong>Auto-Conversion to Struggle in Battle Engine:</strong> In <code>perform_move()</code> (<code>battle_engine.py</code>), when <code>user_poke.is_struggling</code> is True or the choice-locked move has 0 PP, the engine automatically converts the selected move into <strong>Struggle</strong> (50 BP, Normal physical, typeless neutral $1.0\times$ damage against all types including Ghost, with 25% max HP user recoil). Bypassed the Choice Lock restriction check for Struggle so the move executes cleanly without getting rejected.</li>
+                            <li><strong>Choice Lock State Integrity:</strong> Using Struggle does not overwrite <code>choice_locked_move</code> or break the held Choice item. If the Pokémon remains on the field, it continues to Struggle; if it switches out to the bench, <code>reset_volatiles()</code> clears the volatile Choice lock so it can select any move with remaining PP upon returning to battle.</li>
+                            <li><strong>Champion AI Struggle & Switch Decision:</strong> In <code>battle_ai.py</code>, <code>choose_ai_action()</code> evaluates <code>user_poke.is_struggling</code>. Rather than attempting to submit a 0-PP move, higher-difficulty AI (≥ 50) either strategically switches to a healthy bench teammate (60% rate) or unleashes Struggle.</li>
+                            <li><strong>Client-Side Struggle Button & Visual Polish:</strong> Updated <code>templates/simulator.html</code>. When <code>isStruggling</code> is True or the Choice-locked move has 0 PP, the interface replaces disabled move tiles with a full-width active <strong>💥 Struggle (FORCED)</strong> button, displaying detailed callout notices (e.g. <code>"🔒 Substitute has 0 PP! Choice lock forces Struggle (25% Recoil)"</code>) while keeping the bench roster rail clickable for tactical switches.</li>
+                        </ul>
+                    </p>
+                </div>
+
                 <h3 id="current-caveats"><span>🚧</span> Current Caveats & Works-in-Progress (WIP)</h3>
                 <ul>
                     <li><strong>Doubles Target Selection:</strong> Single-target attacks in doubles auto-target the primary opposing active slot. An interactive Left vs Right target selector modal is planned.</li>

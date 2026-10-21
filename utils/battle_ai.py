@@ -44,6 +44,13 @@ def choose_ai_action(
         alive = ai_side.get_alive_bench_indices()
         return {"type": "switch", "targetIndex": alive[0] if alive else 0}
 
+    # If forced into Struggle (out of PP, or choice-locked into a 0 PP move, or no usable moves)
+    if user_poke.is_struggling:
+        alive_bench = ai_side.get_alive_bench_indices()
+        if alive_bench and difficulty >= 50 and random.random() < 0.6:
+            return {"type": "switch", "targetIndex": alive_bench[0]}
+        return {"type": "move", "move": "struggle", "tera": False}
+
     # If currently locked into a 2-turn charging move (e.g. Electro Shot, Solar Beam)
     if user_poke.charging_move:
         return {"type": "move", "move": user_poke.charging_move, "tera": False}

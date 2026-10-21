@@ -1,11 +1,11 @@
 {
   "summary": {
-    "totalBattles": 4,
-    "totalTurns": 89,
-    "aiWins": 1,
-    "aiLosses": 2,
+    "totalBattles": 7,
+    "totalTurns": 158,
+    "aiWins": 2,
+    "aiLosses": 4,
     "spectatorBattles": 1,
-    "lastUpdated": "2026-10-22 02:01:31"
+    "lastUpdated": "2026-10-22 02:22:08"
   },
   "matchup_heuristics": {
     "staraptor_vs_baxcalibur": {
@@ -63,9 +63,9 @@
       "avg_damage": 100
     },
     "annihilape_vs_gholdengo": {
-      "recommended_action": "move:brick-break",
-      "win_rate": 0.4,
-      "samples": 1,
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.52,
+      "samples": 2,
       "avg_damage": 100
     },
     "dragapult_vs_annihilape": {
@@ -112,8 +112,8 @@
     },
     "garchomp_vs_gholdengo": {
       "recommended_action": "move:earthquake",
-      "win_rate": 0.6,
-      "samples": 1,
+      "win_rate": 0.48,
+      "samples": 2,
       "avg_damage": 100
     },
     "ursaluna-bloodmoon_vs_staraptor": {
@@ -223,9 +223,171 @@
       "win_rate": 0.6,
       "samples": 1,
       "avg_damage": 100
+    },
+    "ursaluna-bloodmoon_vs_garchomp": {
+      "recommended_action": "move:blood-moon",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_incineroar": {
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_ting-lu": {
+      "recommended_action": "move:drain-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_iron-hands": {
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_sinistcha": {
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_urshifu-rapid-strike": {
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_ursaluna-bloodmoon": {
+      "recommended_action": "move:drain-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_tyranitar": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.52,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "ribombee_vs_annihilape": {
+      "recommended_action": "move:moonblast",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "garchomp_vs_ribombee": {
+      "recommended_action": "move:flamethrower",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "ogerpon-wellspring-mask_vs_garchomp": {
+      "recommended_action": "move:play-rough",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "staraptor_vs_kingambit": {
+      "recommended_action": "move:brave-bird",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "staraptor_vs_iron-moth": {
+      "recommended_action": "move:brave-bird",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "great-tusk_vs_staraptor": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod_vs_ogerpon-wellspring-mask": {
+      "recommended_action": "move:leech-life",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod_vs_great-tusk": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_kingambit": {
+      "recommended_action": "move:brick-break",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_dragapult": {
+      "recommended_action": "move:rage-fist",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "cinderace_vs_annihilape": {
+      "recommended_action": "move:pyro-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "cinderace_vs_garchomp": {
+      "recommended_action": "move:u-turn",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "raging-bolt_vs_golisopod": {
+      "recommended_action": "move:thunderbolt",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "raging-bolt_vs_metagross": {
+      "recommended_action": "move:thunderclap",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "raging-bolt_vs_staraptor": {
+      "recommended_action": "move:thunderclap",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
     }
   },
   "post_game_learnings": [
+    {
+      "id": "learn_7",
+      "timestamp": "2026-10-22 02:22",
+      "title": "Kieran Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Raging Bolt KO'd Staraptor with Thunderclap. Kieran capitalized on offensive positioning and preserved core counters.",
+      "winner": "Kieran",
+      "loser": "Eleven"
+    },
+    {
+      "id": "learn_6",
+      "timestamp": "2026-10-22 02:16",
+      "title": "Eleven Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Golisopod KO'd Great Tusk with Sucker Punch. Eleven capitalized on offensive positioning and preserved core counters.",
+      "winner": "Eleven",
+      "loser": "Kieran"
+    },
+    {
+      "id": "learn_5",
+      "timestamp": "2026-10-22 02:12",
+      "title": "Eleven Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Annihilape KO'd Ursaluna (Bloodmoon) with Drain Punch. Eleven capitalized on offensive positioning and preserved core counters.",
+      "winner": "Eleven",
+      "loser": "Kieran"
+    },
     {
       "id": "learn_4",
       "timestamp": "2026-10-22 02:01",
