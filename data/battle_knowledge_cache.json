@@ -1,11 +1,11 @@
 {
   "summary": {
-    "totalBattles": 3,
-    "totalTurns": 70,
-    "aiWins": 0,
+    "totalBattles": 4,
+    "totalTurns": 89,
+    "aiWins": 1,
     "aiLosses": 2,
     "spectatorBattles": 1,
-    "lastUpdated": "2026-10-22 00:50:39"
+    "lastUpdated": "2026-10-22 02:01:31"
   },
   "matchup_heuristics": {
     "staraptor_vs_baxcalibur": {
@@ -157,9 +157,83 @@
       "win_rate": 0.6,
       "samples": 1,
       "avg_damage": 100
+    },
+    "tyranitar_vs_kingambit": {
+      "recommended_action": "move:body-press",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "mimikyu-disguised_vs_tyranitar": {
+      "recommended_action": "move:drain-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_metagross": {
+      "recommended_action": "move:shadow-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_gholdengo": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "volcarona_vs_golisopod-mega": {
+      "recommended_action": "move:fiery-dance",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "staraptor_vs_volcarona": {
+      "recommended_action": "move:brave-bird",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "volcarona_vs_staraptor": {
+      "recommended_action": "move:fiery-dance",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_staraptor": {
+      "recommended_action": "move:draco-meteor",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "mimikyu-disguised_vs_annihilape": {
+      "recommended_action": "move:play-rough",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "garchomp_vs_mimikyu-disguised": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_garchomp": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
     }
   },
   "post_game_learnings": [
+    {
+      "id": "learn_4",
+      "timestamp": "2026-10-22 02:01",
+      "title": "Lance Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Dragonite KO'd Garchomp with Ice Spinner. Lance capitalized on offensive positioning and preserved core counters.",
+      "winner": "Lance",
+      "loser": "Eleven"
+    },
     {
       "id": "learn_3",
       "timestamp": "2026-10-22 00:50",

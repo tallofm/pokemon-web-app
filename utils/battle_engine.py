@@ -2811,9 +2811,12 @@ class BattleSimulator:
             sub_broke = False
             hits_on_sub = 0
             hits_on_target = 0
+            actual_sub_dmg = 0
             for h in range(hits_count):
                 if opp_poke.substitute_hp > 0:
                     hits_on_sub += 1
+                    strike_sub_dmg = min(opp_poke.substitute_hp, single_hit_dmg)
+                    actual_sub_dmg += strike_sub_dmg
                     opp_poke.substitute_hp = max(0, opp_poke.substitute_hp - single_hit_dmg)
                     if opp_poke.substitute_hp == 0:
                         sub_broke = True
@@ -2822,7 +2825,7 @@ class BattleSimulator:
 
             if sub_broke:
                 self.log("damage", f"💥 [{opp_side.name}] The substitute took the hit ({sub_callout})! {opp_poke.display_name}'s substitute broke!", opp_side.side_id, {
-                    "damage": single_hit_dmg * hits_on_sub,
+                    "damage": actual_sub_dmg,
                     "substituteBroke": True,
                     "substituteHp": 0,
                     "isCrit": info["isCrit"],
@@ -2832,8 +2835,8 @@ class BattleSimulator:
                 })
             else:
                 self.log("damage", f"🛡️ [{opp_side.name}] The substitute took the hit ({sub_callout})! (Sub HP remaining: {opp_poke.substitute_hp})", opp_side.side_id, {
-                    "damage": single_hit_dmg * hits_on_sub,
-                    "substituteDamage": single_hit_dmg * hits_on_sub,
+                    "damage": actual_sub_dmg,
+                    "substituteDamage": actual_sub_dmg,
                     "substituteHp": opp_poke.substitute_hp,
                     "isCrit": info["isCrit"],
                     "typeMult": info["typeMult"],
@@ -2841,12 +2844,14 @@ class BattleSimulator:
                     "defenderMaxHp": opp_poke.max_hp
                 })
 
+            target_actual_dmg = 0
             if hits_on_target > 0 and not opp_poke.is_fainted:
-                target_dmg = single_hit_dmg * hits_on_target
-                opp_poke.current_hp = max(0, opp_poke.current_hp - target_dmg)
+                target_raw_dmg = single_hit_dmg * hits_on_target
+                target_actual_dmg = min(opp_poke.current_hp, target_raw_dmg)
+                opp_poke.current_hp = max(0, opp_poke.current_hp - target_raw_dmg)
                 opp_poke.times_hit_counter += hits_on_target
-                t_pct = round((target_dmg / opp_poke.max_hp) * 100, 1)
-                self.log("damage", f"{opp_poke.display_name} took 💥 -{target_dmg} HP ({t_pct}%) from the remaining strikes! | Hit {hits_count} times!", opp_side.side_id)
+                t_pct = round((target_actual_dmg / opp_poke.max_hp) * 100, 1)
+                self.log("damage", f"{opp_poke.display_name} took 💥 -{target_actual_dmg} HP ({t_pct}%) from the remaining strikes! | Hit {hits_count} times!", opp_side.side_id)
                 if opp_poke.is_fainted:
                     self.log("faint", f"☠️ {opp_poke.display_name} fainted!", opp_side.side_id, {
                         "species": opp_poke.species,
@@ -2857,22 +2862,27 @@ class BattleSimulator:
                     })
                     self.prompt_replacement(opp_side)
 
+            total_actual_sub_dmg = actual_sub_dmg + target_actual_dmg
+
             # Recoil damage on user (e.g. Brave Bird, Flare Blitz, Head Smash, Struggle)
-            if m_data.get("recoil") and (dmg > 0 or move_lower == "struggle"):
-                if move_lower == "struggle":
-                    recoil_dmg = max(1, math.floor(user_poke.max_hp * 0.25))
+            if m_data.get("recoil") and (total_actual_sub_dmg > 0 or move_lower == "struggle"):
+                if user_poke.ability in ("rock-head", "magic-guard") and move_lower != "struggle":
+                    self.log("ability", f"✨ [{user_poke.display_name}'s {humanize_name(user_poke.ability)}] Protected it from recoil damage!", user_side.side_id)
                 else:
-                    recoil_dmg = math.floor(dmg * m_data["recoil"])
-                user_poke.current_hp = max(0, user_poke.current_hp - recoil_dmg)
-                self.log("damage", f"{user_poke.display_name} was hit with recoil! (-{recoil_dmg} HP)", user_side.side_id)
-                if user_poke.is_fainted:
-                    self.log("faint", f"☠️ {user_poke.display_name} fainted!", user_side.side_id, {"species": user_poke.species})
-                    self.prompt_replacement(user_side)
-                    return
+                    if move_lower == "struggle":
+                        recoil_dmg = max(1, math.floor(user_poke.max_hp * 0.25))
+                    else:
+                        recoil_dmg = max(1, math.floor(total_actual_sub_dmg * m_data["recoil"]))
+                    user_poke.current_hp = max(0, user_poke.current_hp - recoil_dmg)
+                    self.log("damage", f"{user_poke.display_name} was hit with recoil! (-{recoil_dmg} HP)", user_side.side_id)
+                    if user_poke.is_fainted:
+                        self.log("faint", f"☠️ {user_poke.display_name} fainted!", user_side.side_id, {"species": user_poke.species})
+                        self.prompt_replacement(user_side)
+                        return
 
             # Drain Healing (e.g. Giga Drain, Drain Punch)
-            if m_data.get("heal_drain") and dmg > 0 and not user_poke.is_fainted:
-                heal_drain = math.floor(dmg * m_data["heal_drain"])
+            if m_data.get("heal_drain") and total_actual_sub_dmg > 0 and not user_poke.is_fainted:
+                heal_drain = max(1, math.floor(total_actual_sub_dmg * m_data["heal_drain"]))
                 user_poke.current_hp = min(user_poke.max_hp, user_poke.current_hp + heal_drain)
                 self.log("heal", f"💚 {user_poke.display_name} sucked energy from the substitute! (+{heal_drain} HP)", user_side.side_id)
 
@@ -2931,13 +2941,15 @@ class BattleSimulator:
             if total_dmg >= opp_poke.current_hp:
                 info["focusSashUsed"] = False
 
+        # Actual damage inflicted is capped by defender's current HP
+        actual_dmg = min(opp_poke.current_hp, total_dmg)
         opp_poke.current_hp = max(0, opp_poke.current_hp - total_dmg)
-        dmg_pct = round((total_dmg / opp_poke.max_hp) * 100, 1)
+        dmg_pct = round((actual_dmg / opp_poke.max_hp) * 100, 1)
         opp_poke.times_hit_counter += hits_count
-        dmg = total_dmg
+        dmg = actual_dmg
 
         # Build dynamic callout
-        callout = f"💥 -{total_dmg} HP ({dmg_pct}%)"
+        callout = f"💥 -{actual_dmg} HP ({dmg_pct}%)"
         if hits_count > 1:
             callout += f" | Hit {hits_count} times!"
             if user_poke.ability == "skill-link" and hits_count == 5:
@@ -2961,7 +2973,8 @@ class BattleSimulator:
                 callout += " | Not very effective..."
 
         self.log("damage", f"{opp_poke.display_name} took {callout}!", opp_side.side_id, {
-            "damage": total_dmg,
+            "damage": actual_dmg,
+            "rawDamage": total_dmg,
             "hitsCount": hits_count,
             "isCrit": info["isCrit"],
             "typeMult": info["typeMult"],
@@ -3032,18 +3045,21 @@ class BattleSimulator:
                     "ability": "Thermal Exchange", "stat": "attack", "delta": 1
                 })
 
-        # Recoil damage (Struggle deals 25% max HP recoil; standard recoil moves deal % of damage dealt)
-        if m_data.get("recoil") and (dmg > 0 or move_lower == "struggle"):
-            if move_lower == "struggle":
-                recoil_dmg = max(1, math.floor(user_poke.max_hp * 0.25))
+        # Recoil damage (Struggle deals 25% max HP recoil; standard recoil moves deal % of damage actually dealt)
+        if m_data.get("recoil") and (actual_dmg > 0 or move_lower == "struggle"):
+            if user_poke.ability in ("rock-head", "magic-guard") and move_lower != "struggle":
+                self.log("ability", f"✨ [{user_poke.display_name}'s {humanize_name(user_poke.ability)}] Protected it from recoil damage!", user_side.side_id)
             else:
-                recoil_dmg = math.floor(dmg * m_data["recoil"])
-            user_poke.current_hp = max(0, user_poke.current_hp - recoil_dmg)
-            self.log("damage", f"{user_poke.display_name} was hit with recoil! (-{recoil_dmg} HP)", user_side.side_id)
+                if move_lower == "struggle":
+                    recoil_dmg = max(1, math.floor(user_poke.max_hp * 0.25))
+                else:
+                    recoil_dmg = max(1, math.floor(actual_dmg * m_data["recoil"]))
+                user_poke.current_hp = max(0, user_poke.current_hp - recoil_dmg)
+                self.log("damage", f"{user_poke.display_name} was hit with recoil! (-{recoil_dmg} HP)", user_side.side_id)
 
-        # Drain Healing
-        if m_data.get("heal_drain") and dmg > 0:
-            heal_drain = math.floor(dmg * m_data["heal_drain"])
+        # Drain Healing (based on actual damage dealt to target)
+        if m_data.get("heal_drain") and actual_dmg > 0 and not user_poke.is_fainted:
+            heal_drain = max(1, math.floor(actual_dmg * m_data["heal_drain"]))
             user_poke.current_hp = min(user_poke.max_hp, user_poke.current_hp + heal_drain)
             self.log("heal", f"💚 {user_poke.display_name} sucked energy from {opp_poke.display_name}! (+{heal_drain} HP)", user_side.side_id)
 
@@ -3100,11 +3116,15 @@ class BattleSimulator:
                 self.log("item", f"🎒 {opp_poke.display_name}'s {humanize_name(opp_poke.item)} cannot be knocked off!", opp_side.side_id)
 
         # Life Orb recoil
-        if user_poke.has_item and user_poke.item == "life-orb" and dmg > 0:
-            lo_recoil = math.floor(user_poke.max_hp * 0.1)
-            user_poke.current_hp = max(0, user_poke.current_hp - lo_recoil)
-            user_poke.item_revealed = True
-            self.log("item", f"⚡ {user_poke.display_name} lost some HP from Life Orb! (-{lo_recoil} HP)", user_side.side_id)
+        if user_poke.has_item and user_poke.item == "life-orb" and actual_dmg > 0 and not user_poke.is_fainted:
+            if user_poke.ability == "magic-guard":
+                # Magic Guard negates Life Orb recoil
+                pass
+            else:
+                lo_recoil = max(1, math.floor(user_poke.max_hp * 0.1))
+                user_poke.current_hp = max(0, user_poke.current_hp - lo_recoil)
+                user_poke.item_revealed = True
+                self.log("item", f"⚡ {user_poke.display_name} lost some HP from Life Orb! (-{lo_recoil} HP)", user_side.side_id)
 
         # Sitrus Berry trigger
         if opp_poke.has_item and opp_poke.item == "sitrus-berry" and 0 < opp_poke.current_hp <= math.floor(opp_poke.max_hp / 2):

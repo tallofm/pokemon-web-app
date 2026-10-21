@@ -1261,7 +1261,7 @@ def get_move_overrides_map(force_refresh: bool = False) -> dict:
     with _move_overrides_cache_lock:
         if not move_overrides_cache or force_refresh:
             disk_data = _load_cache_file(MOVE_OVERRIDES_CACHE_FILE, {})
-            if disk_data and not force_refresh:
+            if disk_data:
                 move_overrides_cache = {k: dict(v) for k, v in disk_data.items()}
             else:
                 move_overrides_cache = {k: dict(v) for k, v in DEFAULT_INITIAL_MOVE_OVERRIDES.items()}

@@ -328,6 +328,9 @@
     "priority": 0,
     "type": "water"
   },
+  "double-edge": {
+    "recoil": 0.33
+  },
   "draco-meteor": {
     "accuracy": 90,
     "category": "special",
@@ -726,6 +729,9 @@
     "pp": 30,
     "priority": 0,
     "type": "ice"
+  },
+  "head-charge": {
+    "recoil": 0.25
   },
   "head-smash": {
     "accuracy": 80,
@@ -1727,6 +1733,9 @@
     "priority": 0,
     "type": "grass"
   },
+  "submission": {
+    "recoil": 0.25
+  },
   "substitute": {
     "accuracy": 100,
     "category": "status",
@@ -1828,6 +1837,9 @@
     "pp": 15,
     "priority": 0,
     "type": "flying"
+  },
+  "take-down": {
+    "recoil": 0.25
   },
   "taunt": {
     "accuracy": 100,
@@ -2020,6 +2032,9 @@
     "pp": 20,
     "priority": 0,
     "type": "electric"
+  },
+  "volt-tackle": {
+    "recoil": 0.33
   },
   "wave-crash": {
     "accuracy": 100,

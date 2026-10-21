@@ -85,13 +85,14 @@ A modern, responsive Flask web application for exploring Pokémon, moves, and ba
   - **👑 Supreme Overlord & Fallen Ally Synergy**: Kingambit gains +10% damage per fallen teammate (up to +50% at 5 fainted allies) with switch-in entry announcements.
   - **🎯 Multi-Hit Suite, Skill Link & Loaded Dice**: Full simulation of 2–5 hit moves (Icicle Spear, Bullet Seed, Rock Blast, Scale Shot) and fixed multi-hits (Dragon Darts, Surging Strikes, Population Bomb). Skill Link guarantees 5 hits; Loaded Dice guarantees 4 or 5 hits. Hits break Focus Sash/Sturdy, bust Mimikyu's Disguise on hit 1 while remaining strikes deal damage, break Substitutes with spillover damage, and proc Archaludon's Stamina per hit.
   - **🧪 Poison-Type Toxic Bypass & Gen 9 Status Suite**: Toxic bypasses all accuracy checks to never miss and hits through semi-invulnerable turns (Fly, Dig, Dive, Bounce) when used by a Poison-type. Complete Gen 9 status mechanics: Burn (1/16 chip, -50% physical Attack, Guts 1.5× boost), regular Poison (1/8 chip), Bad Poison / Toxic ($N/16$ chip), Sleep (1–3 turns, Electric/Misty Terrain immunity), Freeze (20% thaw roll, thawing Fire moves like Flare Blitz/Scald thaw before attacking), and Paralysis (-50% Speed, 25% fully paralyzed roll).
+  - **🩸 Recoil & Drain Actual Damage Capping**: Recoil attacks (Brave Bird, Flare Blitz, Head Smash, Wave Crash) and Drain attacks (Giga Drain, Drain Punch) calculate recoil and recovery strictly from the damage *actually inflicted* on the defender (capped by defender's remaining HP), eliminating disproportionate recoil when finishing off low-HP foes. Rock Head and Magic Guard provide complete recoil immunity (with Magic Guard also blocking Life Orb recoil).
   - **Arena UI Enhancements**: Edge-docked active cards (player docked left, opponent docked right), centered sprites, smooth gradual opacity fadeout on central announcements (1.8s) eliminating sprite overlap, and direct fainted replacement from the horizontal roster rail.
 
 - **📘 Master Operational Guide (`/guide`)**:
   - Exhaustive user manual covering all features, navigation shortcuts, teambuilder strategy, EV/IV optimization, and competitive battle mechanics.
 
 - **🛠️ Developer Technical Manual (`/developer`)**:
-  - Comprehensive reference documenting all 53 route decorators across 52 endpoints, 12 backend engines, 9 disk data schemas, 16 frontend templates, damage formulas, and 32 documented bugfixes.
+  - Comprehensive reference documenting all 53 route decorators across 52 endpoints, 12 backend engines, 9 disk data schemas, 16 frontend templates, damage formulas, and 33 documented bugfixes.
 
 - **💖 Cached Favorites & Shiny Mode**:
   - Heart icon on every Pokédex card with atomic disk persistence in `data/favorites_cache.json`.

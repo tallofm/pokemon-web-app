@@ -2114,6 +2114,20 @@ if attacker.ability == "supreme-overlord":
                     </p>
                 </div>
 
+                <div class="file-card">
+                    <h4>33. Recoil Damage & Drain Healing Capping to Actual Damage Dealt</h4>
+                    <p><strong>Bug:</strong> Recoil moves (e.g. <code>Brave Bird</code>, <code>Flare Blitz</code>, <code>Head Smash</code>, <code>Double-Edge</code>) and drain moves (e.g. <code>Giga Drain</code>, <code>Drain Punch</code>) computed recoil and HP restoration based on theoretical raw damage rather than the damage actually inflicted on the defender. For example, if a target had only 7 HP remaining, a 293 theoretical damage Brave Bird inflicted 96 HP recoil (33% of 293) on the attacker instead of the official 2 HP recoil (33% of 7).<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Actual Damage Inflicted Capping:</strong> In <code>perform_move()</code>, the damage inflicted is strictly capped by the defender's current HP ($\text{actual\_dmg} = \min(\text{opp\_poke.current\_hp}, \text{total\_dmg})$). The combat log and telemetry accurately report the real HP reduction and percentage (e.g. <code>"Volcarona took 💥 -7 HP (4.3%)"</code>).</li>
+                            <li><strong>Proportional Recoil Calculation:</strong> Standard percentage recoil moves now calculate recoil strictly from the actual damage dealt ($\text{recoil\_dmg} = \max(1, \lfloor \text{actual\_dmg} \times \text{recoil\_ratio} \rfloor)$). Attacking a 7 HP target with Brave Bird now correctly inflicts only 2 HP recoil! Struggle remains the canonical exception, dealing fixed recoil equal to 25% of the user's maximum HP.</li>
+                            <li><strong>Substitute & Multi-Hit Recoil Capping:</strong> When striking a Substitute, recoil is calculated solely from the damage absorbed by the decoy (capped at the decoy's remaining HP) plus any spillover strikes dealt to the Pokémon.</li>
+                            <li><strong>Drain Healing Capping:</strong> Drain attacks (<code>Giga Drain</code>, <code>Drain Punch</code>, <code>Horn Leech</code>) restore HP equal to 50% of the damage actually inflicted on the target rather than theoretical overkill numbers.</li>
+                            <li><strong>Rock Head & Magic Guard Immunity:</strong> Added complete recoil immunity for Pokémon with <code>Rock Head</code> (e.g. Aerodactyl, Hisuian Arcanine) and <code>Magic Guard</code> (e.g. Clefable), which also negates Life Orb recoil.</li>
+                        </ul>
+                    </p>
+                </div>
+
                 <h3 id="current-caveats"><span>🚧</span> Current Caveats & Works-in-Progress (WIP)</h3>
                 <ul>
                     <li><strong>Doubles Target Selection:</strong> Single-target attacks in doubles auto-target the primary opposing active slot. An interactive Left vs Right target selector modal is planned.</li>
