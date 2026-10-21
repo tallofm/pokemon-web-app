@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéDex Hub - Developer Technical Documentation & Architecture Reference</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .docs-page-wrapper {
+            display: flex;
+            min-height: calc(100vh - 60px);
+            max-width: 1560px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        .docs-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            padding: 24px 16px;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-subtle);
+            text-align: left;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .docs-search-box {
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .docs-search-input {
+            width: 100%;
+            padding: 9px 12px 9px 34px;
+            font-size: 0.84rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .docs-search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px var(--accent-subtle);
+        }
+        .docs-search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .docs-nav-group {
+            margin-bottom: 10px;
+        }
+
+        .docs-nav-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin: 0 0 5px 8px;
+        }
+
+        .docs-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .docs-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.12s ease;
+        }
+
+        .docs-nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-surface-hover);
+        }
+
+        .docs-nav-link.active {
+            color: var(--accent-primary);
+            background: var(--accent-subtle);
+            font-weight: 700;
+            border-left: 3px solid var(--accent-primary);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Main Content Container */
+        .docs-content {
+            flex: 1;
+            min-width: 0;
+            padding: 36px 54px 80px;
+            text-align: left;
+            background: var(--bg-primary);
+        }
+
+        .docs-hero {
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 24px;
+            margin-bottom: 36px;
+        }
+
+        .docs-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+        .badge-pill--green {
+            background: rgba(34, 197, 94, 0.12);
+            color: #16a34a;
+            border-color: #22c55e;
+        }
+        .badge-pill--purple {
+            background: rgba(168, 85, 247, 0.12);
+            color: #9333ea;
+            border-color: #a855f7;
+        }
+        .badge-pill--orange {
+            background: rgba(249, 115, 22, 0.12);
+            color: #ea580c;
+            border-color: #f97316;
+        }
+
+        .docs-hero h1 {
+            font-size: 2.3rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin: 0 0 10px;
+            color: var(--text-primary);
+        }
+
+        .docs-hero-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+            max-width: 900px;
+        }
+
+        /* Documentation Sections */
+        .docs-section {
+            margin-bottom: 64px;
+            scroll-margin-top: 80px;
+        }
+
+        .docs-section h2 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            margin: 0 0 16px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+        }
+
+        .docs-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 28px 0 12px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .docs-section h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: var(--text-primary);
+        }
+
+        .docs-section p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.68;
+            margin: 0 0 14px;
+        }
+
+        .docs-section ul, .docs-section ol {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+            line-height: 1.65;
+            margin: 0 0 18px 24px;
+            padding: 0;
+        }
+
+        .docs-section li {
+            margin-bottom: 6px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .callout-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .callout-info {
+            background: rgba(37, 99, 235, 0.08);
+            border-left: 4px solid var(--accent-primary);
+            color: var(--text-primary);
+        }
+        .callout-tip {
+            background: rgba(34, 197, 94, 0.08);
+            border-left: 4px solid #22c55e;
+            color: var(--text-primary);
+        }
+        .callout-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            color: var(--text-primary);
+        }
+        .callout-caution {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            color: var(--text-primary);
+        }
+
+        /* File Architecture Cards */
+        .file-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .file-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .file-card-title {
+            font-family: var(--font-mono);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-card-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg-subtle);
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        /* Documentation Tables */
+        .docs-table-wrap {
+            overflow-x: auto;
+            margin: 18px 0 24px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .docs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-align: left;
+        }
+        .docs-table th {
+            background: var(--table-th-bg);
+            color: var(--table-th-text);
+            padding: 10px 14px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+        .docs-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+        .docs-table tr:last-child td {
+            border-bottom: none;
+        }
+        .docs-table tr:nth-child(even) td {
+            background: var(--table-stripe);
+        }
+
+        /* Code Block Styling - PRESERVED WHITESPACE GUARANTEE */
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85em;
+            background: var(--bg-subtle);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-box {
+            background: #0f172a;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow-x: auto;
+        }
+        .code-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 6px;
+        }
+        .code-box pre, pre.ascii-tree, pre.ascii-diagram {
+            white-space: pre !important;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            color: #f8fafc;
+            overflow-x: auto;
+            background: transparent;
+        }
+
+        /* Rich Visual Architecture Flowchart (No ASCII Breakage) */
+        .arch-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .arch-node {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 12px 18px;
+            text-align: center;
+            min-width: 170px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.15s ease;
+        }
+        .arch-node:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+        .arch-node-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .arch-node-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+        .arch-node--client {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .arch-node--flask {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .arch-node--engine {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+        .arch-node--storage {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.05);
+        }
+        .arch-connector {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .docs-sidebar {
+                position: fixed;
+                left: -330px;
+                transition: left 0.25s ease;
+                box-shadow: var(--shadow-lg);
+            }
+            .docs-sidebar.open {
+                left: 0;
+            }
+            .docs-content {
+                padding: 24px 20px 60px;
+            }
+            .docs-mobile-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 16px;
+                background: var(--bg-surface);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+        }
+        @media (min-width: 901px) {
+            .docs-mobile-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+                <a href="/guide" class="nav-item">📘 Guide</a>
+                <a href="/developer" class="nav-item active">🛠️ Dev Docs</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=home" class="btn-nav" title="Discover something random!">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Bar -->
+    <div class="docs-mobile-bar">
+        <button onclick="toggleSidebar()" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem;">
+            ☰ Architecture Nav
+        </button>
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Developer Technical Docs</span>
+    </div>
+
+    <div class="docs-page-wrapper">
+        <!-- Sticky Sidebar Navigation -->
+        <aside id="docs-sidebar" class="docs-sidebar">
+            <div class="docs-search-box">
+                <span class="docs-search-icon">🔍</span>
+                <input type="text" id="docs-filter-input" class="docs-search-input" placeholder="Filter dev modules..." oninput="filterTopics()">
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">1. System Architecture</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#arch-overview" class="docs-nav-link active">🏛️ Architecture & Visual Flow</a></li>
+                    <li><a href="#tech-stack" class="docs-nav-link">⚙️ Tech Stack & Philosophy</a></li>
+                    <li><a href="#repo-layout" class="docs-nav-link">📂 Repository Directory Map</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">2. Complete app.py Route Registry</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#routes-core" class="docs-nav-link">🌐 Core Web Pages & Dex Viewers (17)</a></li>
+                    <li><a href="#routes-tb" class="docs-nav-link">👥 Teambuilder & Types REST APIs (10)</a></li>
+                    <li><a href="#routes-sim" class="docs-nav-link">🏟️ Simulator REST API Endpoints (5)</a></li>
+                    <li><a href="#routes-fav" class="docs-nav-link">💖 Favorites REST APIs (2)</a></li>
+                    <li><a href="#routes-cache" class="docs-nav-link">💾 Cache Recovery & Telemetry (17)</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">3. Backend Modular Engines</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#file-battle-engine" class="docs-nav-link">⚔️ battle_engine.py (3,126+ Lines)</a></li>
+                    <li><a href="#file-battle-ai" class="docs-nav-link">🤖 battle_ai.py (Heuristics & Minimax)</a></li>
+                    <li><a href="#file-battle-knowledge" class="docs-nav-link">🧠 battle_knowledge.py (ML Cache)</a></li>
+                    <li><a href="#file-ai-coach" class="docs-nav-link">🎓 ai_coach.py (Tactical Advisor)</a></li>
+                    <li><a href="#file-cache" class="docs-nav-link">💾 cache.py (Multi-Tier Storage)</a></li>
+                    <li><a href="#file-default-datasets" class="docs-nav-link">📦 default_datasets.py (Fallback Initial Data)</a></li>
+                    <li><a href="#file-pokeapi" class="docs-nav-link">🌐 pokeapi.py (API Client)</a></li>
+                    <li><a href="#file-type-eff" class="docs-nav-link">🛡️ type_effectiveness.py (Matrix)</a></li>
+                    <li><a href="#file-naming" class="docs-nav-link">🔤 naming.py (Humanizer & Suffixes)</a></li>
+                    <li><a href="#file-special-pk" class="docs-nav-link">⭐ special_pokemon.py (Categories)</a></li>
+                    <li><a href="#file-favorites" class="docs-nav-link">💖 favorites.py (Persistence)</a></li>
+                    <li><a href="#file-tb-storage" class="docs-nav-link">📋 teambuilder_storage.py (Archetypes)</a></li>
+                    <li><a href="#file-logger" class="docs-nav-link">📝 logger.py (Telemetry Engine)</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">4. Data Schemas & Disk Storage</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#data-cache-json" class="docs-nav-link">📁 data/*.json Specs & Schemas</a></li>
+                    <li><a href="#cache-backup-rotation" class="docs-nav-link">🔄 Backup & Recovery Rotation</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">5. Frontend Templates (16 Files)</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#frontend-templates" class="docs-nav-link">🎨 Frontend Architecture Overview</a></li>
+                    <li><a href="#template-teambuilder" class="docs-nav-link">👥 teambuilder.html (195KB)</a></li>
+                    <li><a href="#template-simulator" class="docs-nav-link">🏟️ simulator.html (140KB)</a></li>
+                    <li><a href="#template-pokedex" class="docs-nav-link">📖 pokedex.html & Sub-Dexes</a></li>
+                    <li><a href="#template-others" class="docs-nav-link">📄 Detail Sheets & Generation Views</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">6. Simulator Mechanics Deep Dive</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#damage-formula" class="docs-nav-link">📐 Official Gen 9 Damage Formula</a></li>
+                    <li><a href="#turn-priority" class="docs-nav-link">⏱️ Turn Ordering & Priority Brackets</a></li>
+                    <li><a href="#omni-ring-mechanics" class="docs-nav-link">💍 Omni Ring & Held Mega Stones</a></li>
+                    <li><a href="#dynamic-speed-mechanics" class="docs-nav-link">⚡ Dynamic Speed & Two-Turn Moves</a></li>
+                    <li><a href="#accuracy-engine" class="docs-nav-link">🎯 Weather & Accuracy Bypasses</a></li>
+                    <li><a href="#status-mechanics" class="docs-nav-link">⚡ Volatile vs Non-Volatile Status</a></li>
+                    <li><a href="#abilities-items" class="docs-nav-link">✨ Ability & Item Procs</a></li>
+                    <li><a href="#knowledge-cache-engine" class="docs-nav-link">🧠 AI Battle Knowledge Cache Engine</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">7. Bugfix History, WIP & Roadmap</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#recent-bugfixes" class="docs-nav-link">🐛 Documented Bugfixes & Edge Cases</a></li>
+                    <li><a href="#current-caveats" class="docs-nav-link">🚧 Current Caveats (WIP)</a></li>
+                    <li><a href="#ai-improvements" class="docs-nav-link">🚀 AI Improvements & Future Roadmap</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">8. Maintenance & Testing</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#how-to-add" class="docs-nav-link">➕ Adding Pokémon, Moves, Items</a></li>
+                    <li><a href="#test-routines" class="docs-nav-link">🧪 Verification & Test Commands</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <!-- Hero -->
+            <section class="docs-hero">
+                <div class="docs-badge-row">
+                    <span class="badge-pill badge-pill--purple">🛠️ Developer Manual</span>
+                    <span class="badge-pill">🐍 Python 3.12 / Flask</span>
+                    <span class="badge-pill badge-pill--green">⚡ 100% Offline-First</span>
+                    <span class="badge-pill badge-pill--orange">53 Route Decorators / 52 Endpoints</span>
+                </div>
+                <h1>Developer Technical Documentation & Architecture Reference</h1>
+                <p class="docs-hero-lead">
+                    Exhaustive reference manual designed to empower any maintainer or contributor to completely understand, 
+                    debug, test, and extend every component of the PokéDex Hub platform. Documents all 45 routes, 12 backend utility engines, 
+                    8 data schemas, 16 frontend templates, simulator state machines, and recent competitive bugfixes.
+                </p>
+            </section>
+
+            <!-- 1. System Architecture -->
+            <section id="arch-overview" class="docs-section">
+                <h2><span>🏛️</span> System Architecture & Visual Data Flow</h2>
+                <p>
+                    PokéDex Hub is architected as an <strong>offline-first local-storage & disk-cache platform</strong>. 
+                    Rather than relying on continuous external API requests that introduce network latency, 
+                    100% of the competitive Pokémon dataset (1,025+ species, 900+ moves, abilities, items) resides in normalized, 
+                    in-memory preloaded JSON disk stores under <code>data/</code>.
+                </p>
+
+                <!-- Responsive Visual Architecture Flowchart -->
+                <div class="arch-pipeline">
+                    <div style="font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); text-align: center; margin-bottom: 8px;">
+                        Interactive System Runtime Data Flow
+                    </div>
+                    
+                    <!-- Tier 1: Client Browser -->
+                    <div class="arch-row">
+                        <div class="arch-node arch-node--client">
+                            <div class="arch-node-title">📖 Pokédex UI</div>
+                            <div class="arch-node-sub">Vanilla JS • Regex Search</div>
+                        </div>
+                        <div class="arch-node arch-node--client">
+                            <div class="arch-node-title">👥 Teambuilder</div>
+                            <div class="arch-node-sub">4 Diagnostics • Pokepaste</div>
+                        </div>
+                        <div class="arch-node arch-node--client">
+                            <div class="arch-node-title">🏟️ Simulator Arena</div>
+                            <div class="arch-node-sub">Turn Banner • Central Move Card</div>
+                        </div>
+                        <div class="arch-node arch-node--client">
+                            <div class="arch-node-title">🛡️ Type Tool</div>
+                            <div class="arch-node-sub">18x18 Matchup Matrix</div>
+                        </div>
+                    </div>
+
+                    <div class="arch-connector">⬇️ REST JSON / HTML GET & POST (HTTP 1.1) ⬇️</div>
+
+                    <!-- Tier 2: Flask App Controller -->
+                    <div class="arch-row">
+                        <div class="arch-node arch-node--flask" style="flex: 1; max-width: 780px;">
+                            <div class="arch-node-title">🐍 Flask Application Controller (app.py)</div>
+                            <div class="arch-node-sub">45 Unique Endpoints • Request Sanitization • JSON API Dispatcher • Jinja2 Template Renderer</div>
+                        </div>
+                    </div>
+
+                    <div class="arch-connector">⬇️ Modular Internal Engine Calls ⬇️</div>
+
+                    <!-- Tier 3: Core Engines -->
+                    <div class="arch-row">
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">⚔️ battle_engine.py</div>
+                            <div class="arch-node-sub">State Machine • Gen 9 Formulas</div>
+                        </div>
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">🤖 battle_ai.py</div>
+                            <div class="arch-node-sub">1–100 Slider • Minimax Depth</div>
+                        </div>
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">💾 cache.py</div>
+                            <div class="arch-node-sub">Multi-Tier Disk Cache & Loaders</div>
+                        </div>
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">📦 default_datasets.py</div>
+                            <div class="arch-node-sub">Initial Fallbacks & Dynamic Seeds</div>
+                        </div>
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">🧠 battle_knowledge.py</div>
+                            <div class="arch-node-sub">Reinforcement Machine Learning</div>
+                        </div>
+                    </div>
+
+                    <div class="arch-connector">⬇️ Read / Write Persistence ⬇️</div>
+
+                    <!-- Tier 4: Disk Storage -->
+                    <div class="arch-row">
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 pokemon_cache.json</div>
+                            <div class="arch-node-sub">1,025+ Species (160MB+)</div>
+                        </div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 moves_cache.json</div>
+                            <div class="arch-node-sub">559+ Moves (17MB+)</div>
+                        </div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 mega_stones_cache.json</div>
+                            <div class="arch-node-sub">53 Species • 58 Stones</div>
+                        </div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 gmax_moves_cache.json</div>
+                            <div class="arch-node-sub">36 Signatures & Effects</div>
+                        </div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 move_overrides_cache.json</div>
+                            <div class="arch-node-sub">206 Competitive Moves</div>
+                        </div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">📁 sample_teams.json</div>
+                            <div class="arch-node-sub">60 Archetypes (520KB)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="tech-stack"><span>⚙️</span> Tech Stack & Engineering Philosophy</h3>
+                <ul>
+                    <li><strong>Backend Runtime:</strong> Python 3.12 with Flask serving RESTful API routes and Jinja2 templates.</li>
+                    <li><strong>Zero NPM/Build Tool Dependencies:</strong> The frontend utilizes native Vanilla JavaScript (ES6+), standard Semantic HTML5, and CSS Custom Properties. You never need to run Webpack, Vite, or npm install to modify or deploy the application.</li>
+                    <li><strong>No SQL Database Requirement:</strong> Complete state persistence is achieved through structured JSON disk stores in <code>data/</code> with automated backup and recovery mechanisms.</li>
+                    <li><strong>Tournament Accuracy:</strong> Follows official Gen 9 competitive standards (VGC Regulation H and Smogon OU).</li>
+                </ul>
+
+                <h3 id="repo-layout"><span>📂</span> Repository Directory Map</h3>
+                <div class="docs-card-grid" style="margin-bottom: 16px;">
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>🐍</span> app.py</div>
+                        <p>Master Flask controller registering 53 route decorators across 52 unique endpoints, JSON telemetry dispatchers, and Jinja2 views.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>📁</span> data/</div>
+                        <p>100% offline-first storage: 5 JSON cache stores (pokemon, moves, abilities, items, extra), 60 archetype teams, ML knowledge cache, and telemetry logs.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>🎨</span> templates/</div>
+                        <p>16 Jinja2 HTML templates including Championship Teambuilder (195KB), Battle Simulator Arena (140KB), and Pokédex Gallery.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>⚙️</span> utils/</div>
+                        <p>12 modular backend engines governing damage math, minimax AI, PokeAPI client, type charts, naming humanization, and storage.</p>
+                    </div>
+                </div>
+                <div class="code-box">
+<div class="code-box-header"><span>DIRECTORY STRUCTURE</span><span>ROOT: /pokemon-web-app</span></div>
+<pre class="ascii-tree">pokemon-web-app/
+├── app.py                      # Master route controller and API endpoints (1,795 lines)
+├── data/                       # Offline JSON caches and telemetry logs
+│   ├── pokemon_cache.json      # 1,025+ species data, base stats, types, sprites (160MB+)
+│   ├── moves_cache.json        # 559+ move definitions, accuracy, damage category (17MB+)
+│   ├── abilities_cache.json    # Abilities descriptions, competitive ratings (3.6MB)
+│   ├── items_cache.json        # Held items database and sprite metadata (19MB)
+│   ├── extra_cache.json        # Evolution trees, descriptions, egg groups (40MB+)
+│   ├── sample_teams.json       # 60 tournament archetype teams (520KB)
+│   ├── battle_knowledge_cache  # AI self-learning reinforcement state cache
+│   ├── favorites_cache.json    # User favorited Pokémon species IDs
+│   ├── competitive_items.json  # Curated list of viable battle held items
+│   └── cache_log.txt           # Cache hit/miss telemetry log file
+├── static/
+│   ├── style.css               # Core CSS design system with Dark/Light theme tokens
+│   └── ball.png                # Fallback Pokéball sprite asset
+├── templates/                  # 16 Jinja2 HTML templates
+│   ├── home.html               # Landing hub & cache telemetry dashboard
+│   ├── pokedex.html            # Species gallery, 2-row type filter, favorites
+│   ├── pokemon_detail.html     # Species sheet, stat radar, EV/IV calculator, cries
+│   ├── teambuilder.html        # Championship Teambuilder & 4 diagnostics (195KB)
+│   ├── simulator.html          # Turn-by-turn battle simulator arena (140KB)
+│   ├── type_tool.html          # Matchup calculator & defensive weakness matrix
+│   ├── movedex.html            # Moves database & category filters
+│   ├── move_detail.html        # Move detail sheet & learning Pokémon
+│   ├── abilitydex.html         # Abilities database & ratings
+│   ├── ability_detail.html     # Ability detail sheet & species rosters
+│   ├── itemdex.html            # Held items index & categories
+│   ├── item_detail.html        # Item detail sheet
+│   ├── generation_view.html    # Generation 1-9 filter view
+│   ├── type_view.html          # Single elemental type filter view
+│   ├── operational_guide.html  # Operational (How to Use) guide
+│   └── developer_docs.html     # Developer technical documentation
+└── utils/                      # Modular Python engines
+    ├── battle_engine.py        # Core battle simulation state machine (2,130 lines)
+    ├── battle_ai.py            # AI decision heuristics, difficulty slider, lookahead
+    ├── battle_knowledge.py     # AI reinforcement learning cache loader and writer
+    ├── ai_coach.py             # Heuristic tactical feedback engine
+    ├── cache.py                # Disk cache management, recovery, and PokeAPI fallbacks
+    ├── pokeapi.py              # External HTTP client with retry loops
+    ├── type_effectiveness.py   # Type chart matrix and multiplier calculator
+    ├── naming.py               # Humanizer, CamelCase converter, and suffix mappings
+    ├── special_pokemon.py      # Classification sets (Legendary, Paradox, Megas, etc.)
+    ├── favorites.py            # User favorites persistence handler
+    ├── teambuilder_storage.py  # Sample teams and competitive items disk storage
+    └── logger.py               # Cache telemetry logger</pre>
+                </div>
+            </section>
+
+            <!-- 2. Complete app.py Route Registry -->
+            <section id="routes-core" class="docs-section">
+                <h2><span>🐍</span> Complete app.py Route Registry (All 52 Endpoints / 53 Route Rules)</h2>
+                <p>
+                    Below is the exhaustive, categorized reference for all 53 route decorators across all 45 unique endpoints in <code>app.py</code>:
+                </p>
+
+                <h3>1. Core Web Pages & Dex Viewers (17 Endpoints)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Route Path</th>
+                                <th>Method</th>
+                                <th>Input Parameters</th>
+                                <th>Template Rendered</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>home.html</code></td>
+                                <td>Landing hub with cache diagnostics, telemetry metrics, and feature links.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/pokedex</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?page=1&query=...</code></td>
+                                <td><code>pokedex.html</code></td>
+                                <td>Paginated species gallery with regex search, 2-row type filters, special category chips, and favorites.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/pokemon/&lt;name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>name</code> (species slug)</td>
+                                <td><code>pokemon_detail.html</code></td>
+                                <td>Species detail page with stat radar, EV/IV formula calculator, learnset accordion, and cry audio.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/random</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?context=home|pokemon|move|ability|item</code></td>
+                                <td>Redirect (302)</td>
+                                <td>Redirects to a randomly chosen Pokémon, move, ability, or item page.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/generation/&lt;int:gen_id&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>gen_id</code> (1 to 9)</td>
+                                <td><code>generation_view.html</code></td>
+                                <td>Filters and displays all Pokémon originating from a specific Generation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/type/&lt;type_name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>type_name</code> (e.g. fire, ghost)</td>
+                                <td><code>type_view.html</code></td>
+                                <td>Displays all Pokémon possessing a specific primary or secondary elemental type.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/movedex</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?type=...&category=...</code></td>
+                                <td><code>movedex.html</code></td>
+                                <td>Searchable battle moves database with filters for Physical, Special, Status, and types.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/move/&lt;move_name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>move_name</code></td>
+                                <td><code>move_detail.html</code></td>
+                                <td>Move detail sheet showing Base Power, Accuracy, Priority (+5 to -7), PP, and learnset species.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/abilitydex</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>abilitydex.html</code></td>
+                                <td>Abilities directory with competitive viability ratings, hidden ability tags, and descriptions.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/ability/&lt;ability_name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>ability_name</code></td>
+                                <td><code>ability_detail.html</code></td>
+                                <td>Ability detail sheet with full competitive flavor text and list of possessing Pokémon.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/itemdex</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?category=...</code></td>
+                                <td><code>itemdex.html</code></td>
+                                <td>Directory of held battle items, berries, choice items, and equipment.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/item/&lt;item_name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>item_name</code></td>
+                                <td><code>item_detail.html</code></td>
+                                <td>Item detail sheet explaining in-battle mechanics, stat multipliers, and activation thresholds.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/type_tool</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?pokemon=...&defense=...</code></td>
+                                <td><code>type_tool.html</code></td>
+                                <td>Interactive dual-type damage calculator, 18×18 matchup matrix, quad-weakness diagnostics, and ability immunities.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/teambuilder</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>teambuilder.html</code></td>
+                                <td>Championship teambuilder with 60 cached sample teams, slot editor, and 4 tournament diagnostics.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/simulator</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>simulator.html</code></td>
+                                <td>Showdown-style turn-by-turn battle simulator with live arena, bench sync, and AI coaching.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/guide</code>, <code>/docs/guide</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>operational_guide.html</code></td>
+                                <td>Comprehensive operational user manual and strategy guide.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/developer</code>, <code>/docs/developer</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>developer_docs.html</code></td>
+                                <td>Technical developer architecture reference.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="routes-tb">2. Teambuilder & Type REST APIs (11 Endpoints)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Route Path</th>
+                                <th>Method</th>
+                                <th>Request Payload / Query</th>
+                                <th>JSON Response Schema</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/api/pokemon_teambuilder_data/&lt;name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>name</code></td>
+                                <td><code>{id, name, display_name, sprite, types, base_stats, abilities, moves}</code></td>
+                                <td>Enriches species metadata with verified move types, damage categories, power, accuracy, and PP.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/pokemon_types/&lt;name&gt;</code></td>
+                                <td>GET</td>
+                                <td>Path: <code>name</code></td>
+                                <td><code>{types: ["fire", "flying"]}</code></td>
+                                <td>Quick lookup returning the elemental types of a specified Pokémon.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/pokemon_by_types</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?type1=fire&type2=ghost</code></td>
+                                <td><code>{pokemon: [{name, display_name, sprite, types}]}</code></td>
+                                <td>Filters species matching a specific primary or dual-type combination.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/legal_pokemon</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>{legal_pokemon: ["incineroar", ...]}</code></td>
+                                <td>Returns list of all tournament-legal Pokémon for format filtering.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/itemdex_search</code></td>
+                                <td>GET</td>
+                                <td>Query: <code>?q=choice</code></td>
+                                <td><code>{items: [{name, display_name, sprite, description}]}</code></td>
+                                <td>Fast autocomplete endpoint for held competitive items.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/sample_teams</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>{ "vgc-reg-h-balance": { id, name, mode, archetype, members: [...] } }</code></td>
+                                <td>Returns all 60 cached championship sample teams from <code>data/sample_teams.json</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/sample_teams</code></td>
+                                <td>POST</td>
+                                <td>JSON: Team object schema</td>
+                                <td><code>{success: true, message: "Team saved"}</code></td>
+                                <td>Creates or updates a championship sample team directly into disk storage.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/sample_teams/&lt;team_id&gt;</code></td>
+                                <td>DELETE</td>
+                                <td>Path: <code>team_id</code></td>
+                                <td><code>{success: true, message: "Team deleted"}</code></td>
+                                <td>Deletes a team archetype from <code>data/sample_teams.json</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/competitive_items</code></td>
+                                <td>GET, POST</td>
+                                <td>POST JSON: <code>{item: "booster-energy"}</code></td>
+                                <td><code>{items: [...]}</code></td>
+                                <td>Manages the curated list of competitive battle items in <code>data/competitive_items.json</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/competitive_items/&lt;item_name&gt;</code></td>
+                                <td>DELETE</td>
+                                <td>Path: <code>item_name</code></td>
+                                <td><code>{success: true}</code></td>
+                                <td>Removes an item from the competitive items whitelist.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/ai_coach_insight</code></td>
+                                <td>POST</td>
+                                <td>JSON: <code>{team: {...}, question: "...", api_key: "..."}</code></td>
+                                <td><code>{insights: [...], recommendations: [...], grade: "A"}</code></td>
+                                <td>Generates dynamic AI Championship Coach tactical insights, weakness diagnostics, and strategic recommendations for the active team roster.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="routes-sim">3. Battle Simulator REST APIs (5 Endpoints)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Route Path</th>
+                                <th>Method</th>
+                                <th>Request Payload</th>
+                                <th>JSON Response Schema</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/api/simulator/init</code></td>
+                                <td>POST</td>
+                                <td><code>{side1Team, side2Team, ruleset, aiDifficulty, format}</code></td>
+                                <td><code>{battleId, state: {...}}</code></td>
+                                <td>Initializes a new battle state session in <code>ACTIVE_BATTLES</code> memory.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/simulator/step</code></td>
+                                <td>POST</td>
+                                <td><code>{battleId, actionSide1, actionSide2}</code></td>
+                                <td><code>{state, newEvents, isFinished, winner}</code></td>
+                                <td>Resolves a complete battle turn through <code>battle_engine.py</code> and updates live state.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/simulator/switch_replacement</code></td>
+                                <td>POST</td>
+                                <td><code>{battleId, targetIndex}</code></td>
+                                <td><code>{success: true, state, newEvents}</code></td>
+                                <td>Switches in a replacement Pokémon after active Pokémon faints without eating attack turn.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/simulator/knowledge</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>{success: true, knowledge: {...}}</code></td>
+                                <td>Returns AI battle knowledge cache telemetry and win/loss heuristics from <code>data/battle_knowledge_cache.json</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/simulator/knowledge/reset</code></td>
+                                <td>POST</td>
+                                <td>None</td>
+                                <td><code>{success: true, knowledge: {}}</code></td>
+                                <td>Clears the self-learning knowledge cache.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="routes-fav">4. Favorites REST APIs (2 Endpoints)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Route Path</th>
+                                <th>Method</th>
+                                <th>Payload / Query</th>
+                                <th>Response</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/api/favorites</code></td>
+                                <td>GET</td>
+                                <td>None</td>
+                                <td><code>{favorites: ["pikachu", "charizard"]}</code></td>
+                                <td>Returns array of all favorited Pokémon slugs from <code>data/favorites_cache.json</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/favorites/toggle</code></td>
+                                <td>POST</td>
+                                <td>JSON: <code>{species: "pikachu"}</code></td>
+                                <td><code>{success: true, isFavorite: true, count: 12}</code></td>
+                                <td>Toggles favorite status on or off for a given species and persists to disk.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="routes-cache">5. Cache Recovery, Telemetry & Diagnostics (17 Endpoints)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint Route</th>
+                                <th>Target Cache File</th>
+                                <th>Function Triggered</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>/toggle_logging</code></td><td><code>data/cache_log.txt</code></td><td><code>toggle_logging()</code></td><td>Toggles operational telemetry logging on or off.</td></tr>
+                            <tr><td><code>/backup_cache</code></td><td><code>pokemon_cache.json</code></td><td><code>backup_cache()</code></td><td>Creates timestamped backup of the 1,025+ species cache.</td></tr>
+                            <tr><td><code>/refresh_cache</code></td><td><code>pokemon_cache.json</code></td><td><code>refresh_cache()</code></td><td>Flushes and re-fetches species data from PokeAPI.</td></tr>
+                            <tr><td><code>/recover_cache</code></td><td><code>pokemon_cache.json</code></td><td><code>recover_cache()</code></td><td>Rolls back species cache to the latest valid snapshot.</td></tr>
+                            <tr><td><code>/backup_extra_cache</code></td><td><code>extra_cache.json</code></td><td><code>backup_extra_cache()</code></td><td>Creates backup of evolutions and species flavor texts.</td></tr>
+                            <tr><td><code>/refresh_extra_cache</code></td><td><code>extra_cache.json</code></td><td><code>refresh_extra_cache()</code></td><td>Flushes extra cache.</td></tr>
+                            <tr><td><code>/recover_extra_cache</code></td><td><code>extra_cache.json</code></td><td><code>recover_extra_cache()</code></td><td>Recovers extra cache from latest snapshot.</td></tr>
+                            <tr><td><code>/backup_moves_cache</code></td><td><code>moves_cache.json</code></td><td><code>backup_moves_cache()</code></td><td>Creates timestamped backup of 559+ move definitions.</td></tr>
+                            <tr><td><code>/refresh_moves_cache</code></td><td><code>moves_cache.json</code></td><td><code>refresh_moves_cache()</code></td><td>Flushes moves cache.</td></tr>
+                            <tr><td><code>/recover_moves_cache</code></td><td><code>moves_cache.json</code></td><td><code>recover_moves_cache()</code></td><td>Recovers moves cache from latest snapshot.</td></tr>
+                            <tr><td><code>/backup_abilities_cache</code></td><td><code>abilities_cache.json</code></td><td><code>backup_abilities_cache()</code></td><td>Creates backup of abilities cache.</td></tr>
+                            <tr><td><code>/refresh_abilities_cache</code></td><td><code>abilities_cache.json</code></td><td><code>refresh_abilities_cache()</code></td><td>Flushes abilities cache.</td></tr>
+                            <tr><td><code>/recover_abilities_cache</code></td><td><code>abilities_cache.json</code></td><td><code>recover_abilities_cache()</code></td><td>Recovers abilities cache from latest snapshot.</td></tr>
+                            <tr><td><code>/backup_items_cache</code></td><td><code>items_cache.json</code></td><td><code>backup_items_cache()</code></td><td>Creates backup of competitive items cache.</td></tr>
+                            <tr><td><code>/refresh_items_cache</code></td><td><code>items_cache.json</code></td><td><code>refresh_items_cache()</code></td><td>Flushes items cache.</td></tr>
+                            <tr><td><code>/recover_items_cache</code></td><td><code>items_cache.json</code></td><td><code>recover_items_cache()</code></td><td>Recovers items cache from latest snapshot.</td></tr>
+                            <tr><td><code>/refresh_lists</code></td><td>All in-memory caches</td><td><code>refresh_lists()</code></td><td>Flushes all in-memory lists, forcing immediate re-read from disk.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 3. Backend Modular Engines -->
+            <section id="file-battle-engine" class="docs-section">
+                <h2><span>⚙️</span> Backend Modular Engines (utils/)</h2>
+
+                <!-- battle_engine.py -->
+                <div class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">⚔️ utils/battle_engine.py</span>
+                        <span class="file-card-badge">3,126 Lines • Core Battle State Machine & Dynamic Registries</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Governs all in-battle mechanics according to official Pokémon Generation 9 competitive rules and the unified Omni Ring standard.
+                    </p>
+                    <h4>Core Data Classes & State:</h4>
+                    <ul>
+                        <li><code>PokemonState</code>: Tracks active HP, stat stages (-6 to +6), non-volatile persistent status (burn, freeze, paralysis, sleep, poison), volatile conditions (confusion, flinch, infatuation), item availability, Terastallization state, Mega Evolution state (strictly validated by held Mega Stone), Gigantamax state (3-turn counter, 1.5× HP boost), PP, <code>choice_locked_move</code>, <code>disguise_busted</code>, <code>can_fake_out</code>, and <code>charging_move</code>.</li>
+                        <li><code>FieldState / BattleSimulator</code>: Tracks global weather (<code>rain</code>, <code>sun</code>, <code>snow</code>, <code>sandstorm</code> with 5-turn counters), terrain (<code>grassy</code>, <code>electric</code>, <code>psychic</code>, <code>misty</code> with 5-turn counters), and Trick Room (5 turns).</li>
+                        <li><code>BattleSide</code>: Tracks team roster, active index, side screens (Reflect, Light Screen, Aurora Veil with remaining-turn countdowns), Tailwind (4 turns), entry hazards (Stealth Rock, Spikes layers, Toxic Spikes, Sticky Web, Steelsurge), and lingering 4-turn G-Max fields (Wildfire, Cannonade, Vine Lash, Volcalith).</li>
+                    </ul>
+                    <h4>Key Battle Methods & Mechanics:</h4>
+                    <ul>
+                        <li><code>calculate_damage(attacker, defender, move_name, is_crit) -> (int, dict)</code>: Computes exact damage using the Gen 9 formula factoring Base Power, stat stages, weather boosts, terrain multipliers, STAB, type effectiveness (including Freeze-Dry on Water), Multiscale (50% cut at 100% HP), Disguise absorption (ignoring Dragon moves on Fairy), Supreme Overlord (+10% per fainted ally), screens mitigation, and physical burn penalty.</li>
+                        <li><code>calc_spread_multiplier(move_name, targets_count) -> float</code>: Applies the official 0.75× damage scaling to spread attacks (Muddy Water, Bleakwind Storm, Heat Wave, Earthquake) when multiple defenders are present, or 1.0× full damage if a solo defender remains.</li>
+                        <li><code>check_priority_block(attacker, defender, move_name) -> bool</code>: Validates that grounded Pokémon targeted by priority moves in Psychic Terrain are completely immune.</li>
+                        <li><code>execute_trick_switcheroo(user_poke, target_poke)</code>: Atomically swaps held items between user and target, dynamically releasing or binding Choice locks while enforcing Mega Stone item security.</li>
+                        <li><code>get_mega_species_for_item() -> Optional[str]</code>: Dynamically checks <code>MEGA_STONE_MAP</code> to verify that the Pokémon is holding its designated Mega Stone (or knows Dragon Ascent for Rayquaza) before allowing Mega Evolution, strictly dictating forms (e.g. Charizardite X vs Y, Lucarionite vs Lucarionite Z, Absolite vs Absolite Z).</li>
+                        <li><code>execute_turn(action1, action2)</code>: Sorts actions via Priority Brackets (+5 to -7), Trick Room inversion, and dynamic same-turn Speed recalculation (speed changes from Tailwind or Mega Evolution take effect immediately).</li>
+                    </ul>
+                </div>
+
+                <!-- battle_ai.py -->
+                <div id="file-battle-ai" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🤖 utils/battle_ai.py</span>
+                        <span class="file-card-badge">370 Lines • Decision & Prediction Engine</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Powers the AI computer opponent from Difficulty 1 to 100.
+                    </p>
+                    <h4>Heuristic Algorithm:</h4>
+                    <ul>
+                        <li><strong>Damage Utility:</strong> Computes raw percentage damage against opponent's current HP. Awards +120 bonus for lethal Knockouts.</li>
+                        <li><strong>Weather Awareness:</strong> Recognizes that Hurricane and Thunder have 100% accuracy under Rain, and Blizzard has 100% accuracy under Snow.</li>
+                        <li><strong>Level 100 Champion Lookahead:</strong> Leverages Minimax depth to predict switch-ins. Evaluates opponent's bench for resistances and pre-emptively selects super-effective coverage or setup moves.</li>
+                    </ul>
+                </div>
+
+                <!-- battle_knowledge.py -->
+                <div id="file-battle-knowledge" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🧠 utils/battle_knowledge.py</span>
+                        <span class="file-card-badge">Reinforcement Machine Learning Cache</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Persistent memory and telemetry engine for Championship AI. Bridges post-game battle analytics with future AI action selection via <code>data/battle_knowledge_cache.json</code>.
+                    </p>
+                    <h4>Core Subsystems & Functions:</h4>
+                    <ul>
+                        <li><code>load_battle_knowledge() -> Dict[str, Any]</code>: Loads persistent knowledge cache from disk with fallback to factory defaults.</li>
+                        <li><code>save_battle_knowledge(data: Dict[str, Any])</code>: Safely serializes knowledge cache to disk via atomic UTF-8 JSON formatting.</li>
+                        <li><code>record_battle_outcome(battle: BattleSimulator) -> Dict[str, Any]</code>: Mines the terminal battle log for key knockout events, maps decisive killer moves to victim species, updates exponential moving average win-rates ($WR \leftarrow WR \times 0.8 + Target \times 0.2$), and writes human-readable match debriefs.</li>
+                        <li><code>reset_battle_knowledge() -> Dict[str, Any]</code>: Re-initializes both disk cache and active memory to pristine zero-game state.</li>
+                    </ul>
+                </div>
+
+                <!-- ai_coach.py -->
+                <div id="file-ai-coach" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🎓 utils/ai_coach.py</span>
+                        <span class="file-card-badge">Tactical Advice & Misplay Detector</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Heuristic analysis engine that reviews battle turn events and returns tactical suggestions (e.g. warning against attacking into a Protect shield or failing to exploit an obvious 4× weakness).
+                    </p>
+                </div>
+
+                <!-- cache.py -->
+                <div id="file-cache" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">💾 utils/cache.py</span>
+                        <span class="file-card-badge">1,280 Lines • Multi-Tier Dynamic Storage & Discovery Engine</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Governs in-memory and disk cache synchronization, atomic writes, debounced disk flushes, and dynamic data discovery.
+                    </p>
+                    <h4>Key Functions & Architecture:</h4>
+                    <ul>
+                        <li><code>get_mega_stone_map(force_refresh=False) -> dict</code>: Dynamically inspects <code>items_cache</code> and <code>pokemon_cache</code> for Mega Stones and forms, resolving species and variants via regex parsing and persisting to <code>data/mega_stones_cache.json</code>.</li>
+                        <li><code>get_species_gmax_moves_map(force_refresh=False) -> dict</code>: Dynamically loads and updates signature G-Max moves and secondary effects to <code>data/gmax_moves_cache.json</code>.</li>
+                        <li><code>get_move_overrides_map(force_refresh=False) -> dict</code>: Loads competitive move definitions from <code>data/move_overrides_cache.json</code>.</li>
+                        <li><strong>Reentrant Concurrency:</strong> Implements <code>threading.RLock()</code> across all cache structures to prevent deadlocks during nested synchronization and telemetry reads.</li>
+                        <li><strong>Reactive PokéAPI Ingestion:</strong> Fetching newly discovered items or refreshing caches automatically triggers live updates to the Mega Stone and G-Max registries.</li>
+                    </ul>
+                </div>
+
+                <!-- default_datasets.py -->
+                <div id="file-default-datasets" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">📦 utils/default_datasets.py</span>
+                        <span class="file-card-badge">Default Initial Datasets & Fallbacks</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Decouples baseline competitive battle data from logic files. Provides canonical initial fallback datasets if disk caches are purged or deleted.
+                    </p>
+                    <h4>Exported Datasets:</h4>
+                    <ul>
+                        <li><code>DEFAULT_INITIAL_MEGA_STONES</code>: Baseline mapping of all canonical Mega Stones and forms (Charizard X/Y, Mewtwo X/Y, Lucario Z, Absol Z, etc.).</li>
+                        <li><code>DEFAULT_INITIAL_GMAX_MOVES</code>: Complete signatures and secondary effect definitions for all 34+ Gigantamax species.</li>
+                        <li><code>DEFAULT_INITIAL_MOVE_OVERRIDES</code>: 206 competitive move definitions covering priority, damage mechanics, and Gen 9 DLC additions.</li>
+                    </ul>
+                </div>
+                <!-- pokeapi.py -->
+                <div id="file-pokeapi" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🌐 utils/pokeapi.py</span>
+                        <span class="file-card-badge">200 Lines • External Client & Resilience</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Safe HTTP proxy for querying PokéAPI v2 with automatic rate limiting, backoff, and fallbacks.
+                    </p>
+                    <h4>Key Functions:</h4>
+                    <ul>
+                        <li><code>fetch_pokemon_data(name_or_id)</code>: Queries species endpoint, normalizes base stats, types, and sprites.</li>
+                        <li><code>fetch_move_data(name_or_id)</code>: Pulls move accuracy, damage class (physical/special/status), and effect chance.</li>
+                        <li><code>get_sprite_url(pokemon_data, shiny=False)</code>: Resolves preferred official artwork, Gen 9 SV icons, or animated Showdown GIFs.</li>
+                        <li><strong>Network Resilience:</strong> 3-tier exponential backoff with jitter on HTTP 429 rate limits, ensuring offline disk caches are prioritized.</li>
+                    </ul>
+                </div>
+
+                <!-- type_effectiveness.py -->
+                <div id="file-type-eff" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🛡️ utils/type_effectiveness.py</span>
+                        <span class="file-card-badge">180 Lines • 18×18 Matchup Matrix</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Implements the official Generation 9 type interaction chart and compound dual-type multiplier calculation.
+                    </p>
+                    <h4>Key Functions:</h4>
+                    <ul>
+                        <li><code>get_type_multiplier(attack_type, defender_types, move_name=None) -> float</code>: Calculates exact damage multiplier (4×, 2×, 1×, 0.5×, 0.25×, or 0× immunity). Enforces special move rules including Freeze-Dry dealing 2× super-effective damage to Water types (and 4× to dual Water/Dragon or Water/Ground).</li>
+                        <li><code>calculate_team_defenses(team)</code>: Aggregates defensive profiles across all 6 team members to identify shared quad weaknesses.</li>
+                        <li><strong>Type Immunity Rules:</strong> Strictly models immunities (Normal vs Ghost, Ground vs Flying, Psychic vs Dark, Ghost vs Normal, Electric vs Ground, Poison vs Steel, Dragon vs Fairy).</li>
+                    </ul>
+                </div>
+
+                <!-- naming.py -->
+                <div id="file-naming" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🔤 utils/naming.py</span>
+                        <span class="file-card-badge">200 Lines • Slugification & Humanizer</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Canonical name formatting, hyphen parsing, and regional variant normalization.
+                    </p>
+                    <h4>Key Functions:</h4>
+                    <ul>
+                        <li><code>humanize_name(slug) -> str</code>: Converts internal hyphenated keys (<code>chiyu</code>, <code>iron-valiant</code>, <code>ursaluna-bloodmoon</code>) into clean display titles (<code>Chi-Yu</code>, <code>Iron Valiant</code>, <code>Ursaluna (Bloodmoon)</code>).</li>
+                        <li><code>slugify_name(title) -> str</code>: Converts user input into normalized cache lookup keys.</li>
+                        <li><strong>Suffix Whitelist:</strong> Handles special forms like <code>-alola</code>, <code>-galar</code>, <code>-hisui</code>, <code>-paldea</code>, <code>-mega</code>, <code>-gmax</code>, and <code>-totem</code>.</li>
+                    </ul>
+                </div>
+
+                <!-- special_pokemon.py -->
+                <div id="file-special-pk" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">⭐ utils/special_pokemon.py</span>
+                        <span class="file-card-badge">160 Lines • Form & Category Taxonomy</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Deterministic classification hash sets for tournament legality, special filters, and UI category chips.
+                    </p>
+                    <h4>Key Sets:</h4>
+                    <ul>
+                        <li><code>LEGENDARY_POKEMON</code>: Box art and major legendaries (Mewtwo, Koraidon, Miraidon, Rayquaza, Zacian).</li>
+                        <li><code>SUB_LEGENDARY_POKEMON</code>: Tournament-legal legendaries (Urshifu, Landorus, Chien-Pao, Ting-Lu, Enamorus).</li>
+                        <li><code>MYTHICAL_POKEMON</code>: Event mythicals (Mew, Celebi, Jirachi, Arceus, Pecharunt).</li>
+                        <li><code>PARADOX_POKEMON</code>: Ancient & Future species (Flutter Mane, Iron Bundle, Roaring Moon, Iron Hands).</li>
+                        <li><code>REGIONAL_FORMS</code>, <code>MEGA_EVOLUTIONS</code>, <code>GIGANTAMAX_POKEMON</code>, <code>SPECIAL_FORMS</code>.</li>
+                    </ul>
+                </div>
+
+                <!-- favorites.py -->
+                <div id="file-favorites" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">💖 utils/favorites.py</span>
+                        <span class="file-card-badge">75 Lines • User Favorites Persistence</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Atomic disk persistence for user favorited Pokémon species in <code>data/favorites_cache.json</code>.
+                    </p>
+                    <h4>Key Functions:</h4>
+                    <ul>
+                        <li><code>get_favorites() -> list[str]</code>: Returns list of favorited species slugs.</li>
+                        <li><code>toggle_favorite(slug) -> dict</code>: Atomically adds or removes a species, returning <code>{"is_favorite": bool, "total": int}</code>.</li>
+                        <li><code>is_favorite(slug) -> bool</code>: Fast in-memory lookup.</li>
+                    </ul>
+                </div>
+
+                <!-- teambuilder_storage.py -->
+                <div id="file-tb-storage" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">📋 utils/teambuilder_storage.py</span>
+                        <span class="file-card-badge">1,250 Lines • Championship Archetypes, Meta Items & Legality</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Stores, validates, and serializes the 60 tournament archetype teams, the competitive items catalog, and Champions format legality rules.
+                    </p>
+                    <h4>Key Functions:</h4>
+                    <ul>
+                        <li><code>load_sample_teams() -> dict</code>: Loads 60 pre-built tournament archetypes (VGC Reg H, Smogon OU, Rain, Sun, Trick Room, Snow, Psyspam, Stall, Hyper Offense).</li>
+                        <li><code>get_competitive_items() -> list[dict]</code>: Returns curated competitive held items, automatically synchronized with all 58 Mega Stones from <code>mega_stones_cache.json</code>.</li>
+                        <li><code>sync_competitive_items_with_mega_stones(items)</code>: Dynamically ingests newly discovered Mega Stones from disk cache and populates them into <code>competitive_items.json</code> under category "Mega Stone".</li>
+                        <li><code>is_champions_banned(species_name) -> bool</code>: Validates species against the confirmed Pokémon Champions roster (scraped from Serebii in <code>data/champions_roster.json</code>). Currently enforces that Heatran is banned, while confirmed species like Archaludon are legal.</li>
+                        <li><code>get_legal_pokemon_list(rule)</code>: Returns alphabetical lists of tournament-legal species for both 'champions' and 'smogon' formats.</li>
+                    </ul>
+                </div>
+
+                <!-- logger.py -->
+                <div id="file-logger" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">📝 utils/logger.py</span>
+                        <span class="file-card-badge">25 Lines • Telemetry Engine</span>
+                    </div>
+                    <p>
+                        <strong>Purpose:</strong> Lightweight operational telemetry logger that tracks cache hits, API fallbacks, and runtime exceptions into <code>data/cache_log.txt</code>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 4. Data Schemas -->
+            <section id="data-cache-json" class="docs-section">
+                <h2><span>📁</span> Data Schemas & Disk Storage Specifications</h2>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Disk Size</th>
+                                <th>Schema & Key Structure</th>
+                                <th>Read / Write Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>pokemon_cache.json</code></td>
+                                <td>~160 MB</td>
+                                <td>Dictionary keyed by species slug (<code>pikachu</code>). Contains <code>stats</code>, <code>types</code>, <code>abilities</code>, <code>moves</code> (learnset), <code>sprites</code>, and <code>cries</code>.</td>
+                                <td>Read on startup; written during cache refreshes or PokeAPI misses.</td>
+                            </tr>
+                            <tr>
+                                <td><code>moves_cache.json</code></td>
+                                <td>~17 MB</td>
+                                <td>Dictionary keyed by move slug (<code>torch-song</code>). Contains <code>power</code>, <code>accuracy</code>, <code>damage_class</code>, <code>type</code>, <code>priority</code>, and secondary effects.</td>
+                                <td>Read during teambuilder enrichment and simulator turn resolution.</td>
+                            </tr>
+                            <tr>
+                                <td><code>mega_stones_cache.json</code></td>
+                                <td>~2.6 KB</td>
+                                <td>Dictionary mapping species slugs (<code>lucario</code>, <code>charizard</code>) to held Mega Stone items and specific Mega forms (e.g. <code>lucarionite-z &rarr; lucario-mega-z</code>).</td>
+                                <td>Dynamically synced from PokéAPI items_cache; read by battle engine to validate Mega Evolution eligibility.</td>
+                            </tr>
+                            <tr>
+                                <td><code>gmax_moves_cache.json</code></td>
+                                <td>~5.3 KB</td>
+                                <td>Dictionary of 36+ Gigantamax species mapped to signature G-Max moves, elemental base types, and secondary battlefield effect triggers (Wildfire, Cannonade, Steelsurge, Resonance, etc.).</td>
+                                <td>Dynamically synced from PokéAPI; read by battle engine when Omni Ring Gigantamax is active.</td>
+                            </tr>
+                            <tr>
+                                <td><code>move_overrides_cache.json</code></td>
+                                <td>~23 KB</td>
+                                <td>Dictionary of 206 competitive move definitions with accurate Gen 9 power, accuracy, priority, multi-turn flags, and custom effects (Phantom Force, High Jump Kick crash, Body Press defense scaling).</td>
+                                <td>Read by battle simulator and teambuilder diagnostics; regenerated from Default Initial Datasets on cache miss.</td>
+                            </tr>
+                            <tr>
+                                <td><code>competitive_items.json</code></td>
+                                <td>~17 KB</td>
+                                <td>List of 103 competitive held items (Choice, Defense, Offense, Berries, and 58 Mega Stones) with humanized display names and descriptions.</td>
+                                <td>Read by Teambuilder item selector and `/api/competitive_items`; updated dynamically from `mega_stones_cache.json`.</td>
+                            </tr>
+                            <tr>
+                                <td><code>champions_roster.json</code></td>
+                                <td>~4.9 KB</td>
+                                <td>Set of 318 official confirmed Pokémon Champions species scraped from Serebii.</td>
+                                <td>Read by `is_champions_banned()` to enforce format legality (Heatran banned, Archaludon allowed).</td>
+                            </tr>
+                            <tr>
+                                <td><code>sample_teams.json</code></td>
+                                <td>~520 KB</td>
+                                <td>Dictionary of 60 championship archetypes. Contains 6-member arrays with complete EVs, IVs, natures, items, and moves.</td>
+                                <td>Read by Teambuilder and Simulator team selector modals; updated via <code>POST /api/sample_teams</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>battle_knowledge_cache.json</code></td>
+                                <td>~12 KB</td>
+                                <td>Dictionary of learned state-action pairs: <code>matchup_heuristics: { "pelipper_vs_ursaluna": { "win_rate": 0.85, "recommended_action": "move:weather-ball" } }</code></td>
+                                <td>Updated after every completed battle turn by Level 100 AI; resettable via <code>POST /api/simulator/knowledge/reset</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>favorites_cache.json</code></td>
+                                <td>~1 KB</td>
+                                <td>Array of favorited species slugs: <code>["gengar", "scizor", "archaludon"]</code></td>
+                                <td>Managed via <code>/api/favorites/toggle</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3 id="cache-backup-rotation"><span>🔄</span> Backup & Recovery Rotation</h3>
+                <p>
+                    PokéDex Hub includes built-in disaster recovery for all JSON data stores:
+                </p>
+                <ul>
+                    <li><strong>Timestamped Snapshots:</strong> Triggered via <code>GET /backup_cache</code>, creating snapshot copies (e.g. <code>pokemon_cache_20261021_120000.json</code>) without interrupting read operations.</li>
+                    <li><strong>One-Click Recovery:</strong> Triggered via <code>GET /recover_cache</code>, identifying the newest valid snapshot and atomically renaming it to restore service in under 5 milliseconds.</li>
+                    <li><strong>Telemetry Logging:</strong> All cache accesses and fallback hits are appended to <code>data/cache_log.txt</code> with microsecond timestamps and hit/miss statuses.</li>
+                </ul>
+            </section>
+            <!-- 5. Frontend Templates -->
+            <section id="frontend-templates" class="docs-section">
+                <h2><span>🎨</span> Frontend Architecture & Templates (16 Files)</h2>
+                <p>
+                    The frontend is constructed with Vanilla ES6+ JavaScript, Semantic HTML5, and CSS Custom Properties. 
+                    No build step, Webpack, or Node server is required.
+                </p>
+
+                <!-- teambuilder.html -->
+                <div id="template-teambuilder" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">👥 templates/teambuilder.html</span>
+                        <span class="file-card-badge">195 KB • Championship Teambuilder Controller</span>
+                    </div>
+                    <p>
+                        <strong>Architecture:</strong> Single-page reactive application managing state across 6 team slots.
+                    </p>
+                    <h4>Key Subsystems:</h4>
+                    <ul>
+                        <li><strong>Slot State Machine:</strong> Maintains EVs (0 to 252, 508 total cap), IVs (0 to 31), Nature stat multipliers (+10% / -10%), item, ability, and 4 move slots.</li>
+                        <li><strong>The 4 Diagnostics Suites:</strong> Dynamic DOM rendering for Defensive Weakness Matrix, Offensive Type Coverage (all 18 types), Speed Tier Benchmarks, and Archetype Roles Checklist.</li>
+                        <li><strong>Pokepaste Serializer & Parser:</strong> Bidirectional text converter fully compatible with Pokémon Showdown format.</li>
+                    </ul>
+                </div>
+
+                <!-- simulator.html -->
+                <div id="template-simulator" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">🏟️ templates/simulator.html</span>
+                        <span class="file-card-badge">140 KB • Battle Arena Arena UI</span>
+                    </div>
+                    <p>
+                        <strong>Architecture:</strong> Canvas and CSS animated battlefield with real-time turn synchronization and single-screen compact layout.
+                    </p>
+                    <h4>Key Subsystems:</h4>
+                    <ul>
+                        <li><strong>Pre-Battle Launchpad & Setup Modal:</strong> Pre-battle modal (<code>#setup-modal</code>) allowing selection of custom human trainer names (stored in <code>localStorage</code>), Champion AI opponent names with 🎲 randomizer, game modes (Player vs AI / Spectator), format rulesets (Singles 6v6 / Doubles 4v4), and custom or sample teams.</li>
+                        <li><strong>Turn Announcement Banner:</strong> High-contrast banner flashing <code>TURN X</code> at the beginning of each turn.</li>
+                        <li><strong>Central Move Execution Card & Beside-Sprite Callouts:</strong> Queues and animates moves in chronological turn order (showing user, move name, damage type, and category) with floating combat text before applying HP loss.</li>
+                        <li><strong>Field Effect Overlays:</strong> Animated rain streaks, sun glares, sandstorms, terrain ground glows, and room dimensions (Trick Room, Gravity).</li>
+                        <li><strong>Defensive Screens & Hazards Badges:</strong> Real-time on-field badges tracking active Reflect, Light Screen, Aurora Veil (with turn countdowns), and hazard layers.</li>
+                        <li><strong>Choice Lock & Item Indicators:</strong> Visual UI badges for Choice move locking (<code>LOCKED</code>) and Assault Vest status blocking (<code>AV BLOCKED</code>).</li>
+                        <li><strong>Bench Sync & Interactive Replacement Modal:</strong> Displays bench HP and status icons. Triggers interactive selection modal when an active Pokémon faints, allowing the user to select which replacement to send in.</li>
+                    </ul>
+                </div>
+
+                <!-- pokedex.html -->
+                <div id="template-pokedex" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">📖 templates/pokedex.html</span>
+                        <span class="file-card-badge">Species Gallery & Sub-Dex Engine</span>
+                    </div>
+                    <p>
+                        <strong>Features:</strong> 2-row compact elemental type filter, expandable special category filter chips, client-side regex search compiler, shiny sprite toggle, and cached favorites heart buttons.
+                    </p>
+                </div>
+
+                <!-- Other templates -->
+                <div id="template-others" class="file-card">
+                    <div class="file-card-header">
+                        <span class="file-card-title">📄 Detail Sheets & Generation Views</span>
+                        <span class="file-card-badge">13 Additional Jinja2 Templates</span>
+                    </div>
+                    <ul>
+                        <li><code>pokemon_detail.html</code>: Stat radar visualization, EV/IV level 50/100 formula calculator, learnset tables, and audio cry player.</li>
+                        <li><code>type_tool.html</code>: Interactive 18×18 damage calculator with ability overrides.</li>
+                        <li><code>movedex.html</code> & <code>move_detail.html</code>: Move directory with damage categories, accuracy, and learnsets.</li>
+                        <li><code>abilitydex.html</code> & <code>ability_detail.html</code>: Ability directory with competitive viability ratings.</li>
+                        <li><code>itemdex.html</code> & <code>item_detail.html</code>: Held items database with competitive categorization.</li>
+                        <li><code>generation_view.html</code> & <code>type_view.html</code>: Filtered species gallery views.</li>
+                        <li><code>home.html</code>: Landing hub with system telemetry and cache management dashboard.</li>
+                        <li><code>operational_guide.html</code> & <code>developer_docs.html</code>: Comprehensive user and developer documentation.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 6. Simulator Engine Deep Dive -->
+            <section id="damage-formula" class="docs-section">
+                <h2><span>📐</span> Simulator Engine Deep Dive & Mechanics</h2>
+
+                <h3>Official Gen 9 Damage Formula</h3>
+                <div class="code-box">
+<div class="code-box-header"><span>DAMAGE CALCULATION FORMULA</span><span>PYTHON IMPLEMENTATION</span></div>
+<pre class="ascii-diagram"># 1. Base Damage Calculation
+base = math.floor(math.floor(math.floor(2 * level / 5 + 2) * power * atk / defn) / 50) + 2
+
+# 2. Doubles Spread Move Scaling (0.75x if multiple targets alive, 1.0x if solo)
+if is_doubles and is_spread_move and active_opponents_count > 1:
+    base = math.floor(base * 0.75)
+
+# 3. Weather Modifiers (via get_effective_weather())
+if weather == "rain" and move_type == "water": base = math.floor(base * 1.5)
+if weather == "rain" and move_type == "fire":  base = math.floor(base * 0.5)
+if weather == "sun"  and move_type == "fire":  base = math.floor(base * 1.5)
+if weather == "sun"  and move_type == "water": base = math.floor(base * 0.5)
+
+# 4. Critical Hit Modifier (1.5x)
+if is_crit: base = math.floor(base * 1.5)
+
+# 5. Random Damage Variance (85% to 100%)
+variance = random.uniform(0.85, 1.0)
+damage = math.floor(base * variance)
+
+# 6. Same Type Attack Bonus (STAB)
+if move_type in attacker.types:
+    damage = math.floor(damage * (2.0 if attacker.tera_type == move_type else 1.5))
+
+# 7. Type Effectiveness Multiplier (including Freeze-Dry on Water)
+multiplier = get_type_multiplier(move_type, defender.types, move_name=move_name)
+damage = math.floor(damage * multiplier)
+
+# 8. Physical Burn Penalty (halved unless attacker has Guts)
+if attacker.status == "burn" and category == "physical" and attacker.ability != "guts":
+    damage = math.floor(damage * 0.5)
+
+# 9. Defensive Screens Mitigation (Reflect / Light Screen / Aurora Veil)
+if category == "physical" and (defender_side.reflect or defender_side.aurora_veil):
+    damage = math.floor(damage * (0.66 if is_doubles else 0.5))
+elif category == "special" and (defender_side.light_screen or defender_side.aurora_veil):
+    damage = math.floor(damage * (0.66 if is_doubles else 0.5))
+
+# 10. Signature Abilities: Multiscale & Disguise
+if defender.ability == "multiscale" and defender.hp == defender.max_hp:
+    damage = math.floor(damage * 0.5)
+if defender.ability == "disguise" and not defender.disguise_busted and attacker.ability not in ("mold-breaker", "teravolt", "turboblaze"):
+    damage = 0  # Disguise absorbs the hit, then busts for 1/8 max HP recoil
+
+# 11. Supreme Overlord Attack Boost (+10% per fainted ally)
+if attacker.ability == "supreme-overlord":
+    damage = math.floor(damage * (1.0 + 0.10 * attacker_side.fainted_allies_count))</pre>
+                </div>
+
+                <h3 id="accuracy-engine"><span>🎯</span> Accuracy Engine & Weather Bypasses</h3>
+                <p>
+                    Move accuracy resolution in <code>check_move_accuracy()</code> follows official competitive Pokémon rules:
+                </p>
+                <ul>
+                    <li><strong>Rain Accuracy Bypass:</strong> In Rain, <code>Hurricane</code> and <code>Thunder</code> bypass accuracy checks and <strong>cannot miss (100% accuracy)</strong>.</li>
+                    <li><strong>Snow Accuracy Bypass:</strong> In Snow or Hail, <code>Blizzard</code> bypasses accuracy checks and cannot miss (100% accuracy).</li>
+                    <li><strong>Harsh Sun Reduction:</strong> In Harsh Sunlight, <code>Hurricane</code> and <code>Thunder</code> accuracy plummets to 50%.</li>
+                    <li><strong>Weather Suppression (Cloud Nine & Air Lock):</strong> If any active Pokémon on the field possesses <code>Cloud Nine</code> or <code>Air Lock</code>, all weather effects are disabled, restoring Hurricane and Thunder to their base 70% accuracy.</li>
+                    <li><strong>No Guard Ability:</strong> Guarantees 100% accuracy for all attacks performed by or directed at the Pokémon.</li>
+                    <li><strong>Never-Miss Attacks:</strong> <code>Flower Trick</code>, <code>Kowtow Cleave</code>, <code>Aura Sphere</code>, <code>Aerial Ace</code>, and <code>Clear Smog</code> inherently bypass accuracy rolls.</li>
+                </ul>
+                <h3 id="turn-priority"><span>⏱️</span> Turn Ordering & Priority Brackets</h3>
+                <p>
+                    Every turn in the simulator resolves actions through strict competitive priority sequencing:
+                </p>
+                <ol>
+                    <li><strong>Replacements & Items:</strong> Safe fainted replacements and items resolve before any moves occur.</li>
+                    <li><strong>Omni Ring Activation:</strong> One of Terastallization, Mega Evolution, or Gigantamax triggers at the beginning of the turn before attack execution. Gigantamax scales Max HP by 1.5x and sets a 3-turn duration counter.</li>
+                    <li><strong>Move Priority Brackets (+5 to -7):</strong>
+                        <ul>
+                            <li><strong>+5:</strong> Helping Hand</li>
+                            <li><strong>+4:</strong> Max Guard (Dynamax status moves), Protect, Detect, Baneful Bunker, King's Shield</li>
+                            <li><strong>+3:</strong> Fake Out, Quick Guard, Wide Guard</li>
+                            <li><strong>+2:</strong> Extreme Speed, Feint</li>
+                            <li><strong>+1:</strong> Sucker Punch (damaging moves only), Aqua Jet, Bullet Punch, Mach Punch, Ice Shard</li>
+                            <li><strong>0:</strong> Standard Physical, Special, and Status attacks</li>
+                            <li><strong>-1:</strong> Vital Throw</li>
+                            <li><strong>-3:</strong> Focus Punch</li>
+                            <li><strong>-4:</strong> Avalanche, Revenge</li>
+                            <li><strong>-5:</strong> Counter, Mirror Coat</li>
+                            <li><strong>-6:</strong> Roar, Whirlwind</li>
+                            <li><strong>-7:</strong> Trick Room</li>
+                        </ul>
+                    </li>
+                    <li><strong>Prankster Boost:</strong> Adds +1 priority to status moves, but fails against Dark-type opponents.</li>
+                    <li><strong>Psychic Terrain Priority Blocking:</strong> Grounded Pokémon targeted by priority moves (+1 to +5 priority) take 0 damage and the move fails.</li>
+                    <li><strong>Speed Tier Resolution:</strong> Ties in priority brackets are resolved by Speed stats (inverted when Trick Room is active). Speed ties use a 50/50 random roll.</li>
+                </ol>
+
+                <h3 id="omni-ring-mechanics"><span>💍</span> Omni Ring Architecture & Mega Evolution / Gigantamax Validation</h3>
+                <p>
+                    The simulator future-proofs competitive play by unifying generational mechanics into the <strong>Omni Ring</strong>:
+                </p>
+                <ul>
+                    <li><code>side.omni_used</code>: Boolean flag per side guaranteeing that only ONE mechanic (Terastallization, Mega Evolution, or Gigantamax) can be activated per battle.</li>
+                    <li><strong>Strict Mega Stone Validation:</strong> Mega Evolution is strictly verified against the Pokémon's held item. The engine dynamically queries <code>get_mega_stone_map()</code> to ensure the correct Mega Stone is held (e.g. <code>Charizard</code> holding <code>Charizardite X</code> evolves into <code>Charizard-Mega-X</code>, <code>Charizardite Y</code> evolves into <code>Charizard-Mega-Y</code>; Rayquaza requires knowing <code>Dragon Ascent</code>; Mewtwo requires <code>Mewtwonite X</code> / <code>Mewtwonite Y</code>; and canonical upcoming variants including <strong>Mega Z</strong> are fully supported).
+                        Mega Stones are permanently attached competitive artifacts: they <strong>cannot</strong> be stripped by <code>Knock Off</code>, nor swapped via <code>Trick</code> or <code>Switcheroo</code>.</li>
+                    <li><code>get_max_move_details(species, move_name)</code>: Dynamically maps base moves into their Max Move counterparts:
+                        <ul>
+                            <li><strong>Max Guard:</strong> Any move in the <code>status</code> category automatically converts to <code>Max Guard</code> with <code>priority: 4</code>. Regular Protect only blocks 75% of Max Move damage (dealing 25% chip), while Max Guard blocks 100% of damage (unless bypassed by <code>G-Max One Blow</code> or <code>G-Max Rapid Flow</code>).</li>
+                            <li><strong>Standard Max Moves:</strong> Maps damaging moves into <code>Max Strike</code> (-1 Spe), <code>Max Quake</code> (+1 SpD), <code>Max Knuckle</code> (+1 Atk), <code>Max Ooze</code> (+1 SpA), <code>Max Steelspike</code> (+1 Def), <code>Max Airstream</code> (+1 Spe), <code>Max Flare</code> (sets Sun), <code>Max Geyser</code> (sets Rain), <code>Max Lightning</code> (sets Electric Terrain), <code>Max Overgrowth</code> (sets Grassy Terrain), and <code>Max Hailstorm</code> (sets Snow).</li>
+                            <li><strong>Signature G-Max Moves:</strong> Specific species override matching-type standard Max moves with exclusive effects dynamically mapped via <code>get_species_gmax_moves_map()</code> (e.g. Lapras &rarr; <code>G-Max Resonance</code> sets Aurora Veil; Charizard &rarr; <code>G-Max Wildfire</code> sets Sun; Corviknight &rarr; <code>G-Max Wind Rage</code> clears screens and hazards; Blastoise &rarr; <code>G-Max Cannonade</code> sets Rain; Urshifu &rarr; <code>G-Max Rapid Flow</code> and <code>G-Max One Blow</code> pierce Protect and Max Guard).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Duration & HP Scaling:</strong> Gigantamax multiplies both Current and Max HP by 1.5x, lasting for 3 active turns on the field or until the Pokémon switches out.</li>
+                </ul>
+
+                <h3 id="dynamic-speed-mechanics"><span>⚡</span> Dynamic Mid-Turn Speed Recalculation & Two-Turn Moves</h3>
+                <p>
+                    Following official Generation 7/8/9 competitive standards, turn order is no longer locked in stone at the start of a turn:
+                </p>
+                <ul>
+                    <li><strong>Dynamic Mid-Turn Speed Recalculation:</strong> When a Pokémon executes an action that modifies speed tiers—such as Mega Evolving into a form with a higher Base Speed, activating <code>Tailwind</code>, or switching abilities—the engine instantly recalculates effective Speed before the next action executes. If the speed advantage shifts, the newly faster Pokémon will act immediately before slower combatants.</li>
+                    <li><strong>Semi-Invulnerable Two-Turn Moves:</strong> Moves such as <code>Phantom Force</code>, <code>Shadow Force</code>, <code>Fly</code>, <code>Dig</code>, <code>Dive</code>, and <code>Bounce</code> enter a semi-invulnerable charge phase on Turn 1 (e.g., vanishing into shadows or flying up high), avoiding all standard incoming attacks. On Turn 2, the attack strikes at full power. Furthermore, <code>Phantom Force</code> and <code>Shadow Force</code> automatically break through <code>Protect</code>, <code>Detect</code>, <code>Spiky Shield</code>, <code>Baneful Bunker</code>, and <code>Max Guard</code>, lifting the opponent's defensive barrier.</li>
+                    <li><strong>Crash Damage Recoil:</strong> High-risk jumping moves like <code>High Jump Kick</code> and <code>Jump Kick</code> enforce competitive crash mechanics. If the attack misses due to accuracy, or if the target protects itself with <code>Protect</code> / <code>Detect</code> / <code>Max Guard</code>, the attacker crashes and sustains <strong>50% of their maximum HP</strong> as recoil damage.</li>
+                    <li><strong>Generation 9 Substitute Mechanics:</strong> Sacrifices 25% max HP to craft a protective decoy doll. Damaging attacks strike the substitute; if damage exceeds substitute HP, the substitute breaks with <strong>zero spillover damage</strong> to the bearer. Completely blocks direct status moves (<code>Will-O-Wisp</code>, <code>Toxic</code>, <code>Thunder Wave</code>, <code>Spore</code>, <code>Taunt</code>, <code>Yawn</code>, <code>Attract</code>, <code>Trick</code>) and secondary move effects (flinch, stat drops, burn/paralysis/freeze/poison, <code>Knock Off</code> item loss). Sound-based moves (<code>Boomburst</code>, <code>Bug Buzz</code>, <code>Hyper Voice</code>, <code>Torch Song</code>, <code>Snarl</code>) and the <code>Infiltrator</code> ability bypass substitute directly. Can be inherited via <code>Baton Pass</code> or <code>Shed Tail</code>.</li>
+                </ul>
+
+                <h3 id="status-mechanics"><span>⚡</span> Volatile vs Non-Volatile Status Conditions</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Category</th>
+                                <th>Persistence</th>
+                                <th>In-Battle Effects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Burn (BRN)</strong></td>
+                                <td>Non-Volatile</td>
+                                <td>Persists through switch-out</td>
+                                <td>Halves physical attack damage; deals 1/16 max HP per turn. (Ignored by <code>Guts</code>, which grants +50% Attack instead).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Paralysis (PAR)</strong></td>
+                                <td>Non-Volatile</td>
+                                <td>Persists through switch-out</td>
+                                <td>Reduces Speed by 50%; 25% chance to be fully paralyzed each turn. Electric types are immune.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sleep (SLP)</strong></td>
+                                <td>Non-Volatile</td>
+                                <td>Persists through switch-out</td>
+                                <td>Target cannot act for 1 to 3 turns. Blocked by Electric Terrain and Misty Terrain.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Freeze (FRZ)</strong></td>
+                                <td>Non-Volatile</td>
+                                <td>Persists through switch-out</td>
+                                <td>Target cannot act; 20% chance to thaw per turn. Fire moves melt user immediately. Ice types are immune.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Poison (PSN / TOX)</strong></td>
+                                <td>Non-Volatile</td>
+                                <td>Persists through switch-out</td>
+                                <td>Regular chips 1/8 max HP. Toxic chips 1/16, 2/16, 3/16, ... increasing every turn. Steel and Poison types are immune.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Confusion</strong></td>
+                                <td>Volatile</td>
+                                <td>Cleared upon switch-out</td>
+                                <td>33% chance of hitting self with a 40 Base Power typeless physical attack for 1 to 4 turns.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Flinch</strong></td>
+                                <td>Volatile</td>
+                                <td>Turn-only</td>
+                                <td>Prevents Pokémon from moving on the current turn (e.g. from <code>Fake Out</code>).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Substitute (SUB)</strong></td>
+                                <td>Volatile</td>
+                                <td>Passed via Baton Pass / Shed Tail; cleared on standard switch</td>
+                                <td>Absorbs incoming attack damage up to 25% max HP with zero overflow/spillover damage. Grants full immunity to direct status moves, target stat drops, and secondary move effects. Bypassed by sound moves and <code>Infiltrator</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="abilities-items"><span>✨</span> Ability & Item Procs</h3>
+                <p>
+                    The battle engine accurately processes competitive abilities and held items:
+                </p>
+                <ul>
+                    <li><strong>Weather Setters:</strong> <code>Drizzle</code> (Rain), <code>Drought</code> (Sun), <code>Snow Warning</code> (Snow), <code>Sand Stream</code> (Sandstorm) initiate 5 turns of weather upon switch-in.</li>
+                    <li><strong>Weather Suppression:</strong> <code>Cloud Nine</code> and <code>Air Lock</code> suppress all weather effects while the bearer is active.</li>
+                    <li><strong>Paradox Procs & Booster Energy:</strong> <code>Protosynthesis</code> and <code>Quark Drive</code> boost the highest stat by 30% (50% for Speed) in Sun/Electric Terrain. Alternatively, holding <code>Booster Energy</code> immediately consumes the item on the Pokémon's first active turn, granting the highest-stat boost unconditionally without needing weather or terrain setup.</li>
+                    <li><strong>Choice Items:</strong> <code>Choice Band</code> (+50% Atk), <code>Choice Specs</code> (+50% SpA), and <code>Choice Scarf</code> (+50% Spe) lock the holder into their first selected move until switched out.</li>
+                    <li><strong>Trick & Switcheroo:</strong> Swaps held items between user and target, dynamically releasing or binding Choice locks. (Mega Stones cannot be swapped).</li>
+                    <li><strong>Knock Off:</strong> Deals 1.5× damage when knocking off an eligible item. Mega Stones are immune to removal.</li>
+                    <li><strong>Assault Vest:</strong> Boosts SpD by +50%, but disables status move selection.</li>
+                    <li><strong>Air Balloon:</strong> Grants Ground-type immunity and hazard immunity until popped by direct attack damage.</li>
+                    <li><strong>Lum Berry:</strong> Instantly consumes to heal any non-volatile status or confusion upon affliction.</li>
+                    <li><strong>Focus Sash:</strong> Guarantees survival from 100% HP against any lethal hit with 1 HP remaining.</li>
+                    <li><strong>Disguise & Multiscale:</strong> Mimikyu absorbs the first damaging attack (taking 1/8 max HP recoil upon bust). Attacks that deal 0 damage due to type immunity (e.g. Draco Meteor on Fairy-type Mimikyu) do NOT bust Disguise. Dragonite halves damage taken at 100% HP.</li>
+                </ul>
+
+                <!-- AI Battle Knowledge Cache Engine -->
+                <h3 id="knowledge-cache-engine"><span>🧠</span> AI Battle Knowledge Cache: Self-Learning Reinforcement Architecture</h3>
+                <p>
+                    The Championship AI incorporates a persistent empirical learning engine that bridges live simulation telemetry with future decision heuristics. Stored on disk in <code>data/battle_knowledge_cache.json</code>, the Knowledge Cache enables high-difficulty AI to learn from its victories and defeats against players across matches.
+                </p>
+
+                <h4>1. Storage Schema & Data Model</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "summary": {
+    "totalBattles": 142,
+    "totalTurns": 1820,
+    "aiWins": 84,
+    "aiLosses": 58,
+    "spectatorBattles": 22,
+    "lastUpdated": "2026-10-22 00:41:09"
+  },
+  "matchup_heuristics": {
+    "golisopod-mega_vs_skeledirge": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.72,
+      "samples": 5,
+      "avg_damage": 100
+    },
+    "staraptor_vs_baxcalibur": {
+      "recommended_action": "move:close-combat",
+      "win_rate": 0.60,
+      "samples": 3,
+      "avg_damage": 100
+    }
+  },
+  "post_game_learnings": [
+    {
+      "id": "learn_142",
+      "timestamp": "2026-10-22 00:41",
+      "title": "Steven Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Great Tusk KO'd Garchomp with Ice Spinner. Steven capitalized on offensive positioning and preserved core counters.",
+      "winner": "Steven",
+      "loser": "Eleven"
+    }
+  ],
+  "learned_principles": []
+}</code></pre>
+                </div>
+
+                <h4>2. The Learning Phase (Post-Battle Telemetry Ingestion)</h4>
+                <p>
+                    Whenever a battle concludes (triggered via <code>api_simulator_step</code> in <code>app.py</code>), the backend calls <code>record_battle_outcome(battle)</code> in <code>utils/battle_knowledge.py</code>:
+                </p>
+                <ul>
+                    <li><strong>Knockout Mining:</strong> The engine iterates through the <code>battle_log</code>, matching every <code>faint</code> event with the active Pokémon that dealt the blow (<code>killer_species</code>) and the specific move used (<code>killer_move</code>).</li>
+                    <li><strong>Matchup Heuristics Key:</strong> Each knockout generates or updates a directional pair key: <code>"{killer_species}_vs_{fainted_species}"</code>.</li>
+                    <li><strong>Exponential Moving Average (EMA) Win-Rate Formula:</strong> Rather than simple raw ratios, the win rate for that specific matchup action updates according to:
+                        <br>
+                        $$\text{WinRate}_{\text{new}} = (\text{WinRate}_{\text{current}} \times 0.8) + (\text{Target} \times 0.2)$$
+                        <br>
+                        where $\text{Target} = 1.0$ if the killer's team won the overall match, and $0.0$ if the team lost. This ensures recent tactical adaptations have immediate influence while preventing single-match flukes from overriding solid historical samples.</li>
+                    <li><strong>Post-Game Strategic Debriefs:</strong> Synthesizes a high-level strategic debrief detailing the decisive final knockout and appends it to <code>post_game_learnings</code> (retaining the 20 most recent match debriefs).</li>
+                </ul>
+
+                <h4>3. The Inference Phase (In-Battle Move Scoring)</h4>
+                <p>
+                    During live turns, when the AI selects its next action in <code>utils/battle_ai.py</code>, it evaluates whether to leverage empirical memory:
+                </p>
+                <ul>
+                    <li><strong>Difficulty Activation Gate:</strong> Knowledge heuristics are gated strictly to <strong>Difficulty &ge; 70</strong> (Elite Four and Championship tiers). Low-difficulty AI intentionally ignores knowledge heuristics to remain accessible to beginner players.</li>
+                    <li><strong>Matchup Key Lookup:</strong> When AI active Pokémon ($P_{\text{AI}}$) faces an opponent active Pokémon ($P_{\text{Opp}}$), it queries:
+                        <br>
+                        <code>matchup_key = f"{P_AI.species}_vs_{P_Opp.species}"</code></li>
+                    <li><strong>Utility Score Amplification Formula:</strong> In <code>evaluate_move_utility()</code>, if candidate move $M$ matches the heuristic's <code>recommended_action</code>:
+                        <br>
+                        $$\Delta \text{Score} = \text{WinRate} \times 40.0$$
+                        <br>
+                        A move with a proven $75\%$ win rate against that species receives an immediate <strong>+30.0 point boost</strong>. A flawless $100\%$ win rate yields the maximum <strong>+40.0 point boost</strong>.</li>
+                    <li><strong>Omni Ring Synergy:</strong> Because Mega Evolution, Gigantamax, and Terastallization candidate moves are evaluated through <code>evaluate_move_utility()</code>, this $+40.0$ historical boost directly influences whether the AI triggers its Omni Ring to power through a known threat.</li>
+                </ul>
+
+                <h4>4. Cache Telemetry & Reset Endpoints</h4>
+                <ul>
+                    <li><code>GET /api/simulator/knowledge</code>: Exposes real-time telemetry, win/loss stats, and learned matchup heuristics to the UI and Developer Diagnostics Hub.</li>
+                    <li><code>POST /api/simulator/knowledge/reset</code>: Fully resets the knowledge cache back to factory defaults both in active server memory and on disk.</li>
+                </ul>
+            </section>
+
+            <!-- 6. Bugfix History & Roadmap -->
+            <section id="recent-bugfixes" class="docs-section">
+                <h2><span>🐛</span> Documented Bugfixes & Lessons Learned</h2>
+
+                <div class="file-card">
+                    <h4>1. Hurricane & Thunder Accuracy in Rain</h4>
+                    <p><strong>Bug:</strong> Hurricane and Thunder were missing during Rain due to a raw 70% accuracy check.<br>
+                    <strong>Fix:</strong> Implemented <code>check_move_accuracy()</code> and <code>get_effective_weather()</code> in <code>battle_engine.py</code>. Under Rain, both moves bypass accuracy checks completely unless suppressed by <code>Cloud Nine</code> or <code>Air Lock</code>.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>2. Teambuilder Offensive Coverage Normalization</h4>
+                    <p><strong>Bug:</strong> Moonblast and Torch Song defaulted to Normal-type physical attacks in teambuilder diagnostics.<br>
+                    <strong>Fix:</strong> Enriched <code>api_pokemon_teambuilder_data</code> with <code>EXHAUSTIVE_MOVES_DATA</code>, added client-side <code>KNOWN_MOVES_DATA</code> fallback, and added <code>normalizeMoveSlug()</code> to match title-case, hyphens, and spaces cleanly.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>3. Fainted Replacement Turn Consumption</h4>
+                    <p><strong>Bug:</strong> When a Pokémon fainted, the replacement entered and attacked on the same turn.<br>
+                    <strong>Fix:</strong> Added <code>is_replacement=True</code> flag in <code>perform_switch()</code>, preventing replacement Pokémon from executing an attack action on entry.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>4. Ghost Immunity against Body Press</h4>
+                    <p><strong>Bug:</strong> Body Press damaged Ghost-type Pokémon.<br>
+                    <strong>Fix:</strong> Strictly enforced $0\times$ type immunity before evaluating defense stat substitutions.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>5. Sucker Punch & Fake Out Priority Restrictions</h4>
+                    <p><strong>Bug:</strong> Sucker Punch damaged status moves, and Fake Out worked on turn 2.<br>
+                    <strong>Fix:</strong> Sucker Punch verifies that the target selected a damaging move; Fake Out enforces <code>turns_active == 1</code>.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>6. Mimikyu Disguise & Dragonite Multiscale Protection</h4>
+                    <p><strong>Bug:</strong> Dragonite took 93% damage from attacks despite full HP Multiscale; Mimikyu took full damage instead of busting Disguise.<br>
+                    <strong>Fix:</strong> In <code>battle_engine.py</code>, implemented <code>multiscale</code> check halving damage at 100% HP. Implemented <code>disguise</code> absorbing incoming damage to 0 on the first hit, setting <code>disguise_busted=True</code>, applying 1/8 max HP recoil, and properly bypassing on <code>Mold Breaker</code>, <code>Teravolt</code>, or <code>Turboblaze</code>.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>7. Trick & Switcheroo Held Item Swapping & Choice Lock Binding</h4>
+                    <p><strong>Bug:</strong> Using Trick did not swap held items, and Pokémon holding Choice items could switch moves freely.<br>
+                    <strong>Fix:</strong> Implemented <code>execute_trick_switcheroo()</code> in <code>battle_engine.py</code>. Swaps held items atomically between user and target, updates <code>item_revealed</code>, releases Choice Lock from the giver, and binds Choice Lock to the recipient on their next chosen move.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>8. Psychic Terrain Priority Move Blocking</h4>
+                    <p><strong>Bug:</strong> Sucker Punch, Fake Out, and other priority attacks damaged grounded targets in Psychic Terrain.<br>
+                    <strong>Fix:</strong> Added <code>is_grounded()</code> and priority validation in <code>battle_engine.py</code>. All priority moves (+1 to +5) targeting grounded Pokémon automatically fail with a terrain protection message.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>9. Doubles Spread Move Damage Scaling (0.75× vs 1.0×)</h4>
+                    <p><strong>Bug:</strong> Spread moves like Muddy Water and Earthquake dealt full damage in Doubles regardless of opposing count.<br>
+                    <strong>Fix:</strong> Added <code>calc_spread_multiplier()</code> in <code>battle_engine.py</code> applying official Gen 9 0.75× damage scaling when multiple opposing targets are active, and 1.0× when only a single opponent is left alive.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>10. Freeze-Dry Super-Effective Effectiveness Against Water Types</h4>
+                    <p><strong>Bug:</strong> Freeze-Dry was logged as "Not very effective..." against Water-type Pokémon like Urshifu.<br>
+                    <strong>Fix:</strong> Added explicit <code>move_name</code> parameter in <code>get_type_multiplier()</code> in <code>type_effectiveness.py</code>. When move is <code>freeze-dry</code> and target is Water, the multiplier is multiplied by 4 (turning 0.5× resistance into 2.0× super-effective, and 1.0× into 4.0× quad weakness on Water/Dragon or Water/Ground).</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>11. Electro Shot Single-Turn Execution in Rain vs 2-Turn Charging</h4>
+                    <p><strong>Bug:</strong> Electro Shot did not boost Special Attack or charged for 2 turns even during Rain.<br>
+                    <strong>Fix:</strong> Implemented two-turn charging logic in <code>battle_engine.py</code>. On turn 1, raises user SpA by +1 stage. In Rain, charges and executes instantly in 1 turn (granting +1 SpA and damaging immediately).</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>12. Battle Match Setup Modal Syntax & Default Hidden State</h4>
+                    <p><strong>Bug:</strong> In Match Setup modal, users could not click any team selectors, Cancel, or Start Battle due to an uncaught syntax error.<br>
+                    <strong>Fix:</strong> Corrected empty assignment <code>matchTitle.textContent = ;</code> in <code>simulator.html</code>. Added <code>hidden</code> class by default to <code>#setup-modal</code> so it starts hidden behind the launchpad splash and only opens upon explicit user action.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>13. Dynamic Speed Recalculation Mid-Turn</h4>
+                    <p><strong>Bug:</strong> Turn orders were static at turn initialization. Mega Evolving into a higher Speed tier or activating Tailwind did not update turn priority for the remainder of the active turn.<br>
+                    <strong>Fix:</strong> Implemented mid-turn speed re-evaluation in <code>battle_engine.py</code> using <code>sort_turn_actions()</code>. Whenever a Pokémon changes form (Mega Evolution) or alters team speed (Tailwind), the action queue reorders dynamically before the next action executes.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>14. Jump Kick & High Jump Kick 50% Max HP Crash Recoil</h4>
+                    <p><strong>Bug:</strong> High Jump Kick misses or Protect blocks registered as standard misses with no recoil to the attacker.<br>
+                    <strong>Fix:</strong> Added crash damage routine in <code>battle_engine.py</code>. Missing with High Jump Kick or Jump Kick (whether from accuracy RNG or being blocked by Protect, Detect, or Max Guard) inflicts 50% of the attacker's maximum HP as crash recoil.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>15. Semi-Invulnerable Two-Turn Moves (Phantom Force, Shadow Force, Fly, Dig, Dive, Bounce)</h4>
+                    <p><strong>Bug:</strong> Phantom Force executed instantly in a single turn without invulnerability and failed against Protect.<br>
+                    <strong>Fix:</strong> Implemented two-turn semi-invulnerable charge logic in <code>battle_engine.py</code>. On Turn 1, the Pokémon vanishes or charges in a semi-invulnerable state (dodging attacks). On Turn 2, the strike lands; Phantom Force and Shadow Force bypass and break through opposing Protect and Max Guard barriers.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>16. Booster Energy Instant Proc for Paradox Pokémon</h4>
+                    <p><strong>Bug:</strong> Paradox Pokémon holding Booster Energy did not proc Protosynthesis or Quark Drive on Turn 1 entry without active weather or terrain.<br>
+                    <strong>Fix:</strong> Added automatic Booster Energy switch-in trigger in <code>battle_engine.py</code>. Paradox Pokémon consume Booster Energy on their first active turn, granting +30% to their highest stat (+50% for Speed) unconditionally.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>17. Disguise Immunity Guard against Type-Immune Moves</h4>
+                    <p><strong>Bug:</strong> Dragon-type attacks (such as Draco Meteor) targeting Fairy/Ghost Mimikyu could inadvertently bust Disguise despite dealing 0 damage.<br>
+                    <strong>Fix:</strong> Strictly enforced $0\times$ type effectiveness checks before Disguise evaluation in <code>battle_engine.py</code>. Immune attacks deal zero damage without busting Mimikyu's disguise or triggering bust recoil.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>18. Mega Stone Competitive Item Locking & Dynamic Ingestion</h4>
+                    <p><strong>Bug:</strong> Mega Stones could be stripped by Knock Off or swapped via Trick/Switcheroo, and Mega Evolution forms were not validated against held items.<br>
+                    <strong>Fix:</strong> Persisted 58 canonical Mega Stones into <code>mega_stones_cache.json</code> and synced with <code>competitive_items.json</code> (including canonical variants like Mega Z). Added unremovable item locks preventing Knock Off stripping or Trick swapping, and enforced held stone validation during Omni Ring Mega Evolution.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>19. Serebii Champions Format Roster Synchronization</h4>
+                    <p><strong>Bug:</strong> Tournament formats assumed blanket legendary bans, and a legacy <code>scarlet-violet</code> version group check inside <code>get_legal_pokemon_list()</code> excluded non-SV species confirmed for Champions (such as Golisopod, Mawile, Aggron, and Absol).<br>
+                    <strong>Fix:</strong> Synchronized official tournament roster from Serebii Champions (<code>champions_roster.json</code>). Removed the legacy SV version group filter so all 318+ confirmed Champions Pokémon (including Golisopod) populate the Teambuilder dropdown, while strictly enforcing current tournament bans (e.g. Heatran is banned, Archaludon is legal).</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>20. AI Knowledge Reset Endpoint & Reentrant Concurrency Lock</h4>
+                    <p><strong>Bug:</strong> Deleting <code>battle_knowledge_cache.json</code> did not purge stale AI data due to active in-memory caches, and nested cache operations risked deadlock.<br>
+                    <strong>Fix:</strong> Created dedicated <code>POST /api/simulator/knowledge/reset</code> endpoint that simultaneously flushes in-memory knowledge dictionaries and rewrites the disk cache cleanly. Converted all cache mutexes in <code>utils/cache.py</code> to <code>threading.RLock()</code> to guarantee deadlock-free reentrant synchronization.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>21. Generation 9 Substitute Mechanics & Sound/Infiltrator Bypass</h4>
+                    <p><strong>Bug:</strong> Using <code>Substitute</code> in battle did not deduct 25% max HP or create a decoy doll; subsequent opponent attacks dealt full damage directly to the user's HP.<br>
+                    <strong>Fix:</strong> Built complete Generation 9 Substitute mechanics in <code>battle_engine.py</code>: sacrifices 25% max HP to create a decoy with equal HP; incoming damaging attacks hit the substitute with <strong>zero spillover damage</strong> to the bearer upon breaking; blocks all direct status moves and secondary effects; sound moves and <code>Infiltrator</code> bypass; passes decoy via <code>Baton Pass</code> and <code>Shed Tail</code>; and updates the HUD with <code>🧸 SUB (X HP)</code>.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>22. Battle Outcome Knowledge Recording & Endpoint Error Boundaries</h4>
+                    <p><strong>Bug:</strong> The battle simulator froze with a 500 internal server error during turn execution due to <code>NameError: name 'humanize_name' is not defined</code> in <code>record_battle_outcome()</code>.<br>
+                    <strong>Fix:</strong> Imported <code>from utils.naming import humanize_name</code> in <code>utils/battle_knowledge.py</code> and added defensive <code>try...except</code> error boundaries around telemetry logging in <code>api_simulator_step</code> and <code>api_simulator_switch_replacement</code>, guaranteeing unhindered simulation flow.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>23. Custom & Saved Team Selection in Battle Simulator</h4>
+                    <p><strong>Bug:</strong> The battle simulator only offered pre-loaded sample teams, preventing users from fielding custom teams constructed in the Championship Teambuilder.<br>
+                    <strong>Fix:</strong> Updated <code>templates/simulator.html</code> to query <code>pokemon_teambuilder_teams</code> and <code>pokemon_teams</code> from local storage and backend API, dynamically populating both Team 1 and Team 2 dropdowns with grouped custom user rosters.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>24. Dynamic Mega Evolution Stone Validation & Match Init Resilience</h4>
+                    <p><strong>Bug:</strong> <code>TypeError: unhashable type: 'dict'</code> crashed battle initialization when resolving Mega details with custom dictionary overrides.<br>
+                    <strong>Fix:</strong> Added defensive string coercion and existence checks in <code>battle_engine.py</code> (<code>get_mega_species_for_item()</code>) and wrapped <code>api_simulator_init</code> in safe fallback boundaries, ensuring seamless match launch regardless of custom team configuration.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>25. Consecutive Protection Decay & AI Protect Spam Prevention</h4>
+                    <p><strong>Bug:</strong> Defensive protection moves (<code>Protect</code>, <code>Detect</code>, <code>Spiky Shield</code>, <code>Baneful Bunker</code>, <code>Max Guard</code>) succeeded 100% of the time indefinitely without accuracy decay, allowing Champion AI to loop Protect 6+ turns consecutively.<br>
+                    <strong>Fix:</strong> Implemented official Generation 6–9 consecutive protection degradation in <code>battle_engine.py</code>: the success rate strictly decays as $(1/3)^n$ ($100\% \to 33.3\% \to 11.1\% \to 3.7\% \dots$), resetting back to 0 on failure, switch, or using any non-protection move. Updated <code>evaluate_move_utility</code> in <code>utils/battle_ai.py</code> to penalize consecutive Protect selections, guaranteeing the AI attacks or pivots instead of looping.</p>
+                </div>
+
+                <div class="file-card">
+                    <h4>26. Move PP Tracking, Pressure, Thermal Exchange, Well-Baked Body & Hazard Faint Ability Suppression</h4>
+                    <p><strong>Bug:</strong> Move Power Points (PP) were static in battle state and never deducted upon move execution; Pressure did not cost additional PP; Baxcalibur's Thermal Exchange and Dachsbun's Well-Baked Body lacked fire hit reactions; and entry hazard faints erroneously allowed switch-in abilities (like Intimidate) to proc.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>PP Deduction &amp; Struggle:</strong> Every executed move decrements its current PP in <code>battle_engine.py</code>. Zero-PP moves are disabled in the UI and blocked from execution. When all 4 moves reach 0 PP, the engine triggers <strong>Struggle</strong> (50 BP physical typeless strike hitting Ghost types for neutral $1.0\times$ damage, inflicting recoil equal to $25\%$ of the user's maximum HP).</li>
+                            <li><strong>Pressure Ability:</strong> Opponents targeting a Pokémon with <code>Pressure</code> consume <strong>2 PP</strong> instead of 1. Pressure announces its presence on entry with an exerting pressure log.</li>
+                            <li><strong>Thermal Exchange (Baxcalibur):</strong> Grants complete burn immunity (blocking Will-O-Wisp, Flame Orb, and secondary attack burns). When struck by a Fire-type attack, its physical Attack stat increases by +1 stage while taking normal damage.</li>
+                            <li><strong>Well-Baked Body (Dachsbun):</strong> Grants total immunity to Fire attacks ($0\times$ damage) and raises Defense by +2 stages. (Also hooked up absorption for <code>Earth Eater</code>, <code>Water Absorb</code>, <code>Volt Absorb</code>, <code>Sap Sipper</code>, <code>Motor Drive</code>, <code>Lightning Rod</code>, and <code>Storm Drain</code>).</li>
+                            <li><strong>Hazard Faint Suppression:</strong> In accordance with official tournament rules, if a Pokémon faints upon switching in due to entry hazards (Stealth Rock, Spikes, Steelsurge), its switch-in ability (<code>Intimidate</code>, <code>Drizzle</code>, <code>Drought</code>, <code>Electric Surge</code>, <code>Psychic Surge</code>, <code>Pressure</code>, etc.) <strong>does NOT activate</strong>, and the trainer is prompted immediately for a replacement.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>27. Clanging Scales & Self-Stat Drop Moves Drawback Execution</h4>
+                    <p><strong>Bug:</strong> While Clanging Scales was recognized as a sound move (bypassing Substitute), its signature drawback — lowering the user's Defense by 1 stage (-1 Def) upon landing damage — was missing from move metadata, allowing Kommo-o to spam 110 BP Dragon attacks without stat penalty. Similarly, moves like Superpower, Overheat, and Leaf Storm were missing dynamic self-stat drop parsing.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li>Added dynamic PokéAPI <code>stat_changes</code> parsing in <code>get_move_metadata()</code> (<code>battle_engine.py</code>) to automatically extract negative stat changes on <code>damage-raise</code> moves into <code>self_stat_drop</code>.</li>
+                            <li>Registered canonical competitive definitions for <code>clanging-scales</code> (110 BP Dragon Special, sound move, -1 Defense self-drop), <code>superpower</code> (-1 Atk / -1 Def), <code>overheat</code> (-2 SpA), and <code>leaf-storm</code> (-2 SpA) into <code>data/move_overrides_cache.json</code> and <code>utils/default_datasets.py</code>.</li>
+                            <li>Enforced canonical competitive rule: user self-stat drops only apply when the attack lands damage (or strikes a Substitute). If the attack misses, is blocked by Protect, or fails against a type immunity (e.g. Clanging Scales used against a Fairy type), user stats are untouched.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>28. Final Gambit, Fixed-Damage Moves & Suicide Move Mechanics</h4>
+                    <p><strong>Bug:</strong> Final Gambit dealt negligible damage (e.g., 3 HP to Archaludon) and failed to faint the user. It was treated as a generic 0 Base Power Special attack subject to standard base damage, stat stages, random variance, and type effectiveness multipliers instead of inflicting flat damage equal to the user's current HP and fainting the attacker.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Fixed-Damage Engine in <code>calculate_move_damage()</code>:</strong> Implemented dedicated handlers for <code>final-gambit</code> (damage equal to attacker's current HP), <code>seismic-toss</code> & <code>night-shade</code> (damage equal to attacker's level 50), <code>super-fang</code>, <code>ruination</code> & <code>natures-madness</code> (50% of defender's current HP), and <code>endeavor</code> (defender's HP minus attacker's HP). Fixed-damage moves bypass defenses, critical hits, weather, random variance (0.85–1.00), screens (Reflect, Light Screen, Aurora Veil), and Multiscale/Shadow Shield.</li>
+                            <li><strong>Type Immunity Preservation:</strong> Fixed-damage attacks strictly respect $0\times$ type immunities (e.g., Ghost-types are completely immune to Final Gambit, Seismic Toss, Super Fang, and Endeavor; Normal-types are immune to Night Shade).</li>
+                            <li><strong>Clean Callout Formatting:</strong> Suppressed misleading <code>"| Super effective!"</code>, <code>"| Not very effective..."</code>, and <code>"| Critical hit!"</code> callout tags when <code>fixedDamage</code> is True.</li>
+                            <li><strong>Suicide Move Self-Faint Execution:</strong> In <code>perform_move()</code>, after dealing damage (both against direct targets and when striking an opponent's Substitute), moves with <code>self_destruct: True</code> or <code>final-gambit</code> drop the user's HP to 0, log <code>"☠️ [User] fainted from using [Move]!"</code>, and prompt replacement. Crucially, if the attack misses, is blocked by Protect, or fails against a Ghost-type immunity, the user does <em>not</em> faint.</li>
+                            <li><strong>Tournament Tiebreak Adjudication:</strong> In <code>check_faint_and_win()</code>, if both trainers lose their final active Pokémon on the same turn to a suicide move (Final Gambit, Explosion, Self-Destruct, Misty Explosion), the player using the suicide move is recorded as the loser in accordance with official Pokémon tournament rules.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>29. Weakness Policy, White Herb & Expanded Power Herb Integration with Weather Defensive Boosts</h4>
+                    <p><strong>Bug:</strong> Weakness Policy did not activate when the holder was struck by a super-effective attack (e.g. Primarina's Moonblast hitting Tyranitar in Sandstorm). White Herb was not implemented to restore negative stat stages upon drops from Intimidate, Sticky Web, self-stat drops (Clanging Scales, Shell Smash, Close Combat, Draco Meteor), or opponent debuffs. Power Herb was only partially implemented for select moves and missing Meteor Beam, Skull Bash, and Geomancy.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Weakness Policy Implementation:</strong> In <code>perform_move()</code>, when a Pokémon holding Weakness Policy survives a damaging super-effective attack ($> 1.0\times$ effectiveness and current HP > 0), the item is consumed and raises both Attack and Special Attack by +2 stages (+100%). It correctly does not trigger if the holder faints from the blow or if the attack strikes a Substitute.</li>
+                            <li><strong>White Herb Dynamic Restoration:</strong> Implemented <code>check_white_herb()</code> in <code>battle_engine.py</code>. Triggers whenever any stat drops below 0: entry hazards (Sticky Web), entry abilities (Intimidate), damaging self-stat drops (Clanging Scales, Close Combat, Draco Meteor), status self-stat drops (Shell Smash, Curse), opponent damaging secondary drops (Moonblast, Snarl, Icy Wind), and opponent status debuffs (Screech, Fake Tears, Charm). It resets all negative stat stages back to 0, preserves positive stat boosts, consumes the White Herb, and logs the restoration.</li>
+                            <li><strong>Expanded Power Herb Integration:</strong> Added single-turn charging and execution for <code>meteor-beam</code> (+1 SpA and immediate 120 BP strike), <code>skull-bash</code> (+1 Def and immediate 130 BP strike), <code>geomancy</code> (+2 SpA, +2 SpD, +2 Spe in 1 turn), <code>sky-attack</code>, <code>freeze-shock</code>, and <code>ice-burn</code> alongside existing Electro Shot and Solar Beam/Blade.</li>
+                            <li><strong>Weather Defensive Boosts & Cloud Nine Guard:</strong> Verified that Sandstorm grants a 1.5× Special Defense multiplier to Rock types and Snow grants a 1.5× physical Defense multiplier to Ice types in <code>get_effective_stat()</code>. Refactored the stat evaluation to query <code>get_effective_weather()</code> so that weather stat boosts and abilities (Swift Swim, Chlorophyll, Sand Rush, Slush Rush, Protosynthesis) are accurately suppressed if <code>Cloud Nine</code> (Golduck) or <code>Air Lock</code> (Rayquaza) is on the field.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>30. Protection Targeting Scope & Self-Status Move Execution (Bulk Up, Swords Dance, Recover, Substitute)</h4>
+                    <p><strong>Bug:</strong> When a Pokémon used Protect, the simulator unconditionally blocked any subsequent move executed on that turn — including self-targeting status moves (e.g. Kingambit protected itself, Annihilape used Bulk Up, and the simulator logged <code>"🛡️ Kingambit protected itself from Bulk Up!"</code>, failing Annihilape's move).<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Targeting Scope Engine:</strong> Implemented <code>is_move_targeting_opponent()</code> in <code>battle_engine.py</code> to differentiate between moves directly targeting the opposing Pokémon vs self-targeting moves (Bulk Up, Swords Dance, Calm Mind, Dragon Dance, Nasty Plot, Recover, Roost, Rest, Substitute, Shell Smash) and field-targeting moves (Rain Dance, Sunny Day, Tailwind, Stealth Rock, Spikes, Reflect, Light Screen).</li>
+                            <li><strong>Protect Evaluation Guard:</strong> In <code>perform_move()</code>, Protect and Detect checks now require <code>self.is_move_targeting_opponent(move_lower, m_data)</code> to be True. Self-targeting and field moves cleanly bypass the opponent's Protect, execute their boosts/heals/hazards, and leave the opponent's Protect active against any direct incoming attacks.</li>
+                            <li><strong>Accuracy & Semi-Invulnerable Consistency:</strong> Unified <code>check_move_accuracy()</code> and semi-invulnerability checks with <code>is_move_targeting_opponent()</code>, ensuring self-targeting moves never trigger miss or avoidance logs against flying/burrowing targets.</li>
+                            <li><strong>Unseen Fist & Shield Breakers:</strong> Added Urshifu's <code>Unseen Fist</code> ability to punch directly through Protect/Detect with contact moves, and expanded protection-shattering attacks to include <code>Feint</code>, <code>Hyperspace Fury</code>, and <code>Hyperspace Hole</code> alongside Phantom Force.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>31. Rage Fist Dynamic Hit Scaling, Multi-Hit Stacking & Battle Persistence</h4>
+                    <p><strong>Bug:</strong> Rage Fist was treated as a static 50 Base Power move without dynamic damage scaling. In official Gen 9 competitive mechanics, Rage Fist's power increases by 50 BP each time the user is hit by an attack, capping at 350 BP and persisting across switches and faints.<br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Hits-Taken Counter:</strong> Added <code>times_hit_counter</code> to <code>PokemonState</code>. Increments whenever the Pokémon is struck by a damaging attack (physical or special, contact or non-contact), including Disguise-absorbed attacks and individual strikes of multi-hit moves (e.g. Dragon Darts adds +2, Population Bomb up to +10). Does not increment on Substitute-absorbed hits, Protect blocks, passive weather/status chip, or confusion self-damage.</li>
+                            <li><strong>Dynamic Base Power Scaling:</strong> In <code>calculate_move_damage()</code>, Rage Fist scales via $\text{Power} = \min(350, 50 + (\text{hits} \times 50))$. Boosted by 20% ($1.2\times$) if the attacker has the <code>Iron Fist</code> ability.</li>
+                            <li><strong>Battle Persistence:</strong> <code>times_hit_counter</code> is permanently tracked on the Pokémon and deliberately preserved in <code>reset_volatiles()</code>, ensuring stacks remain intact when switching to the bench or being revived.</li>
+                            <li><strong>HUD & Telemetry Synchronization:</strong> Updated <code>to_dict()</code> to expose <code>timesHitCounter</code> and dynamically reflect Rage Fist's active base power (50 to 350 BP) in move tooltips and battle logs (e.g. <code>"💥 -92 HP (54.1%) | Rage Fist (150 BP)"</code>).</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="file-card">
+                    <h4>32. Last Respects BP Scaling, Supreme Overlord Activation, Multi-Hit Suite (Skill Link & Loaded Dice), Toxic Poison Bypass, and Gen 9 Status Mechanics</h4>
+                    <p><strong>Bug:</strong> Multiple core competitive interactions required complete tournament fidelity:
+                        <ol>
+                            <li><code>Last Respects</code> lacked dynamic Base Power scaling based on fallen teammates.</li>
+                            <li>Kingambit's <code>Supreme Overlord</code> lacked switch-in entry announcements to communicate its active power boost.</li>
+                            <li>Multi-hit moves (e.g. <code>Icicle Spear</code>, <code>Bullet Seed</code>, <code>Rock Blast</code>, <code>Scale Shot</code>, <code>Dragon Darts</code>, <code>Population Bomb</code>) only dealt damage for a single strike, failed to apply total strikes, ignored <code>Skill Link</code>, and did not guarantee 4–5 hits with <code>Loaded Dice</code>.</li>
+                            <li><code>Toxic</code> accuracy was rolled at 90% even when executed by a Poison-type Pokémon, ignoring the canonical Gen 6–9 100% accuracy and semi-invulnerability bypass.</li>
+                            <li>Regular Poison chip at end-of-turn was mistakenly calculated as 1/16 max HP instead of the official 1/8 (12.5%) max HP.</li>
+                        </ol>
+                    <br>
+                    <strong>Fix:</strong>
+                        <ul>
+                            <li><strong>Last Respects Scaling:</strong> In <code>calculate_move_damage()</code> and <code>to_dict()</code>, Last Respects dynamically computes Base Power via $\text{Power} = 50 + (20 \times \text{fainted\_allies})$, scaling from 50 BP up to 150 BP with 5 fainted allies, and displays active BP in move tooltips and battle logs.</li>
+                            <li><strong>Supreme Overlord Entry Announcement:</strong> In <code>trigger_entry_effects()</code>, Kingambit calculates fallen allies and logs an entry announcement (e.g. <code>"✨ [Kingambit's Supreme Overlord] Kingambit gained strength from the fallen! (+20% power)"</code>).</li>
+                            <li><strong>Multi-Hit Suite, Skill Link & Loaded Dice:</strong> Implemented <code>determine_multi_hit_count()</code>. For 2–5 hit moves, <code>Skill Link</code> guarantees maximum 5 hits; <code>Loaded Dice</code> guarantees 4 or 5 hits; normal rates follow Gen 5–9 distribution (35%/35%/15%/15%). Fixed multi-hits (Dragon Darts: 2, Surging Strikes: 3, Triple Dive: 3) and Population Bomb (10 hits with Skill Link, 4–10 with Loaded Dice) are accurately resolved. In <code>perform_move()</code>, total damage applies all strikes, properly breaking Focus Sash/Sturdy, busting Mimikyu's Disguise on hit 1 while remaining strikes damage HP, breaking Substitutes with subsequent hits damaging the defender, and raising Archaludon's <code>Stamina</code> Defense by the exact number of hits.</li>
+                            <li><strong>Poison-Type Toxic Accuracy Bypass:</strong> In <code>check_move_accuracy()</code> and semi-invulnerability checks, if the user is a Poison-type Pokémon, <code>Toxic</code> bypasses accuracy checks to never miss and hits through semi-invulnerable turns (Fly, Dig, Dive, Bounce).</li>
+                            <li><strong>Gen 9 Status Mechanics:</strong> In <code>resolve_end_of_turn()</code>, regular Poison chip is fixed to $1/8$ ($12.5\%$) max HP, keeping Burn at $1/16$ and Toxic at $N/16$ ($1/16, 2/16\dots$). In <code>perform_move()</code>, attempting to execute thawing Fire moves (<code>Flare Blitz</code>, <code>Sacred Fire</code>, <code>Scald</code>, <code>Pyro Ball</code>, etc.) immediately thaws frozen Pokémon before attacking. Burn halves physical Attack unless attacker has <code>Guts</code> ($1.5\times$ boost), and Paralysis reduces Speed by 50%.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <h3 id="current-caveats"><span>🚧</span> Current Caveats & Works-in-Progress (WIP)</h3>
+                <ul>
+                    <li><strong>Doubles Target Selection:</strong> Single-target attacks in doubles auto-target the primary opposing active slot. An interactive Left vs Right target selector modal is planned.</li>
+                    <li><strong>Two-Turn Recharge Moves:</strong> Moves like <code>Hyper Beam</code> and <code>Gigaton Hammer</code> require consecutive-turn restrictions.</li>
+                    <li><strong>Redirection Moves:</strong> <code>Follow Me</code> and <code>Rage Powder</code> targeting overrides.</li>
+                </ul>
+
+                <h3 id="ai-improvements"><span>🚀</span> AI Improvements Roadmap</h3>
+                <ul>
+                    <li><strong>Monte Carlo Tree Search (MCTS):</strong> Expanding Champion AI from 2-ply Minimax into full MCTS self-play.</li>
+                    <li><strong>Background Machine Learning:</strong> Automated background worker executing AI vs AI matches to enrich <code>battle_knowledge_cache.json</code>.</li>
+                    <li><strong>Battle Audio:</strong> Web Audio sound effects for move hits, faints, and status procs.</li>
+                </ul>
+            </section>
+
+            <!-- 7. Maintenance & Extension -->
+            <section id="how-to-add" class="docs-section">
+                <h2><span>➕</span> How to Maintain & Extend the Codebase</h2>
+
+                <h3>Adding a New Move</h3>
+                <ol>
+                    <li>Open <code>utils/battle_engine.py</code> and navigate to <code>EXHAUSTIVE_MOVES_DATA</code>.</li>
+                    <li>Add the move slug with its properties (type, category, power, accuracy, priority, PP).</li>
+                    <li>Add the move to <code>KNOWN_MOVES_DATA</code> in <code>templates/teambuilder.html</code> so teambuilder diagnostics register it immediately.</li>
+                </ol>
+
+                <h3 id="test-routines"><span>🧪</span> Automated Verification Commands</h3>
+                <div class="code-box">
+<div class="code-box-header"><span>TERMINAL VERIFICATION COMMANDS</span><span>SHELL</span></div>
+<pre class="ascii-diagram"># Test all core routes and API endpoints
+./pokemon-web-app/.venv/bin/python -c "
+import sys
+sys.path.insert(0, 'pokemon-web-app')
+from app import app
+client = app.test_client()
+for r in ['/', '/pokedex', '/teambuilder', '/simulator', '/guide', '/developer']:
+    res = client.get(r)
+    assert res.status_code == 200, f'Route {r} failed'
+print('✅ Core routes verified!')
+"</pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('pokemon_theme', isDark ? 'dark' : 'light');
+            document.getElementById('dark-mode-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Initialize Theme from localStorage
+        (function() {
+            const savedTheme = localStorage.getItem('pokemon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark');
+                document.getElementById('dark-mode-toggle').textContent = '☀️';
+            }
+        })();
+
+        function toggleSidebar() {
+            document.getElementById('docs-sidebar').classList.toggle('open');
+        }
+
+        // Live Module Filter
+        function filterTopics() {
+            const query = document.getElementById('docs-filter-input').value.toLowerCase().trim();
+            const links = document.querySelectorAll('.docs-nav-link');
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const li = link.parentElement;
+                if (!query || text.includes(query)) {
+                    li.style.display = '';
+                } else {
+                    li.style.display = 'none';
+                }
+            });
+        }
+
+        // Scrollspy for active nav link
+        window.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('.docs-nav-link');
+            const sections = document.querySelectorAll('.docs-section, .file-card');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const top = section.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                if (current) {
+                    links.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${current}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

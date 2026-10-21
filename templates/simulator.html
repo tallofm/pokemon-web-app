@@ -1,0 +1,4192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Battle Simulator - Showdown Championship Arena</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        :root {
+            --arena-bg: #0f172a;
+            --arena-turf: #1e293b;
+            --hp-green: #22c55e;
+            --hp-yellow: #eab308;
+            --hp-red: #ef4444;
+            --st-burn: #f97316;
+            --st-par: #eab308;
+            --st-slp: #94a3b8;
+            --st-psn: #a855f7;
+            --st-frz: #38bdf8;
+        }
+
+        .sim-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 16px 20px 40px;
+        }
+
+        /* Top Simulation Header & HUD */
+        .sim-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 12px 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sim-hud-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sim-mode-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .sim-diff-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            background: rgba(147, 51, 234, 0.15);
+            color: #a855f7;
+            border: 1px solid #a855f7;
+        }
+
+        .sim-timer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            font-family: var(--font-mono);
+            background: var(--bg-subtle);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+        .sim-timer-badge.warning {
+            background: rgba(234, 179, 8, 0.18);
+            color: #eab308;
+            border-color: #eab308;
+            animation: pulse 1s infinite;
+        }
+        .sim-timer-badge.danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: #ef4444;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .sim-hud-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-sim-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-sim-action:hover {
+            border-color: var(--accent-primary);
+            background: var(--bg-surface-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Main Battle Arena Grid Layout */
+        .battle-layout {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .battle-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 3D Battle Arena Viewport (Compact Single-Screen Viewport) */
+        .battle-viewport {
+            background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 75%, #020617 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            height: 460px;
+            min-height: 440px;
+            max-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Weather / Terrain Banner */
+        .field-status-bar {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .field-chip {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: capitalize;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+        }
+        .field-chip.rain { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #38bdf8; }
+        .field-chip.sun { background: rgba(249, 115, 22, 0.25); color: #f97316; border: 1px solid #f97316; }
+        .field-chip.snow { background: rgba(224, 242, 254, 0.25); color: #e0f2fe; border: 1px solid #bae6fd; }
+        .field-chip.sandstorm { background: rgba(217, 119, 6, 0.25); color: #fbbf24; border: 1px solid #fbbf24; }
+        .field-chip.grassy { background: rgba(34, 197, 94, 0.25); color: #4ade80; border: 1px solid #4ade80; }
+        .field-chip.electric { background: rgba(234, 179, 8, 0.25); color: #facc15; border: 1px solid #facc15; }
+        .field-chip.psychic { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #c084fc; }
+        .field-chip.trick-room { background: rgba(236, 72, 153, 0.25); color: #f472b6; border: 1px solid #f472b6; }
+
+        /* Side Arena Docks (Player on Left, Opponent on Right) */
+        .battle-side-group--player {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 10;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .battle-side-group--opp {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 10;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .player-dock-column, .opp-dock-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 260px;
+        }
+
+        /* Backward Compatibility Aliases */
+        .combatant-zone {
+            display: contents;
+        }
+        .combatant-zone--opponent, .combatant-zone--player {
+            display: contents;
+        }
+        .player-hud-cluster {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Pokémon Status Card */
+        .poke-status-card {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            padding: 8px 12px;
+            min-width: 220px;
+            max-width: 260px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .poke-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .poke-card-name {
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .poke-card-lvl {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* Types Bar */
+        .poke-types-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        /* Ability & Item Info Row */
+        .poke-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.75rem;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .poke-ability-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .poke-item-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Health Bar Container */
+        .hp-bar-wrapper {
+            margin-bottom: 6px;
+        }
+
+        .hp-bar-bg {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hp-bar-fill {
+            height: 100%;
+            background: var(--hp-green);
+            width: 100%;
+            border-radius: 6px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+        }
+
+        .hp-readout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.74rem;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* Status & Buff Badges */
+        .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            min-height: 20px;
+        }
+
+        .status-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            color: #ffffff;
+            line-height: 1;
+        }
+        .status-burn { background: var(--st-burn); }
+        .status-paralysis { background: var(--st-par); color: #000; }
+        .status-sleep { background: var(--st-slp); }
+        .status-poison, .status-toxic { background: var(--st-psn); }
+        .status-freeze { background: var(--st-frz); color: #000; }
+        .status-confused { background: #d946ef; color: #ffffff; }
+        .status-infatuated { background: #ec4899; color: #ffffff; }
+        .status-taunted { background: #e11d48; color: #ffffff; }
+        .status-substitute { background: #0284c7; color: #ffffff; border: 1px solid #38bdf8; }
+
+        .stat-boost-chip {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            line-height: 1;
+        }
+        .stat-boost-chip.positive {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border: 1px solid #4ade80;
+        }
+        .stat-boost-chip.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid #f87171;
+        }
+
+        .tera-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            box-shadow: 0 2px 6px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Team Pokeball Trackers */
+        .team-balls {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .ball-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 1px solid #ffffff;
+            opacity: 1;
+            transition: all 0.2s;
+        }
+        .ball-icon.fainted {
+            background: #475569;
+            opacity: 0.4;
+            border-color: #64748b;
+        }
+
+        /* Sprites (Scaled for Single-Screen Viewport) */
+        .poke-sprite-container {
+            position: relative;
+            width: 120px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .poke-sprite {
+            max-width: 110px;
+            max-height: 95px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+            image-rendering: auto;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .sprite-idle {
+            animation: bobble 3s infinite ease-in-out;
+        }
+        @keyframes bobble {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .sprite-attack-lunge {
+            animation: lunge 0.35s ease-in-out;
+        }
+        @keyframes lunge {
+            0% { transform: translateX(0) scale(1); }
+            50% { transform: translate(45px, -25px) scale(1.15); }
+            100% { transform: translateX(0) scale(1); }
+        }
+
+        .sprite-hit-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); filter: drop-shadow(0 0 0 red); }
+            20% { transform: translateX(-12px); filter: drop-shadow(0 0 12px red) brightness(1.5); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(4px); }
+        }
+
+        /* Announcement Toast */
+        .announcement-banner {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.45);
+            border-radius: 12px;
+            padding: 8px 20px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #ffffff;
+            z-index: 30;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease-out;
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+        }
+        .announcement-banner.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Action Drawer & Move Buttons (Single-Screen Fit) */
+        .action-tray {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 8px 14px;
+            margin-top: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Omni Ring Dock */
+        .omni-ring-dock {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            padding: 8px 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .omni-ring-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: #e2e8f0;
+            letter-spacing: 0.04em;
+        }
+        .omni-ring-title {
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            color: #f8fafc;
+        }
+        .omni-ring-badge {
+            font-size: 0.62rem;
+            font-weight: 800;
+            padding: 1px 7px;
+            border-radius: 9999px;
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border: 1px solid #4ade80;
+            font-family: var(--font-mono);
+            line-height: 1.2;
+        }
+        .omni-ring-badge.depleted {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border-color: #f87171;
+        }
+        .omni-mechanics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .omni-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 4px;
+            border-radius: 8px;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(30, 41, 59, 0.7);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            user-select: none;
+        }
+        .omni-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+        .omni-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+        }
+        .omni-btn-icon {
+            font-size: 1.05rem;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .omni-btn-label {
+            font-size: 0.66rem;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+            display: block;
+            line-height: 1.1;
+        }
+        .omni-btn-sub {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            display: block;
+            line-height: 1.1;
+        }
+        .omni-btn--tera.active {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+            border-color: #22d3ee;
+            box-shadow: 0 0 14px rgba(34, 211, 238, 0.7);
+            color: #22d3ee;
+        }
+        .omni-btn--mega.active {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.35), rgba(168, 85, 247, 0.35));
+            border-color: #ec4899;
+            box-shadow: 0 0 14px rgba(236, 72, 153, 0.7);
+            color: #f472b6;
+        }
+        .omni-btn--gmax.active {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.35), rgba(249, 115, 22, 0.35));
+            border-color: #ef4444;
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.7);
+            color: #f87171;
+        }
+
+        /* Backward Compatibility Class Aliases */
+        .btn-tera-gem-docked {
+            display: none !important;
+        }
+        .btn-tera-gem {
+            display: none !important;
+        }
+
+        /* Left & Right Team Rails: Sleek Horizontal Toolbar */
+        .roster-rail {
+            position: relative;
+            z-index: 12;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 5px 6px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .roster-rail--player, .roster-rail--opp {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            transform: none;
+        }
+
+        .roster-chip {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .roster-chip:hover:not(:disabled):not(.active) {
+            transform: scale(1.1);
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+            background: rgba(56, 189, 248, 0.18);
+            z-index: 25;
+        }
+        .roster-chip.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.65);
+            cursor: default;
+        }
+        .roster-chip.active::before {
+            content: '⚔️';
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            font-size: 0.64rem;
+            background: #1e293b;
+            border-radius: 50%;
+            padding: 1px;
+            border: 1px solid #38bdf8;
+            line-height: 1;
+            z-index: 2;
+        }
+        .roster-chip.fainted {
+            opacity: 0.35;
+            filter: grayscale(1);
+            cursor: not-allowed;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        .roster-chip.fainted::before {
+            content: '☠️';
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            font-size: 0.64rem;
+            background: #1e293b;
+            border-radius: 50%;
+            padding: 1px;
+            border: 1px solid #ef4444;
+            line-height: 1;
+            z-index: 2;
+        }
+        .roster-chip-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            pointer-events: none;
+        }
+        .roster-chip-pokeball {
+            width: 26px;
+            height: 26px;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .roster-chip-hp-bar {
+            position: absolute;
+            bottom: 2px;
+            left: 4px;
+            right: 4px;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .roster-chip-hp-fill {
+            height: 100%;
+            background: var(--hp-green);
+            transition: width 0.3s ease;
+        }
+
+        /* Tooltips */
+        .roster-tooltip {
+            position: absolute;
+            top: 42px;
+            left: 0;
+            transform: none;
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 8px 12px;
+            min-width: 210px;
+            max-width: 260px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(14px);
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s ease, visibility 0.15s ease;
+            z-index: 40;
+            text-align: left;
+        }
+        .roster-chip:hover .roster-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        .roster-rail--player .roster-tooltip {
+            left: 0;
+            right: auto;
+        }
+        .roster-rail--opp .roster-tooltip {
+            right: 0;
+            left: auto;
+        }
+        .roster-tooltip-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .roster-tooltip-types {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .roster-tooltip-hp {
+            font-size: 0.74rem;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .roster-tooltip-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        /* Flying Pokéball Animation */
+        .flying-pokeball {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            z-index: 50;
+            pointer-events: none;
+            border-radius: 50%;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+        }
+        @keyframes pokeballSpin {
+            0% { transform: rotate(0deg) scale(0.8); }
+            50% { transform: rotate(540deg) scale(1.15); }
+            100% { transform: rotate(1080deg) scale(1); }
+        }
+        .flying-pokeball.spinning {
+            animation: pokeballSpin 0.45s ease-out forwards;
+        }
+
+        /* Pokéball Burst Effect at Target */
+        .pokeball-burst-flash {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(56, 189, 248, 0.7) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 45;
+            transform: translate(-50%, -50%) scale(0.2);
+            animation: burstFlash 0.5s ease-out forwards;
+        }
+        @keyframes burstFlash {
+            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.9; }
+            50% { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+        }
+
+        /* Pokémon Entrance Animation */
+        .sprite-enter-pokeball {
+            animation: pokeEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes pokeEntrance {
+            0% { transform: scale(0.1); opacity: 0; filter: brightness(3); }
+            60% { transform: scale(1.15); opacity: 1; filter: brightness(1.6); }
+            100% { transform: scale(1); opacity: 1; filter: brightness(1); }
+        }
+
+        /* 4 Moves Grid */
+        .moves-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .moves-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .btn-move {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 6px 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 4px;
+            min-height: 52px;
+        }
+        .btn-move:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent-primary);
+        }
+        .btn-move:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-move-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .btn-move-name {
+            font-size: 0.96rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .btn-move-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+        /* Category Badges */
+        .cat-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .cat-physical { background: rgba(249, 115, 22, 0.18); color: #f97316; border: 1px solid #f97316; }
+        .cat-special { background: rgba(168, 85, 247, 0.18); color: #a855f7; border: 1px solid #a855f7; }
+        .cat-status { background: rgba(100, 116, 139, 0.18); color: #94a3b8; border: 1px solid #94a3b8; }
+
+        .type-pill-xs {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* Bench Roster Section */
+        .bench-section-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bench-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .bench-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .bench-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+            min-height: 48px;
+        }
+        .bench-card:hover:not(:disabled):not(.active-in-battle) {
+            border-color: var(--accent-primary);
+            background: var(--bg-surface-hover);
+            transform: translateY(-2px);
+        }
+        .bench-card.active-in-battle {
+            border: 2px solid var(--accent-primary);
+            background: rgba(37, 99, 235, 0.08);
+            cursor: default;
+        }
+        .bench-card.fainted {
+            opacity: 0.45;
+            filter: grayscale(1);
+            cursor: not-allowed;
+            background: rgba(239, 68, 68, 0.05);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .bench-mini-sprite {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        /* Spectator HUD */
+        .spectator-hud {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 14px 18px;
+        }
+
+        .spectator-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-coach-pill {
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-coach-pill:hover, .btn-coach-pill.active {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border-color: var(--accent-primary);
+        }
+
+        /* Showdown Battle Log */
+        .battle-log-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            height: 720px;
+            max-height: 720px;
+            overflow: hidden;
+        }
+
+        .log-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-subtle);
+        }
+
+        .log-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .log-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 12px 14px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            font-size: 0.81rem;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Alternating Turn Block Styling */
+        .log-turn-divider {
+            text-align: center;
+            font-weight: 900;
+            font-size: 0.82rem;
+            letter-spacing: 0.05em;
+            padding: 6px 12px;
+            margin: 10px 0 6px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
+            border: 1px solid rgba(37, 99, 235, 0.35);
+            color: #ffffff;
+        }
+
+        .log-entry {
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+            border-left: 4px solid var(--border-strong);
+            animation: fadeIn 0.2s ease-in;
+            word-break: break-word;
+        }
+
+        .log-entry--even {
+            background: rgba(30, 41, 59, 0.35);
+        }
+        .log-entry--odd {
+            background: rgba(15, 23, 42, 0.65);
+        }
+
+        .log-entry.damage { border-left-color: #ef4444; }
+        .log-entry.move { border-left-color: #3b82f6; }
+        .log-entry.ability { border-left-color: #06b6d4; background: rgba(6, 182, 212, 0.08); }
+        .log-entry.item { border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.08); }
+        .log-entry.faint { border-left-color: #dc2626; background: rgba(239, 68, 68, 0.15); font-weight: 700; }
+        .log-entry.gameover { border-left-color: #10b981; background: rgba(16, 185, 129, 0.15); font-weight: 800; font-size: 0.92rem; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .modal-overlay.hidden {
+            display: none !important;
+        }
+
+        .modal-dialog {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .slider-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .slider-range {
+            flex-grow: 1;
+            height: 6px;
+            border-radius: 3px;
+            accent-color: var(--accent-primary);
+        }
+
+        /* Official Type Colors */
+        .type-normal { background: #A8A878; color: #fff; }
+        .type-fire { background: #F08030; color: #fff; }
+        .type-water { background: #6890F0; color: #fff; }
+        .type-electric { background: #F8D030; color: #000; }
+        .type-grass { background: #78C850; color: #fff; }
+        .type-ice { background: #98D8D8; color: #000; }
+        .type-fighting { background: #C03028; color: #fff; }
+        .type-poison { background: #A040A0; color: #fff; }
+        .type-ground { background: #E0C068; color: #000; }
+        .type-flying { background: #A890F0; color: #fff; }
+        .type-psychic { background: #F85888; color: #fff; }
+        .type-bug { background: #A8B820; color: #fff; }
+        .type-rock { background: #B8A038; color: #fff; }
+        .type-ghost { background: #705898; color: #fff; }
+        .type-dragon { background: #7038F8; color: #fff; }
+        .type-dark { background: #705848; color: #fff; }
+        .type-steel { background: #B8B8D0; color: #000; }
+        .type-fairy { background: #EE99AC; color: #000; }
+
+        /* Dynamic Animated Weather, Terrain, and Room Overlays */
+        .field-effect-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        /* Weather Overlays */
+        .weather-overlay.weather-rain {
+            opacity: 1;
+            background: linear-gradient(175deg, rgba(14, 165, 233, 0.12) 0%, rgba(2, 6, 23, 0.45) 100%),
+                        repeating-linear-gradient(105deg, transparent 0%, transparent 16px, rgba(125, 211, 252, 0.35) 17px, transparent 18px);
+            background-size: 100% 100%, 140px 140px;
+            animation: rainStreaks 0.35s linear infinite;
+        }
+        @keyframes rainStreaks {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 0 0, -35px 70px; }
+        }
+
+        .weather-overlay.weather-sun {
+            opacity: 1;
+            background: radial-gradient(circle at 50% 15%, rgba(251, 191, 36, 0.25) 0%, rgba(249, 115, 22, 0.1) 50%, transparent 80%);
+            animation: sunAura 3s infinite ease-in-out;
+        }
+        @keyframes sunAura {
+            0%, 100% { opacity: 0.85; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.2); }
+        }
+
+        .weather-overlay.weather-sandstorm {
+            opacity: 1;
+            background: repeating-linear-gradient(65deg, transparent 0%, transparent 18px, rgba(217, 119, 6, 0.22) 20px, transparent 22px);
+            background-size: 100px 100px;
+            animation: sandSweep 0.6s linear infinite;
+        }
+        @keyframes sandSweep {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 50px; }
+        }
+
+        .weather-overlay.weather-snow {
+            opacity: 1;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.75) 1.5px, transparent 2px),
+                              radial-gradient(circle, rgba(224, 242, 254, 0.6) 2px, transparent 2.5px);
+            background-size: 50px 50px, 80px 80px;
+            background-position: 0 0, 20px 30px;
+            animation: snowDrift 2.8s linear infinite;
+        }
+        @keyframes snowDrift {
+            0% { background-position: 0 0, 20px 30px; }
+            100% { background-position: 15px 50px, 35px 110px; }
+        }
+
+        /* Terrain Overlays */
+        .terrain-overlay.terrain-electric {
+            opacity: 1;
+            box-shadow: inset 0 -40px 60px rgba(250, 204, 21, 0.28);
+            background: linear-gradient(to top, rgba(234, 179, 8, 0.16) 0%, transparent 45%),
+                        repeating-linear-gradient(90deg, transparent 0%, transparent 38px, rgba(250, 204, 21, 0.12) 39px, transparent 40px);
+            animation: electricFlicker 1.5s infinite alternate;
+        }
+        @keyframes electricFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.5)); }
+        }
+
+        .terrain-overlay.terrain-grassy {
+            opacity: 1;
+            box-shadow: inset 0 -40px 60px rgba(34, 197, 94, 0.25);
+            background: linear-gradient(to top, rgba(34, 197, 94, 0.18) 0%, transparent 45%);
+        }
+
+        .terrain-overlay.terrain-misty {
+            opacity: 1;
+            box-shadow: inset 0 -40px 60px rgba(244, 114, 182, 0.25);
+            background: linear-gradient(to top, rgba(244, 114, 182, 0.16) 0%, transparent 45%);
+        }
+
+        .terrain-overlay.terrain-psychic {
+            opacity: 1;
+            box-shadow: inset 0 -40px 60px rgba(168, 85, 247, 0.28);
+            background: linear-gradient(to top, rgba(168, 85, 247, 0.18) 0%, transparent 45%);
+        }
+
+        /* Room Overlays */
+        .room-overlay.room-trick-room {
+            opacity: 1;
+            border: 3px solid rgba(236, 72, 153, 0.65);
+            box-shadow: inset 0 0 60px rgba(236, 72, 153, 0.35);
+            animation: trickRoomShift 2s infinite alternate ease-in-out;
+        }
+        @keyframes trickRoomShift {
+            0% { border-color: rgba(236, 72, 153, 0.5); box-shadow: inset 0 0 40px rgba(236, 72, 153, 0.25); }
+            100% { border-color: rgba(192, 132, 252, 0.85); box-shadow: inset 0 0 80px rgba(192, 132, 252, 0.45); }
+        }
+
+        .room-overlay.room-gravity {
+            opacity: 1;
+            box-shadow: inset 0 0 80px rgba(59, 130, 246, 0.4);
+            animation: gravityPulse 1.8s infinite ease-in-out;
+        }
+        @keyframes gravityPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Central Battle Action Stage */
+        .battle-center-stage {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            z-index: 10;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        /* Turn Flash Banner */
+        .turn-flash-banner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 30;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid var(--accent-primary);
+            border-radius: 16px;
+            padding: 12px 36px;
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.65);
+            backdrop-filter: blur(12px);
+            white-space: nowrap;
+        }
+        .turn-flash-banner.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+        .turn-flash-content {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 16px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Central Active Move Card */
+        .central-move-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.88);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease-out;
+            z-index: 25;
+            background: rgba(15, 23, 42, 0.94);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            padding: 8px 18px;
+            min-width: 220px;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        .central-move-card.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .cmc-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .cmc-actor-name {
+            color: #ffffff;
+            font-weight: 800;
+        }
+        .cmc-move-title {
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.02em;
+        }
+        .cmc-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .cmc-pill-type {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            letter-spacing: 0.03em;
+        }
+        .cmc-pill-cat {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 9999px;
+        }
+        .cmc-outcome {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-top: 3px;
+        }
+
+        /* Move Card Elemental Glowing Accents */
+        .central-move-card.type-electric { border-color: #facc15; box-shadow: 0 0 30px rgba(250, 204, 21, 0.5); }
+        .central-move-card.type-water { border-color: #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); }
+        .central-move-card.type-fire { border-color: #f97316; box-shadow: 0 0 30px rgba(249, 115, 22, 0.5); }
+        .central-move-card.type-grass { border-color: #4ade80; box-shadow: 0 0 30px rgba(74, 222, 128, 0.5); }
+        .central-move-card.type-steel { border-color: #94a3b8; box-shadow: 0 0 30px rgba(148, 163, 184, 0.5); }
+        .central-move-card.type-ghost { border-color: #a855f7; box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+        .central-move-card.type-dragon { border-color: #6366f1; box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); }
+        .central-move-card.type-ground { border-color: #eab308; box-shadow: 0 0 30px rgba(234, 179, 8, 0.5); }
+        .central-move-card.type-fighting { border-color: #f43f5e; box-shadow: 0 0 30px rgba(244, 63, 94, 0.5); }
+        .central-move-card.type-fairy { border-color: #ec4899; box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
+        .central-move-card.type-dark { border-color: #71717a; box-shadow: 0 0 30px rgba(113, 113, 122, 0.5); }
+        .central-move-card.type-psychic { border-color: #c084fc; box-shadow: 0 0 30px rgba(192, 132, 252, 0.5); }
+        .central-move-card.type-ice { border-color: #67e8f9; box-shadow: 0 0 30px rgba(103, 232, 249, 0.5); }
+        .central-move-card.type-rock { border-color: #d97706; box-shadow: 0 0 30px rgba(217, 119, 6, 0.5); }
+        .central-move-card.type-flying { border-color: #818cf8; box-shadow: 0 0 30px rgba(129, 140, 248, 0.5); }
+        .central-move-card.type-poison { border-color: #d946ef; box-shadow: 0 0 30px rgba(217, 70, 239, 0.5); }
+        .central-move-card.type-bug { border-color: #84cc16; box-shadow: 0 0 30px rgba(132, 204, 22, 0.5); }
+        .central-move-card.type-normal { border-color: #cbd5e1; box-shadow: 0 0 30px rgba(203, 213, 225, 0.5); }
+
+        /* Beside-Sprite Move Callout Bubble */
+        .move-callout-bubble {
+            position: absolute;
+            z-index: 25;
+            background: rgba(15, 23, 42, 0.94);
+            border: 2px solid var(--accent-primary);
+            border-radius: 9999px;
+            padding: 3px 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s ease-out;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .move-callout-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* Max Move / G-Max Active Button Style */
+        .btn-move.btn-move--max {
+            border-color: #f43f5e;
+            box-shadow: 0 0 14px rgba(244, 63, 94, 0.45);
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(15, 23, 42, 0.92));
+        }
+        .btn-move.btn-move--max:hover:not(:disabled) {
+            border-color: #fb7185;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.7);
+        }
+        .max-move-badge {
+            background: linear-gradient(135deg, #f43f5e, #be123c);
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            margin-left: 5px;
+            letter-spacing: 0.03em;
+            box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+        }
+
+        /* Roster Rail Faint Selection Mode */
+        .roster-rail--player.faint-selection-mode {
+            border-color: #ef4444;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.45);
+        }
+        .roster-rail--player.faint-selection-mode .roster-chip:not(.fainted):not(.active) {
+            border-color: #38bdf8 !important;
+            animation: faintChipPulse 1.2s infinite alternate ease-in-out;
+            cursor: pointer;
+        }
+        @keyframes faintChipPulse {
+            0% { transform: scale(1); box-shadow: 0 0 4px rgba(56, 189, 248, 0.4); }
+            100% { transform: scale(1.14); box-shadow: 0 0 16px rgba(56, 189, 248, 0.9); }
+        }
+
+        /* Floating Combat Text */
+        .floating-text-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 28;
+        }
+        .floating-combat-text {
+            position: absolute;
+            transform: translate(-50%, 0);
+            font-size: 1.15rem;
+            font-weight: 900;
+            animation: floatCombatText 1.1s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+            white-space: nowrap;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+        }
+        @keyframes floatCombatText {
+            0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
+            20% { opacity: 1; transform: translate(-50%, -10px) scale(1.15); }
+            80% { opacity: 1; transform: translate(-50%, -25px) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -40px) scale(0.9); }
+        }
+        .floating-combat-text.float-damage { color: #f87171; }
+        .floating-combat-text.float-heal { color: #4ade80; }
+        .floating-combat-text.float-status { color: #38bdf8; }
+
+        /* Side Hazards & Screen Badges */
+        .side-hazards-container {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+            min-height: 20px;
+        }
+        .hazard-chip, .screen-chip {
+            font-size: 0.66rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .hazard-chip.hazard-stealth-rock { background: rgba(217, 119, 6, 0.25); color: #fbbf24; border: 1px solid #fbbf24; }
+        .hazard-chip.hazard-spikes { background: rgba(148, 163, 184, 0.25); color: #cbd5e1; border: 1px solid #cbd5e1; }
+        .hazard-chip.hazard-toxic-spikes { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #c084fc; }
+        .hazard-chip.hazard-sticky-web { background: rgba(234, 179, 8, 0.25); color: #facc15; border: 1px solid #facc15; }
+        .screen-chip.screen-tailwind { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #38bdf8; animation: pulse 1.2s infinite; }
+        .screen-chip.screen-reflect { background: rgba(244, 63, 94, 0.25); color: #f43f5e; border: 1px solid #f43f5e; }
+        .screen-chip.screen-light-screen { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #c084fc; }
+        .screen-chip.screen-aurora-veil { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #38bdf8; }
+
+
+        /* Pre-Battle Launchpad Splash */
+        .pre-battle-splash {
+            position: absolute;
+            inset: 0;
+            z-index: 25;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .pre-battle-splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .splash-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 20px 28px;
+            text-align: center;
+            max-width: 440px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+        }
+        .splash-icon {
+            font-size: 2rem;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+        .splash-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .splash-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            margin: 0 0 6px;
+            color: var(--text-primary);
+        }
+        .splash-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0 0 14px;
+        }
+        .splash-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item active">🏟️ Simulator</a>
+                <a href="/guide" class="nav-item">📘 Guide</a>
+                <a href="/developer" class="nav-item">🛠️ Dev Docs</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=simulator" class="btn-nav" title="Randomize a new Battle Matchup!">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="sim-container">
+        <!-- Top Simulator HUD -->
+        <div class="sim-header">
+            <div class="sim-hud-left">
+                <span class="sim-mode-badge" id="hud-match-title" style="background: rgba(99, 102, 241, 0.18); border-color: #6366f1; color: #818cf8; font-weight: 800;">⚔️ Trainer vs Cynthia</span>
+                <span class="sim-mode-badge" id="hud-ruleset-badge">⚔️ VGC Singles (6v6)</span>
+                <span class="sim-diff-badge" id="hud-diff-badge">👑 AI: Difficulty 90 (World Champion)</span>
+                <span class="sim-timer-badge" id="hud-timer-badge">⏱️ Turn Timer: 45s</span>
+            </div>
+            <div class="sim-hud-right">
+                <button class="btn-sim-action" onclick="startRandomBattleNow()" title="Quick battle with random teams">🎲 Quick Battle</button>
+                <button class="btn-sim-action" onclick="openSetupModal()" title="Start New Match / Change Teams">⚙️ Match Setup</button>
+                <button class="btn-sim-action" onclick="openKnowledgeModal()" title="View AI Knowledge & Neural Cache">🧠 AI Brain</button>
+                <button class="btn-sim-action" onclick="toggleAudioMute()" id="btn-audio-toggle" title="Toggle Sound FX">🔊 Sound On</button>
+                <button class="btn-sim-action" style="color: #ef4444;" onclick="surrenderMatch()" title="Surrender or Reset">🏳️ Surrender</button>
+            </div>
+        </div>
+
+        <!-- Main Battle Arena & Log Grid -->
+        <div class="battle-layout">
+            <!-- Left: Battlefield & Action Tray -->
+            <div>
+                <div class="battle-viewport" id="battlefield">
+                    <!-- Pre-Battle Launchpad Splash (Shown before battle starts) -->
+                    <div class="pre-battle-splash" id="pre-battle-splash">
+                        <div class="splash-card">
+                            <span class="splash-icon">⚔️</span>
+                            <div class="splash-badge">VGC & SMOGON CHAMPIONSHIP ARENA</div>
+                            <h2 class="splash-title">Ready to Battle?</h2>
+                            <p class="splash-desc">Configure your trainer name, custom team, and AI difficulty — or jump directly into a rapid random battle!</p>
+                            <div class="splash-actions">
+                                <button class="btn-hero btn-hero--primary" onclick="openSetupModal()">
+                                    ⚙️ Match Setup
+                                </button>
+                                <button class="btn-hero btn-hero--outline" onclick="startRandomBattleNow()">
+                                    🎲 Quick Random Battle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Weather, Terrain, and Room Animated Overlays -->
+                    <div class="field-effect-overlay weather-overlay" id="weather-overlay"></div>
+                    <div class="field-effect-overlay terrain-overlay" id="terrain-overlay"></div>
+                    <div class="field-effect-overlay room-overlay" id="room-overlay"></div>
+
+                    <!-- Weather / Terrain Overlay Chips -->
+                    <div class="field-status-bar" id="field-chips-bar"></div>
+
+                    <!-- Announcement Toast -->
+                    <div class="announcement-banner" id="announcement-banner">
+                        ✨ [Drizzle] The rain began to fall!
+                    </div>
+
+                    <!-- OPPONENT GROUP (Right Edge: Active Card on Top of Team Roster, Sprite to the Left) -->
+                    <div class="battle-side-group--opp">
+                        <!-- Opponent Active Pokémon Sprite (To the left of the card, centered with the card) -->
+                        <div class="poke-sprite-container poke-sprite-container--opp">
+                            <div class="move-callout-bubble move-callout-bubble--opp" id="opp-move-callout">
+                                <span class="mcb-icon">⚔️</span>
+                                <span class="mcb-text">Move Name</span>
+                            </div>
+                            <img src="" id="opp-sprite" class="poke-sprite sprite-idle" alt="Opponent Pokémon">
+                        </div>
+
+                        <div class="opp-dock-column">
+                            <!-- Opponent Active Pokémon Card -->
+                            <div class="poke-status-card" id="opp-card">
+                                <div class="poke-card-top">
+                                    <span class="poke-card-name" id="opp-name">Opponent</span>
+                                    <span class="poke-card-lvl" id="opp-lvl">Lv. 50</span>
+                                </div>
+
+                                <!-- Types Bar -->
+                                <div class="poke-types-row" id="opp-types-row"></div>
+
+                                <!-- Ability & Item Clarity -->
+                                <div class="poke-info-row">
+                                    <span class="poke-ability-pill" id="opp-ability-badge">✨ Ability: Unknown</span>
+                                    <span class="poke-item-pill" id="opp-item-badge">🎒 Item: Active</span>
+                                </div>
+
+                                <div class="hp-bar-wrapper">
+                                    <div class="hp-bar-bg">
+                                        <div class="hp-bar-fill" id="opp-hp-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <div class="hp-readout">
+                                        <span id="opp-hp-pct">100.0%</span>
+                                        <span id="opp-tera-state">Tera: Normal</span>
+                                    </div>
+                                </div>
+
+                                <div class="badge-row" id="opp-badges"></div>
+                                <div class="side-hazards-container" id="opp-hazards"></div>
+                                <div class="team-balls" id="opp-team-balls"></div>
+                            </div>
+
+                            <!-- Opponent Team Roster on Right Edge (directly below active card) -->
+                            <div class="roster-rail roster-rail--opp" id="roster-rail-opp" title="Opponent Team Roster"></div>
+                        </div>
+                    </div>
+
+                    <!-- CENTRAL BATTLE ACTION STAGE (Flashes Turn X, Shows Move Cards, Central Combat FX) -->
+                    <div class="battle-center-stage" id="battle-center-stage">
+                        <!-- Flashing Turn Banner -->
+                        <div class="turn-flash-banner" id="turn-flash-banner">
+                            <span class="turn-flash-content" id="turn-flash-text">⚔️ TURN 1</span>
+                        </div>
+
+                        <!-- Central Active Move Card -->
+                        <div class="central-move-card" id="central-move-card">
+                            <div class="cmc-header">
+                                <span class="cmc-actor-icon" id="cmc-actor-icon">⚔️</span>
+                                <span class="cmc-actor-name" id="cmc-actor-name">Archaludon</span>
+                                <span class="cmc-verb">used</span>
+                            </div>
+                            <div class="cmc-body">
+                                <span class="cmc-move-title" id="cmc-move-title">Electro Shot</span>
+                                <div class="cmc-badges">
+                                    <span class="cmc-pill-type" id="cmc-pill-type">ELECTRIC</span>
+                                    <span class="cmc-pill-cat" id="cmc-pill-cat">🔮 Special</span>
+                                </div>
+                            </div>
+                            <div class="cmc-outcome" id="cmc-outcome"></div>
+                        </div>
+
+                        <!-- Floating Combat Text Container -->
+                        <div class="floating-text-container" id="floating-text-container"></div>
+                    </div>
+
+                    <!-- PLAYER GROUP (Left Edge: Team Roster on top, Active Card just below, Omni Ring dock below, Sprite to the Right) -->
+                    <div class="battle-side-group--player">
+                        <div class="player-dock-column">
+                            <!-- Player Team Roster on Left Edge -->
+                            <div class="roster-rail roster-rail--player" id="roster-rail-player" title="Your Team Roster"></div>
+
+                            <!-- Player Active Pokémon Card (just below team roster) -->
+                            <div class="poke-status-card" id="player-card">
+                                <div class="poke-card-top">
+                                    <span class="poke-card-name" id="player-name">Your Pokémon</span>
+                                    <span class="poke-card-lvl" id="player-lvl">Lv. 50</span>
+                                </div>
+
+                                <!-- Types Bar -->
+                                <div class="poke-types-row" id="player-types-row"></div>
+
+                                <!-- Ability & Item Clarity -->
+                                <div class="poke-info-row">
+                                    <span class="poke-ability-pill" id="player-ability-badge">✨ Ability: Stamina</span>
+                                    <span class="poke-item-pill" id="player-item-badge">🎒 Item: Assault Vest</span>
+                                </div>
+
+                                <div class="hp-bar-wrapper">
+                                    <div class="hp-bar-bg">
+                                        <div class="hp-bar-fill" id="player-hp-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <div class="hp-readout">
+                                        <span id="player-hp-num">202 / 202 HP</span>
+                                        <span id="player-hp-pct">100%</span>
+                                    </div>
+                                </div>
+
+                                <div class="badge-row" id="player-badges"></div>
+                                <div class="side-hazards-container" id="player-hazards"></div>
+                                <div class="team-balls" id="player-team-balls"></div>
+                            </div>
+
+                            <!-- Omni Ring Dock: Choose only one of Tera, Mega Evolution, or Gigantamax for the entire match -->
+                            <div class="omni-ring-dock" id="omni-ring-dock">
+                                <div class="omni-ring-header">
+                                    <div style="display: flex; align-items: center; gap: 5px;">
+                                        <span style="font-size: 0.95rem;">💍</span>
+                                        <span class="omni-ring-title">OMNI RING</span>
+                                    </div>
+                                    <span class="omni-ring-badge" id="omni-ring-status">READY</span>
+                                </div>
+                                <div class="omni-mechanics-row">
+                                    <button type="button" class="omni-btn omni-btn--tera" id="omni-btn-tera" onclick="toggleOmniMechanic('tera')" title="Terastallize into pure Tera type">
+                                        <span class="omni-btn-icon">💎</span>
+                                        <span class="omni-btn-label">TERA</span>
+                                        <span class="omni-btn-sub" id="omni-tera-type">NORMAL</span>
+                                    </button>
+                                    <button type="button" class="omni-btn omni-btn--mega" id="omni-btn-mega" onclick="toggleOmniMechanic('mega')" title="Mega Evolve into powerful Mega form (if applicable)">
+                                        <span class="omni-btn-icon">🧬</span>
+                                        <span class="omni-btn-label">MEGA</span>
+                                        <span class="omni-btn-sub" id="omni-mega-status">N/A</span>
+                                    </button>
+                                    <button type="button" class="omni-btn omni-btn--gmax" id="omni-btn-gmax" onclick="toggleOmniMechanic('gmax')" title="Gigantamax into colossal form with 1.5x HP (if applicable)">
+                                        <span class="omni-btn-icon">⚡</span>
+                                        <span class="omni-btn-label">G-MAX</span>
+                                        <span class="omni-btn-sub" id="omni-gmax-status">READY</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Player Active Pokémon Sprite (to the right of the card, centered with the card) -->
+                        <div class="poke-sprite-container poke-sprite-container--player">
+                            <div class="move-callout-bubble move-callout-bubble--player" id="player-move-callout">
+                                <span class="mcb-icon">⚔️</span>
+                                <span class="mcb-text">Move Name</span>
+                            </div>
+                            <img src="" id="player-sprite" class="poke-sprite sprite-idle" alt="Player Pokémon">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Action Tray (Moves, Switches, Spectator HUD) -->
+                <div class="action-tray" id="action-tray">
+                    <!-- Standard Player Controls -->
+                    <div id="player-action-controls">
+                        <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>⚔️ Select Move (Physical 💥 / Special 🔮 / Status 🛡️):</span>
+                            <span style="font-size: 0.72rem; color: var(--text-muted);">Switch Pokémon by clicking healthy teammates on the left rail</span>
+                        </div>
+
+                        <!-- 4 Move Buttons -->
+                        <div class="moves-grid" id="moves-container"></div>
+                    </div>
+
+                    <!-- Spectator HUD (Visible in AI vs AI Mode) -->
+                    <div id="spectator-action-controls" style="display: none;">
+                        <div class="spectator-hud">
+                            <div class="spectator-controls">
+                                <button class="btn-sim-action" id="btn-play-pause" onclick="toggleSpectatorPlay()">
+                                    ▶️ Auto Play
+                                </button>
+                                <button class="btn-sim-action" onclick="stepSpectatorTurn()">
+                                    ⏭️ Step 1 Turn
+                                </button>
+                                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
+                                    <span>Pacing:</span>
+                                    <input type="range" min="0" max="3" step="0.5" value="1" id="spectator-speed" style="width: 80px;" onchange="updatePacing(this.value)">
+                                    <span id="pacing-label" style="font-family: var(--font-mono); font-size: 0.76rem;">1.0s</span>
+                                </div>
+                            </div>
+
+                            <div class="spectator-coach-box">
+                                <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-secondary);">Coach Bot 1:</span>
+                                <button class="btn-coach-pill" onclick="applyCoachDirective('side1', 'hyper_offense', this)">⚡ Hyper Offense</button>
+                                <button class="btn-coach-pill" onclick="applyCoachDirective('side1', 'defensive_positioning', this)">🛡️ Defensive Wall</button>
+                                <button class="btn-coach-pill" onclick="applyCoachDirective('side1', 'speed_control', this)">🌪️ Speed Control</button>
+                                <button class="btn-coach-pill" onclick="applyCoachDirective('side1', 'pivot', this)">🔄 Intimidate Cycle</button>
+                            </div>
+                        </div>
+
+                        <!-- Opponent Bench in Spectator Mode -->
+                        <div style="margin-top: 14px;">
+                            <div class="bench-section-title">
+                                <span>🔴 Bot 2 Team Roster:</span>
+                            </div>
+                            <div class="bench-grid" id="opp-bench-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Showdown Battle Log -->
+            <div class="battle-log-card">
+                <div class="log-header">
+                    <span class="log-title">📜 Showdown Battle Log</span>
+                    <button class="btn-sim-action" onclick="copyBattleLog()" style="padding: 4px 8px; font-size: 0.75rem;">📋 Copy</button>
+                </div>
+                <div class="log-body" id="battle-log-body">
+                    <div class="log-turn-divider">━━━ ⚔️ MATCH INITIALIZED ━━━</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRE-BATTLE MATCH SETUP MODAL -->
+    <div class="modal-overlay hidden" id="setup-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 900;">⚔️ Battle Match Setup</h3>
+                <button class="tb-icon-btn" onclick="closeSetupModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">🎮 Game Mode:</label>
+                <select class="form-select" id="setup-game-mode" onchange="onGameModeChange()">
+                    <option value="player_vs_ai">Player vs AI (Interactive Showdown)</option>
+                    <option value="ai_vs_ai">AI vs AI (Spectator & Coaching Mode)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">📜 Format & Ruleset:</label>
+                <select class="form-select" id="setup-ruleset">
+                    <option value="singles">Singles 6v6 (Standard Competitive)</option>
+                    <option value="doubles">Doubles 4v4 (VGC Championship)</option>
+                </select>
+            </div>
+
+            <!-- Human Trainer Names -->
+            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                    <label class="form-label">🧑 Your Trainer Name:</label>
+                    <input type="text" class="form-select" id="setup-trainer-name-1" placeholder="Your Name" value="Trainer" style="font-weight: 700;">
+                </div>
+                <div>
+                    <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>🤖 Opponent AI Name:</span>
+                        <a href="javascript:void(0)" onclick="randomizeAiTrainerName()" style="font-size: 0.74rem; color: var(--accent-primary); font-weight: 800; text-decoration: none;">🎲 Random</a>
+                    </label>
+                    <input type="text" class="form-select" id="setup-trainer-name-2" placeholder="Opponent Name" value="Cynthia" style="font-weight: 700;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">🔵 Team 1 (Your Team / Bot 1):</label>
+                <select class="form-select" id="setup-team-1">
+                    <optgroup label="⭐ Your Saved Teams (Teambuilder)" id="setup-custom-teams-1"></optgroup>
+                    <optgroup label="🏆 Sample Championship Teams (60)" id="setup-sample-teams-1"></optgroup>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">🔴 Team 2 (Opponent / Bot 2):</label>
+                <select class="form-select" id="setup-team-2">
+                    <option value="random">🎲 Random Competitive Team</option>
+                    <optgroup label="⭐ Your Saved Teams (Teambuilder)" id="setup-custom-teams-2"></optgroup>
+                    <optgroup label="🏆 Sample Championship Teams (60)" id="setup-sample-teams-2"></optgroup>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label class="form-label" style="margin: 0;">👑 AI Difficulty (1 - 100):</label>
+                    <span id="diff-slider-val" style="font-size: 0.85rem; font-weight: 800; color: var(--accent-primary);">90 - World Champion</span>
+                </div>
+                <div class="slider-box">
+                    <input type="range" min="1" max="100" value="90" class="slider-range" id="setup-difficulty" oninput="onDiffSlider(this.value)">
+                </div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;" id="diff-slider-desc">
+                    World Champion: Evaluates switches in advance, predicts Protect, uses defensive Tera, and leverages neural memory.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">⏱️ Turn Timer Limit:</label>
+                <select class="form-select" id="setup-timer">
+                    <option value="45">45 Seconds per turn</option>
+                    <option value="30">30 Seconds (Blitz)</option>
+                    <option value="60">60 Seconds</option>
+                    <option value="0">Unlimited (No Timer)</option>
+                </select>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+                <button class="btn-hero btn-hero--outline" onclick="closeSetupModal()">Cancel</button>
+                <button class="btn-hero btn-hero--primary" onclick="startBattleFromSetup()">🚀 Start Battle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI KNOWLEDGE CACHE MODAL -->
+    <div class="modal-overlay hidden" id="knowledge-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 900;">🧠 AI Neural Memory & Knowledge Cache</h3>
+                <button class="tb-icon-btn" onclick="closeKnowledgeModal()">✕</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px;">
+                <div style="background: var(--bg-primary); padding: 12px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--accent-primary);" id="km-total-battles">0</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">Total Battles</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 12px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: #22c55e;" id="km-ai-wins">0</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">AI Wins</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 12px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: #ef4444;" id="km-ai-losses">0</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">AI Losses</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 12px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: #a855f7;" id="km-total-turns">0</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">Turns Simulated</div>
+                </div>
+            </div>
+
+            <h4 style="margin: 0 0 10px; font-size: 0.95rem;">Empirical Matchup Heuristics:</h4>
+            <div style="max-height: 180px; overflow-y: auto; background: var(--bg-primary); border-radius: 12px; padding: 10px; margin-bottom: 20px; font-size: 0.8rem;" id="km-heuristics-list"></div>
+
+            <h4 style="margin: 0 0 10px; font-size: 0.95rem;">Recent Tactical Lessons Learned:</h4>
+            <div style="max-height: 180px; overflow-y: auto; background: var(--bg-primary); border-radius: 12px; padding: 10px; font-size: 0.8rem;" id="km-learnings-list"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <button class="btn-sim-action" style="color: #ef4444;" onclick="resetKnowledgeBase()">🗑️ Reset Knowledge</button>
+                <button class="btn-hero btn-hero--primary" onclick="closeKnowledgeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POST BATTLE VICTORY / DEFEAT MODAL -->
+    <div class="modal-overlay hidden" id="gameover-modal">
+        <div class="modal-dialog" style="text-align: center; max-width: 520px;">
+            <div style="font-size: 3.5rem; margin-bottom: 10px;" id="gameover-icon">🏆</div>
+            <h2 style="font-size: 1.8rem; font-weight: 900; margin: 0 0 8px;" id="gameover-title">Victory!</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0 0 20px;" id="gameover-sub">
+                You defeated the Championship AI!
+            </p>
+
+            <div style="background: var(--bg-primary); border-radius: 14px; padding: 16px; margin-bottom: 24px; text-align: left;" id="gameover-analysis-box">
+                <div style="font-weight: 800; font-size: 0.85rem; color: var(--accent-primary); margin-bottom: 6px;">
+                    🧠 Tactical Debrief & AI Learning:
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;" id="gameover-analysis-text">
+                    Loading battle analysis...
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 12px;">
+                <button class="btn-hero btn-hero--outline" onclick="closeGameOverModal()">View Arena</button>
+                <button class="btn-hero btn-hero--primary" onclick="openSetupModal(); closeGameOverModal();">🔄 Rematch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIVOT SWITCH SELECTION MODAL -->
+    <div class="modal-overlay hidden" id="pivot-modal">
+        <div class="modal-dialog" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3 style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                    🔄 <span id="pivot-modal-title">Pivoting Move</span>
+                </h3>
+                <button class="tb-icon-btn" onclick="closePivotModal()">✕</button>
+            </div>
+            <div style="padding: 14px 20px 8px 20px; font-size: 0.88rem; color: var(--text-secondary);">
+                Select which teammate to pivot into after attacking:
+            </div>
+            <div id="pivot-teammates-list" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 20px 20px 20px;">
+                <!-- Dynamically populated bench teammates -->
+            </div>
+            <div style="padding: 12px 20px; border-top: 1px solid var(--border-glass); display: flex; justify-content: flex-end;">
+                <button class="btn-hero btn-hero--outline" style="font-size: 0.85rem; padding: 6px 14px;" onclick="closePivotModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // -------------------------------------------------------------
+        // State & Audio Synthesizer
+        // -------------------------------------------------------------
+        let currentBattleId = null;
+        let battleState = null;
+        let isAudioMuted = false;
+        let audioCtx = null;
+        let turnTimerInterval = null;
+        let remainingTimer = 45;
+        let isTerastallizePending = false;
+        let selectedOmniMechanic = null; // 'tera' | 'mega' | 'gmax' | null
+        let selectedMegaVariant = null; // specific mega slug e.g. 'lucario-mega-z'
+        let isSpectatorAutoPlay = false;
+        let spectatorTimer = null;
+        let spectatorPacingSec = 1.0;
+        let activeCoachDirectiveSide1 = null;
+        let lastRenderedTurn = 0;
+
+        const STAT_ABBR_MAP = {
+            "hp": "HP",
+            "hit-points": "HP",
+            "hit_points": "HP",
+            "attack": "Atk",
+            "atk": "Atk",
+            "defense": "Def",
+            "def": "Def",
+            "special-attack": "SpA",
+            "special_attack": "SpA",
+            "sp_atk": "SpA",
+            "sp_attack": "SpA",
+            "spa": "SpA",
+            "special-defense": "SpD",
+            "special_defense": "SpD",
+            "sp_def": "SpD",
+            "sp_defense": "SpD",
+            "spd": "SpD",
+            "speed": "Spe",
+            "spe": "Spe",
+            "accuracy": "Acc",
+            "evasion": "Eva"
+        };
+
+        function getStatAbbr(stat) {
+            const s = String(stat || "").toLowerCase().trim();
+            return STAT_ABBR_MAP[s] || s.toUpperCase();
+        }
+
+        function humanizeName(str) {
+            if (!str) return "";
+            return String(str).split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+        }
+
+        const SAMPLE_TEAMS_DATA = {{ sample_teams | tojson | safe }};
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            if (isAudioMuted) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === "hit") {
+                    osc.type = "sawtooth";
+                    osc.frequency.setValueAtTime(140, now);
+                    osc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } else if (type === "super_effective") {
+                    osc.type = "square";
+                    osc.frequency.setValueAtTime(280, now);
+                    osc.frequency.exponentialRampToValueAtTime(70, now + 0.3);
+                    gain.gain.setValueAtTime(0.5, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === "ability") {
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.setValueAtTime(680, now + 0.08);
+                    osc.frequency.setValueAtTime(880, now + 0.16);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === "faint") {
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.5);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                }
+            } catch (e) {
+                console.warn("Audio synth warning:", e);
+            }
+        }
+
+        function toggleAudioMute() {
+            isAudioMuted = !isAudioMuted;
+            document.getElementById("btn-audio-toggle").textContent = isAudioMuted ? "🔇 Sound Off" : "🔊 Sound On";
+        }
+
+        // -------------------------------------------------------------
+        // Setup & Modal Controls
+        // -------------------------------------------------------------
+        function populateSetupTeams() {
+            const customGrp1 = document.getElementById("setup-custom-teams-1");
+            const customGrp2 = document.getElementById("setup-custom-teams-2");
+            const sampleGrp1 = document.getElementById("setup-sample-teams-1");
+            const sampleGrp2 = document.getElementById("setup-sample-teams-2");
+
+            if (customGrp1) customGrp1.innerHTML = "";
+            if (customGrp2) customGrp2.innerHTML = "";
+            if (sampleGrp1) sampleGrp1.innerHTML = "";
+            if (sampleGrp2) sampleGrp2.innerHTML = "";
+
+            // 1. Populate custom saved teams from Teambuilder LocalStorage
+            let localTeams = {};
+            try {
+                const raw = localStorage.getItem("pokemon_teambuilder_teams") || localStorage.getItem("pokemon_teams");
+                if (raw) localTeams = JSON.parse(raw);
+            } catch (e) {
+                console.warn("Could not parse saved teambuilder teams:", e);
+            }
+
+            const activeTid = localStorage.getItem("pokemon_teambuilder_active_id") || 
+                              localStorage.getItem("pokemon_active_team_id") || 
+                              Object.keys(localTeams)[0];
+
+            const customEntries = Object.entries(localTeams);
+            if (customEntries.length > 0) {
+                customEntries.forEach(([id, t]) => {
+                    const count = (t.members || []).filter(m => m && m.species).length;
+                    const isActive = (id === activeTid);
+                    const label = `${isActive ? '⭐ ' : ''}${t.name || 'Untitled Team'} (${count} Pokémon • Lv.${t.level || 50})${isActive ? ' [Active]' : ''}`;
+
+                    if (customGrp1) {
+                        const opt1 = document.createElement("option");
+                        opt1.value = `custom:${id}`;
+                        opt1.textContent = label;
+                        if (isActive) opt1.selected = true;
+                        customGrp1.appendChild(opt1);
+                    }
+
+                    if (customGrp2) {
+                        const opt2 = document.createElement("option");
+                        opt2.value = `custom:${id}`;
+                        opt2.textContent = label;
+                        customGrp2.appendChild(opt2);
+                    }
+                });
+            } else {
+                if (customGrp1) {
+                    const optEmpty = document.createElement("option");
+                    optEmpty.disabled = true;
+                    optEmpty.textContent = "No custom teams saved in Teambuilder";
+                    customGrp1.appendChild(optEmpty);
+                }
+                if (customGrp2) {
+                    const optEmpty = document.createElement("option");
+                    optEmpty.disabled = true;
+                    optEmpty.textContent = "No custom teams saved in Teambuilder";
+                    customGrp2.appendChild(optEmpty);
+                }
+            }
+
+            // 2. Populate Sample Championship Teams
+            if (typeof SAMPLE_TEAMS_DATA === "object" && SAMPLE_TEAMS_DATA) {
+                Object.entries(SAMPLE_TEAMS_DATA).forEach(([id, t]) => {
+                    if (sampleGrp1) {
+                        const opt1 = document.createElement("option");
+                        opt1.value = `sample:${id}`;
+                        opt1.textContent = `${t.name} (${t.mode || 'singles'})`;
+                        sampleGrp1.appendChild(opt1);
+                    }
+
+                    if (sampleGrp2) {
+                        const opt2 = document.createElement("option");
+                        opt2.value = `sample:${id}`;
+                        opt2.textContent = `${t.name} (${t.mode || 'singles'})`;
+                        sampleGrp2.appendChild(opt2);
+                    }
+                });
+            }
+        }
+
+        function openSetupModal() {
+            populateSetupTeams();
+            document.getElementById("setup-modal").classList.remove("hidden");
+        }
+
+        function closeSetupModal() {
+            document.getElementById("setup-modal").classList.add("hidden");
+        }
+
+        function onGameModeChange() {
+            const gm = document.getElementById("setup-game-mode").value;
+            const t1Label = document.querySelector("label[for='setup-team-1']") || document.getElementById("setup-team-1").previousElementSibling;
+            if (t1Label) {
+                t1Label.textContent = gm === "ai_vs_ai" ? "🤖 Bot 1 Team:" : "🔵 Team 1 (Your Team):";
+            }
+        }
+
+        function onDiffSlider(val) {
+            const v = parseInt(val, 10);
+            let rank = "Novice / Random";
+            let desc = "Makes frequent misplays, clicks random moves, and switches recklessly.";
+            if (v >= 80) {
+                rank = "World Champion";
+                desc = "Deep Minimax lookahead. Predicts player switches and Protects, uses defensive Terastallization, and leverages neural memory.";
+            } else if (v >= 50) {
+                rank = "Elite Four";
+                desc = "1-turn lookahead, prioritizes speed control (Tailwind/Trick Room), hazards, and switches into resistances.";
+            } else if (v >= 20) {
+                rank = "Gym Leader";
+                desc = "Greedy damage calculation, basic type-effectiveness awareness, sets hazards on turn 1.";
+            }
+            document.getElementById("diff-slider-val").textContent = `${v} - ${rank}`;
+            document.getElementById("diff-slider-desc").textContent = desc;
+        }
+
+        // -------------------------------------------------------------
+        // Start Battle Initialization
+        // -------------------------------------------------------------
+        const CHAMPION_NAMES = [
+            "Cynthia", "Steven", "Leon", "Nemona", "Blue", "Red", "Kieran", "Geeta", "Lance", "Iris", "Diantha", "Volkner", "Raihan", "Grusha", "Larry"
+        ];
+
+        function randomizeAiTrainerName() {
+            const pick = CHAMPION_NAMES[Math.floor(Math.random() * CHAMPION_NAMES.length)];
+            const el = document.getElementById("setup-trainer-name-2");
+            if (el) el.value = pick;
+        }
+
+        function showPreBattleSplash() {
+            const splash = document.getElementById("pre-battle-splash");
+            if (splash) splash.classList.remove("hidden");
+        }
+
+        function hidePreBattleSplash() {
+            const splash = document.getElementById("pre-battle-splash");
+            if (splash) splash.classList.add("hidden");
+        }
+
+        async function initBattleWithPayload(payload) {
+            try {
+                const res = await fetch("/api/simulator/init", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                let data;
+                try {
+                    data = await res.json();
+                } catch (jsonErr) {
+                    const text = await res.text();
+                    throw new Error(`Server returned (${res.status}): ${text.slice(0, 200)}`);
+                }
+                if (data.success) {
+                    currentBattleId = data.battleId;
+                    battleState = data.state;
+                    closeSetupModal();
+                    hidePreBattleSplash();
+
+                    // Update Top HUD Match badge
+                    const matchTitle = document.getElementById("hud-match-title");
+                    if (matchTitle && data.state && data.state.side1 && data.state.side2) {
+                        matchTitle.textContent = `⚔️ ${data.state.side1.name} vs ${data.state.side2.name}`;
+                    }
+
+                    renderBattle();
+                    resetTurnTimer(payload.turnTimer || 45);
+                    initSpectatorMode(payload.isAi1);
+                } else {
+                    alert("Failed to initialize battle: " + (data.error || "Unknown"));
+                }
+            } catch (err) {
+                console.error("Battle init error:", err);
+                alert("Error starting battle: " + err.message);
+            }
+        }
+
+        function startRandomBattleNow() {
+            const savedName = localStorage.getItem("pokemon_trainer_name") || "Trainer";
+            const randAi = CHAMPION_NAMES[Math.floor(Math.random() * CHAMPION_NAMES.length)];
+            
+            const keys = Object.keys(SAMPLE_TEAMS_DATA);
+            if (keys.length === 0) {
+                alert("Loading sample teams, please try again in a second...");
+                return;
+            }
+            const randKey1 = keys[Math.floor(Math.random() * keys.length)];
+            let randKey2 = keys[Math.floor(Math.random() * keys.length)];
+            if (randKey2 === randKey1 && keys.length > 1) {
+                randKey2 = keys[(keys.indexOf(randKey1) + 1) % keys.length];
+            }
+
+            const p1 = document.getElementById("setup-trainer-name-1");
+            if (p1) p1.value = savedName;
+            const p2 = document.getElementById("setup-trainer-name-2");
+            if (p2) p2.value = randAi;
+
+            const payload = {
+                team1: SAMPLE_TEAMS_DATA[randKey1].members,
+                team2: SAMPLE_TEAMS_DATA[randKey2].members,
+                name1: savedName,
+                name2: randAi,
+                isAi1: false,
+                difficulty1: 75,
+                isAi2: true,
+                difficulty2: 90,
+                ruleset: "singles",
+                level: 50,
+                turnTimer: 45
+            };
+
+            initBattleWithPayload(payload);
+        }
+
+        async function startBattleFromSetup() {
+            const mode = document.getElementById("setup-game-mode").value;
+            const ruleset = document.getElementById("setup-ruleset").value;
+            const team1Choice = document.getElementById("setup-team-1").value;
+            const team2Choice = document.getElementById("setup-team-2").value;
+            const difficulty = parseInt(document.getElementById("setup-difficulty").value, 10);
+            const timerLimit = parseInt(document.getElementById("setup-timer").value, 10);
+
+            // Read custom human trainer names
+            let pTrainerName = (document.getElementById("setup-trainer-name-1") ? document.getElementById("setup-trainer-name-1").value : "").trim();
+            if (!pTrainerName) pTrainerName = (mode === "ai_vs_ai" ? "Bot Alpha" : "Trainer");
+            localStorage.setItem("pokemon_trainer_name", pTrainerName);
+
+            let aiTrainerName = (document.getElementById("setup-trainer-name-2") ? document.getElementById("setup-trainer-name-2").value : "").trim();
+            if (!aiTrainerName) aiTrainerName = (mode === "ai_vs_ai" ? "Bot Omega" : "Cynthia");
+
+            let localTeams = {};
+            try {
+                const raw = localStorage.getItem("pokemon_teambuilder_teams") || localStorage.getItem("pokemon_teams");
+                if (raw) localTeams = JSON.parse(raw);
+            } catch (e) {
+                console.warn("Could not read localStorage teambuilder:", e);
+            }
+
+            // 1. Resolve Team 1
+            let team1Members = [];
+            if (team1Choice.startsWith("custom:")) {
+                const customId = team1Choice.replace("custom:", "");
+                const customTeam = localTeams[customId];
+                if (customTeam && Array.isArray(customTeam.members)) {
+                    team1Members = customTeam.members.filter(m => m && m.species);
+                }
+            } else if (team1Choice === "custom_teambuilder" || team1Choice === "custom_active") {
+                const activeTid = localStorage.getItem("pokemon_teambuilder_active_id") || 
+                                  localStorage.getItem("pokemon_active_team_id") || 
+                                  Object.keys(localTeams)[0];
+                if (localTeams[activeTid] && Array.isArray(localTeams[activeTid].members)) {
+                    team1Members = localTeams[activeTid].members.filter(m => m && m.species);
+                }
+            } else if (team1Choice.startsWith("sample:")) {
+                const sampleId = team1Choice.replace("sample:", "");
+                const s = SAMPLE_TEAMS_DATA[sampleId];
+                if (s && Array.isArray(s.members)) {
+                    team1Members = s.members;
+                }
+            }
+
+            if (!team1Members.length) {
+                const firstSample = Object.values(SAMPLE_TEAMS_DATA)[0];
+                if (firstSample && Array.isArray(firstSample.members)) {
+                    team1Members = firstSample.members;
+                }
+            }
+
+            // 2. Resolve Team 2
+            let team2Members = [];
+            if (team2Choice === "random") {
+                const keys = Object.keys(SAMPLE_TEAMS_DATA);
+                if (keys.length > 0) {
+                    const randKey = keys[Math.floor(Math.random() * keys.length)];
+                    team2Members = SAMPLE_TEAMS_DATA[randKey].members;
+                }
+            } else if (team2Choice.startsWith("custom:")) {
+                const customId = team2Choice.replace("custom:", "");
+                const customTeam = localTeams[customId];
+                if (customTeam && Array.isArray(customTeam.members)) {
+                    team2Members = customTeam.members.filter(m => m && m.species);
+                }
+            } else if (team2Choice.startsWith("sample:")) {
+                const sampleId = team2Choice.replace("sample:", "");
+                const s = SAMPLE_TEAMS_DATA[sampleId];
+                if (s && Array.isArray(s.members)) {
+                    team2Members = s.members;
+                }
+            }
+
+            if (!team2Members.length) {
+                const keys = Object.keys(SAMPLE_TEAMS_DATA);
+                if (keys.length > 1) {
+                    team2Members = SAMPLE_TEAMS_DATA[keys[1]].members;
+                } else if (keys.length > 0) {
+                    team2Members = SAMPLE_TEAMS_DATA[keys[0]].members;
+                }
+            }
+
+            const payload = {
+                team1: team1Members,
+                team2: team2Members,
+                name1: pTrainerName,
+                name2: aiTrainerName,
+                isAi1: (mode === "ai_vs_ai"),
+                difficulty1: 75,
+                isAi2: true,
+                difficulty2: difficulty,
+                ruleset: ruleset,
+                level: 50,
+                turnTimer: timerLimit
+            };
+
+            await initBattleWithPayload(payload);
+        }
+
+        function initSpectatorMode(isSpectator) {
+            const playerControls = document.getElementById("player-action-controls");
+            const specControls = document.getElementById("spectator-action-controls");
+            if (isSpectator) {
+                playerControls.style.display = "none";
+                specControls.style.display = "block";
+            } else {
+                playerControls.style.display = "block";
+                specControls.style.display = "none";
+                stopSpectatorAutoPlay();
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Turn Step Engine & Sequence Visualizer
+        // -------------------------------------------------------------
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function flashTurnBanner(turnNum) {
+            const banner = document.getElementById("turn-flash-banner");
+            const text = document.getElementById("turn-flash-text");
+            if (!banner || !text) return;
+            text.textContent = `⚔️ TURN ${turnNum}`;
+            banner.classList.remove("show");
+            void banner.offsetWidth; // force reflow
+            banner.classList.add("show");
+            setTimeout(() => {
+                banner.classList.remove("show");
+            }, 950);
+        }
+
+        function showMoveDisplay(sideId, actorName, moveName, moveType, moveCategory, resultText) {
+            const card = document.getElementById("central-move-card");
+            const mName = moveName || "Move";
+            const mType = (moveType || "normal").toLowerCase();
+            const mCat = (moveCategory || "physical").toLowerCase();
+
+            document.getElementById("cmc-actor-name").textContent = actorName || "Pokémon";
+            document.getElementById("cmc-move-title").textContent = mName;
+
+            const tPill = document.getElementById("cmc-pill-type");
+            tPill.textContent = mType.toUpperCase();
+            tPill.className = `cmc-pill-type type-${mType}`;
+
+            const cPill = document.getElementById("cmc-pill-cat");
+            const catClass = mCat === 'physical' ? 'cat-physical' : (mCat === 'special' ? 'cat-special' : 'cat-status');
+            const catIcon = mCat === 'physical' ? '💥 Physical' : (mCat === 'special' ? '🔮 Special' : '🛡️ Status');
+            cPill.className = `cmc-pill-cat ${catClass}`;
+            cPill.textContent = catIcon;
+
+            const outEl = document.getElementById("cmc-outcome");
+            outEl.textContent = resultText || "";
+            outEl.style.display = resultText ? "block" : "none";
+
+            card.className = `central-move-card type-${mType} show`;
+
+            // Beside-sprite callout
+            const isPlayer = (sideId === "side1");
+            const callout = document.getElementById(isPlayer ? "player-move-callout" : "opp-move-callout");
+            if (callout) {
+                callout.querySelector(".mcb-text").textContent = mName;
+                callout.className = `move-callout-bubble type-${mType} show`;
+            }
+        }
+
+        function hideMoveDisplay() {
+            const card = document.getElementById("central-move-card");
+            if (card) card.classList.remove("show");
+            const b1 = document.getElementById("player-move-callout");
+            if (b1) b1.classList.remove("show");
+            const b2 = document.getElementById("opp-move-callout");
+            if (b2) b2.classList.remove("show");
+        }
+
+        function showFloatingText(targetSpriteId, text, type = "damage") {
+            const container = document.getElementById("floating-text-container");
+            const target = document.getElementById(targetSpriteId);
+            if (!container || !target) return;
+
+            const el = document.createElement("div");
+            el.className = `floating-combat-text float-${type}`;
+            el.textContent = text;
+
+            const rect = target.getBoundingClientRect();
+            const pRect = document.getElementById("battlefield").getBoundingClientRect();
+            el.style.left = `${Math.max(20, rect.left - pRect.left + rect.width / 2)}px`;
+            el.style.top = `${Math.max(20, rect.top - pRect.top + 20)}px`;
+
+            container.appendChild(el);
+            setTimeout(() => { el.remove(); }, 1200);
+        }
+
+        async function submitReplacementSwitch(targetIndex) {
+            if (!currentBattleId || !battleState || battleState.isFinished) return;
+            try {
+                const res = await fetch("/api/simulator/switch_replacement", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        battleId: currentBattleId,
+                        targetIndex: targetIndex
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    await playTurnSequence(data.newEvents || [], data.state);
+                    resetTurnTimer(45);
+                } else {
+                    alert(data.error || "Failed to switch Pokémon.");
+                }
+            } catch (err) {
+                console.error("Replacement switch error:", err);
+            }
+        }
+
+        function renderFaintReplacementBanner() {
+            const playerRail = document.getElementById("roster-rail-player");
+            const isPlayerPending = battleState && !battleState.side1.isAi && battleState.pendingSwitch;
+
+            if (playerRail) {
+                if (isPlayerPending) {
+                    playerRail.classList.add("faint-selection-mode");
+                } else {
+                    playerRail.classList.remove("faint-selection-mode");
+                }
+            }
+
+            if (isPlayerPending) {
+                const activeName = (battleState.side1 && battleState.side1.active && battleState.side1.active.displayName) 
+                    ? battleState.side1.active.displayName 
+                    : "Your Pokémon";
+                showAnnouncement(`💀 ${activeName} fainted! Select a teammate from your left roster to send out.`);
+            }
+        }
+
+        function renderFieldEffects(field, side1, side2) {
+            const wOverlay = document.getElementById("weather-overlay");
+            const tOverlay = document.getElementById("terrain-overlay");
+            const rOverlay = document.getElementById("room-overlay");
+
+            // Weather
+            const w = (field && field.weather && field.weather !== "none") ? field.weather : "";
+            if (wOverlay) wOverlay.className = `field-effect-overlay weather-overlay ${w ? 'weather-' + w : ''}`;
+
+            // Terrain
+            const t = (field && field.terrain && field.terrain !== "none") ? field.terrain : "";
+            if (tOverlay) tOverlay.className = `field-effect-overlay terrain-overlay ${t ? 'terrain-' + t : ''}`;
+
+            // Rooms (Trick Room / Gravity)
+            let roomClasses = [];
+            if (field && field.trickRoom > 0) roomClasses.push("room-trick-room");
+            if (field && field.gravity > 0) roomClasses.push("room-gravity");
+            if (rOverlay) rOverlay.className = `field-effect-overlay room-overlay ${roomClasses.join(' ')}`;
+
+            // Hazards & Screens
+            renderSideHazards("player-hazards", side1);
+            renderSideHazards("opp-hazards", side2);
+        }
+
+        function renderSideHazards(containerId, side) {
+            const c = document.getElementById(containerId);
+            if (!c || !side) return;
+            c.innerHTML = "";
+
+            const hz = side.hazards || {};
+            if (hz.stealth_rock) {
+                c.innerHTML += `<span class="hazard-chip hazard-stealth-rock" title="Stealth Rock active">🪨 Stealth Rock</span>`;
+            }
+            if (hz.spikes) {
+                c.innerHTML += `<span class="hazard-chip hazard-spikes" title="${hz.spikes} layer(s) of Spikes">📌 Spikes (${hz.spikes}x)</span>`;
+            }
+            if (hz.toxic_spikes) {
+                c.innerHTML += `<span class="hazard-chip hazard-toxic-spikes" title="${hz.toxic_spikes} layer(s) of Toxic Spikes">🧪 Toxic Spikes (${hz.toxic_spikes}x)</span>`;
+            }
+            if (hz.sticky_web) {
+                c.innerHTML += `<span class="hazard-chip hazard-sticky-web" title="Sticky Web active">🕸️ Sticky Web</span>`;
+            }
+            if (side.tailwind > 0) {
+                c.innerHTML += `<span class="screen-chip screen-tailwind" title="Tailwind active for ${side.tailwind} turns">💨 Tailwind (${side.tailwind}t)</span>`;
+            }
+            const sc = side.screens || {};
+            if (sc.reflect > 0) c.innerHTML += `<span class="screen-chip screen-reflect" title="Reflect (${sc.reflect}t)">🛡️ Reflect (${sc.reflect}t)</span>`;
+            if (sc.lightScreen > 0) c.innerHTML += `<span class="screen-chip screen-light-screen" title="Light Screen (${sc.lightScreen}t)">✨ Light Screen (${sc.lightScreen}t)</span>`;
+            if (sc.auroraVeil > 0) c.innerHTML += `<span class="screen-chip screen-aurora-veil" title="Aurora Veil (${sc.auroraVeil}t)">❄️ Aurora Veil (${sc.auroraVeil}t)</span>`;
+        }
+
+        async function playTurnSequence(events, finalState) {
+            const isInstant = (isSpectatorAutoPlay && spectatorPacingSec === 0);
+
+            // 1. Flash Turn Banner if new turn
+            if (finalState.turn && finalState.turn !== lastRenderedTurn) {
+                lastRenderedTurn = finalState.turn;
+                flashTurnBanner(finalState.turn);
+                if (!isInstant) await sleep(650);
+            }
+
+            // 2. Play events in sequential turn order
+            if (!isInstant && events && events.length > 0) {
+                for (let i = 0; i < events.length; i++) {
+                    const evt = events[i];
+
+                    if (evt.type === "switch") {
+                        const isPlayer = (evt.sideId === "side1");
+                        const targetSpriteId = isPlayer ? "player-sprite" : "opp-sprite";
+                        const img = document.getElementById(targetSpriteId);
+
+                        // Trigger Pokéball send-out animation
+                        const railId = isPlayer ? "roster-rail-player" : "roster-rail-opp";
+                        const rail = document.getElementById(railId);
+                        const originChip = rail ? (rail.querySelector(`.roster-chip[data-index="${evt.details ? evt.details.targetIndex : ''}"]`) || rail.firstElementChild) : null;
+                        if (originChip && img) {
+                            playPokeballThrowAnimation(originChip, img, () => {});
+                        }
+
+                        // 1. Immediately restore opacity and position for switched-in Pokémon
+                        if (img) {
+                            img.style.opacity = "1";
+                            img.style.transform = "none";
+
+                            const sentSpecies = evt.details && evt.details.sentOutSpecies 
+                                ? evt.details.sentOutSpecies 
+                                : (evt.details && evt.details.sentOut ? evt.details.sentOut.toLowerCase().replace(/[^a-z0-9]/g, '-') : null);
+                            if (sentSpecies) {
+                                const spriteUrl = isPlayer
+                                    ? `https://play.pokemonshowdown.com/sprites/gen5-back/${sentSpecies}.png`
+                                    : `https://play.pokemonshowdown.com/sprites/gen5/${sentSpecies}.png`;
+                                img.src = spriteUrl;
+                            }
+                        }
+
+                        // 2. Immediately update HUD card for the switched-in Pokémon
+                        const sideTeam = isPlayer 
+                            ? (finalState.side1 ? finalState.side1.team : []) 
+                            : (finalState.side2 ? finalState.side2.team : []);
+                        const sentName = evt.details ? evt.details.sentOut : null;
+                        const switchedPoke = (sideTeam || []).find(p => p.displayName === sentName || (evt.details && p.species === evt.details.sentOutSpecies));
+
+                        if (switchedPoke) {
+                            if (isPlayer) {
+                                document.getElementById("player-name").textContent = switchedPoke.displayName;
+                                document.getElementById("player-lvl").textContent = `Lv. ${switchedPoke.level}`;
+                                document.getElementById("player-hp-bar").style.width = `${switchedPoke.hpPercent}%`;
+                                setHpBarColor("player-hp-bar", switchedPoke.hpPercent);
+                                document.getElementById("player-hp-num").textContent = `${switchedPoke.currentHp} / ${switchedPoke.maxHp} HP`;
+                                document.getElementById("player-hp-pct").textContent = `${switchedPoke.hpPercent}%`;
+                                renderTypesRow("player-types-row", switchedPoke.types);
+                                document.getElementById("player-ability-badge").textContent = `✨ ${switchedPoke.abilityDisplayName || 'Standard'}`;
+                                document.getElementById("player-item-badge").textContent = `🎒 ${switchedPoke.itemDisplayName || 'None'}`;
+                                renderBadges("player-badges", switchedPoke);
+                            } else {
+                                document.getElementById("opp-name").textContent = switchedPoke.displayName;
+                                document.getElementById("opp-lvl").textContent = `Lv. ${switchedPoke.level}`;
+                                document.getElementById("opp-hp-bar").style.width = `${switchedPoke.hpPercent}%`;
+                                setHpBarColor("opp-hp-bar", switchedPoke.hpPercent);
+                                document.getElementById("opp-hp-pct").textContent = `${switchedPoke.hpPercent}%`;
+                                renderTypesRow("opp-types-row", switchedPoke.types);
+                                document.getElementById("opp-ability-badge").textContent = `✨ ${switchedPoke.abilityDisplayName || 'Standard'}`;
+                                const oppItemText = switchedPoke.hasItem ? (switchedPoke.itemRevealed ? `🎒 ${switchedPoke.itemDisplayName}` : '🎒 Active Item') : '🎒 No Item';
+                                document.getElementById("opp-item-badge").textContent = oppItemText;
+                                document.getElementById("opp-tera-state").textContent = switchedPoke.isTerastallized ? `Tera: ${switchedPoke.teraType.toUpperCase()}` : `Tera: Available`;
+                                renderBadges("opp-badges", switchedPoke);
+                            }
+                        }
+
+                        showFloatingText(targetSpriteId, `Go, ${evt.details.sentOut || 'Pokémon'}!`, "status");
+                        playSound("ability");
+                        await sleep(550);
+                    } else if (evt.type === "move") {
+                        const isPlayer = (evt.sideId === "side1");
+                        const actorName = isPlayer 
+                            ? (battleState && battleState.side1.active ? battleState.side1.active.displayName : "Your Pokémon") 
+                            : (battleState && battleState.side2.active ? battleState.side2.active.displayName : "Opponent");
+                        const targetSpriteId = isPlayer ? "opp-sprite" : "player-sprite";
+                        const actorSpriteId = isPlayer ? "player-sprite" : "opp-sprite";
+
+                        // Look ahead for outcome (damage, miss, protect, etc.)
+                        let resultText = "";
+                        let hasHit = false;
+                        let hasMiss = false;
+                        let hasProtect = false;
+
+                        for (let j = i + 1; j < Math.min(events.length, i + 5); j++) {
+                            const nextEvt = events[j];
+                            if (nextEvt.type === "move") break;
+                            if (nextEvt.type === "damage") {
+                                hasHit = true;
+                                if (nextEvt.details && nextEvt.details.substituteBroke) {
+                                    resultText = "Substitute broke!";
+                                } else if (nextEvt.details && nextEvt.details.substituteDamage) {
+                                    resultText = "Substitute hit!";
+                                } else {
+                                    resultText = nextEvt.text.replace(/^[^\s]+\s+took\s+/, "");
+                                }
+                            } else if (nextEvt.type === "miss") {
+                                hasMiss = true;
+                                resultText = "Attack missed!";
+                            } else if (nextEvt.type === "protect") {
+                                hasProtect = true;
+                                resultText = "Protected itself!";
+                            } else if (nextEvt.type === "fail" || (nextEvt.details && nextEvt.details.failed)) {
+                                resultText = "But it failed!";
+                            }
+                        }
+
+                        // Show central move card and beside-sprite callout
+                        showMoveDisplay(evt.sideId, actorName, evt.details.move || "Move", evt.details.moveType || "normal", evt.details.category || "physical", resultText);
+
+                        // Attacker lunges
+                        triggerSpriteAttack(actorSpriteId);
+                        await sleep(250);
+
+                        if (hasHit) {
+                            triggerSpriteHit(targetSpriteId);
+                            if (resultText.includes("Critical") || resultText.includes("Super effective")) {
+                                playSound("super_effective");
+                            } else {
+                                playSound("hit");
+                            }
+                            showFloatingText(targetSpriteId, resultText.split("|")[0].trim(), "damage");
+                        } else if (hasMiss) {
+                            showFloatingText(actorSpriteId, "Missed!", "status");
+                        } else if (hasProtect) {
+                            showFloatingText(targetSpriteId, "Protected!", "status");
+                        } else if (evt.details && evt.details.failed) {
+                            showFloatingText(actorSpriteId, "Failed!", "status");
+                        } else if (evt.details && evt.details.substitute) {
+                            playSound("ability");
+                            showFloatingText(actorSpriteId, "🧸 Substitute!", "heal");
+                        } else if (evt.details && evt.details.charging) {
+                            playSound("ability");
+                            showFloatingText(actorSpriteId, "⚡ Absorbed Energy! SpA rose!", "heal");
+                        }
+
+                        await sleep(1800);
+                        hideMoveDisplay();
+                    } else if (evt.type === "stat") {
+                        const isPlayer = (evt.sideId === "side1");
+                        const targetSpriteId = isPlayer ? "player-sprite" : "opp-sprite";
+                        const statDelta = evt.details && evt.details.delta ? evt.details.delta : 1;
+                        const statName = evt.details && evt.details.stat ? getStatAbbr(evt.details.stat) : "Stat";
+                        showFloatingText(targetSpriteId, `${statDelta > 0 ? '+' : ''}${statDelta} ${statName}!`, statDelta > 0 ? "heal" : "damage");
+                        await sleep(400);
+                    } else if (evt.type === "faint") {
+                        playSound("faint");
+                        const isPlayer = (evt.sideId === "side1");
+                        const targetSpriteId = isPlayer ? "player-sprite" : "opp-sprite";
+                        showFloatingText(targetSpriteId, "💀 FAINTED!", "damage");
+                        const img = document.getElementById(targetSpriteId);
+                        if (img) {
+                            img.style.opacity = "0.2";
+                            img.style.transform = "translateY(20px)";
+                        }
+                        const fName = (evt.details && evt.details.displayName) ? evt.details.displayName : (isPlayer ? "Your Pokémon" : "Opponent");
+                        showAnnouncement(`💀 ${fName} fainted!${isPlayer ? ' Select a teammate from your left roster to send out.' : ''}`);
+                        await sleep(1400);
+                    }
+                }
+            }
+
+            // 3. Render final state
+            battleState = finalState;
+            renderBattle();
+            processNewEvents(events);
+
+            // 4. If player needs to switch, show replacement banner!
+            renderFaintReplacementBanner();
+        }
+
+        async function submitPlayerAction(action) {
+            if (!currentBattleId || !battleState || battleState.isFinished) return;
+            clearInterval(turnTimerInterval);
+
+            if (action.type === "move") {
+                action.omni = selectedOmniMechanic;
+                action.tera = (selectedOmniMechanic === "tera") || isTerastallizePending;
+                if (selectedOmniMechanic === "mega" && selectedMegaVariant) {
+                    action.mega = selectedMegaVariant;
+                }
+                selectedOmniMechanic = null;
+                selectedMegaVariant = null;
+                isTerastallizePending = false;
+                renderOmniRing();
+                updateTeraButtonState();
+            }
+
+            try {
+                const res = await fetch("/api/simulator/step", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        battleId: currentBattleId,
+                        action1: action,
+                        coachDirective1: activeCoachDirectiveSide1
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    await playTurnSequence(data.newEvents || [], data.state);
+                    resetTurnTimer(45);
+
+                    if (battleState.isFinished) {
+                        handleGameOver(data.outcome);
+                    }
+                } else if (data.error) {
+                    showAnnouncement(`⚠️ ${data.error}`);
+                    if (battleState && battleState.pendingSwitch) {
+                        renderFaintReplacementBanner();
+                    }
+                }
+            } catch (err) {
+                console.error("Step turn error:", err);
+            }
+        }
+
+        async function stepSpectatorTurn() {
+            if (!currentBattleId || !battleState || battleState.isFinished) return;
+            try {
+                const res = await fetch("/api/simulator/step", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        battleId: currentBattleId,
+                        action1: null,
+                        coachDirective1: activeCoachDirectiveSide1
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    await playTurnSequence(data.newEvents || [], data.state);
+                    if (battleState.isFinished) {
+                        stopSpectatorAutoPlay();
+                        handleGameOver(data.outcome);
+                    }
+                }
+            } catch (err) {
+                console.error("Spectator step error:", err);
+            }
+        }
+
+        function toggleSpectatorPlay() {
+            if (isSpectatorAutoPlay) {
+                stopSpectatorAutoPlay();
+            } else {
+                startSpectatorAutoPlay();
+            }
+        }
+
+        function startSpectatorAutoPlay() {
+            isSpectatorAutoPlay = true;
+            document.getElementById("btn-play-pause").textContent = "⏸️ Pause";
+            runSpectatorLoop();
+        }
+
+        function stopSpectatorAutoPlay() {
+            isSpectatorAutoPlay = false;
+            document.getElementById("btn-play-pause").textContent = "▶️ Auto Play";
+            clearTimeout(spectatorTimer);
+        }
+
+        async function runSpectatorLoop() {
+            if (!isSpectatorAutoPlay || !battleState || battleState.isFinished) {
+                stopSpectatorAutoPlay();
+                return;
+            }
+            await stepSpectatorTurn();
+            if (isSpectatorAutoPlay && !battleState.isFinished) {
+                spectatorTimer = setTimeout(runSpectatorLoop, spectatorPacingSec * 1000);
+            }
+        }
+
+        function updatePacing(val) {
+            spectatorPacingSec = parseFloat(val);
+            document.getElementById("pacing-label").textContent = `${spectatorPacingSec.toFixed(1)}s`;
+        }
+
+        function applyCoachDirective(side, directive, btn) {
+            activeCoachDirectiveSide1 = directive;
+            document.querySelectorAll(".btn-coach-pill").forEach(el => el.classList.remove("active"));
+            if (btn) btn.classList.add("active");
+            showAnnouncement(`🧠 Coach Directive: ${directive.replace('_', ' ').toUpperCase()}`);
+        }
+
+        // -------------------------------------------------------------
+        // Render Battlefield & HUD
+        // -------------------------------------------------------------
+        function renderBattle() {
+            if (!battleState) return;
+
+            const pPoke = battleState.side1.active;
+            const oppPoke = battleState.side2.active;
+
+            // 1. HUD badges
+            document.getElementById("hud-ruleset-badge").textContent = `⚔️ ${battleState.ruleset.toUpperCase()} (Lv. ${battleState.level})`;
+            document.getElementById("hud-diff-badge").textContent = `👑 AI: ${battleState.side2.difficulty} (${getDiffName(battleState.side2.difficulty)})`;
+
+            // 2. Player card
+            if (pPoke) {
+                document.getElementById("player-name").textContent = pPoke.displayName;
+                document.getElementById("player-lvl").textContent = `Lv. ${pPoke.level}`;
+                document.getElementById("player-hp-bar").style.width = `${pPoke.hpPercent}%`;
+                setHpBarColor("player-hp-bar", pPoke.hpPercent);
+                document.getElementById("player-hp-num").textContent = `${pPoke.currentHp} / ${pPoke.maxHp} HP`;
+                document.getElementById("player-hp-pct").textContent = `${pPoke.hpPercent}%`;
+
+                // Types
+                renderTypesRow("player-types-row", pPoke.types);
+
+                // Ability & Item
+                document.getElementById("player-ability-badge").textContent = `✨ ${pPoke.abilityDisplayName || 'Standard'}`;
+                document.getElementById("player-item-badge").textContent = `🎒 ${pPoke.itemDisplayName || 'None'}`;
+
+                // Badges
+                renderBadges("player-badges", pPoke);
+
+                // Sprite
+                const pImg = document.getElementById("player-sprite");
+                const pSpriteUrl = `https://play.pokemonshowdown.com/sprites/gen5-back/${pPoke.species}.png`;
+                pImg.src = pSpriteUrl;
+                pImg.onerror = () => { pImg.src = pPoke.sprite; };
+                if (pPoke.isFainted) {
+                    pImg.style.opacity = "0.2";
+                    pImg.style.transform = "translateY(20px)";
+                } else {
+                    pImg.style.opacity = "1";
+                    pImg.style.transform = "none";
+                }
+
+                // Pokeballs
+                renderPokeballs("player-team-balls", battleState.side1.team);
+            }
+
+            // 3. Opponent card
+            if (oppPoke) {
+                document.getElementById("opp-name").textContent = oppPoke.displayName;
+                document.getElementById("opp-lvl").textContent = `Lv. ${oppPoke.level}`;
+                document.getElementById("opp-hp-bar").style.width = `${oppPoke.hpPercent}%`;
+                setHpBarColor("opp-hp-bar", oppPoke.hpPercent);
+                document.getElementById("opp-hp-pct").textContent = `${oppPoke.hpPercent}%`;
+
+                // Types
+                renderTypesRow("opp-types-row", oppPoke.types);
+
+                // Ability & Item
+                document.getElementById("opp-ability-badge").textContent = `✨ ${oppPoke.abilityDisplayName || 'Standard'}`;
+                const oppItemText = oppPoke.hasItem ? (oppPoke.itemRevealed ? `🎒 ${oppPoke.itemDisplayName}` : '🎒 Active Item') : '🎒 No Item';
+                document.getElementById("opp-item-badge").textContent = oppItemText;
+                document.getElementById("opp-tera-state").textContent = oppPoke.isTerastallized ? `Tera: ${oppPoke.teraType.toUpperCase()}` : `Tera: Available`;
+
+                renderBadges("opp-badges", oppPoke);
+
+                const oppImg = document.getElementById("opp-sprite");
+                const oppSpriteUrl = `https://play.pokemonshowdown.com/sprites/gen5/${oppPoke.species}.png`;
+                oppImg.src = oppSpriteUrl;
+                oppImg.onerror = () => { oppImg.src = oppPoke.sprite; };
+                if (oppPoke.isFainted) {
+                    oppImg.style.opacity = "0.2";
+                    oppImg.style.transform = "translateY(20px)";
+                } else {
+                    oppImg.style.opacity = "1";
+                    oppImg.style.transform = "none";
+                }
+
+                renderPokeballs("opp-team-balls", battleState.side2.team);
+            }
+
+            // 4. Field condition chips & animated environmental overlays
+            renderFieldChips(battleState.field);
+            renderFieldEffects(battleState.field, battleState.side1, battleState.side2);
+
+            // 5. Action controls (moves & bench)
+            if (!battleState.side1.isAi) {
+                renderMoveButtons(pPoke);
+                renderBenchButtons("bench-container", battleState.side1.team, battleState.side1.activeIndex, true);
+            } else {
+                renderBenchButtons("bench-container", battleState.side1.team, battleState.side1.activeIndex, false);
+                renderBenchButtons("opp-bench-container", battleState.side2.team, battleState.side2.activeIndex, false);
+            }
+
+            // Render interactive Rails on Left & Right edges of the battle arena
+            renderPlayerRosterRail(battleState.side1 ? battleState.side1.team : [], battleState.side1 ? battleState.side1.activeIndex : 0);
+            renderOpponentRosterRail(battleState.side2 ? battleState.side2.team : [], battleState.side2 ? battleState.side2.activeIndex : 0);
+            renderOmniRing();
+
+            // 6. Faint replacement check
+            renderFaintReplacementBanner();
+
+            // 7. Update battle log
+            renderBattleLog(battleState.battleLog || []);
+        }
+
+        function setHpBarColor(id, pct) {
+            const el = document.getElementById(id);
+            if (pct > 50) el.style.backgroundColor = "var(--hp-green)";
+            else if (pct > 20) el.style.backgroundColor = "var(--hp-yellow)";
+            else el.style.backgroundColor = "var(--hp-red)";
+        }
+
+        function renderTypesRow(containerId, types) {
+            const c = document.getElementById(containerId);
+            c.innerHTML = "";
+            (types || []).forEach(t => {
+                const pill = document.createElement("span");
+                pill.className = `type-pill-xs type-${t}`;
+                pill.textContent = t.toUpperCase();
+                c.appendChild(pill);
+            });
+        }
+
+        function renderBadges(containerId, poke) {
+            const c = document.getElementById(containerId);
+            if (!c || !poke) return;
+            c.innerHTML = "";
+
+            // 1. Non-volatile persistent status (Burn, Freeze, Paralysis, Poison, Toxic, Sleep)
+            if (poke.status) {
+                const st = document.createElement("span");
+                st.className = `status-badge status-${poke.status}`;
+                const icon = poke.status === 'burn' ? '🔥 ' :
+                             poke.status === 'paralysis' ? '⚡ ' :
+                             poke.status === 'sleep' ? '💤 ' :
+                             poke.status === 'freeze' ? '❄️ ' :
+                             (poke.status === 'toxic' ? '☣️ ' : '☠️ ');
+                st.textContent = `${icon}${poke.status.toUpperCase()}`;
+                c.appendChild(st);
+            }
+
+            // 2. Volatile status conditions
+            if (poke.isConfused) {
+                const cf = document.createElement("span");
+                cf.className = "status-badge status-confused";
+                cf.textContent = "💫 CONFUSED";
+                c.appendChild(cf);
+            }
+
+            if (poke.isInfatuated) {
+                const inf = document.createElement("span");
+                inf.className = "status-badge status-infatuated";
+                inf.textContent = "❤️ INFATUATED";
+                c.appendChild(inf);
+            }
+
+            if (poke.tauntTurns > 0) {
+                const tt = document.createElement("span");
+                tt.className = "status-badge status-taunted";
+                tt.textContent = `🤬 TAUNT (${poke.tauntTurns}T)`;
+                c.appendChild(tt);
+            }
+
+            if (poke.hasSubstitute || (poke.substituteHp && poke.substituteHp > 0)) {
+                const subBadge = document.createElement("span");
+                subBadge.className = "status-badge status-substitute";
+                subBadge.textContent = `🧸 SUB (${poke.substituteHp} HP)`;
+                c.appendChild(subBadge);
+            }
+
+            // 3. Tera Badge
+            if (poke.isTerastallized) {
+                const tb = document.createElement("span");
+                tb.className = "tera-badge";
+                tb.textContent = `💎 Tera ${poke.teraType.toUpperCase()}`;
+                c.appendChild(tb);
+            }
+
+            // 4. Stat Stage Boosts / Drops
+            Object.entries(poke.stages || {}).forEach(([stat, val]) => {
+                if (val !== 0) {
+                    const ch = document.createElement("span");
+                    ch.className = `stat-boost-chip ${val > 0 ? 'positive' : 'negative'}`;
+                    ch.textContent = `${val > 0 ? '+' : ''}${val} ${getStatAbbr(stat)}`;
+                    c.appendChild(ch);
+                }
+            });
+        }
+
+        function renderPokeballs(containerId, team) {
+            const c = document.getElementById(containerId);
+            if (!c) return;
+            c.innerHTML = "";
+            (team || []).forEach(p => {
+                const b = document.createElement("div");
+                b.className = `ball-icon ${p.isFainted ? 'fainted' : ''}`;
+                const stStr = p.status ? ` [${p.status.toUpperCase()}]` : (p.isConfused ? ' [CONFUSED]' : '');
+                b.title = `${p.displayName}${stStr} (${p.currentHp}/${p.maxHp} HP)`;
+                c.appendChild(b);
+            });
+        }
+
+        function renderFieldChips(field) {
+            const bar = document.getElementById("field-chips-bar");
+            bar.innerHTML = "";
+            if (!field) return;
+
+            if (field.weather && field.weather !== "none") {
+                const chip = document.createElement("span");
+                chip.className = `field-chip ${field.weather}`;
+                chip.innerHTML = `🌧️ ${field.weather.toUpperCase()} (${field.weatherTurns}t)`;
+                bar.appendChild(chip);
+            }
+            if (field.terrain && field.terrain !== "none") {
+                const chip = document.createElement("span");
+                chip.className = `field-chip ${field.terrain}`;
+                chip.innerHTML = `🌱 ${field.terrain.toUpperCase()} (${field.terrainTurns}t)`;
+                bar.appendChild(chip);
+            }
+            if (field.trickRoom > 0) {
+                const chip = document.createElement("span");
+                chip.className = "field-chip trick-room";
+                chip.innerHTML = `⏳ TRICK ROOM (${field.trickRoom}t)`;
+                bar.appendChild(chip);
+            }
+        }
+
+        const PIVOT_MOVES = new Set(["u-turn", "volt-switch", "flip-turn", "parting-shot", "chilly-reception", "shed-tail", "baton-pass", "teleport"]);
+
+        function isPivotMove(moveId) {
+            return PIVOT_MOVES.has(String(moveId || "").toLowerCase().trim());
+        }
+
+        function openPivotModal(moveId, moveName, aliveBench) {
+            const modal = document.getElementById("pivot-modal");
+            document.getElementById("pivot-modal-title").textContent = `${moveName} Pivot Switch`;
+            const list = document.getElementById("pivot-teammates-list");
+            list.innerHTML = "";
+
+            aliveBench.forEach(({ p, idx }) => {
+                const btn = document.createElement("button");
+                btn.className = "bench-card";
+                btn.style.width = "100%";
+                btn.style.cursor = "pointer";
+                btn.style.padding = "8px 12px";
+
+                let statusBadgeHtml = "";
+                if (p.status) {
+                    const icon = p.status === 'burn' ? '🔥' :
+                                 p.status === 'paralysis' ? '⚡' :
+                                 p.status === 'sleep' ? '💤' :
+                                 p.status === 'freeze' ? '❄️' :
+                                 (p.status === 'toxic' ? '☣️' : '☠️');
+                    statusBadgeHtml = `<span class="status-badge status-${p.status}" style="font-size: 0.60rem; padding: 1px 4px; vertical-align: middle; margin-left: 4px;">${icon} ${p.status.toUpperCase()}</span>`;
+                }
+
+                btn.innerHTML = `
+                    <img src="${p.sprite}" class="bench-mini-sprite" onerror="this.style.display='none'">
+                    <div style="text-align: left; line-height: 1.25; flex-grow: 1;">
+                        <div style="font-size: 0.88rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between;">
+                            <span>${p.displayName}</span>
+                            <span style="font-size: 0.72rem; color: var(--text-secondary);">${p.hpPercent}% HP ${statusBadgeHtml}</span>
+                        </div>
+                        <div style="font-size: 0.70rem; color: var(--text-muted); margin-top: 2px;">
+                            ${(p.types || []).join(' / ').toUpperCase()}
+                        </div>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    closePivotModal();
+                    submitPlayerAction({ type: "move", move: moveId, pivotTargetIndex: idx });
+                };
+                list.appendChild(btn);
+            });
+
+            modal.classList.remove("hidden");
+        }
+
+        function closePivotModal() {
+            const modal = document.getElementById("pivot-modal");
+            if (modal) modal.classList.add("hidden");
+        }
+
+        function renderMoveButtons(pPoke) {
+            const c = document.getElementById("moves-container");
+            c.innerHTML = "";
+            if (!pPoke) return;
+
+            // 1. If currently in faint replacement phase, disable moves and prompt player to use left roster
+            if (battleState && battleState.pendingSwitch) {
+                const notice = document.createElement("div");
+                notice.style.gridColumn = "1 / -1";
+                notice.style.padding = "14px";
+                notice.style.background = "rgba(239, 68, 68, 0.12)";
+                notice.style.border = "1.5px dashed #ef4444";
+                notice.style.borderRadius = "12px";
+                notice.style.color = "#ef4444";
+                notice.style.fontWeight = "800";
+                notice.style.textAlign = "center";
+                notice.innerHTML = "💀 <strong>Your active Pokémon fainted.</strong><br><span style='font-size: 0.85rem; font-weight: 600; color: #94a3b8;'>Select which Pokémon to send out next by clicking a teammate on your <strong style='color: #38bdf8;'>left roster rail</strong>!</span>";
+                c.appendChild(notice);
+                updateTeraButtonState();
+                return;
+            }
+
+            // 2. If locked into charging 2-turn move (e.g. Electro Shot, Solar Beam)
+            if (pPoke.chargingMove) {
+                const btn = document.createElement("button");
+                btn.className = "btn-move active";
+                btn.style.gridColumn = "1 / -1";
+                btn.style.borderColor = "#facc15";
+                btn.style.boxShadow = "0 0 20px rgba(250, 204, 21, 0.45)";
+                btn.onclick = () => submitPlayerAction({ type: "move", move: pPoke.chargingMove });
+                btn.innerHTML = `
+                    <div class="btn-move-top">
+                        <span class="btn-move-name" style="color: #facc15; font-size: 1.05rem;">⚡ UNLEASH ${humanizeName(pPoke.chargingMove).toUpperCase()}!</span>
+                        <span class="type-pill-xs type-electric">CHARGED MOVE</span>
+                    </div>
+                    <div class="btn-move-meta">
+                        <span>Fully charged from previous turn! Striking opponent this turn</span>
+                        <span style="color: #facc15; font-weight: 800;">[ CLICK TO ATTACK ]</span>
+                    </div>
+                `;
+                c.appendChild(btn);
+                updateTeraButtonState();
+                return;
+            }
+
+            if (!pPoke.moveDetails) return;
+
+            const isGmaxArmedOrActive = Boolean(pPoke.isGmax || selectedOmniMechanic === "gmax");
+            const isChoiceLocked = !isGmaxArmedOrActive && pPoke.item && ["choice-band", "choice-specs", "choice-scarf"].includes(pPoke.item) && pPoke.choiceLockedMove;
+            const isAssaultVest = !isGmaxArmedOrActive && pPoke.item === "assault-vest";
+            const isTaunted = !isGmaxArmedOrActive && (pPoke.tauntTurns || 0) > 0;
+
+            const allOutOfPp = pPoke.moveDetails.length > 0 && pPoke.moveDetails.every(m => m.pp !== undefined && m.pp <= 0) && !isGmaxArmedOrActive;
+            if (allOutOfPp) {
+                const sBtn = document.createElement("button");
+                sBtn.className = "btn-move";
+                sBtn.style.gridColumn = "1 / -1";
+                sBtn.style.borderColor = "#ef4444";
+                sBtn.style.background = "rgba(239, 68, 68, 0.12)";
+                sBtn.innerHTML = `
+                    <div class="btn-move-top">
+                        <span class="btn-move-name">Struggle</span>
+                        <span class="type-pill-xs type-normal">TYPELESS</span>
+                    </div>
+                    <div class="btn-move-meta">
+                        <span class="cat-badge cat-physical">💥 Physical</span>
+                        <span>Pow: 50 | Acc: 100%</span>
+                        <span style="color: #f87171; font-weight: bold;">⚠️ 0 PP Left (25% Recoil)</span>
+                    </div>
+                `;
+                sBtn.onclick = () => submitPlayerAction({ type: "move", move: "struggle" });
+                c.appendChild(sBtn);
+                return;
+            }
+
+            pPoke.moveDetails.forEach((m) => {
+                const btn = document.createElement("button");
+                btn.className = `btn-move ${isGmaxArmedOrActive ? 'btn-move--max' : ''}`;
+
+                // Determine display move info based on whether G-Max is active or armed
+                const moveData = (isGmaxArmedOrActive && m.maxMove) ? m.maxMove : m;
+                const displayName = moveData.displayName || m.displayName;
+                const displayType = moveData.type || m.type;
+                const displayCat = moveData.category || m.category;
+                const displayPower = displayCat === "status" ? "—" : (moveData.power || m.power || 0);
+                const displayAcc = moveData.isMaxGuard ? "—" : (isGmaxArmedOrActive ? "—" : `${m.accuracy}%`);
+
+                let isBlocked = battleState.isFinished || pPoke.isFainted;
+                let blockReason = "";
+                let isLockedMove = false;
+
+                if (!isGmaxArmedOrActive && m.pp !== undefined && m.pp <= 0) {
+                    isBlocked = true;
+                    blockReason = "0 PP Left";
+                } else if (isChoiceLocked) {
+                    if (m.id !== pPoke.choiceLockedMove) {
+                        isBlocked = true;
+                        blockReason = `🔒 Locked by Choice Item`;
+                    } else {
+                        isLockedMove = true;
+                    }
+                } else if (isAssaultVest && displayCat === "status") {
+                    isBlocked = true;
+                    blockReason = "🦺 Assault Vest";
+                } else if (isTaunted && displayCat === "status") {
+                    isBlocked = true;
+                    blockReason = "🤬 Taunted";
+                }
+
+                btn.disabled = isBlocked;
+                if (blockReason) {
+                    btn.title = blockReason;
+                    btn.style.opacity = "0.45";
+                }
+
+                if (isLockedMove) {
+                    btn.style.borderColor = "#818cf8";
+                    btn.style.boxShadow = "0 0 12px rgba(129, 140, 248, 0.4)";
+                }
+
+                const isPivot = !isGmaxArmedOrActive && isPivotMove(m.id);
+
+                btn.onclick = () => {
+                    if (isPivot) {
+                        const aliveBench = (battleState.side1.team || [])
+                            .map((p, idx) => ({ p, idx }))
+                            .filter(item => item.idx !== battleState.side1.activeIndex && !item.p.isFainted);
+                        
+                        if (aliveBench.length > 1) {
+                            openPivotModal(m.id, m.displayName, aliveBench);
+                            return;
+                        } else if (aliveBench.length === 1) {
+                            submitPlayerAction({ type: "move", move: m.id, pivotTargetIndex: aliveBench[0].idx });
+                            return;
+                        }
+                    }
+                    submitPlayerAction({ type: "move", move: m.id });
+                };
+
+                const catClass = displayCat === "physical" ? "cat-physical" : (displayCat === "special" ? "cat-special" : "cat-status");
+                const catIcon = displayCat === "physical" ? "💥 Physical" : (displayCat === "special" ? "🔮 Special" : "🛡️ Status");
+                const pivotBadge = isPivot ? `<span style="background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #c084fc; border-radius: 4px; padding: 1px 5px; font-size: 0.62rem; font-weight: 800; margin-left: 4px;">🔄 PIVOT</span>` : '';
+                const lockBadge = isLockedMove ? `<span style="background: rgba(99, 102, 241, 0.25); color: #818cf8; border: 1px solid #818cf8; border-radius: 4px; padding: 1px 5px; font-size: 0.62rem; font-weight: 800; margin-left: 4px;">🔒 LOCKED</span>` : '';
+                const blockedBadge = blockReason ? `<span style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #f87171; border-radius: 4px; padding: 1px 5px; font-size: 0.62rem; font-weight: 800; margin-left: 4px;">${blockReason}</span>` : '';
+                const maxBadge = isGmaxArmedOrActive ? `<span class="max-move-badge">${moveData.isGmax ? '⚡ G-MAX' : (moveData.isMaxGuard ? '🛡️ MAX GUARD' : '⚡ DYNAMAX')}</span>` : '';
+
+                btn.innerHTML = `
+                    <div class="btn-move-top">
+                        <span class="btn-move-name">${displayName} ${maxBadge}${pivotBadge}${lockBadge}${blockedBadge}</span>
+                        <span class="type-pill-xs type-${displayType}">${displayType.toUpperCase()}</span>
+                    </div>
+                    <div class="btn-move-meta">
+                        <span class="cat-badge ${catClass}">${catIcon}</span>
+                        <span>Pow: ${displayPower} | Acc: ${displayAcc}</span>
+                        <span>PP ${m.pp}/${m.maxPp}</span>
+                    </div>
+                `;
+                c.appendChild(btn);
+            });
+
+            updateTeraButtonState();
+        }
+
+        function renderOmniRing() {
+            const dock = document.getElementById("omni-ring-dock");
+            if (!dock) return;
+
+            const btnTera = document.getElementById("omni-btn-tera");
+            const btnMega = document.getElementById("omni-btn-mega");
+            const btnGmax = document.getElementById("omni-btn-gmax");
+            const statusBadge = document.getElementById("omni-ring-status");
+            const teraTypeLabel = document.getElementById("omni-tera-type");
+            const megaSubLabel = document.getElementById("omni-mega-status");
+            const gmaxSubLabel = document.getElementById("omni-gmax-status");
+
+            const pSide = battleState ? battleState.side1 : null;
+            const pPoke = pSide ? pSide.active : null;
+
+            if (!pPoke || !pSide) {
+                if (btnTera) btnTera.disabled = true;
+                if (btnMega) btnMega.disabled = true;
+                if (btnGmax) btnGmax.disabled = true;
+                return;
+            }
+
+            const teraType = (pPoke.teraType || "Normal").toUpperCase();
+            if (teraTypeLabel) teraTypeLabel.textContent = teraType;
+
+            const omniUsed = Boolean(pSide.omniUsed || pSide.teraUsed);
+            const isTransformed = Boolean(pPoke.isTerastallized || pPoke.isMega || pPoke.isGmax);
+
+            if (omniUsed || isTransformed) {
+                const usedMech = (pSide.omniMechanic || (pPoke.isMega ? "mega" : (pPoke.isGmax ? "gmax" : "tera"))).toUpperCase();
+                if (statusBadge) {
+                    statusBadge.textContent = `USED: ${usedMech}`;
+                    statusBadge.className = "omni-ring-badge depleted";
+                }
+                if (btnTera) {
+                    btnTera.disabled = true;
+                    btnTera.classList.remove("active");
+                    if (pPoke.isTerastallized) btnTera.classList.add("active");
+                }
+                if (btnMega) {
+                    btnMega.disabled = true;
+                    btnMega.classList.remove("active");
+                    if (pPoke.isMega) {
+                        btnMega.classList.add("active");
+                        if (megaSubLabel) megaSubLabel.textContent = "EVOLVED";
+                    } else {
+                        if (megaSubLabel) megaSubLabel.textContent = "LOCKED";
+                    }
+                }
+                if (btnGmax) {
+                    btnGmax.disabled = true;
+                    btnGmax.classList.remove("active");
+                    if (pPoke.isGmax) {
+                        btnGmax.classList.add("active");
+                        if (gmaxSubLabel) gmaxSubLabel.textContent = `${pPoke.gmaxTurns || 3} TURNS`;
+                    } else {
+                        if (gmaxSubLabel) gmaxSubLabel.textContent = "LOCKED";
+                    }
+                }
+                return;
+            }
+
+            // Omni Ring Available
+            if (statusBadge) {
+                statusBadge.textContent = selectedOmniMechanic ? `${selectedOmniMechanic.toUpperCase()} ARMED!` : "READY";
+                statusBadge.className = "omni-ring-badge";
+            }
+
+            // 1. Tera Button (Universal)
+            if (btnTera) {
+                btnTera.disabled = false;
+                btnTera.classList.toggle("active", selectedOmniMechanic === "tera");
+            }
+
+            // 2. Mega Button
+            if (btnMega) {
+                if (pPoke.canMega) {
+                    btnMega.disabled = false;
+                    btnMega.classList.toggle("active", selectedOmniMechanic === "mega");
+                    if (megaSubLabel) {
+                        if (selectedOmniMechanic === "mega") {
+                            megaSubLabel.textContent = "ARMED!";
+                        } else {
+                            const mName = pPoke.targetMegaName ? pPoke.targetMegaName.replace(/^Mega\s+/i, "").toUpperCase() : "READY";
+                            megaSubLabel.textContent = mName;
+                        }
+                    }
+                    btnMega.title = `Mega Evolve into ${pPoke.targetMegaName || 'Mega form'} via held ${pPoke.itemDisplayName || 'Mega Stone'}`;
+                } else {
+                    btnMega.disabled = true;
+                    btnMega.classList.remove("active");
+                    if (megaSubLabel) megaSubLabel.textContent = pPoke.item && pPoke.item.includes("ite") ? "WRONG STONE" : "NO STONE";
+                    btnMega.title = `${pPoke.displayName} cannot Mega Evolve without holding its specific Mega Stone!`;
+                }
+            }
+
+            // 3. G-Max Button
+            if (btnGmax) {
+                if (pPoke.canGmax) {
+                    btnGmax.disabled = false;
+                    btnGmax.classList.toggle("active", selectedOmniMechanic === "gmax");
+                    if (gmaxSubLabel) {
+                        const gSig = pPoke.gmaxDetails ? pPoke.gmaxDetails.gmax_move : "G-MAX";
+                        gmaxSubLabel.textContent = (selectedOmniMechanic === "gmax") ? "ARMED!" : (gSig ? gSig.toUpperCase().replace("G-MAX ", "") : "READY");
+                    }
+                    btnGmax.title = `Gigantamax into colossal form with signature move ${pPoke.gmaxDetails ? pPoke.gmaxDetails.gmax_move : 'G-Max Move'}`;
+                } else {
+                    btnGmax.disabled = true;
+                    btnGmax.classList.remove("active");
+                    if (gmaxSubLabel) gmaxSubLabel.textContent = "N/A";
+                    btnGmax.title = `${pPoke.displayName} does not have a Gigantamax form!`;
+                }
+            }
+        }
+
+        function toggleOmniMechanic(mech) {
+            if (!battleState || !battleState.side1) return;
+            if (battleState.side1.omniUsed || battleState.side1.teraUsed) {
+                showAnnouncement("⚠️ Omni Ring energy is depleted for this battle!");
+                return;
+            }
+            const active = battleState.side1.active;
+            if (!active) return;
+
+            if (mech === "mega" && !active.canMega) {
+                showAnnouncement(`⚠️ ${active.displayName} cannot Mega Evolve without holding its specific Mega Stone!`);
+                return;
+            }
+            if (mech === "gmax" && !active.canGmax) {
+                showAnnouncement(`⚠️ ${active.displayName} cannot Gigantamax!`);
+                return;
+            }
+
+            if (mech === "mega") {
+                if (selectedOmniMechanic === "mega") {
+                    selectedOmniMechanic = null;
+                    selectedMegaVariant = null;
+                } else {
+                    selectedOmniMechanic = "mega";
+                    selectedMegaVariant = active.targetMegaSpecies || (active.availableMegas && active.availableMegas[0] && active.availableMegas[0].mega_species) || null;
+                    isTerastallizePending = false;
+                    playSound("ability");
+                }
+            } else {
+                selectedMegaVariant = null;
+                if (selectedOmniMechanic === mech) {
+                    selectedOmniMechanic = null;
+                    isTerastallizePending = false;
+                } else {
+                    selectedOmniMechanic = mech;
+                    isTerastallizePending = (mech === "tera");
+                    playSound("ability");
+                }
+            }
+            renderOmniRing();
+            if (battleState && battleState.side1 && battleState.side1.active) {
+                renderMoveButtons(battleState.side1.active);
+            }
+        }
+
+        function updateTeraButtonState() {
+            renderOmniRing();
+        }
+
+        function toggleTerastallize() {
+            toggleOmniMechanic("tera");
+        }
+
+        function renderBenchButtons(containerId, team, activeIdx, isInteractive) {
+            const c = document.getElementById(containerId);
+            if (!c) return;
+            c.innerHTML = "";
+
+            (team || []).forEach((p, idx) => {
+                const card = document.createElement("button");
+                const isActive = (idx === activeIdx);
+                const isFainted = p.isFainted;
+
+                card.className = `bench-card ${isActive ? 'active-in-battle' : ''} ${isFainted ? 'fainted' : ''}`;
+                card.disabled = !isInteractive || isActive || isFainted || battleState.isFinished;
+
+                if (isInteractive && !isActive && !isFainted) {
+                    if (battleState && battleState.pendingSwitch) {
+                        card.onclick = () => submitReplacementSwitch(idx);
+                        card.style.borderColor = "#22c55e";
+                        card.style.boxShadow = "0 0 12px rgba(34, 197, 94, 0.4)";
+                    } else {
+                        card.onclick = () => submitPlayerAction({ type: "switch", targetIndex: idx });
+                    }
+                }
+
+                // Status Badges for Bench / Active
+                let statusBadgeHtml = "";
+                if (p.status && !isFainted) {
+                    const icon = p.status === 'burn' ? '🔥' :
+                                 p.status === 'paralysis' ? '⚡' :
+                                 p.status === 'sleep' ? '💤' :
+                                 p.status === 'freeze' ? '❄️' :
+                                 (p.status === 'toxic' ? '☣️' : '☠️');
+                    statusBadgeHtml = `<span class="status-badge status-${p.status}" style="font-size: 0.60rem; padding: 1px 4px; vertical-align: middle; margin-left: 4px;">${icon} ${p.status.toUpperCase()}</span>`;
+                }
+
+                let volatileHtml = "";
+                if (isActive && !isFainted) {
+                    if (p.isConfused) volatileHtml += `<span class="status-badge status-confused" style="font-size: 0.58rem; padding: 1px 3px; margin-left: 2px;">💫 CONF</span>`;
+                    if (p.isInfatuated) volatileHtml += `<span class="status-badge status-infatuated" style="font-size: 0.58rem; padding: 1px 3px; margin-left: 2px;">❤️ INF</span>`;
+                    if (p.tauntTurns > 0) volatileHtml += `<span class="status-badge status-taunted" style="font-size: 0.58rem; padding: 1px 3px; margin-left: 2px;">🤬 TAUNT</span>`;
+                }
+
+                const statusLabel = isFainted 
+                    ? '<span style="color: #ef4444; font-weight: 800;">💀 FAINTED</span>' 
+                    : (isActive 
+                        ? `<span style="color: var(--accent-primary); font-weight: 800;">⚔️ ACTIVE</span> <span style="color: var(--text-secondary); font-size: 0.72rem;">(${p.hpPercent}%)</span> ${statusBadgeHtml}${volatileHtml}` 
+                        : `<span style="color: var(--text-secondary);">${p.hpPercent}% HP</span> ${statusBadgeHtml}`);
+
+                card.innerHTML = `
+                    <img src="${p.sprite}" class="bench-mini-sprite" onerror="this.style.display='none'">
+                    <div style="text-align: left; line-height: 1.25; flex-grow: 1;">
+                        <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between;">
+                            <span>${p.displayName}</span>
+                        </div>
+                        <div style="font-size: 0.68rem; margin-top: 3px; display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                            ${statusLabel}
+                        </div>
+                    </div>
+                `;
+                c.appendChild(card);
+            });
+        }
+
+        function getPokeballSvg(size = 24) {
+            return `<svg class="roster-chip-pokeball" viewBox="0 0 24 24" width="${size}" height="${size}">
+                <circle cx="12" cy="12" r="10" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+                <path d="M2 12h20" stroke="#0f172a" stroke-width="2"/>
+                <path d="M2 12 A 10 10 0 0 0 22 12" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+                <circle cx="12" cy="12" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+                <circle cx="12" cy="12" r="1.5" fill="#0f172a"/>
+            </svg>`;
+        }
+
+        function playPokeballThrowAnimation(startEl, targetEl, callback) {
+            if (!startEl || !targetEl) {
+                if (callback) callback();
+                return;
+            }
+            const arena = document.getElementById("battlefield");
+            if (!arena) {
+                if (callback) callback();
+                return;
+            }
+            const aRect = arena.getBoundingClientRect();
+            const sRect = startEl.getBoundingClientRect();
+            const tRect = targetEl.getBoundingClientRect();
+
+            const startX = sRect.left - aRect.left + sRect.width / 2;
+            const startY = sRect.top - aRect.top + sRect.height / 2;
+            const endX = tRect.left - aRect.left + tRect.width / 2;
+            const endY = tRect.top - aRect.top + tRect.height / 2;
+
+            const ball = document.createElement("div");
+            ball.className = "flying-pokeball spinning";
+            ball.innerHTML = getPokeballSvg(28);
+            ball.style.left = `${startX - 14}px`;
+            ball.style.top = `${startY - 14}px`;
+            arena.appendChild(ball);
+
+            // Animate to target
+            requestAnimationFrame(() => {
+                ball.style.transform = `translate(${endX - startX}px, ${endY - startY}px)`;
+            });
+
+            setTimeout(() => {
+                // Burst flash at target
+                const flash = document.createElement("div");
+                flash.className = "pokeball-burst-flash";
+                flash.style.left = `${endX}px`;
+                flash.style.top = `${endY}px`;
+                arena.appendChild(flash);
+                setTimeout(() => flash.remove(), 500);
+
+                ball.remove();
+                playSound("ability");
+
+                targetEl.classList.remove("sprite-enter-pokeball");
+                void targetEl.offsetWidth; // trigger reflow
+                targetEl.classList.add("sprite-enter-pokeball");
+
+                if (callback) callback();
+            }, 450);
+        }
+
+        function handlePlayerRailSwitch(targetIndex, chipEl) {
+            if (!battleState || battleState.isFinished) return;
+            if (battleState.side1.activeIndex === targetIndex) return;
+            const p = battleState.side1.team[targetIndex];
+            if (!p || p.isFainted) return;
+
+            const playerSprite = document.getElementById("player-sprite");
+            playPokeballThrowAnimation(chipEl, playerSprite, () => {
+                if (battleState.pendingSwitch) {
+                    submitReplacementSwitch(targetIndex);
+                } else {
+                    submitPlayerAction({ type: "switch", targetIndex: targetIndex });
+                }
+            });
+        }
+
+        function renderPlayerRosterRail(team, activeIdx) {
+            const rail = document.getElementById("roster-rail-player");
+            if (!rail) return;
+            rail.innerHTML = "";
+
+            (team || []).forEach((p, idx) => {
+                const isActive = (idx === activeIdx);
+                const isFainted = p.isFainted;
+                const chip = document.createElement("div");
+                chip.className = `roster-chip ${isActive ? 'active' : ''} ${isFainted ? 'fainted' : ''}`;
+                chip.setAttribute("data-index", idx);
+
+                if (!isActive && !isFainted && (!battleState || !battleState.isFinished)) {
+                    chip.onclick = () => handlePlayerRailSwitch(idx, chip);
+                }
+
+                // Micro HP Bar Color
+                let hpColor = "var(--hp-green)";
+                if (p.hpPercent <= 20) hpColor = "var(--hp-red)";
+                else if (p.hpPercent <= 50) hpColor = "var(--hp-yellow)";
+
+                // Status Badge for tooltip
+                let statusBadgeHtml = "";
+                if (p.status && !isFainted) {
+                    const icon = p.status === 'burn' ? '🔥' :
+                                 p.status === 'paralysis' ? '⚡' :
+                                 p.status === 'sleep' ? '💤' :
+                                 p.status === 'freeze' ? '❄️' :
+                                 (p.status === 'toxic' ? '☣️' : '☠️');
+                    statusBadgeHtml = `<span class="status-badge status-${p.status}" style="font-size:0.65rem; padding:2px 5px;">${icon} ${p.status.toUpperCase()}</span>`;
+                }
+
+                const typeBadges = (p.types || []).map(t => `<span class="type-pill-xs type-${t}">${t.toUpperCase()}</span>`).join(' ');
+
+                const movesList = (p.moveDetails || []).map(m => `
+                    <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:var(--text-secondary);">
+                        <span>${m.displayName || m.name || m.id}</span>
+                        <span>PP ${m.pp}/${m.maxPp}</span>
+                    </div>
+                `).join('');
+
+                chip.innerHTML = `
+                    <img src="${p.sprite}" class="roster-chip-img" onerror="this.src='https://play.pokemonshowdown.com/sprites/gen5/${p.species}.png'">
+                    <div class="roster-chip-hp-bar">
+                        <div class="roster-chip-hp-fill" style="width: ${p.hpPercent}%; background-color: ${hpColor};"></div>
+                    </div>
+                    <div class="roster-tooltip">
+                        <div class="roster-tooltip-title">
+                            <span>${p.displayName}</span>
+                            <span style="font-size:0.7rem; color:var(--text-muted); font-family:var(--font-mono);">Lv. ${p.level}</span>
+                        </div>
+                        <div class="roster-tooltip-types">${typeBadges} ${statusBadgeHtml}</div>
+                        <div class="roster-tooltip-hp">
+                            ${isFainted ? '<strong style="color:var(--hp-red);">FAINTED (0 HP)</strong>' : `HP: ${p.currentHp} / ${p.maxHp} (${p.hpPercent}%)`}
+                        </div>
+                        <div class="roster-tooltip-meta">
+                            <div>✨ Ability: <strong style="color:var(--text-primary);">${p.abilityDisplayName || 'Standard'}</strong></div>
+                            <div>🎒 Item: <strong style="color:var(--text-primary);">${p.itemDisplayName || 'None'}</strong></div>
+                            ${isActive ? '<div style="color:var(--accent-primary); font-weight:800; margin-top:2px;">⚔️ CURRENTLY BATTLING</div>' : (!isFainted ? ((battleState && battleState.pendingSwitch) ? '<div style="color:#38bdf8; font-weight:800; margin-top:2px;">👉 Click to send out as replacement!</div>' : '<div style="color:#4ade80; font-weight:800; margin-top:2px;">👉 Click to switch in!</div>') : '')}
+                        </div>
+                        ${movesList ? `<div style="margin-top:6px; padding-top:4px; border-top:1px solid rgba(255,255,255,0.1);"><div style="font-size:0.65rem; color:var(--text-muted); font-weight:800; margin-bottom:2px;">MOVES:</div>${movesList}</div>` : ''}
+                    </div>
+                `;
+
+                rail.appendChild(chip);
+            });
+        }
+
+        function renderOpponentRosterRail(team, activeIdx) {
+            const rail = document.getElementById("roster-rail-opp");
+            if (!rail) return;
+            rail.innerHTML = "";
+
+            (team || []).forEach((p, idx) => {
+                const isActive = (idx === activeIdx);
+                const isFainted = p.isFainted;
+                const isRevealed = isActive || p.revealed || (p.currentHp < p.maxHp) || p.isFainted || p.status;
+
+                const chip = document.createElement("div");
+                chip.className = `roster-chip ${isActive ? 'active' : ''} ${isFainted ? 'fainted' : ''}`;
+                chip.setAttribute("data-index", idx);
+
+                if (!isRevealed) {
+                    // Unrevealed Opponent Pokémon -> Shows classic Pokéball
+                    chip.innerHTML = `
+                        ${getPokeballSvg(26)}
+                        <div class="roster-tooltip">
+                            <div class="roster-tooltip-title">
+                                <span>Opponent Pokémon #${idx + 1}</span>
+                            </div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">
+                                🔴 Unrevealed Pokémon<br>Not yet sent into battle.
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Revealed Pokémon
+                    let hpColor = "var(--hp-green)";
+                    if (p.hpPercent <= 20) hpColor = "var(--hp-red)";
+                    else if (p.hpPercent <= 50) hpColor = "var(--hp-yellow)";
+
+                    let statusBadgeHtml = "";
+                    if (p.status && !isFainted) {
+                        const icon = p.status === 'burn' ? '🔥' :
+                                     p.status === 'paralysis' ? '⚡' :
+                                     p.status === 'sleep' ? '💤' :
+                                     p.status === 'freeze' ? '❄️' :
+                                     (p.status === 'toxic' ? '☣️' : '☠️');
+                        statusBadgeHtml = `<span class="status-badge status-${p.status}" style="font-size:0.65rem; padding:2px 5px;">${icon} ${p.status.toUpperCase()}</span>`;
+                    }
+
+                    const typeBadges = (p.types || []).map(t => `<span class="type-pill-xs type-${t}">${t.toUpperCase()}</span>`).join(' ');
+                    const itemText = p.hasItem ? (p.itemRevealed ? p.itemDisplayName : 'Active Item') : 'None';
+
+                    chip.innerHTML = `
+                        <img src="${p.sprite}" class="roster-chip-img" onerror="this.src='https://play.pokemonshowdown.com/sprites/gen5/${p.species}.png'">
+                        <div class="roster-chip-hp-bar">
+                            <div class="roster-chip-hp-fill" style="width: ${p.hpPercent}%; background-color: ${hpColor};"></div>
+                        </div>
+                        <div class="roster-tooltip">
+                            <div class="roster-tooltip-title">
+                                <span>${p.displayName}</span>
+                                <span style="font-size:0.7rem; color:var(--text-muted); font-family:var(--font-mono);">Lv. ${p.level}</span>
+                            </div>
+                            <div class="roster-tooltip-types">${typeBadges} ${statusBadgeHtml}</div>
+                            <div class="roster-tooltip-hp">
+                                ${isFainted ? '<strong style="color:var(--hp-red);">FAINTED (0% HP)</strong>' : `HP: ${p.hpPercent}%`}
+                            </div>
+                            <div class="roster-tooltip-meta">
+                                <div>✨ Ability: <strong style="color:var(--text-primary);">${p.abilityDisplayName || 'Unknown'}</strong></div>
+                                <div>🎒 Item: <strong style="color:var(--text-primary);">${itemText}</strong></div>
+                                ${isActive ? '<div style="color:var(--accent-primary); font-weight:800; margin-top:2px;">⚔️ CURRENTLY BATTLING</div>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                rail.appendChild(chip);
+            });
+        }
+
+        function renderBattleLog(logs) {
+            const body = document.getElementById("battle-log-body");
+            body.innerHTML = "";
+
+            let currentTurn = 0;
+
+            logs.forEach(evt => {
+                // Insert prominent turn divider
+                if (evt.turn && evt.turn !== currentTurn) {
+                    currentTurn = evt.turn;
+                    const div = document.createElement("div");
+                    div.className = "log-turn-divider";
+                    div.textContent = `━━━ ⚔️ TURN ${currentTurn} ━━━`;
+                    body.appendChild(div);
+                }
+
+                const entry = document.createElement("div");
+                const turnClass = (currentTurn % 2 === 0) ? "log-entry--even" : "log-entry--odd";
+                entry.className = `log-entry ${turnClass} ${evt.type}`;
+                entry.textContent = evt.text;
+                body.appendChild(entry);
+            });
+
+            body.scrollTop = body.scrollHeight;
+        }
+
+        // -------------------------------------------------------------
+        // Animations & Sound Triggers
+        // -------------------------------------------------------------
+        function processNewEvents(events) {
+            events.forEach(evt => {
+                if (evt.type === "damage") {
+                    const isOpp = evt.sideId === "side2";
+                    triggerSpriteHit(isOpp ? "opp-sprite" : "player-sprite");
+                    if (evt.details && evt.details.isCrit) playSound("super_effective");
+                    else playSound("hit");
+                } else if (evt.type === "move") {
+                    const isPlayer = evt.sideId === "side1";
+                    triggerSpriteAttack(isPlayer ? "player-sprite" : "opp-sprite");
+                } else if (evt.type === "ability") {
+                    playSound("ability");
+                    showAnnouncement(evt.text);
+                } else if (evt.type === "faint") {
+                    playSound("faint");
+                }
+            });
+        }
+
+        function triggerSpriteAttack(id) {
+            const img = document.getElementById(id);
+            if (!img) return;
+            img.classList.remove("sprite-idle");
+            img.classList.add("sprite-attack-lunge");
+            setTimeout(() => {
+                img.classList.remove("sprite-attack-lunge");
+                img.classList.add("sprite-idle");
+            }, 350);
+        }
+
+        function triggerSpriteHit(id) {
+            const img = document.getElementById(id);
+            if (!img) return;
+            img.classList.remove("sprite-idle");
+            img.classList.add("sprite-hit-shake");
+            setTimeout(() => {
+                img.classList.remove("sprite-hit-shake");
+                img.classList.add("sprite-idle");
+            }, 400);
+        }
+
+        function showAnnouncement(text) {
+            const b = document.getElementById("announcement-banner");
+            b.textContent = text;
+            b.classList.add("show");
+            setTimeout(() => b.classList.remove("show"), 2800);
+        }
+
+        // -------------------------------------------------------------
+        // Turn Timer
+        // -------------------------------------------------------------
+        function resetTurnTimer(seconds) {
+            clearInterval(turnTimerInterval);
+            if (!seconds || seconds <= 0) {
+                document.getElementById("hud-timer-badge").textContent = "⏱️ Unlimited";
+                document.getElementById("hud-timer-badge").className = "sim-timer-badge";
+                return;
+            }
+            remainingTimer = seconds;
+            updateTimerDisplay();
+            turnTimerInterval = setInterval(() => {
+                remainingTimer--;
+                updateTimerDisplay();
+                if (remainingTimer <= 0) {
+                    clearInterval(turnTimerInterval);
+                    if (!battleState.side1.isAi && !battleState.isFinished) {
+                        const moves = battleState.side1.active.moves;
+                        submitPlayerAction({ type: "move", move: moves[0] });
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const el = document.getElementById("hud-timer-badge");
+            el.textContent = `⏱️ ${remainingTimer}s`;
+            if (remainingTimer <= 5) el.className = "sim-timer-badge danger";
+            else if (remainingTimer <= 15) el.className = "sim-timer-badge warning";
+            else el.className = "sim-timer-badge";
+        }
+
+        // -------------------------------------------------------------
+        // Game Over & Analysis
+        // -------------------------------------------------------------
+        function handleGameOver(outcome) {
+            clearInterval(turnTimerInterval);
+            const modal = document.getElementById("gameover-modal");
+            const icon = document.getElementById("gameover-icon");
+            const title = document.getElementById("gameover-title");
+            const sub = document.getElementById("gameover-sub");
+            const analysis = document.getElementById("gameover-analysis-text");
+
+            const isWin = battleState.winner === "side1";
+            icon.textContent = isWin ? "🏆" : "💀";
+            title.textContent = isWin ? "Victory!" : "Defeat!";
+            sub.textContent = isWin ? `${battleState.side1.name} claimed victory!` : `${battleState.side2.name} conquered the arena!`;
+
+            if (outcome) {
+                analysis.innerHTML = `
+                    <strong>${outcome.title}</strong><br>
+                    ${outcome.lesson}<br><br>
+                    <em>Key Plays:</em><br>
+                    ${(outcome.keyKOs || []).map(ko => `• ${ko}`).join("<br>")}
+                `;
+            } else {
+                analysis.textContent = "The battle has completed. Neural knowledge cache successfully recorded.";
+            }
+
+            modal.classList.remove("hidden");
+        }
+
+        function closeGameOverModal() {
+            document.getElementById("gameover-modal").classList.add("hidden");
+        }
+
+        function surrenderMatch() {
+            if (confirm("Are you sure you want to surrender this battle?")) {
+                openSetupModal();
+            }
+        }
+
+        function copyBattleLog() {
+            const text = (battleState.battleLog || []).map(l => l.text).join("\n");
+            navigator.clipboard.writeText(text);
+            alert("✅ Battle log copied to clipboard!");
+        }
+
+        function getDiffName(d) {
+            if (d >= 80) return "World Champion";
+            if (d >= 50) return "Elite Four";
+            return "Gym Leader";
+        }
+
+        // -------------------------------------------------------------
+        // AI Knowledge Cache Modal
+        // -------------------------------------------------------------
+        async function openKnowledgeModal() {
+            try {
+                const res = await fetch("/api/simulator/knowledge");
+                const data = await res.json();
+                if (data.success) {
+                    const km = data.knowledge;
+                    const sm = km.summary || {};
+                    document.getElementById("km-total-battles").textContent = sm.totalBattles || 0;
+                    document.getElementById("km-ai-wins").textContent = sm.aiWins || 0;
+                    document.getElementById("km-ai-losses").textContent = sm.aiLosses || 0;
+                    document.getElementById("km-total-turns").textContent = sm.totalTurns || 0;
+
+                    const hl = document.getElementById("km-heuristics-list");
+                    hl.innerHTML = "";
+                    const heuristicsEntries = Object.entries(km.matchup_heuristics || {});
+                    if (heuristicsEntries.length === 0) {
+                        hl.innerHTML = `<div style="color: var(--text-muted); padding: 14px 0; text-align: center; font-style: italic;">No empirical matchup heuristics recorded yet. Complete battles to generate learning data!</div>`;
+                    } else {
+                        heuristicsEntries.forEach(([k, h]) => {
+                            const item = document.createElement("div");
+                            item.style.padding = "4px 0";
+                            item.style.borderBottom = "1px solid var(--border-subtle)";
+                            item.innerHTML = `<strong>${k.replace('_vs_', ' vs ')}</strong>: ${h.recommended_action} (Winrate: ${(h.win_rate * 100).toFixed(0)}%, Samples: ${h.samples})`;
+                            hl.appendChild(item);
+                        });
+                    }
+
+                    const ll = document.getElementById("km-learnings-list");
+                    ll.innerHTML = "";
+                    const learnings = km.post_game_learnings || [];
+                    if (learnings.length === 0) {
+                        ll.innerHTML = `<div style="color: var(--text-muted); padding: 14px 0; text-align: center; font-style: italic;">No tactical lessons recorded yet. Complete battles to formulate post-game debriefs!</div>`;
+                    } else {
+                        learnings.forEach(l => {
+                            const item = document.createElement("div");
+                            item.style.padding = "6px 0";
+                            item.style.borderBottom = "1px solid var(--border-subtle)";
+                            item.innerHTML = `<span style="color: var(--accent-primary); font-weight: 700;">[${l.timestamp}] ${l.title}</span><br>${l.lesson}`;
+                            ll.appendChild(item);
+                        });
+                    }
+
+                    document.getElementById("knowledge-modal").classList.remove("hidden");
+                }
+            } catch (err) {
+                console.error("Knowledge fetch error:", err);
+            }
+        }
+
+        function closeKnowledgeModal() {
+            document.getElementById("knowledge-modal").classList.add("hidden");
+        }
+
+        async function resetKnowledgeBase() {
+            if (confirm("Reset the entire AI Knowledge Base to default state?")) {
+                const res = await fetch("/api/simulator/knowledge/reset", { method: "POST" });
+                const data = await res.json();
+                if (data.success) {
+                    alert("🧠 Knowledge base successfully reset!");
+                    openKnowledgeModal();
+                }
+            }
+        }
+
+        // -------------------------------------------------------------
+        // On Page Load: Initialize default battle
+        // -------------------------------------------------------------
+        window.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isRandom = urlParams.get("random") === "true";
+            populateSetupTeams();
+
+            // Load saved trainer name or default
+            const savedName = localStorage.getItem("pokemon_trainer_name") || "Trainer";
+            const pNameEl = document.getElementById("setup-trainer-name-1");
+            if (pNameEl) pNameEl.value = savedName;
+
+            // Randomize default AI champion name
+            randomizeAiTrainerName();
+
+            if (isRandom) {
+                startRandomBattleNow();
+            } else {
+                showPreBattleSplash();
+            }
+        });
+    </script>
+</body>
+</html>

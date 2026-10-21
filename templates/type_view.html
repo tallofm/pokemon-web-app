@@ -1,80 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Type: {{ type_name|capitalize }}</title>
+  <meta charset="UTF-8">
+  <title>{{ type_name|capitalize }} Type - Pokédex</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+  <!-- Top Sticky Navbar -->
+  <header class="app-navbar">
+    <div class="navbar-container">
+      <div class="navbar-left">
+        <a href="/" class="brand-logo">
+          <span class="brand-icon">⚡</span>
+          <span class="brand-title">PokéDex</span>
+        </a>
+      </div>
+      <nav class="navbar-center">
+        <a href="/" class="nav-item">🏠 Home</a>
+        <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+        <a href="/movedex" class="nav-item">⚔️ Moves</a>
+        <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+        <a href="/itemdex" class="nav-item">🎒 Items</a>
+        <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+        <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+        <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+      </nav>
+      <div class="navbar-right">
+        <a href="/random?context=pokemon" class="btn-nav" title="View random Pokémon">🎲 Random</a>
+        <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
 
   <div class="container container--wide">
-	<header>
-		<h1>
-			<a href="/type/{{ type_name }}" class="reset-link">Type: {{ type_name|capitalize }}</a>
-		</h1>
-		{% if total_matches > 0 %}
-		  <div class="results-count" style="margin-top:4px; font-size:0.9em; opacity:0.85;">
-			Showing results {{ start_idx }} to {{ end_idx }} of {{ total_matches }}
-		  </div>
-		{% else %}
-		  <div class="results-count" style="margin-top:4px; font-size:0.9em; opacity:0.85;">
-			No results found
-		  </div>
-		{% endif %}
+    <div style="display: flex; justify-content: flex-start; margin-bottom: 12px;">
+      <a href="/pokedex" class="btn-reset" style="padding: 6px 14px; font-size: 0.82rem;">← Back to Pokédex</a>
+    </div>
 
-		<!-- filters (search, sort(+reverse), generation, per page, apply) -->
-		<form method="get" class="form-controls form-controls--compact">
-		  <div class="form-field form-field--search">
-			<label for="search">Search</label>
-			<input id="search" type="text" name="search" placeholder="e.g. re:pik.*" value="{{ request.args.get('search','') }}">
-		  </div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 4px; margin-bottom: 4px; flex-wrap: wrap;">
+      <h1 style="margin: 0;">Type:</h1>
+      <span class="type-label type-{{ type_name }} large" style="font-size: 1.3rem; padding: 6px 18px;">
+        {{ type_name|capitalize }}
+      </span>
+    </div>
 
-		  <!-- sort + reverse -->
-		  <div class="form-field form-field--sort">
-			<label for="sort">
-			  Sort
-			  <span class="rev-inline">
-				(<input id="reverse" type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> reverse)
-			  </span>
-			</label>
-			<select id="sort" name="sort">
-			  <option value="id"   {% if current_sort == 'id' %}selected{% endif %}>ID</option>
-			  <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name</option>
-			  {% for k, label in stat_labels.items() %}
-				<option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>{{ label }}</option>
-			  {% endfor %}
-			</select>
-		  </div>
+    {% if total_matches > 0 %}
+      <div class="results-count">Showing results <strong>{{ start_idx }}–{{ end_idx }}</strong> of <strong>{{ total_matches }}</strong> Pokémon</div>
+    {% else %}
+      <div class="results-count">No Pokémon found</div>
+    {% endif %}
 
-		  <div class="form-field">
-			<label for="generation">Generation</label>
-			<select id="generation" name="generation">
-			  <option value="">All</option>
-			  {% for g in all_gens %}
-				<option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>Gen {{ g }}</option>
-			  {% endfor %}
-			</select>
-		  </div>
+    <!-- Filter Form -->
+    <form method="get" class="filter-toolbar" style="margin-top: 10px;">
+      <div class="filter-toolbar-row">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input id="search" type="text" name="search" placeholder="Filter this type..." value="{{ request.args.get('search','') }}">
+        </div>
 
-		  <!-- per page (multiples of 5 to keep 5-per-row vibe) -->
-		  <div class="form-field form-field--perpage">
-			<label for="limit">Per Page</label>
-			<select id="limit" name="limit">
-			  {% for n in [5,10,20,40] %}
-				<option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
-			  {% endfor %}
-			</select>
-		  </div>
+        <div class="filter-controls-group">
+          <div class="select-wrap">
+            <select name="sort">
+              <option value="id"   {% if current_sort == 'id' %}selected{% endif %}>Sort by ID</option>
+              <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Sort by Name</option>
+              {% for k, label in stat_labels.items() %}
+                <option value="{{ k }}" {% if current_sort == k %}selected{% endif %}>Sort by {{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-		  <div class="form-field form-field--button">
-			<label class="visually-hidden">Apply</label>
-			<button type="submit">Apply</button>
-		  </div>
-		</form>
-	
-	</header>
+          <label class="rev-inline" style="display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
+            <input type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> Descending
+          </label>
 
-    <!-- compute damage-relations buckets for single type -->
+          <div class="select-wrap">
+            <select name="generation">
+              <option value="">All Generations</option>
+              {% for g in all_gens %}
+                <option value="{{ g }}" {% if request.args.get('generation') == g|string %}selected{% endif %}>
+                  {{ gen_labels.get(g, 'Gen ' ~ g) }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="select-wrap">
+            <select name="limit">
+              {% for n in [12, 24, 48] %}
+                <option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }} / page</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn-apply">Apply</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Compute damage-relations buckets for single type -->
     {% set dd_from = (rel.double_damage_from or []) | map(attribute='name') | list %}
     {% set hd_from = (rel.half_damage_from   or []) | map(attribute='name') | list %}
     {% set nd_from = (rel.no_damage_from     or []) | map(attribute='name') | list %}
@@ -83,30 +106,14 @@
     {% set hd_to   = (rel.half_damage_to     or []) | map(attribute='name') | list %}
     {% set nd_to   = (rel.no_damage_to       or []) | map(attribute='name') | list %}
 
-    {% set def_norm = [] %}
-    {% for t in all_types %}
-      {% if t not in dd_from and t not in hd_from and t not in nd_from %}
-        {% set _ = def_norm.append(t) %}
-      {% endif %}
-    {% endfor %}
-
-    {% set off_norm = [] %}
-    {% for t in all_types %}
-      {% if t not in dd_to and t not in hd_to and t not in nd_to %}
-        {% set _ = off_norm.append(t) %}
-      {% endif %}
-    {% endfor %}
-
-    <section class="eff-card">
-      <h2 class="eff-title">Type Effectiveness</h2>
-
+    <section class="eff-card" style="margin-top: 14px;">
       <!-- defense card -->
       <div class="eff-block">
-        <h3 class="eff-sub">Defense ({{ type_name|capitalize }})</h3>
+        <h3 class="eff-sub">Defense (When defending as {{ type_name|capitalize }})</h3>
         <div class="eff-table">
           {% if dd_from %}
           <div class="eff-row">
-            <span class="eff-label">Weak To</span>
+            <span class="eff-label">Weak To (2×)</span>
             <div class="eff-cells">
               {% for t in dd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
@@ -115,7 +122,7 @@
 
           {% if nd_from %}
           <div class="eff-row">
-            <span class="eff-label">Immune To</span>
+            <span class="eff-label">Immune To (0×)</span>
             <div class="eff-cells">
               {% for t in nd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
@@ -124,31 +131,22 @@
 
           {% if hd_from %}
           <div class="eff-row">
-            <span class="eff-label">Resistant To</span>
+            <span class="eff-label">Resistant To (½×)</span>
             <div class="eff-cells">
               {% for t in hd_from %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
           </div>
-          {% endif %}
-
-          {% if def_norm %}
-          <details class="eff-row eff-muted">
-            <summary class="eff-label">Normal</summary>
-            <div class="eff-cells">
-              {% for t in def_norm %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
-            </div>
-          </details>
           {% endif %}
         </div>
       </div>
 
       <!-- offense card -->
       <div class="eff-block">
-        <h3 class="eff-sub">Offense (Using {{ type_name|capitalize }})</h3>
+        <h3 class="eff-sub">Offense (When attacking with {{ type_name|capitalize }})</h3>
         <div class="eff-table">
           {% if dd_to %}
           <div class="eff-row">
-            <span class="eff-label">Super Effective</span>
+            <span class="eff-label">Super Effective (2×)</span>
             <div class="eff-cells">
               {% for t in dd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
@@ -157,7 +155,7 @@
 
           {% if nd_to %}
           <div class="eff-row">
-            <span class="eff-label">No Effect</span>
+            <span class="eff-label">No Effect (0×)</span>
             <div class="eff-cells">
               {% for t in nd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
@@ -166,39 +164,29 @@
 
           {% if hd_to %}
           <div class="eff-row">
-            <span class="eff-label">Not Very</span>
+            <span class="eff-label">Not Very Effective (½×)</span>
             <div class="eff-cells">
               {% for t in hd_to %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
             </div>
           </div>
-          {% endif %}
-
-          {% if off_norm %}
-          <details class="eff-row eff-muted">
-            <summary class="eff-label">Normal</summary>
-            <div class="eff-cells">
-              {% for t in off_norm %}<span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>{% endfor %}
-            </div>
-          </details>
           {% endif %}
         </div>
       </div>
     </section>
 
     {% if not pokemon_list %}
-      <p>No Pokémon found.</p>
+      <div class="results-count" style="margin: 30px 0; font-size: 1.1rem;">No Pokémon found for this type.</div>
     {% endif %}
 
-    <!-- pokemon list (kept large cards; css controls 5 per row) -->
     <div class="pokemon-grid">
       {% for p in pokemon_list %}
-        <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card no-link-style">
-          <div class="pokemon-id">#{{ '%03d' % p.id }}</div>
-          <img src="{{ p.sprite }}" alt="{{ p.name }}">
-          <h3>{{ p.name }}</h3>
+        <a href="/pokemon/{{ p.name | lower }}" class="pokemon-card">
+          <div class="pokemon-id">#{{ '%03d' % p.id if p.id else p.id }}</div>
+          <img src="{{ p.sprite }}" alt="{{ p.name }}" loading="lazy">
+          <h3>{{ p.name | humanize }}</h3>
 
-          {% if p.sort_display and sort_label %}
-            <div style="font-size: 0.8em; opacity: 0.85; margin-top: 2px;">
+          {% if p.sort_display and sort_label and current_sort != 'id' %}
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 4px;">
               {{ sort_label }}: {{ p.sort_display }}
             </div>
           {% endif %}
@@ -212,50 +200,59 @@
       {% endfor %}
     </div>
 
-<!-- pagination (preserve all args except offset) -->
-<div class="pagination">
-  {% set last_offset = ((total_matches - 1) // limit) * limit %}
-  {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
-  {% set next_offset = offset + limit if (offset + limit) < total_matches else last_offset %}
+    <!-- Pagination -->
+    {% if total_matches > limit %}
+    <div class="pagination">
+      {% set last_offset = ((total_matches - 1) // limit) * limit %}
+      {% set prev_offset = offset - limit if offset - limit >= 0 else 0 %}
+      {% set next_offset = offset + limit if (offset + limit) < total_matches else last_offset %}
 
-  {% set base_args = [] %}
-  {% for key, value in request.args.items() %}
-    {% if key != 'offset' %}
-      {% set _ = base_args.append(key ~ '=' ~ value) %}
+      {% set base_args = [] %}
+      {% for key, value in request.args.items() %}
+        {% if key != 'offset' %}
+          {% set _ = base_args.append(key ~ '=' ~ value) %}
+        {% endif %}
+      {% endfor %}
+      {% set base_query = '&'.join(base_args) %}
+      {% set qprefix = ('?' ~ base_query) if base_query else '?' %}
+
+      {% if offset > 0 %}
+        <a href="/type/{{ type_name }}{{ qprefix }}&offset=0&limit={{ limit }}" class="btn-reset">⏮ First</a>
+        <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ prev_offset }}&limit={{ limit }}" class="btn-reset">← Prev</a>
+      {% endif %}
+
+      {% if offset + limit < total_matches %}
+        <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ next_offset }}&limit={{ limit }}" class="btn-reset">Next →</a>
+        <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ last_offset }}&limit={{ limit }}" class="btn-reset">Last ⏭</a>
+      {% endif %}
+    </div>
     {% endif %}
-  {% endfor %}
-  {% set base_query = '&'.join(base_args) %}
-  {% set qprefix = ('?' ~ base_query) if base_query else '?' %}
 
-  {% if offset > 0 %}
-    <a href="/type/{{ type_name }}{{ qprefix }}&offset=0&limit={{ limit }}" class="button-link">⏮ First</a>
-    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ prev_offset }}&limit={{ limit }}" class="button-link">← Prev</a>
-  {% endif %}
-
-  {% if offset + limit < total_matches %}
-    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ next_offset }}&limit={{ limit }}" class="button-link">Next →</a>
-    <a href="/type/{{ type_name }}{{ qprefix }}&offset={{ last_offset }}&limit={{ limit }}" class="button-link">Last ⏭</a>
-  {% endif %}
-</div>
-
-
-    <div class="back-link">
-      <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+    <div class="back-link" style="margin-top: 24px;">
+      <a href="/pokedex" class="btn-reset">← Back to Pokédex</a>
     </div>
   </div>
 
   <script>
-    // dark mode persistence
     function toggleDarkMode(){
       const b=document.body;
-      b.classList.toggle("dark-mode");
-      b.classList.toggle("dark");
-      localStorage.setItem("theme", (b.classList.contains("dark-mode")||b.classList.contains("dark")) ? "dark":"light");
+      b.classList.toggle("dark-mode"); b.classList.toggle("dark");
+      const isDark = b.classList.contains("dark-mode")||b.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark":"light");
+      updateThemeButton(isDark);
+    }
+    function updateThemeButton(isDark) {
+      const btn = document.getElementById("dark-mode-toggle");
+      if (btn) {
+        btn.textContent = isDark ? "☀️" : "🌙";
+      }
     }
     window.onload=function(){
       const t=localStorage.getItem("theme");
-      if(t==="dark"){ document.body.classList.add("dark-mode","dark"); }
-    }
+      const isDark = t==="dark";
+      if(isDark){ document.body.classList.add("dark-mode","dark"); }
+      updateThemeButton(isDark);
+    };
   </script>
 </body>
 </html>

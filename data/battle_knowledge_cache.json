@@ -1,0 +1,189 @@
+{
+  "summary": {
+    "totalBattles": 3,
+    "totalTurns": 70,
+    "aiWins": 0,
+    "aiLosses": 2,
+    "spectatorBattles": 1,
+    "lastUpdated": "2026-10-22 00:50:39"
+  },
+  "matchup_heuristics": {
+    "staraptor_vs_baxcalibur": {
+      "recommended_action": "move:close-combat",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "kingambit_vs_staraptor": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "kingambit_vs_metagross": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_skeledirge": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_dragonite": {
+      "recommended_action": "move:leech-life",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_kingambit": {
+      "recommended_action": "move:iron-head",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_ninetales-alola": {
+      "recommended_action": "move:iron-head",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod-mega_vs_primarina": {
+      "recommended_action": "move:iron-head",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_staraptor": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "annihilape_vs_gholdengo": {
+      "recommended_action": "move:brick-break",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_annihilape": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_baxcalibur": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_metagross": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "golisopod_vs_dragapult": {
+      "recommended_action": "move:iron-head",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "garchomp_vs_kingambit": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "cinderace_vs_golisopod": {
+      "recommended_action": "move:pyro-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "great-tusk_vs_garchomp": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "garchomp_vs_gholdengo": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "ursaluna-bloodmoon_vs_staraptor": {
+      "recommended_action": "move:blood-moon",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "metagross_vs_ursaluna-bloodmoon": {
+      "recommended_action": "move:ice-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "baxcalibur_vs_incineroar": {
+      "recommended_action": "move:bulldoze",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "baxcalibur_vs_clefairy": {
+      "recommended_action": "move:ice-shard",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "kommo-o_vs_baxcalibur": {
+      "recommended_action": "move:clanging-scales",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "metagross-mega_vs_rillaboom": {
+      "recommended_action": "move:psychic-fangs",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "metagross-mega_vs_kommo-o": {
+      "recommended_action": "move:psychic-fangs",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    }
+  },
+  "post_game_learnings": [
+    {
+      "id": "learn_3",
+      "timestamp": "2026-10-22 00:50",
+      "title": "Eleven Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Mega Metagross KO'd Kommo-o with Psychic Fangs. Eleven capitalized on offensive positioning and preserved core counters.",
+      "winner": "Eleven",
+      "loser": "Steven"
+    },
+    {
+      "id": "learn_2",
+      "timestamp": "2026-10-22 00:41",
+      "title": "Steven Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Great Tusk KO'd Garchomp with Ice Spinner. Steven capitalized on offensive positioning and preserved core counters.",
+      "winner": "Steven",
+      "loser": "Eleven"
+    },
+    {
+      "id": "learn_1",
+      "timestamp": "2026-10-22 00:37",
+      "title": "Player Franco Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Mega Golisopod KO'd Primarina with Iron Head. Player Franco capitalized on offensive positioning and preserved core counters.",
+      "winner": "Player Franco",
+      "loser": "Steven"
+    }
+  ],
+  "learned_principles": []
+}

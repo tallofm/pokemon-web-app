@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ a.name | humanize }} - Ability Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .ability-header-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+        .ability-badge-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .ability-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            background-color: var(--bg-subtle);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+        .ability-tag.id-tag {
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+            font-weight: 800;
+        }
+        .slot-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .slot-hidden {
+            background-color: rgba(147, 51, 234, 0.15);
+            color: #9333ea;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .slot-normal {
+            background-color: var(--bg-subtle);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item active">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=abilities" class="btn-nav" title="View random ability">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container container--wide">
+        <!-- Subheader Breadcrumb -->
+        <div style="display: flex; justify-content: flex-start; margin-bottom: 16px;">
+            <a href="/abilitydex" class="btn-reset" style="padding: 6px 14px; font-size: 0.82rem;">← Back to AbilityDex</a>
+        </div>
+
+        <!-- Ability Main Card -->
+        <div class="ability-header-card">
+            <div class="ability-badge-row">
+                {% if a.id %}<span class="ability-tag id-tag">#{{ a.id }}</span>{% endif %}
+                <span class="ability-tag">{{ a.generation }}</span>
+                {% if a.is_main_series %}<span class="ability-tag">Main Series</span>{% endif %}
+            </div>
+
+            <h1 style="margin: 0 0 16px; font-size: 2.2rem; font-weight: 800; color: var(--text-primary);">
+                {{ a.name | humanize }}
+            </h1>
+
+            <div class="description-box" style="margin: 0 auto; max-width: 680px; text-align: left;">
+                <p style="margin: 0 0 10px; line-height: 1.6;">
+                    <strong>Battle Effect:</strong> {{ a.effect }}
+                </p>
+                {% if a.flavor %}
+                    <p style="margin: 0; font-style: italic; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; border-top: 1px dashed var(--border-subtle); padding-top: 8px;">
+                        "{{ a.flavor }}"
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Pokémon with this Ability -->
+        <div class="section-title">
+            Pokémon with {{ a.name | humanize }} ({{ a.pokemon|length }})
+        </div>
+
+        <div class="pokemon-grid">
+            {% for p in a.pokemon %}
+                <div class="pokemon-card">
+                    {% if p.id %}<span class="pokemon-id">#{{ p.id }}</span>{% endif %}
+                    <a href="/pokemon/{{ p.raw_name }}" style="text-decoration: none; color: inherit;">
+                        <img src="{{ p.sprite }}" alt="{{ p.name }}" loading="lazy">
+                        <h3>{{ p.name | humanize }}</h3>
+
+                        <div class="type-container">
+                            {% for t in p.types %}
+                                <span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            {% if p.is_hidden %}
+                                <span class="slot-badge slot-hidden">Hidden Ability</span>
+                            {% else %}
+                                <span class="slot-badge slot-normal">Slot {{ p.slot }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% else %}
+                <p class="results-count" style="grid-column: 1 / -1; margin: 30px 0;">
+                    No Pokémon currently have this ability.
+                </p>
+            {% endfor %}
+        </div>
+
+        <div class="back-link" style="margin-top: 28px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+            <a href="/abilitydex" class="btn-reset" style="padding: 8px 18px; font-size: 0.88rem;">← Back to AbilityDex</a>
+            <a href="/teambuilder" class="btn-reset" style="padding: 8px 18px; font-size: 0.88rem; border-color: rgba(16, 185, 129, 0.4); color: #10b981;">👥 Team Builder</a>
+            <a href="/pokedex" class="btn-reset" style="padding: 8px 18px; font-size: 0.88rem;">Pokédex</a>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        function toggleDarkMode() {
+            const b = document.body;
+            b.classList.toggle("dark-mode");
+            b.classList.toggle("dark");
+            const isDark = b.classList.contains("dark-mode") || b.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            updateThemeButton(isDark);
+        }
+        function updateThemeButton(isDark) {
+            const btn = document.getElementById("dark-mode-toggle");
+            if (btn) btn.textContent = isDark ? "☀️" : "🌙";
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const isDark = localStorage.getItem("theme") === "dark";
+            if (isDark) document.body.classList.add("dark-mode", "dark");
+            updateThemeButton(isDark);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,266 +1,1069 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Type Effectiveness Tool</title>
+  <meta charset="UTF-8">
+  <title>Type Effectiveness Tool - Pokédex</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item active">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+                <a href="/guide" class="nav-item">📘 Guide</a>
+                <a href="/developer" class="nav-item">🛠️ Dev Docs</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="javascript:void(0)" onclick="randomizeTypeTool()" class="btn-nav" title="Randomize defense or offense combo">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
 
-  <div class="container" style="max-width: 840px">
-	<h1>Type Effectiveness</h1>
+    <div class="container" style="max-width: 920px;">
+        <h1 style="margin-top: 10px; margin-bottom: 4px;">Type Effectiveness Tool</h1>
+        <p class="results-count" style="margin-top: 0; margin-bottom: 18px;">
+            Calculate multi-type defensive matchups (up to 3 types) and offensive move coverage (up to 4 types).
+        </p>
 
-	<div class="te-toolbar">
-	  <div class="mode-toggle">
-		<label class="switch">
-		  <input id="modeToggle" type="checkbox" />
-		  <span class="slider"></span>
-		</label>
-		<div class="mode-labels">
-		  <span id="lblDef" class="on">Defense</span>
-		  <span id="lblOff">Offense</span>
-		</div>
-	  </div>
+        <!-- Main Interactive Toolbar -->
+        <div class="te-toolbar">
+            <!-- Mode Tabs (Defense vs Offense) -->
+            <div class="te-tabs">
+                <button type="button" class="te-tab-btn active" id="tabDef" onclick="setMode('def')">
+                    🛡️ Defense Matchups
+                </button>
+                <button type="button" class="te-tab-btn" id="tabOff" onclick="setMode('off')">
+                    ⚔️ Offensive Coverage
+                </button>
+            </div>
 
-	  <div class="slot-row">
-		<!-- Defense slots (3) -->
-		<div id="defSlots" class="slot-group">
-		  <span class="slot-label">Defense:</span>
-		  <button class="slot pill" id="def1" data-slot="def-0">(type 1)</button>
-		  <button class="slot pill" id="def2" data-slot="def-1">(optional)</button>
-		  <button class="slot pill" id="def3" data-slot="def-2">(optional)</button>
-		  <span class="cursor-note" id="defCursor">← filling</span>
-		</div>
+            <!-- Quick Auto-Fill Pokémon Preset Bar (Defense Only) -->
+            <div class="te-preset-bar" id="defPresetBar">
+                <div class="te-preset-input-wrap">
+                    <span class="te-preset-icon">🔍</span>
+                    <input type="text"
+                           id="pokeSearch"
+                           class="te-preset-input"
+                           list="pokemon-names-list"
+                           placeholder="Load Pokémon typing (e.g. Swampert, Tinkaton)..."
+                           autocomplete="off">
+                    <datalist id="pokemon-names-list">
+                        {% for name in all_pokemon_names %}
+                            <option value="{{ name | humanize }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
 
-		<!-- Offense slots (2) -->
-		<div id="offSlots" class="slot-group hidden">
-		  <span class="slot-label">Offense:</span>
-		  <button class="slot pill" id="off1" data-slot="off-0">(type 1)</button>
-		  <button class="slot pill" id="off2" data-slot="off-1">(optional)</button>
-		  <span class="cursor-note" id="offCursor">← filling</span>
-		</div>
-	  </div>
+                <div class="te-preset-chips">
+                    <span class="te-preset-label">Defense Presets:</span>
+                    <button type="button" class="te-preset-chip" onclick="applyDefPreset(['water', 'ground'])">Water / Ground</button>
+                    <button type="button" class="te-preset-chip" onclick="applyDefPreset(['steel', 'fairy'])">Steel / Fairy</button>
+                    <button type="button" class="te-preset-chip" onclick="applyDefPreset(['ghost', 'dark'])">Ghost / Dark</button>
+                    <button type="button" class="te-preset-chip" onclick="applyDefPreset(['normal', 'ghost'])">Normal / Ghost</button>
+                    <button type="button" class="te-preset-chip" onclick="applyDefPreset(['grass', 'ghost', 'dark'])" title="Example with Forest's Curse">3-Type Demo</button>
+                </div>
+            </div>
 
-	  <div class="apply-row">
-		<button class="button-link" id="applyBtn">Apply</button>
-		<a class="button-link" id="resetBtn" href="/type_tool">Reset</a>
-	  </div>
-	</div>
+            <!-- Offensive Coverage Presets Bar (Offense Only) -->
+            <div class="te-preset-bar hidden" id="offPresetBar">
+                <div class="te-preset-chips" style="justify-content: center; width: 100%;">
+                    <span class="te-preset-label">Offensive Presets:</span>
+                    <button type="button" class="te-preset-chip" onclick="applyOffPreset(['electric', 'ice'])">BoltBeam (Electric + Ice)</button>
+                    <button type="button" class="te-preset-chip" onclick="applyOffPreset(['ground', 'rock'])">EdgeQuake (Rock + Ground)</button>
+                    <button type="button" class="te-preset-chip" onclick="applyOffPreset(['ghost', 'fighting'])">Ghost + Fighting</button>
+                    <button type="button" class="te-preset-chip" onclick="applyOffPreset(['fire', 'water', 'grass'])">Elemental Trio</button>
+                    <button type="button" class="te-preset-chip" onclick="applyOffPreset(['ground', 'ice', 'electric', 'fire'])">4-Move Sweeper</button>
+                </div>
+            </div>
 
-	<!-- Type buttons (same look as on Pokédex) -->
-	<div class="type-links te-buttons">
-	  {% for t in all_types %}
-		<button type="button"
-		  class="type-label type-{{ t }}"
-		  onclick="teChoose('{{ t }}')">{{ t }}</button>
-	  {% endfor %}
-	</div>
+            <!-- Slots Selection Row -->
+            <div class="te-slots-container">
+                <!-- Defense Slots (Up to 3 types) -->
+                <div id="defSlotsGroup" class="te-slot-group">
+                    <span class="te-slot-label">🛡️ Defense Types:</span>
+                    <div class="te-slot empty" id="defSlot0" onclick="onSlotClick('def', 0)">
+                        <span class="te-slot-name">+ Type 1</span>
+                    </div>
+                    <div class="te-slot empty" id="defSlot1" onclick="onSlotClick('def', 1)">
+                        <span class="te-slot-name">+ Type 2 (opt)</span>
+                    </div>
+                    <div class="te-slot empty" id="defSlot2" onclick="onSlotClick('def', 2)">
+                        <span class="te-slot-name">+ Type 3 (opt)</span>
+                    </div>
+                </div>
 
-    <!-- Defense output -->
-    {% if defense %}
-	<section class="eff-card">
-	  <div class="eff-block">
-		<h3 class="eff-sub">Defense{% if defense_types %} ({{ defense_types|map('capitalize')|join(' / ') }}){% endif %}</h3>
-		<div class="eff-table">
+                <!-- Offense Slots (Up to 4 types) -->
+                <div id="offSlotsGroup" class="te-slot-group hidden">
+                    <span class="te-slot-label">⚔️ Move Types:</span>
+                    <div class="te-slot empty" id="offSlot0" onclick="onSlotClick('off', 0)">
+                        <span class="te-slot-name">+ Move 1</span>
+                    </div>
+                    <div class="te-slot empty" id="offSlot1" onclick="onSlotClick('off', 1)">
+                        <span class="te-slot-name">+ Move 2 (opt)</span>
+                    </div>
+                    <div class="te-slot empty" id="offSlot2" onclick="onSlotClick('off', 2)">
+                        <span class="te-slot-name">+ Move 3 (opt)</span>
+                    </div>
+                    <div class="te-slot empty" id="offSlot3" onclick="onSlotClick('off', 3)">
+                        <span class="te-slot-name">+ Move 4 (opt)</span>
+                    </div>
+                </div>
+            </div>
 
-		  {% set rows = [
-			('8× Weak To', defense['8x']),
-			('4× Weak To', defense['4x']),
-			('2× Weak To', defense['2x']),
-			('Immune To',  defense['0x']),
-			('½× Resistant To', defense['1/2x']),
-			('¼× Resistant To', defense['1/4x']),
-			('⅛× Resistant To', defense['1/8x']),
-			('Normal', defense['1x'])
-		  ] %}
+            <!-- Type Buttons Palette (Pokédex style) -->
+            <div class="te-palette">
+                {% for t in all_types %}
+                    <button type="button"
+                            class="te-type-btn type-{{ t }}"
+                            id="typeBtn-{{ t }}"
+                            onclick="chooseType('{{ t }}')">
+                        {{ t|capitalize }}
+                    </button>
+                {% endfor %}
+            </div>
 
-		  {% for label, arr in rows %}
-			{% if arr|length %}
-			<div class="eff-row">
-			  <span class="eff-label">{{ label }}</span>
-			  <div class="eff-cells">
-				{% for t in arr %}<span class="type-chip type-{{t}}">{{ t|capitalize }}</span>{% endfor %}
-			  </div>
-			</div>
-			{% endif %}
-		  {% endfor %}
+            <!-- Action Controls (Reset, Share Link) -->
+            <div class="te-actions">
+                <button type="button" class="te-btn-action" onclick="resetSlots()" title="Clear all slots">
+                    🔄 Reset Tool
+                </button>
+                <button type="button" class="te-btn-action" onclick="copyShareUrl()" id="btnShare" title="Copy shareable URL">
+                    🔗 Copy Link
+                </button>
+            </div>
+        </div>
 
-		</div>
-	  </div>
-	</section>
+        <!-- ================= DEFENSE VIEW ================= -->
+        <div id="defenseView">
+            <div class="te-section-header">
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800;">
+                    🛡️ Defensive Profile
+                </h2>
+                <div class="te-sub-badge" id="defHeadingBadge" title="Pokemon as {{ defense_types|map('capitalize')|join(' / ') if defense_types else 'Normal' }}">
+                    Pokemon as <strong id="defTypesLabel" style="margin-left: 4px;">{{ defense_types|map('capitalize')|join(' / ') if defense_types else 'Normal' }}</strong>
+                </div>
+            </div>
 
-    {% endif %}
+            <!-- Defensive Scorecard HUD -->
+            <div class="te-scorecard" id="defScorecard">
+                <div class="te-score-item">
+                    <div class="te-score-count score-weakness" id="scoreWeaknesses">0</div>
+                    <div class="te-score-label">Weaknesses</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-resistance" id="scoreResistances">0</div>
+                    <div class="te-score-label">Resistances</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-immunity" id="scoreImmunities">0</div>
+                    <div class="te-score-label">Immunities</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-neutral" id="scoreNeutral">0</div>
+                    <div class="te-score-label">Neutral</div>
+                </div>
+            </div>
 
-    <!-- Matching Pokémon (defense typing) -->
-    {% if matched %}
-      <div class="section-title">Pokémon with {{ defense_types|map('capitalize')|join(' / ') }}</div>
-      <div class="horizontal-scroll">
-        {% for m in matched %}
-          <a href="/pokemon/{{ m.name|lower }}" class="button-card">
-            <img src="{{ m.sprite }}" alt="{{ m.name }}">
-            <div>{{ m.name }}</div>
-          </a>
-        {% endfor %}
-      </div>
-    {% endif %}
+            <!-- Defense Effectiveness Table -->
+            <section class="eff-card">
+                <div class="eff-block">
+                    <div class="eff-table" id="defTable">
+                        {% set def_rows = [
+                            ('8x', '8× Weak To', 'mult-8x'),
+                            ('4x', '4× Weak To', 'mult-4x'),
+                            ('2x', '2× Weak To', 'mult-2x'),
+                            ('0x', '0× Immune To', 'mult-0x'),
+                            ('1/8x', '⅛× Resistant To', 'mult-eighth'),
+                            ('1/4x', '¼× Resistant To', 'mult-quarter'),
+                            ('1/2x', '½× Resistant To', 'mult-half'),
+                            ('1x', '1× Normal Damage', 'mult-1x')
+                        ] %}
 
-    <!-- Offense output -->
-    {% if offense %}
-	<section class="eff-card">
-	  <div class="eff-block">
-		<h3 class="eff-sub">Offense{% if offense_types %} (Using {{ offense_types|map('capitalize')|join(' × ') }}){% endif %}</h3>
-		<div class="eff-table">
+                        {% if defense %}
+                            {% for key, label, badge_cls in def_rows %}
+                                {% set arr = defense.get(key, []) %}
+                                {% if arr|length %}
+                                    <div class="eff-row">
+                                        <div class="eff-label" style="display: flex; align-items: center;">
+                                            <span class="eff-badge {{ badge_cls }}">{{ key }}</span>
+                                            <span>{{ label.split(' ')[1:]|join(' ') }}</span>
+                                        </div>
+                                        <div class="eff-cells">
+                                            {% for t in arr %}
+                                                <span class="type-chip type-{{ t }}">{{ t|capitalize }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
 
-		  {% set rows = [
-			('Super Effective (4×)', offense['4x']),
-			('Super Effective (2×)', offense['2x']),
-			('No Effect (0×)',     offense['0x']),
-			('Not Very (½×)',      offense['1/2x']),
-			('Not Very (¼×)',      offense['1/4x']),
-			('Normal (1×)',        offense['1x'])
-		  ] %}
+            <!-- Matching Pokémon Section with Scroll Box & Real-Time Filter -->
+            <div id="matchedSection" style="margin-top: 24px;">
+                <div class="te-section-header">
+                    <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">
+                        Pokémon with this Typing (<span id="matchedCount">{{ matched|length }}</span> found)
+                    </h3>
+                    <input type="text"
+                           id="matchedFilterInput"
+                           class="te-filter-input"
+                           placeholder="Filter these Pokémon..."
+                           oninput="filterMatchedGrid(this.value)">
+                </div>
 
-		  {% for label, arr in rows %}
-			{% if arr|length %}
-			<div class="eff-row">
-			  <span class="eff-label">{{ label }}</span>
-			  <div class="eff-cells">
-				{% for t in arr %}<span class="type-chip type-{{t}}">{{ t|capitalize }}</span>{% endfor %}
-			  </div>
-			</div>
-			{% endif %}
-		  {% endfor %}
+                <!-- Scrollable container for Pokémon cards -->
+                <div class="te-pokemon-scroll-box" id="matchedScrollBox">
+                    <div class="te-pokemon-grid" id="matchedGrid">
+                        {% for m in matched %}
+                            <div class="te-poke-card" data-name="{{ m.name|lower }}" style="position: relative;">
+                                {% if m.id %}<span class="te-poke-card-id">#{{ m.id }}</span>{% endif %}
+                                <a href="/pokemon/{{ m.raw_name }}" style="text-decoration: none; color: inherit; display: block;">
+                                    <img src="{{ m.sprite }}" alt="{{ m.name }}" loading="lazy">
+                                    <div class="te-poke-card-name">{{ m.name | humanize }}</div>
+                                    <div class="type-container" style="margin-top: 2px;">
+                                        {% for t in m.types %}
+                                            <span class="type-chip type-{{ t }}" style="font-size: 0.65rem; padding: 2px 6px;">{{ t|capitalize }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </a>
+                                <div style="margin-top: 6px;">
+                                    <a href="/teambuilder?add_pokemon={{ m.raw_name }}" class="btn-tb-xs" style="padding: 2px 8px; font-size: 0.7rem; border-radius: 4px; border: 1px solid var(--border-subtle); text-decoration: none; display: inline-block; background: var(--bg-surface);" title="Add to Teambuilder">➕ Team</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="noMatchedMsg" class="results-count {% if matched|length > 0 %}hidden{% endif %}" style="margin: 16px 0;">
+                        No known Pokémon currently has this typing. Great for theorycrafting Tera typings or moves like Forest's Curse / Trick-or-Treat!
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		</div>
-	  </div>
-	</section>
+        <!-- ================= OFFENSE VIEW ================= -->
+        <div id="offenseView" class="hidden">
+            <div class="te-section-header">
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800;">
+                    ⚔️ Offensive Coverage
+                </h2>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div class="te-coverage-switch">
+                        <button type="button" class="te-cov-btn active" id="btnCovBest" onclick="setCoverageMode('best')" title="Standard battle coverage: highest damage from any move">
+                            Best Move
+                        </button>
+                        <button type="button" class="te-cov-btn" id="btnCovDual" onclick="setCoverageMode('dual')" title="Combined move multiplication (e.g. Flying Press)">
+                            Combined Dual-Move
+                        </button>
+                    </div>
+                    <div class="te-sub-badge" id="offHeadingBadge" title="Using {{ offense_types|map('capitalize')|join(', ') }} move{% if offense_types|length > 1 %}s{% endif %}">
+                        <span id="offTypesLabel">Using {{ offense_types|map('capitalize')|join(', ') }} move{% if offense_types|length > 1 %}s{% endif %}</span>
+                    </div>
+                </div>
+            </div>
 
-    {% endif %}
+            <!-- Offense Scorecard HUD -->
+            <div class="te-scorecard" id="offScorecard">
+                <div class="te-score-item">
+                    <div class="te-score-count score-resistance" id="offScoreSuper">0</div>
+                    <div class="te-score-label">Super Effective</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-neutral" id="offScoreNeutral">0</div>
+                    <div class="te-score-label">Neutral (1×)</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-weakness" id="offScoreResisted">0</div>
+                    <div class="te-score-label">Not Very Effective</div>
+                </div>
+                <div class="te-score-item">
+                    <div class="te-score-count score-immunity" id="offScoreImmune">0</div>
+                    <div class="te-score-label">No Effect (0×)</div>
+                </div>
+            </div>
 
-    <div class="back-link">
-      <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+            <!-- Offense Effectiveness Table with Attribution -->
+            <section class="eff-card">
+                <div class="eff-block">
+                    <div class="eff-table" id="offTable">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Move-by-Move Coverage & Top Moves Breakdown -->
+            <div class="te-move-breakdown-section" id="moveBreakdownSection">
+                <div class="te-section-header">
+                    <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">
+                        ⚔️ Moveset Coverage Breakdown & Top Moves
+                    </h3>
+                </div>
+                <p class="results-count" style="margin-top: 0; margin-bottom: 12px; text-align: left;">
+                    Details the defending types super-effectively covered by each chosen move type, along with top competitive moves.
+                </p>
+                <div class="te-move-breakdown-grid" id="moveBreakdownGrid">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="back-link" style="margin-top: 30px;">
+            <a href="/pokedex" class="btn-reset" style="padding: 8px 18px; font-size: 0.88rem;">← Back to Pokédex</a>
+        </div>
     </div>
-  </div>
 
-  <script>
-	function toggleDarkMode(){
-	  const b=document.body;
-	  b.classList.toggle("dark-mode");
-	  b.classList.toggle("dark");
-	  localStorage.setItem("theme", b.classList.contains("dark-mode")||b.classList.contains("dark") ? "dark":"light");
-	}
-	window.onload=function(){
-	  const t=localStorage.getItem("theme");
-	  if(t==="dark"){ document.body.classList.add("dark-mode","dark"); }
-	}
-  </script>
-	<script>
-	  // Initial state with defaults: Water in both primary slots
-	  const allTypes = {{ all_types|tojson }};
-	  const init = {
-		def: [{{ (d1 or 'water')|tojson }}, {{ (d2 or '')|tojson }}, {{ (d3 or '')|tojson }}],
-		off: [{{ (a1 or 'water')|tojson }}, {{ (a2 or '')|tojson }}],
-	  };
-	  const state = {
-		mode: 'def',                 // 'def' or 'off'
-		idx: { def: 0, off: 0 },     // cursor per group
-		def: [...init.def],
-		off: [...init.off],
-	  };
+    <!-- Theme Toggle Script -->
+    <script>
+        function toggleDarkMode() {
+            const b = document.body;
+            b.classList.toggle("dark-mode");
+            b.classList.toggle("dark");
+            const isDark = b.classList.contains("dark-mode") || b.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            updateThemeButton(isDark);
+        }
+        function updateThemeButton(isDark) {
+            const btn = document.getElementById("dark-mode-toggle");
+            if (btn) btn.textContent = isDark ? "☀️" : "🌙";
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const isDark = localStorage.getItem("theme") === "dark";
+            if (isDark) document.body.classList.add("dark-mode", "dark");
+            updateThemeButton(isDark);
+        });
+    </script>
 
-	  const el = id => document.getElementById(id);
+    <!-- Interactive Type Tool Logic -->
+    <script>
+        // Server injected data
+        const ALL_TYPES = {{ all_types|tojson }};
+        const TYPE_MATRIX = {{ type_matrix|tojson }};
 
-	  function stripTypeClasses(button){
-		// remove any previous type-* class and the type-label helper
-		[...button.classList].forEach(c => { if (c.startsWith('type-')) button.classList.remove(c); });
-		button.classList.remove('type-label');
-	  }
+        // Curated Top Competitive Moves per Type
+        const NOTABLE_MOVES = {
+            normal: [
+                { name: "Body Slam", power: 85, cat: "Physical" },
+                { name: "Hyper Voice", power: 90, cat: "Special" },
+                { name: "Extreme Speed", power: 80, cat: "Physical" },
+                { name: "Tri Attack", power: 80, cat: "Special" }
+            ],
+            fire: [
+                { name: "Flamethrower", power: 90, cat: "Special" },
+                { name: "Fire Blast", power: 110, cat: "Special" },
+                { name: "Flare Blitz", power: 120, cat: "Physical" },
+                { name: "Heat Wave", power: 95, cat: "Special" }
+            ],
+            water: [
+                { name: "Surf", power: 90, cat: "Special" },
+                { name: "Hydro Pump", power: 110, cat: "Special" },
+                { name: "Liquidation", power: 85, cat: "Physical" },
+                { name: "Scald", power: 80, cat: "Special" }
+            ],
+            electric: [
+                { name: "Thunderbolt", power: 90, cat: "Special" },
+                { name: "Volt Switch", power: 70, cat: "Special" },
+                { name: "Wild Charge", power: 90, cat: "Physical" },
+                { name: "Thunder", power: 110, cat: "Special" }
+            ],
+            grass: [
+                { name: "Energy Ball", power: 90, cat: "Special" },
+                { name: "Leaf Storm", power: 130, cat: "Special" },
+                { name: "Wood Hammer", power: 120, cat: "Physical" },
+                { name: "Giga Drain", power: 75, cat: "Special" }
+            ],
+            ice: [
+                { name: "Ice Beam", power: 90, cat: "Special" },
+                { name: "Blizzard", power: 110, cat: "Special" },
+                { name: "Triple Axel", power: 120, cat: "Physical" },
+                { name: "Ice Spinner", power: 80, cat: "Physical" }
+            ],
+            fighting: [
+                { name: "Close Combat", power: 120, cat: "Physical" },
+                { name: "Aura Sphere", power: 80, cat: "Special" },
+                { name: "Focus Blast", power: 120, cat: "Special" },
+                { name: "Drain Punch", power: 75, cat: "Physical" }
+            ],
+            poison: [
+                { name: "Sludge Bomb", power: 90, cat: "Special" },
+                { name: "Gunk Shot", power: 120, cat: "Physical" },
+                { name: "Poison Jab", power: 80, cat: "Physical" },
+                { name: "Sludge Wave", power: 95, cat: "Special" }
+            ],
+            ground: [
+                { name: "Earthquake", power: 100, cat: "Physical" },
+                { name: "Earth Power", power: 90, cat: "Special" },
+                { name: "High Horsepower", power: 95, cat: "Physical" },
+                { name: "Scorching Sands", power: 70, cat: "Special" }
+            ],
+            flying: [
+                { name: "Brave Bird", power: 120, cat: "Physical" },
+                { name: "Air Slash", power: 75, cat: "Special" },
+                { name: "Hurricane", power: 110, cat: "Special" },
+                { name: "Acrobatics", power: 55, cat: "Physical" }
+            ],
+            psychic: [
+                { name: "Psychic", power: 90, cat: "Special" },
+                { name: "Psyshock", power: 80, cat: "Special" },
+                { name: "Expanding Force", power: 80, cat: "Special" },
+                { name: "Zen Headbutt", power: 80, cat: "Physical" }
+            ],
+            bug: [
+                { name: "Bug Buzz", power: 90, cat: "Special" },
+                { name: "U-turn", power: 70, cat: "Physical" },
+                { name: "X-Scissor", power: 80, cat: "Physical" },
+                { name: "First Impression", power: 90, cat: "Physical" }
+            ],
+            rock: [
+                { name: "Stone Edge", power: 100, cat: "Physical" },
+                { name: "Rock Slide", power: 75, cat: "Physical" },
+                { name: "Power Gem", power: 80, cat: "Special" },
+                { name: "Head Smash", power: 150, cat: "Physical" }
+            ],
+            ghost: [
+                { name: "Shadow Ball", power: 80, cat: "Special" },
+                { name: "Shadow Claw", power: 70, cat: "Physical" },
+                { name: "Poltergeist", power: 110, cat: "Physical" },
+                { name: "Hex", power: 65, cat: "Special" }
+            ],
+            dragon: [
+                { name: "Draco Meteor", power: 130, cat: "Special" },
+                { name: "Dragon Pulse", power: 85, cat: "Special" },
+                { name: "Outrage", power: 120, cat: "Physical" },
+                { name: "Dragon Claw", power: 80, cat: "Physical" }
+            ],
+            dark: [
+                { name: "Dark Pulse", power: 80, cat: "Special" },
+                { name: "Knock Off", power: 65, cat: "Physical" },
+                { name: "Crunch", power: 80, cat: "Physical" },
+                { name: "Sucker Punch", power: 70, cat: "Physical" }
+            ],
+            steel: [
+                { name: "Flash Cannon", power: 80, cat: "Special" },
+                { name: "Iron Head", power: 80, cat: "Physical" },
+                { name: "Meteor Mash", power: 90, cat: "Physical" },
+                { name: "Heavy Slam", power: 120, cat: "Physical" }
+            ],
+            fairy: [
+                { name: "Moonblast", power: 95, cat: "Special" },
+                { name: "Dazzling Gleam", power: 80, cat: "Special" },
+                { name: "Play Rough", power: 90, cat: "Physical" },
+                { name: "Spirit Break", power: 75, cat: "Physical" }
+            ]
+        };
 
-	  function paintSlot(button, typeName){
-		// reset to base slot look
-		button.className = 'slot pill';
-		stripTypeClasses(button);
+        // Application State
+        const state = {
+            mode: 'def', // 'def' or 'off'
+            targetIdx: { def: 0, off: 0 },
+            def: [
+                {{ (d1 or 'water')|tojson }},
+                {{ (d2 or '')|tojson }},
+                {{ (d3 or '')|tojson }}
+            ],
+            off: [
+                {{ (a1 or 'water')|tojson }},
+                {{ (a2 or '')|tojson }},
+                {{ (a3 or '')|tojson }},
+                {{ (a4 or '')|tojson }}
+            ],
+            covMode: 'best', // 'best' (best move) or 'dual' (multiplied)
+        };
 
-		// placeholder text
-		const isFirst = button.id.endsWith('1');
-		button.textContent = typeName ? typeName : (isFirst ? '(type 1)' : '(optional)');
+        const el = id => document.getElementById(id);
 
-		// when a type is present, color it using your existing type classes
-		if (typeName){
-		  button.classList.add('type-label', `type-${typeName}`);
-		  button.textContent = typeName; // keep lowercase to match your chips
-		}
-	  }
+        function cap(s) {
+            return s ? (s.charAt(0).toUpperCase() + s.slice(1)) : '';
+        }
 
-	  function applySlotStyles(){
-		// Defense slots
-		['def1','def2','def3'].forEach((id,i)=>paintSlot(el(id), state.def[i]));
-		// Offense slots
-		['off1','off2'].forEach((id,i)=>paintSlot(el(id), state.off[i]));
+        // ================= SLOT RENDERING =================
+        function updateSlotsUI() {
+            // Defense slots (3)
+            for (let i = 0; i < 3; i++) {
+                const slot = el(`defSlot${i}`);
+                const type = state.def[i];
+                const isActive = (state.mode === 'def' && state.targetIdx.def === i);
 
-		// cursor notes
-		el('defCursor').style.visibility = state.mode==='def' ? 'visible' : 'hidden';
-		el('offCursor').style.visibility = state.mode==='off' ? 'visible' : 'hidden';
-	  }
+                ALL_TYPES.forEach(t => slot.classList.remove(`type-${t}`));
+                slot.className = 'te-slot';
 
-	  // choose a type button
-	  window.teChoose = function(typeName){
-		const group = state.mode;
-		const cap = (group==='def' ? 3 : 2);
-		state[group][state.idx[group]] = typeName;
-		state.idx[group] = (state.idx[group] + 1) % cap; // advance cursor
-		applySlotStyles();
-	  };
+                if (isActive) slot.classList.add('active-target');
 
-	  // Clicking a slot focuses the cursor on it (and clears it)
-	  document.querySelectorAll('.slot').forEach(btn=>{
-		btn.addEventListener('click', ()=>{
-		  const [group, pos] = btn.dataset.slot.split('-'); // "def-0" or "off-1"
-		  state.mode = group;
-		  state.idx[group] = +pos;
-		  state[group][+pos] = ''; // clear this slot
-		  syncToggle();
-		  applySlotStyles();
-		});
-	  });
+                if (type) {
+                    slot.classList.add('filled', `type-${type}`);
+                    slot.innerHTML = `
+                        <span class="te-slot-name">${cap(type)}</span>
+                        <button type="button" class="te-slot-clear" onclick="event.stopPropagation(); clearSlot('def', ${i})" title="Remove ${cap(type)}">✕</button>
+                    `;
+                } else {
+                    slot.classList.add('empty');
+                    const label = i === 0 ? '+ Type 1' : (i === 1 ? '+ Type 2 (opt)' : '+ Type 3 (opt)');
+                    slot.innerHTML = `<span class="te-slot-name">${label}</span>`;
+                }
+            }
 
-	  // Toggle mode
-	  const modeToggle = el('modeToggle');
-	  modeToggle.addEventListener('change', ()=>{
-		state.mode = modeToggle.checked ? 'off' : 'def';
-		syncToggle();
-		applySlotStyles();
-	  });
+            // Offense slots (4)
+            for (let i = 0; i < 4; i++) {
+                const slot = el(`offSlot${i}`);
+                const type = state.off[i];
+                const isActive = (state.mode === 'off' && state.targetIdx.off === i);
 
-	  function syncToggle(){
-		// show/hide slot groups
-		el('defSlots').classList.toggle('hidden', state.mode!=='def');
-		el('offSlots').classList.toggle('hidden', state.mode!=='off');
-		// label emphasis
-		el('lblDef').classList.toggle('on', state.mode==='def');
-		el('lblOff').classList.toggle('on', state.mode==='off');
-	  }
+                ALL_TYPES.forEach(t => slot.classList.remove(`type-${t}`));
+                slot.className = 'te-slot';
 
-	  // Apply → build querystring with both groups (omit empties)
-	  el('applyBtn').addEventListener('click', ()=>{
-		const params = new URLSearchParams();
-		const d = state.def, o = state.off;
-		if (d[0]) params.set('d1', d[0]); if (d[1]) params.set('d2', d[1]); if (d[2]) params.set('d3', d[2]);
-		if (o[0]) params.set('a1', o[0]); if (o[1]) params.set('a2', o[1]);
-		const url = '/type_tool' + (params.toString() ? ('?' + params.toString()) : '');
-		location.href = url;
-	  });
+                if (isActive) slot.classList.add('active-target');
 
-	  // Initialize view based on current query/defaults
-	  (function initUI(){
-		modeToggle.checked = false; // checkbox OFF → Defense by default
-		state.mode = 'def';
-		syncToggle();
-		applySlotStyles();
-	  })();
-	</script>
+                if (type) {
+                    slot.classList.add('filled', `type-${type}`);
+                    slot.innerHTML = `
+                        <span class="te-slot-name">${cap(type)}</span>
+                        <button type="button" class="te-slot-clear" onclick="event.stopPropagation(); clearSlot('off', ${i})" title="Remove ${cap(type)}">✕</button>
+                    `;
+                } else {
+                    slot.classList.add('empty');
+                    const label = i === 0 ? '+ Move 1' : `+ Move ${i + 1} (opt)`;
+                    slot.innerHTML = `<span class="te-slot-name">${label}</span>`;
+                }
+            }
 
-  
-  
+            // Highlight in-use palette buttons
+            const activeTypes = (state.mode === 'def' ? state.def : state.off).filter(Boolean);
+            ALL_TYPES.forEach(t => {
+                const btn = el(`typeBtn-${t}`);
+                if (btn) btn.classList.toggle('in-use', activeTypes.includes(t));
+            });
+        }
+
+        // ================= MODE SWITCHING =================
+        function setMode(mode) {
+            state.mode = mode;
+            el('tabDef').classList.toggle('active', mode === 'def');
+            el('tabOff').classList.toggle('active', mode === 'off');
+
+            // Toggle appropriate preset bar
+            el('defPresetBar').classList.toggle('hidden', mode !== 'def');
+            el('offPresetBar').classList.toggle('hidden', mode !== 'off');
+
+            el('defSlotsGroup').classList.toggle('hidden', mode !== 'def');
+            el('offSlotsGroup').classList.toggle('hidden', mode !== 'off');
+
+            el('defenseView').classList.toggle('hidden', mode !== 'def');
+            el('offenseView').classList.toggle('hidden', mode !== 'off');
+
+            updateSlotsUI();
+            recalc();
+        }
+
+        function setCoverageMode(cov) {
+            state.covMode = cov;
+            el('btnCovBest').classList.toggle('active', cov === 'best');
+            el('btnCovDual').classList.toggle('active', cov === 'dual');
+            recalcOffense();
+        }
+
+        // ================= SLOT INTERACTION =================
+        function onSlotClick(mode, idx) {
+            state.mode = mode;
+            state.targetIdx[mode] = idx;
+            updateSlotsUI();
+        }
+
+        function chooseType(typeName) {
+            const m = state.mode;
+            const capLimit = m === 'def' ? 3 : 4;
+
+            // Place type in current target slot
+            state[m][state.targetIdx[m]] = typeName;
+
+            // Advance target cursor to next empty slot or loop
+            let nextEmpty = -1;
+            for (let i = 0; i < capLimit; i++) {
+                if (!state[m][i]) { nextEmpty = i; break; }
+            }
+            state.targetIdx[m] = nextEmpty !== -1 ? nextEmpty : ((state.targetIdx[m] + 1) % capLimit);
+
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        function clearSlot(mode, idx) {
+            state[mode][idx] = '';
+            state.targetIdx[mode] = idx;
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        function resetSlots() {
+            state.def = ['water', '', ''];
+            state.off = ['water', '', '', ''];
+            state.targetIdx = { def: 0, off: 0 };
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        function applyDefPreset(types) {
+            state.mode = 'def';
+            state.def = ['', '', ''];
+            types.forEach((t, i) => { if (i < 3) state.def[i] = t; });
+            state.targetIdx.def = types.length < 3 ? types.length : 0;
+            setMode('def');
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        function applyOffPreset(types) {
+            state.mode = 'off';
+            state.off = ['', '', '', ''];
+            types.forEach((t, i) => { if (i < 4) state.off[i] = t; });
+            state.targetIdx.off = types.length < 4 ? types.length : 0;
+            setMode('off');
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        // ================= AUTO-FILL FROM POKÉMON (DEFENSE) =================
+        const pokeSearch = el('pokeSearch');
+        if (pokeSearch) {
+            pokeSearch.addEventListener('change', async () => {
+                const val = pokeSearch.value.trim().toLowerCase();
+                if (!val) return;
+                try {
+                    const res = await fetch(`/api/pokemon_types/${encodeURIComponent(val)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.types && data.types.length) {
+                            state.mode = 'def';
+                            state.def = ['', '', ''];
+                            data.types.forEach((t, i) => { if (i < 3) state.def[i] = t; });
+                            state.targetIdx.def = data.types.length < 3 ? data.types.length : 0;
+                            setMode('def');
+                            updateSlotsUI();
+                            recalc();
+                            syncUrl();
+                            pokeSearch.value = '';
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error fetching pokemon types:', err);
+                }
+            });
+        }
+
+        // ================= MATH & RECALCULATION =================
+        function multVs(atk, defn) {
+            if (TYPE_MATRIX[atk] && typeof TYPE_MATRIX[atk][defn] === 'number') {
+                return TYPE_MATRIX[atk][defn];
+            }
+            return 1.0;
+        }
+
+        function recalc() {
+            recalcDefense();
+            recalcOffense();
+        }
+
+        // --- DEFENSE CALCULATION ---
+        function recalcDefense() {
+            const defTypes = state.def.filter(Boolean);
+            const activeDefs = defTypes.length > 0 ? defTypes : ['normal'];
+
+            // Tooltip and Heading formatted as: Pokemon as [types]
+            const typesFormatted = activeDefs.map(cap).join(' / ');
+            const headingText = `Pokemon as ${typesFormatted}`;
+            el('defTypesLabel').textContent = typesFormatted;
+            el('defHeadingBadge').title = headingText;
+
+            const buckets = {
+                '8x': [], '4x': [], '2x': [],
+                '0x': [],
+                '1/8x': [], '1/4x': [], '1/2x': [],
+                '1x': []
+            };
+
+            ALL_TYPES.forEach(atk => {
+                let mult = 1.0;
+                for (const d of activeDefs) {
+                    mult *= multVs(atk, d);
+                    if (mult === 0) break;
+                }
+
+                if (mult >= 7.9) buckets['8x'].push(atk);
+                else if (mult >= 3.9) buckets['4x'].push(atk);
+                else if (mult >= 1.9) buckets['2x'].push(atk);
+                else if (mult === 0) buckets['0x'].push(atk);
+                else if (mult <= 0.13) buckets['1/8x'].push(atk);
+                else if (mult <= 0.26) buckets['1/4x'].push(atk);
+                else if (mult <= 0.51) buckets['1/2x'].push(atk);
+                else buckets['1x'].push(atk);
+            });
+
+            // Scorecard
+            const weakCount = buckets['8x'].length + buckets['4x'].length + buckets['2x'].length;
+            const resCount = buckets['1/8x'].length + buckets['1/4x'].length + buckets['1/2x'].length;
+            const immCount = buckets['0x'].length;
+            const neutCount = buckets['1x'].length;
+
+            el('scoreWeaknesses').textContent = weakCount;
+            el('scoreResistances').textContent = resCount;
+            el('scoreImmunities').textContent = immCount;
+            el('scoreNeutral').textContent = neutCount;
+
+            const rowsMeta = [
+                { key: '8x', label: 'Weak To', cls: 'mult-8x' },
+                { key: '4x', label: 'Weak To', cls: 'mult-4x' },
+                { key: '2x', label: 'Weak To', cls: 'mult-2x' },
+                { key: '0x', label: 'Immune To', cls: 'mult-0x' },
+                { key: '1/8x', label: 'Resistant To', cls: 'mult-eighth' },
+                { key: '1/4x', label: 'Resistant To', cls: 'mult-quarter' },
+                { key: '1/2x', label: 'Resistant To', cls: 'mult-half' },
+                { key: '1x', label: 'Normal Damage', cls: 'mult-1x' },
+            ];
+
+            let html = '';
+            rowsMeta.forEach(r => {
+                const arr = buckets[r.key];
+                if (arr && arr.length) {
+                    const chips = arr.map(t => `<span class="type-chip type-${t}">${cap(t)}</span>`).join('');
+                    html += `
+                        <div class="eff-row">
+                            <div class="eff-label" style="display: flex; align-items: center;">
+                                <span class="eff-badge ${r.cls}">${r.key}</span>
+                                <span>${r.label}</span>
+                            </div>
+                            <div class="eff-cells">${chips}</div>
+                        </div>
+                    `;
+                }
+            });
+            el('defTable').innerHTML = html;
+
+            fetchMatchingPokemon(activeDefs);
+        }
+
+        // --- OFFENSE CALCULATION WITH COVERAGE BREAKDOWN ---
+        function recalcOffense() {
+            const offTypes = state.off.filter(Boolean);
+            const activeOffs = offTypes.length > 0 ? offTypes : ['normal'];
+
+            // Tooltip and Heading formatted as: Using [type] move / Using [types] moves
+            let typesFormatted = '';
+            if (activeOffs.length === 1) {
+                typesFormatted = cap(activeOffs[0]);
+            } else if (activeOffs.length === 2) {
+                typesFormatted = `${cap(activeOffs[0])} & ${cap(activeOffs[1])}`;
+            } else {
+                typesFormatted = activeOffs.slice(0, -1).map(cap).join(', ') + ' & ' + cap(activeOffs[activeOffs.length - 1]);
+            }
+
+            const suffix = activeOffs.length > 1 ? 'moves' : 'move';
+            const headingText = `Using ${typesFormatted} ${suffix}`;
+            el('offTypesLabel').textContent = headingText;
+            el('offHeadingBadge').title = headingText;
+
+            const buckets = {
+                '4x': [], '2x': [], '1x': [], '1/2x': [], '1/4x': [], '0x': []
+            };
+
+            // Track attribution: which moves hit which defender for > 1x or best mult
+            const defenderCoverage = {};
+
+            ALL_TYPES.forEach(defn => {
+                let mult = 1.0;
+                let hitByMoves = [];
+
+                if (state.covMode === 'best') {
+                    // Find max mult and which moves deal super effective or max damage
+                    let best = 0;
+                    activeOffs.forEach(atk => {
+                        const m = multVs(atk, defn);
+                        if (m > best) best = m;
+                        if (m >= 1.9) {
+                            hitByMoves.push({ type: atk, mult: m });
+                        }
+                    });
+                    mult = best;
+                } else {
+                    // Dual/multi move multiplication
+                    activeOffs.forEach(atk => {
+                        mult *= multVs(atk, defn);
+                        const singleM = multVs(atk, defn);
+                        if (singleM >= 1.9) {
+                            hitByMoves.push({ type: atk, mult: singleM });
+                        }
+                    });
+                }
+
+                defenderCoverage[defn] = hitByMoves;
+
+                if (mult >= 3.9) buckets['4x'].push(defn);
+                else if (mult >= 1.9) buckets['2x'].push(defn);
+                else if (mult === 0) buckets['0x'].push(defn);
+                else if (mult <= 0.26) buckets['1/4x'].push(defn);
+                else if (mult <= 0.51) buckets['1/2x'].push(defn);
+                else buckets['1x'].push(defn);
+            });
+
+            // Scorecard
+            const superCount = buckets['4x'].length + buckets['2x'].length;
+            const neutCount = buckets['1x'].length;
+            const resCount = buckets['1/2x'].length + buckets['1/4x'].length;
+            const immCount = buckets['0x'].length;
+
+            el('offScoreSuper').textContent = superCount;
+            el('offScoreNeutral').textContent = neutCount;
+            el('offScoreResisted').textContent = resCount;
+            el('offScoreImmune').textContent = immCount;
+
+            const rowsMeta = [
+                { key: '4x', label: 'Super Effective (4×)', cls: 'mult-4x' },
+                { key: '2x', label: 'Super Effective (2×)', cls: 'mult-2x' },
+                { key: '1x', label: 'Neutral (1×)', cls: 'mult-1x' },
+                { key: '1/2x', label: 'Not Very Effective (½×)', cls: 'mult-half' },
+                { key: '1/4x', label: 'Not Very Effective (¼×)', cls: 'mult-quarter' },
+                { key: '0x', label: 'No Effect (0×)', cls: 'mult-0x' },
+            ];
+
+            let html = '';
+            rowsMeta.forEach(r => {
+                const arr = buckets[r.key];
+                if (arr && arr.length) {
+                    const cells = arr.map(defn => {
+                        const hits = defenderCoverage[defn] || [];
+                        let hitTags = '';
+                        if (hits.length > 0 && (r.key === '4x' || r.key === '2x')) {
+                            const chips = hits.map(h => `<span class="te-hit-by-chip type-${h.type}">${cap(h.type)}</span>`).join('');
+                            hitTags = `<div class="te-hit-by-list" title="Covered by">${chips}</div>`;
+                        }
+                        return `
+                            <div class="te-cov-target-wrap">
+                                <span class="type-chip type-${defn}">${cap(defn)}</span>
+                                ${hitTags}
+                            </div>
+                        `;
+                    }).join('');
+
+                    html += `
+                        <div class="eff-row">
+                            <div class="eff-label" style="display: flex; align-items: center;">
+                                <span class="eff-badge ${r.cls}">${r.key}</span>
+                                <span>${r.label}</span>
+                            </div>
+                            <div class="eff-cells">${cells}</div>
+                        </div>
+                    `;
+                }
+            });
+            el('offTable').innerHTML = html;
+
+            // Render Move-by-Move Coverage Breakdown Cards
+            renderMoveBreakdown(activeOffs);
+        }
+
+        function renderMoveBreakdown(activeOffs) {
+            const grid = el('moveBreakdownGrid');
+            if (!grid) return;
+
+            let cardsHtml = '';
+            activeOffs.forEach((mType, idx) => {
+                // Find all defender types this move covers super-effectively (2x)
+                const coveredTypes = ALL_TYPES.filter(d => multVs(mType, d) >= 1.9);
+                const coveredChips = coveredTypes.length > 0
+                    ? coveredTypes.map(t => `<span class="type-chip type-${t}" style="font-size: 0.72rem; padding: 2px 7px;">${cap(t)}</span>`).join(' ')
+                    : '<span style="color: var(--text-muted); font-size: 0.8rem;">None</span>';
+
+                // Top notable moves
+                const moves = NOTABLE_MOVES[mType] || [];
+                const movePills = moves.map(m => `
+                    <span class="te-move-pill" title="${m.cat}">
+                        ${m.name} <span class="te-move-power">${m.power}</span>
+                    </span>
+                `).join('');
+
+                cardsHtml += `
+                    <div class="te-move-card">
+                        <div class="te-move-card-header">
+                            <span class="te-move-slot-tag">Move Slot ${idx + 1}</span>
+                            <span class="type-chip type-${mType}" style="font-size: 0.82rem; padding: 4px 12px;">${cap(mType)}</span>
+                        </div>
+
+                        <div class="te-move-covers-row">
+                            <div class="te-move-covers-title">
+                                🎯 Super Effective Against (<strong>${coveredTypes.length}</strong> types):
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+                                ${coveredChips}
+                            </div>
+                        </div>
+
+                        <div class="te-notable-moves">
+                            <div class="te-notable-moves-title">⭐ Top In-Game Moves:</div>
+                            <div class="te-notable-moves-list">
+                                ${movePills}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = cardsHtml;
+        }
+
+        // --- ASYNC MATCHING POKEMON FETCH & REAL-TIME FILTER ---
+        let allCurrentMatched = [];
+        let fetchTimer = null;
+
+        function fetchMatchingPokemon(types) {
+            clearTimeout(fetchTimer);
+            fetchTimer = setTimeout(async () => {
+                try {
+                    const res = await fetch(`/api/pokemon_by_types?types=${encodeURIComponent(types.join(','))}`);
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    allCurrentMatched = data.pokemon || [];
+                    renderMatchedPokemon(allCurrentMatched, data.total || 0);
+                    // Clear search filter input when type changes
+                    const filterInput = el('matchedFilterInput');
+                    if (filterInput) filterInput.value = '';
+                } catch (err) {
+                    console.error('Failed to fetch matching pokemon:', err);
+                }
+            }, 100);
+        }
+
+        function renderMatchedPokemon(list, total) {
+            const countEl = el('matchedCount');
+            const gridEl = el('matchedGrid');
+            const noMsgEl = el('noMatchedMsg');
+
+            if (countEl) countEl.textContent = total;
+
+            if (!list || list.length === 0) {
+                if (gridEl) gridEl.innerHTML = '';
+                if (noMsgEl) noMsgEl.classList.remove('hidden');
+                return;
+            }
+
+            if (noMsgEl) noMsgEl.classList.add('hidden');
+            let cardsHtml = '';
+            list.forEach(p => {
+                const idTag = p.id ? `<span class="te-poke-card-id">#${p.id}</span>` : '';
+                const typeChips = (p.types || []).map(t => `<span class="type-chip type-${t}" style="font-size: 0.65rem; padding: 2px 6px;">${cap(t)}</span>`).join('');
+                cardsHtml += `
+                    <div class="te-poke-card" data-name="${p.name.toLowerCase()}" style="position: relative;">
+                        ${idTag}
+                        <a href="/pokemon/${p.raw_name}" style="text-decoration: none; color: inherit; display: block;">
+                            <img src="${p.sprite}" alt="${p.name}" loading="lazy">
+                            <div class="te-poke-card-name">${p.name}</div>
+                            <div class="type-container" style="margin-top: 2px;">${typeChips}</div>
+                        </a>
+                        <div style="margin-top: 6px;">
+                            <a href="/teambuilder?add_pokemon=${p.raw_name}" class="btn-tb-xs" style="padding: 2px 8px; font-size: 0.7rem; border-radius: 4px; border: 1px solid var(--border-subtle); text-decoration: none; display: inline-block; background: var(--bg-surface);" title="Add to Teambuilder">➕ Team</a>
+                        </div>
+                    </div>
+                `;
+            });
+            if (gridEl) gridEl.innerHTML = cardsHtml;
+        }
+
+        function filterMatchedGrid(query) {
+            const q = query.trim().toLowerCase();
+            const cards = document.querySelectorAll('#matchedGrid .te-poke-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const name = card.dataset.name || '';
+                const match = !q || name.includes(q);
+                card.style.display = match ? 'flex' : 'none';
+                if (match) visibleCount++;
+            });
+            const countEl = el('matchedCount');
+            if (countEl) {
+                countEl.textContent = q ? `${visibleCount} of ${allCurrentMatched.length}` : allCurrentMatched.length;
+            }
+        }
+
+        // ================= URL SYNC & SHARING =================
+        function syncUrl() {
+            const params = new URLSearchParams();
+            const d = state.def.filter(Boolean);
+            const a = state.off.filter(Boolean);
+
+            if (d[0]) params.set('d1', d[0]);
+            if (d[1]) params.set('d2', d[1]);
+            if (d[2]) params.set('d3', d[2]);
+
+            if (a[0]) params.set('a1', a[0]);
+            if (a[1]) params.set('a2', a[1]);
+            if (a[2]) params.set('a3', a[2]);
+            if (a[3]) params.set('a4', a[3]);
+
+            const query = params.toString();
+            const newUrl = window.location.pathname + (query ? ('?' + query) : '');
+            window.history.replaceState({}, '', newUrl);
+        }
+
+        function copyShareUrl() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = el('btnShare');
+                const prev = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => { btn.textContent = prev; }, 1800);
+            });
+        }
+
+        function randomizeTypeTool() {
+            // 50% chance for defense, 50% for offense
+            const isDef = Math.random() < 0.5;
+            const shuffled = [...ALL_TYPES].sort(() => 0.5 - Math.random());
+            if (isDef) {
+                // Pick 1 to 2 types (or occasionally 3 for Tera / Forest's Curse)
+                const count = Math.random() < 0.7 ? 2 : (Math.random() < 0.6 ? 1 : 3);
+                const picked = shuffled.slice(0, count);
+                state.def = [picked[0] || null, picked[1] || null, picked[2] || null];
+                state.targetIdx.def = Math.min(count, 2);
+                setMode('def');
+            } else {
+                // Pick 2 to 4 offensive move types
+                const count = Math.floor(Math.random() * 3) + 2; // 2, 3, or 4
+                const picked = shuffled.slice(0, count);
+                state.off = [picked[0] || null, picked[1] || null, picked[2] || null, picked[3] || null];
+                state.targetIdx.off = Math.min(count, 3);
+                setMode('off');
+            }
+            updateSlotsUI();
+            recalc();
+            syncUrl();
+        }
+
+        // ================= INITIALIZATION =================
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('random') === 'true') {
+                randomizeTypeTool();
+                return;
+            }
+            updateSlotsUI();
+            recalc();
+        });
+    </script>
 </body>
 </html>

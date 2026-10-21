@@ -1,191 +1,325 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ p.name }} - Details</title>
+    <title>{{ p.name | humanize }} - Details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .dex-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        .dex-game-select {
+            padding: 4px 8px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: inherit;
+            cursor: pointer;
+        }
+        .dark-mode .dex-game-select,
+        .dark .dex-game-select {
+            background-color: #2b2b2b;
+            color: #f1f1f1;
+            border-color: #444;
+        }
+        .dex-fallback-notice {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+        .dark-mode .dex-fallback-notice,
+        .dark .dex-fallback-notice {
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="toggleDarkMode()" id="dark-mode-toggle">🌙 Dark Mode</button>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=pokemon" class="btn-nav" title="View random Pokémon">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
 
     <div class="container">
-        <!-- header: id + sprites -->
-        <div class="pokemon-header">
-            <div class="pokemon-id">#{{ "%03d"|format(p.id) }}</div>
-            <div class="sprite-pair">
-                <img src="{{ p.sprite }}" alt="{{ p.name }} (normal)" class="pokemon-img extra-large">
-                <img src="{{ p.shiny_sprite }}" alt="{{ p.name }} (shiny)" class="pokemon-img extra-large">
+        <!-- Subheader Navigation & ID -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <a href="/pokedex" class="btn-reset" style="padding: 6px 14px; font-size: 0.82rem;">← Back to Pokédex</a>
+                <a href="/type_tool?pokemon={{ p.name | lower }}&defense={{ p.types | join(',') }}" class="btn-reset" style="padding: 6px 14px; font-size: 0.82rem; border-color: rgba(59, 130, 246, 0.4); color: #3b82f6;" target="_blank">🛡️ Type Tool</a>
+                <a href="/teambuilder?add_pokemon={{ p.name | lower }}" class="btn-reset" style="padding: 6px 14px; font-size: 0.82rem; border-color: rgba(16, 185, 129, 0.4); color: #10b981;">➕ Add to Teambuilder</a>
+            </div>
+            <span class="pokemon-id" style="position: static; font-size: 0.88rem; padding: 4px 10px;">#{{ "%03d"|format(p.id) }}</span>
+        </div>
+
+        <!-- Clean Hero Card -->
+        <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 20px;">
+            <h1 class="pokemon-name" style="margin: 0 0 6px;">{{ p.name | humanize }}</h1>
+            <div class="type-container large" style="margin-bottom: 16px;">
+                {% for t in p.types %}
+                    <span class="type-label type-{{ t }} large">{{ t }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="sprite-pair" style="display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <img src="{{ p.sprite }}" alt="{{ p.name }} (normal)" class="pokemon-img extra-large" style="width: 200px; height: 200px;">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-top: 4px;">Official Artwork</div>
+                </div>
+                {% if p.shiny_sprite %}
+                <div style="text-align: center;">
+                    <img src="{{ p.shiny_sprite }}" alt="{{ p.name }} (shiny)" class="pokemon-img extra-large shiny" style="width: 200px; height: 200px;">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-top: 4px;">✨ Shiny Variant</div>
+                </div>
+                {% endif %}
             </div>
         </div>
 
-        <h1 class="pokemon-name">{{ p.name }}</h1>
-
-        <!-- types + abilities -->
-        <div class="type-container large">
-            {% for t in p.types %}
-                <span class="type-label type-{{ t }} large">{{ t }}</span>
-            {% endfor %}
-        </div>
-
-        <div class="ability-tags">
-            {% for ab in p.abilities %}
-                <span class="type-label type-{{ p.types[0]|lower }}">{{ ab }}</span>
-            {% endfor %}
-        </div>
-
-        <!-- flavor text -->
-        <div class="description-box">
-            <p>{{ p.description }}</p>
-        </div>
-
-		<!-- stats + basic info -->
-		{% set base_total = p.stats.values() | sum %}
-		<div class="stats-and-info">
-		  <div>
-			<div class="subsection-title">Base Stats (Total = {{ base_total }})</div>
-			<div class="stats-bar">
-			  {% for stat, value in p.stats.items() %}
-				<div class="stat-row">
-				  <span class="stat-name">{{ stat|labelize }}</span>
-				  <div class="stat-bar-bg">
-					<div class="stat-bar-fill" style="width: {{ (value / 256) * 100 }}%; background-color: {{ p.stat_colors[stat] }}"></div>
-				  </div>
-				  <span class="stat-value">{{ value }}</span>
+        <!-- Interactive Ability Card (Mirrors Pokédex Entry Card) -->
+		<div class="description-box" style="margin-bottom: 16px;">
+			<div class="dex-entry-header">
+				<strong>Ability</strong>
+				<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+					{% for ab in p.abilities %}
+						<button type="button" 
+								class="ability-pill-btn type-label type-{{ p.types[0]|lower }} {% if loop.first %}active{% endif %}"
+								data-index="{{ loop.index0 }}"
+								onclick="switchAbility(this, {{ loop.index0 }})">
+							{{ ab.name | humanize }}
+							{% if ab.is_hidden %}
+								<span class="hidden-tag">Hidden</span>
+							{% endif %}
+						</button>
+					{% endfor %}
 				</div>
-			  {% endfor %}
 			</div>
-		  </div>
 
-		  <div>
-			<div class="subsection-title">Info</div>
-			<div class="info-table">
-			  <table class="kv">
-				<tr><td>Height</td><td>{{ p.height }} dm</td></tr>
-				<tr><td>Weight</td><td>{{ p.weight }} hg</td></tr>
-				<tr><td>Base XP</td><td>{{ p.base_experience }}</td></tr>
-				<tr><td>Egg Groups</td><td>{{ p.egg_groups | map('labelize') | join(', ') }}</td></tr>
-			  </table>
-			</div>
-		  </div>
+			<p id="abilityEffectDisplay" style="margin-top: 8px; margin-bottom: 0; line-height: 1.45;">
+				{% if p.abilities %}
+					{{ p.abilities[0].description }}
+				{% else %}
+					No ability information available.
+				{% endif %}
+			</p>
+
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                <a id="abilityDetailLink"
+                   href="{% if p.abilities %}/ability/{{ p.abilities[0].raw_name }}{% else %}#{% endif %}"
+                   class="btn-reset"
+                   style="padding: 4px 12px; font-size: 0.78rem; text-decoration: none;">
+                    ✨ View in AbilityDex →
+                </a>
+            </div>
 		</div>
 
-		<!-- type effectiveness (defense) -->
-		<section class="eff-card">
-		  <h2 class="eff-title">Type Effectiveness</h2>
+        <!-- interactive flavor text -->
+        <div class="description-box">
+            <div class="dex-entry-header">
+                <strong>Pokédex Entry</strong>
 
-		  <div class="eff-block">
-			<h3 class="eff-sub">Defense</h3>
-			<div class="eff-table">
-			  <div class="eff-row">
-				<span class="eff-label">Weak To</span>
-				<div class="eff-cells">
-				  {% set shown = false %}
-				  {% for t in p.all_types %}
-					{% set m = p.effectiveness.defense[t] %}
-					{% if m in [2,4] %}
-					  {% set shown = true %}
-					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ m|int }}×</b></span>
-					{% endif %}
-				  {% endfor %}
-				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-				</div>
-			  </div>
+                {% if p.descriptions and p.descriptions|length > 1 %}
+                    <div>
+                        <label for="gameSelect" style="font-size: 0.85rem; margin-right: 4px;">Game:</label>
+                        <select id="gameSelect" class="dex-game-select" onchange="updateFlavorText(this)">
+                            {% for entry in p.descriptions %}
+                                <option value="{{ loop.index0 }}" {% if loop.first %}selected{% endif %}>
+                                    {{ entry.game }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% elif p.descriptions %}
+                    <span class="type-chip type-{{ p.types[0]|lower }}">{{ p.descriptions[0].game }}</span>
+                {% endif %}
+            </div>
 
-			  <div class="eff-row">
-				<span class="eff-label">Immune To</span>
-				<div class="eff-cells">
-				  {% set shown = false %}
-				  {% for t in p.all_types %}
-					{% if p.effectiveness.defense[t] == 0 %}
-					  {% set shown = true %}
-					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>0×</b></span>
-					{% endif %}
-				  {% endfor %}
-				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-				</div>
-			  </div>
+            {% if not p.is_form_specific and not p.is_default %}
+                <div class="dex-fallback-notice">
+                    * Showing base species entry (form-specific entry not yet available in PokéAPI)
+                </div>
+            {% endif %}
 
-			  <div class="eff-row">
-				<span class="eff-label">Resistant To</span>
-				<div class="eff-cells">
-				  {% set shown = false %}
-				  {% for t in p.all_types %}
-					{% set m = p.effectiveness.defense[t] %}
-					{% if m in [0.5,0.25] %}
-					  {% set shown = true %}
-					  <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ '½×' if m==0.5 else '¼×' }}</b></span>
-					{% endif %}
-				  {% endfor %}
-				  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-				</div>
-			  </div>
+            <p id="flavorTextDisplay" style="font-style: italic; margin-top: 4px;">
+                {% if p.descriptions %}
+                    "{{ p.descriptions[0].flavor_text }}"
+                {% else %}
+                    {{ p.description }}
+                {% endif %}
+            </p>
+        </div>
 
-			  <details class="eff-row eff-muted">
-				<summary class="eff-label">Normal</summary>
-				<div class="eff-cells">
-				  {% for t in p.all_types if p.effectiveness.defense[t] == 1 %}
-					<span class="type-chip type-{{ t }}">{{ t|labelize }} <b>1×</b></span>
-				  {% endfor %}
-				</div>
-			  </details>
-			</div>
-		  </div>
+        <!-- stats + basic info -->
+        {% set base_total = p.stats.values() | sum %}
+        <div class="stats-and-info">
+          <div>
+            <div class="subsection-title">Base Stats (Total = {{ base_total }})</div>
+            <div class="stats-bar">
+              {% for stat, value in p.stats.items() %}
+                <div class="stat-row">
+                  <span class="stat-name">{{ stat|labelize }}</span>
+                  <div class="stat-bar-bg">
+                    <div class="stat-bar-fill" style="width: {{ (value / 256) * 100 }}%; background-color: {{ p.stat_colors[stat] }}"></div>
+                  </div>
+                  <span class="stat-value">{{ value }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
 
-			<!-- type effectiveness (offense) -->
-			<h3 class="eff-sub" style="margin-top:8px;">Offense</h3>
-			{% for mtype, row in p.effectiveness.offense.items() %}
-			  <div class="eff-block">
-				<div class="eff-mtype-head">Using <span class="type-chip type-{{ mtype }}">{{ mtype|labelize }}</span></div>
-				<div class="eff-table">
-				  <div class="eff-row">
-					<span class="eff-label">Super Effective</span>
-					<div class="eff-cells">
-					  {% set shown = false %}
-					  {% for d in p.all_types if row[d] == 2 %}
-						{% set shown = true %}
-						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>2×</b></span>
-					  {% endfor %}
-					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-					</div>
-				  </div>
+          <div>
+            <div class="subsection-title">Info</div>
+            <div class="info-table">
+              <table class="kv">
+                <tr><td>Height</td><td>{{ p.height }} dm</td></tr>
+                <tr><td>Weight</td><td>{{ p.weight }} hg</td></tr>
+                <tr><td>Base XP</td><td>{{ p.base_experience }}</td></tr>
+                <tr><td>Egg Groups</td><td>{{ p.egg_groups | map('labelize') | join(', ') }}</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
 
-				  <div class="eff-row">
-					<span class="eff-label">No Effect</span>
-					<div class="eff-cells">
-					  {% set shown = false %}
-					  {% for d in p.all_types if row[d] == 0 %}
-						{% set shown = true %}
-						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>0×</b></span>
-					  {% endfor %}
-					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-					</div>
-				  </div>
+        <!-- type effectiveness (defense) -->
+        <section class="eff-card">
+          <h2 class="eff-title">Type Effectiveness</h2>
 
-				  <div class="eff-row">
-					<span class="eff-label">Not Very</span>
-					<div class="eff-cells">
-					  {% set shown = false %}
-					  {% for d in p.all_types if row[d] == 0.5 %}
-						{% set shown = true %}
-						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>½×</b></span>
-					  {% endfor %}
-					  {% if not shown %}<span class="eff-none">—</span>{% endif %}
-					</div>
-				  </div>
+          <div class="eff-block">
+            <h3 class="eff-sub">Defense</h3>
+            <div class="eff-table">
+              <div class="eff-row">
+                <span class="eff-label">Weak To</span>
+                <div class="eff-cells">
+                  {% set shown = false %}
+                  {% for t in p.all_types %}
+                    {% set m = p.effectiveness.defense[t] %}
+                    {% if m in [2,4] %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ m|int }}×</b></span>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                </div>
+              </div>
 
-				  <details class="eff-row eff-muted">
-					<summary class="eff-label">Normal</summary>
-					<div class="eff-cells">
-					  {% for d in p.all_types if row[d] == 1 %}
-						<span class="type-chip type-{{ d }}">{{ d|labelize }} <b>1×</b></span>
-					  {% endfor %}
-					</div>
-				  </details>
-				</div>
-			  </div>
-			{% endfor %}
+              <div class="eff-row">
+                <span class="eff-label">Immune To</span>
+                <div class="eff-cells">
+                  {% set shown = false %}
+                  {% for t in p.all_types %}
+                    {% if p.effectiveness.defense[t] == 0 %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>0×</b></span>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                </div>
+              </div>
 
-		</section>
+              <div class="eff-row">
+                <span class="eff-label">Resistant To</span>
+                <div class="eff-cells">
+                  {% set shown = false %}
+                  {% for t in p.all_types %}
+                    {% set m = p.effectiveness.defense[t] %}
+                    {% if m in [0.5,0.25] %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>{{ '½×' if m==0.5 else '¼×' }}</b></span>
+                    {% endif %}
+                  {% endfor %}
+                  {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                </div>
+              </div>
 
+              <details class="eff-row eff-muted">
+                <summary class="eff-label">Normal</summary>
+                <div class="eff-cells">
+                  {% for t in p.all_types if p.effectiveness.defense[t] == 1 %}
+                    <span class="type-chip type-{{ t }}">{{ t|labelize }} <b>1×</b></span>
+                  {% endfor %}
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <!-- type effectiveness (offense) -->
+          <h3 class="eff-sub" style="margin-top:8px;">Offense</h3>
+          {% for mtype, row in p.effectiveness.offense.items() %}
+            <div class="eff-block">
+              <div class="eff-mtype-head">Using <span class="type-chip type-{{ mtype }}">{{ mtype|labelize }}</span></div>
+              <div class="eff-table">
+                <div class="eff-row">
+                  <span class="eff-label">Super Effective</span>
+                  <div class="eff-cells">
+                    {% set shown = false %}
+                    {% for d in p.all_types if row[d] == 2 %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ d }}">{{ d|labelize }} <b>2×</b></span>
+                    {% endfor %}
+                    {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                  </div>
+                </div>
+
+                <div class="eff-row">
+                  <span class="eff-label">No Effect</span>
+                  <div class="eff-cells">
+                    {% set shown = false %}
+                    {% for d in p.all_types if row[d] == 0 %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ d }}">{{ d|labelize }} <b>0×</b></span>
+                    {% endfor %}
+                    {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                  </div>
+                </div>
+
+                <div class="eff-row">
+                  <span class="eff-label">Not Very</span>
+                  <div class="eff-cells">
+                    {% set shown = false %}
+                    {% for d in p.all_types if row[d] == 0.5 %}
+                      {% set shown = true %}
+                      <span class="type-chip type-{{ d }}">{{ d|labelize }} <b>½×</b></span>
+                    {% endfor %}
+                    {% if not shown %}<span class="eff-none">—</span>{% endif %}
+                  </div>
+                </div>
+
+                <details class="eff-row eff-muted">
+                  <summary class="eff-label">Normal</summary>
+                  <div class="eff-cells">
+                    {% for d in p.all_types if row[d] == 1 %}
+                      <span class="type-chip type-{{ d }}">{{ d|labelize }} <b>1×</b></span>
+                    {% endfor %}
+                  </div>
+                </details>
+              </div>
+            </div>
+          {% endfor %}
+
+        </section>
 
         <!-- forms -->
         {% if p.forms %}
@@ -193,9 +327,9 @@
         <div class="horizontal-scroll">
             {% for form in p.forms %}
                 <a href="/pokemon/{{ form.name | lower }}" class="button-card">
-                    <img src="{{ form.sprite }}" alt="{{ form.name }}">
+                    <img src="{{ form.sprite }}" alt="{{ form.name | humanize }}">
                     <div>
-                        {{ form.name }}{% if form.is_default %}<br>(Default){% endif %}
+                        {{ form.name | humanize }}{% if form.is_default %}<br>(Default){% endif %}
                     </div>
                 </a>
             {% endfor %}
@@ -209,9 +343,62 @@
             {% for evo in p.evolutions %}
                 <a href="/pokemon/{{ evo.name | lower }}" class="button-card">
                     <img src="{{ evo.sprite }}" alt="{{ evo.name }}">
-                    <div>{{ evo.name }}</div>
+                    <div>{{ evo.name | humanize }}</div>
                 </a>
             {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Moves Card (Matches Ability and Pokédex Entry cards) -->
+        {% if p.moves %}
+        <div class="description-box moves-box">
+            <div class="moves-header-bar">
+                <strong>Learned Moves</strong>
+                <span style="font-size: 0.85rem; color: #94a3b8;">
+                    Total: {{ p.moves|length }}
+                </span>
+            </div>
+
+            <div class="moves-table-wrapper">
+                <table class="aesthetic-move-table">
+                    <thead>
+                        <tr>
+                            <th>Move</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th style="text-align: center;">Power</th>
+                            <th style="text-align: center;">Accuracy</th>
+                            <th>Learn Method</th>
+                            <th style="text-align: center;">Lvl</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in p.moves %}
+                            <tr>
+                                <td>
+                                    <a href="/move/{{ m.raw_name }}" class="move-link">
+                                        {{ m.name | humanize }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="type-label type-{{ m.type|lower }}" style="padding: 2px 8px; font-size: 0.75rem; margin: 0;">
+                                        {{ m.type|capitalize }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="class-tag class-{{ m.damage_class }}">
+                                        {{ m.damage_class }}
+                                    </span>
+                                </td>
+                                <td style="text-align: center; font-weight: 700;">{{ m.power }}</td>
+                                <td style="text-align: center; color: var(--text-secondary);">{{ m.accuracy }}</td>
+                                <td style="color: var(--text-muted); font-size: 0.82rem;">{{ m.method }}</td>
+                                <td style="text-align: center; font-weight: 700; color: var(--accent-primary);">{{ m.level }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endif %}
 
@@ -221,21 +408,63 @@
     </div>
 
     <script>
+        // Store descriptions payload for fast client-side switching
+        const dexDescriptions = {{ p.descriptions|tojson|safe if p.descriptions else '[]' }};
+
+        function updateFlavorText(selectElem) {
+            const idx = parseInt(selectElem.value, 10);
+            const entry = dexDescriptions[idx];
+            const displayElem = document.getElementById("flavorTextDisplay");
+            if (entry && displayElem) {
+                displayElem.textContent = `"${entry.flavor_text}"`;
+            }
+        }
+
         // dark mode toggle
         function toggleDarkMode() {
             const body = document.body;
             body.classList.toggle("dark-mode");
             body.classList.toggle("dark");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") || body.classList.contains("dark") ? "dark" : "light");
+            const isDark = body.classList.contains("dark-mode") || body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            updateThemeButton(isDark);
+        }
+
+        function updateThemeButton(isDark) {
+            const btn = document.getElementById("dark-mode-toggle");
+            if (btn) {
+                btn.textContent = isDark ? "☀️" : "🌙";
+            }
         }
 
         // restore theme on load
         window.onload = function () {
             const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "dark") {
+            const isDark = savedTheme === "dark";
+            if (isDark) {
                 document.body.classList.add("dark-mode", "dark");
             }
+            updateThemeButton(isDark);
         };
+
+		// Safe JSON injection of abilities data
+		const abilitiesData = {{ p.abilities|tojson|safe if p.abilities else '[]' }};
+
+		function switchAbility(btnElement, index) {
+			// 1. Update active styling across pill buttons
+			document.querySelectorAll('.ability-pill-btn').forEach(btn => btn.classList.remove('active'));
+			btnElement.classList.add('active');
+
+			// 2. Swap displayed effect text
+			const displayElem = document.getElementById("abilityEffectDisplay");
+			if (displayElem && abilitiesData[index]) {
+				displayElem.textContent = abilitiesData[index].description || "No description available.";
+			}
+			const linkElem = document.getElementById("abilityDetailLink");
+			if (linkElem && abilitiesData[index]) {
+				linkElem.href = "/ability/" + abilitiesData[index].raw_name;
+			}
+		}
     </script>
 </body>
 </html>

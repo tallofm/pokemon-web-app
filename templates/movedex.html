@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movedex - Pokémon Moves</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14px;
+            padding: 14px;
+            background-color: var(--bg-surface);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-sm);
+        }
+        .filter-bar select, .filter-bar input[type="text"] {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-strong);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item active">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=moves" class="btn-nav" title="View random moves">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container container--wide">
+        <h1 style="margin-top: 10px; margin-bottom: 4px;">Movedex</h1>
+        <p class="results-count" style="margin-top: 0; margin-bottom: 16px;">Browse battle moves, power, accuracy, and effects.</p>
+
+        <!-- Filters Form -->
+        <form method="GET" action="/movedex" class="filter-bar">
+            <input type="text" name="search" placeholder="Search move..." value="{{ search }}">
+
+            <select name="type">
+                <option value="">All Types</option>
+                {% for t in all_types %}
+                    <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t|capitalize }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="damage_class">
+                <option value="">All Classes</option>
+                {% for c in damage_classes %}
+                    <option value="{{ c }}" {% if current_class == c %}selected{% endif %}>{{ c|capitalize }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="sort">
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Sort by Name</option>
+                <option value="power" {% if current_sort == 'power' %}selected{% endif %}>Sort by Power</option>
+                <option value="accuracy" {% if current_sort == 'accuracy' %}selected{% endif %}>Sort by Accuracy</option>
+                <option value="pp" {% if current_sort == 'pp' %}selected{% endif %}>Sort by PP</option>
+            </select>
+
+            <label style="font-size: 0.85rem;">
+                <input type="checkbox" name="reverse" value="true" {% if reverse_sort %}checked{% endif %}> Reverse
+            </label>
+
+            <button type="submit" class="button-link" style="padding: 6px 14px;">Apply</button>
+            <a href="/movedex" class="button-link" style="padding: 6px 14px; background:#666;">Reset</a>
+        </form>
+
+        <div style="margin-top: 14px; font-size: 0.9rem; opacity: 0.85;">
+            Showing {{ start_idx }}–{{ end_idx }} of {{ total_matches }} moves
+        </div>
+
+        <!-- Moves Table -->
+        <div class="moves-table-wrapper" style="margin-top: 16px;">
+            <table class="move-table">
+                <thead>
+                    <tr>
+                        <th>Move</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th style="text-align: center;">Power</th>
+                        <th style="text-align: center;">Accuracy</th>
+                        <th style="text-align: center;">PP</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in moves %}
+                        <tr>
+                            <td>
+                                <a href="/move/{{ m.raw_name or m.name|lower|replace(' ', '-') }}" class="move-link">
+                                    {{ m.name | humanize }}
+                                </a>
+                            </td>
+                            <td><span class="type-chip type-{{ m.type }}">{{ m.type|capitalize }}</span></td>
+                            <td><span class="class-badge class-{{ m.damage_class }}">{{ m.damage_class }}</span></td>
+                            <td style="text-align: center; font-weight: 700;">{{ m.power }}</td>
+                            <td style="text-align: center; color: var(--text-secondary);">{{ m.accuracy }}</td>
+                            <td style="text-align: center; color: var(--text-secondary);">{{ m.pp }}</td>
+                            <td style="font-size: 0.88rem; color: var(--text-secondary);">{{ m.effect }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No moves match the selected filters.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        {% if total_matches > limit %}
+            {% set last_offset = ((total_matches - 1) // limit) * limit %}
+            <div class="pagination-controls" style="margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                {% if offset > 0 %}
+                    <a href="{{ url_for('movedex', offset=0, limit=limit, type=current_type, damage_class=current_class, sort=current_sort, reverse='true' if reverse_sort else None, search=search) }}" class="button-link">⏮ First</a>
+                    <a href="{{ url_for('movedex', offset=offset-limit if offset-limit > 0 else 0, limit=limit, type=current_type, damage_class=current_class, sort=current_sort, reverse='true' if reverse_sort else None, search=search) }}" class="button-link">← Prev</a>
+                {% endif %}
+
+                <span style="display: inline-flex; align-items: center; padding: 0 12px; font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">
+                    Page {{ (offset // limit) + 1 }} of {{ ((total_matches - 1) // limit) + 1 }}
+                </span>
+
+                {% if end_idx < total_matches %}
+                    <a href="{{ url_for('movedex', offset=offset+limit, limit=limit, type=current_type, damage_class=current_class, sort=current_sort, reverse='true' if reverse_sort else None, search=search) }}" class="button-link">Next →</a>
+                    <a href="{{ url_for('movedex', offset=last_offset, limit=limit, type=current_type, damage_class=current_class, sort=current_sort, reverse='true' if reverse_sort else None, search=search) }}" class="button-link">Last ⏭</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="back-link" style="margin-top: 24px;">
+            <a href="/pokedex" class="button-link">← Back to Pokédex</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+            body.classList.toggle("dark");
+            const isDark = body.classList.contains("dark-mode") || body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            updateThemeButton(isDark);
+        }
+
+        function updateThemeButton(isDark) {
+            const btn = document.getElementById("dark-mode-toggle");
+            if (btn) {
+                btn.textContent = isDark ? "☀️" : "🌙";
+            }
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem("theme");
+            const isDark = savedTheme === "dark";
+            if (isDark) {
+                document.body.classList.add("dark-mode", "dark");
+            }
+            updateThemeButton(isDark);
+        };
+    </script>
+</body>
+</html>

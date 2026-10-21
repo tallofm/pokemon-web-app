@@ -208,3 +208,6 @@ __marimo__/
 
 #ignore huge data
 data/pokemon_cache*.json
+data/*_backup_*.json
+.DS_Store
+*.DS_Store

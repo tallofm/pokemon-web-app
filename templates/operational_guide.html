@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéDex Hub - Operational & Strategy Master Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .docs-page-wrapper {
+            display: flex;
+            min-height: calc(100vh - 60px);
+            max-width: 1440px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        .docs-sidebar {
+            width: 290px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            padding: 24px 16px;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-subtle);
+            text-align: left;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .docs-search-box {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .docs-search-input {
+            width: 100%;
+            padding: 9px 12px 9px 34px;
+            font-size: 0.84rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .docs-search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px var(--accent-subtle);
+        }
+        .docs-search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .docs-nav-group {
+            margin-bottom: 14px;
+        }
+
+        .docs-nav-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin: 0 0 8px 8px;
+        }
+
+        .docs-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .docs-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.12s ease;
+        }
+
+        .docs-nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-surface-hover);
+        }
+
+        .docs-nav-link.active {
+            color: var(--accent-primary);
+            background: var(--accent-subtle);
+            font-weight: 700;
+            border-left: 3px solid var(--accent-primary);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Main Content Container */
+        .docs-content {
+            flex: 1;
+            min-width: 0;
+            padding: 36px 48px 80px;
+            text-align: left;
+            background: var(--bg-primary);
+        }
+
+        .docs-hero {
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 24px;
+            margin-bottom: 36px;
+        }
+
+        .docs-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: var(--accent-subtle);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+        .badge-pill--green {
+            background: rgba(34, 197, 94, 0.12);
+            color: #16a34a;
+            border-color: #22c55e;
+        }
+
+        .docs-hero h1 {
+            font-size: 2.3rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin: 0 0 10px;
+            color: var(--text-primary);
+        }
+
+        .docs-hero-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+            max-width: 820px;
+        }
+
+        /* Documentation Sections */
+        .docs-section {
+            margin-bottom: 56px;
+            scroll-margin-top: 80px;
+        }
+
+        .docs-section h2 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            margin: 0 0 16px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+        }
+
+        .docs-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 28px 0 12px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .docs-section p {
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+            line-height: 1.68;
+            margin: 0 0 14px;
+        }
+
+        .docs-section ul, .docs-section ol {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin: 0 0 18px 24px;
+            padding: 0;
+        }
+
+        .docs-section li {
+            margin-bottom: 6px;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .callout-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .callout-info {
+            background: rgba(37, 99, 235, 0.08);
+            border-left: 4px solid var(--accent-primary);
+            color: var(--text-primary);
+        }
+        .callout-tip {
+            background: rgba(34, 197, 94, 0.08);
+            border-left: 4px solid #22c55e;
+            color: var(--text-primary);
+        }
+        .callout-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            color: var(--text-primary);
+        }
+        .callout-strategy {
+            background: rgba(147, 51, 234, 0.08);
+            border-left: 4px solid #9333ea;
+            color: var(--text-primary);
+        }
+
+        /* Feature Cards within Docs */
+        .docs-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 20px 0 28px;
+        }
+        .docs-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+        .docs-card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 0 0 8px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .docs-card p {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        /* Documentation Tables */
+        .docs-table-wrap {
+            overflow-x: auto;
+            margin: 20px 0 28px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .docs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            text-align: left;
+        }
+        .docs-table th {
+            background: var(--table-th-bg);
+            color: var(--table-th-text);
+            padding: 10px 14px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .docs-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+        .docs-table tr:last-child td {
+            border-bottom: none;
+        }
+        .docs-table tr:nth-child(even) td {
+            background: var(--table-stripe);
+        }
+
+        /* Inline Code & Code Blocks - GUARANTEED PRESERVED WHITESPACE */
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85em;
+            background: var(--bg-subtle);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .code-box {
+            background: #0f172a;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 18px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow-x: auto;
+        }
+        .code-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 6px;
+        }
+        .code-box pre, pre.ascii-diagram, pre.ascii-tree {
+            white-space: pre !important;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+            font-size: 0.84rem;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            color: #f8fafc;
+            overflow-x: auto;
+            background: transparent;
+        }
+
+        /* Visual Interactive Workflow Pipeline */
+        .arch-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .arch-node {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 12px 18px;
+            text-align: center;
+            min-width: 170px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.15s ease;
+        }
+        .arch-node:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+        }
+        .arch-node-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .arch-node-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+        .arch-node--client {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .arch-node--flask {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .arch-node--engine {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+        .arch-node--storage {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.05);
+        }
+        .arch-connector {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .docs-sidebar {
+                position: fixed;
+                left: -300px;
+                transition: left 0.25s ease;
+                box-shadow: var(--shadow-lg);
+            }
+            .docs-sidebar.open {
+                left: 0;
+            }
+            .docs-content {
+                padding: 24px 20px 60px;
+            }
+            .docs-mobile-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 16px;
+                background: var(--bg-surface);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+        }
+        @media (min-width: 901px) {
+            .docs-mobile-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navbar -->
+    <header class="app-navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="/" class="brand-logo">
+                    <span class="brand-icon">⚡</span>
+                    <span class="brand-title">PokéDex</span>
+                </a>
+            </div>
+            <nav class="navbar-center">
+                <a href="/" class="nav-item">🏠 Home</a>
+                <a href="/pokedex" class="nav-item">📖 Pokédex</a>
+                <a href="/movedex" class="nav-item">⚔️ Moves</a>
+                <a href="/abilitydex" class="nav-item">✨ Abilities</a>
+                <a href="/itemdex" class="nav-item">🎒 Items</a>
+                <a href="/type_tool" class="nav-item">🛡️ Type Tool</a>
+                <a href="/teambuilder" class="nav-item">👥 Teambuilder</a>
+                <a href="/simulator" class="nav-item">🏟️ Simulator</a>
+                <a href="/guide" class="nav-item active">📘 Guide</a>
+                <a href="/developer" class="nav-item">🛠️ Dev Docs</a>
+            </nav>
+            <div class="navbar-right">
+                <a href="/random?context=home" class="btn-nav" title="Discover something random!">🎲 Random</a>
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="btn-nav btn-theme" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Bar -->
+    <div class="docs-mobile-bar">
+        <button onclick="toggleSidebar()" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem;">
+            ☰ Table of Contents
+        </button>
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Operational Guide</span>
+    </div>
+
+    <div class="docs-page-wrapper">
+        <!-- Sticky Sidebar Navigation -->
+        <aside id="docs-sidebar" class="docs-sidebar">
+            <div class="docs-search-box">
+                <span class="docs-search-icon">🔍</span>
+                <input type="text" id="docs-filter-input" class="docs-search-input" placeholder="Filter topics..." oninput="filterTopics()">
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">1. Getting Started</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#intro" class="docs-nav-link active">🌟 Overview & Philosophy</a></li>
+                    <li><a href="#quickstart" class="docs-nav-link">🚀 Quickstart Guide</a></li>
+                    <li><a href="#navigation" class="docs-nav-link">🧭 App Navigation & Shortcuts</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">2. Pokédex & Databases</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#pokedex-search" class="docs-nav-link">📖 Pokédex & Regex Search</a></li>
+                    <li><a href="#special-filters" class="docs-nav-link">⭐ Special Pokémon & Forms</a></li>
+                    <li><a href="#favorites-system" class="docs-nav-link">💖 Cached Favorites List</a></li>
+                    <li><a href="#shiny-mode" class="docs-nav-link">✨ Shiny Sprite Toggle</a></li>
+                    <li><a href="#sub-dexes" class="docs-nav-link">⚔️ Move, Ability & ItemDex</a></li>
+                    <li><a href="#pokemon-details" class="docs-nav-link">📊 Radars, Cries & Learnsets</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">3. Battle Analytics</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#type-tool" class="docs-nav-link">🛡️ Dual-Type Calculator</a></li>
+                    <li><a href="#ability-interactions" class="docs-nav-link">✨ Ability Immunities & Multipliers</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">4. Championship Teambuilder</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#teambuilder-overview" class="docs-nav-link">👥 Teambuilder Workflow</a></li>
+                    <li><a href="#sample-teams" class="docs-nav-link">🌟 60 Tournament Archetypes</a></li>
+                    <li><a href="#mega-stone-items" class="docs-nav-link">💎 Mega Stones & Champions Legality</a></li>
+                    <li><a href="#ev-iv-tuning" class="docs-nav-link">📈 EV/IV & Nature Optimization</a></li>
+                    <li><a href="#defensive-matrix" class="docs-nav-link">🛡️ Defensive Synergy & Alerts</a></li>
+                    <li><a href="#offensive-coverage" class="docs-nav-link">💥 Offensive Coverage (18 Types)</a></li>
+                    <li><a href="#speed-benchmarks" class="docs-nav-link">⚡ Dynamic Speed Tiers</a></li>
+                    <li><a href="#archetype-checklist" class="docs-nav-link">📋 Tournament Roles Checklist</a></li>
+                    <li><a href="#import-export" class="docs-nav-link">📤 Showdown Import & Export</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">5. Battle Simulator</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#simulator-rules" class="docs-nav-link">🏟️ Rulesets & Formats</a></li>
+                    <li><a href="#pre-battle-setup" class="docs-nav-link">⚙️ Match Setup & Launchpad</a></li>
+                    <li><a href="#battle-modes" class="docs-nav-link">🤖 Player vs AI & Spectator</a></li>
+                    <li><a href="#ai-difficulty" class="docs-nav-link">🎚️ AI Difficulty (1–100)</a></li>
+                    <li><a href="#ai-knowledge-cache" class="docs-nav-link">🧠 AI Battle Knowledge Cache</a></li>
+                    <li><a href="#arena-ui" class="docs-nav-link">🎬 Arena Graphics & Banners</a></li>
+                    <li><a href="#in-battle-actions" class="docs-nav-link">⚔️ Attacks, Switches & Omni Ring</a></li>
+                    <li><a href="#battle-log" class="docs-nav-link">📜 High-Contrast Battle Log</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">6. Pro Tactics & Strategy</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#pro-pivoting" class="docs-nav-link">🔄 Double Pivoting & Tempo</a></li>
+                    <li><a href="#dynamic-speed-tactics" class="docs-nav-link">⚡ Dynamic Mid-Turn Speed Shifts</a></li>
+                    <li><a href="#stat-standards" class="docs-nav-link">📊 Official Stat Abbreviations</a></li>
+                    <li><a href="#abilities-defense" class="docs-nav-link">🛡️ Disguise & Multiscale</a></li>
+                    <li><a href="#semi-invulnerable" class="docs-nav-link">👻 Semi-Invulnerable Moves (Phantom Force)</a></li>
+                    <li><a href="#substitute-tactics" class="docs-nav-link">🧸 Substitute & Decoy Protection</a></li>
+                    <li><a href="#consecutive-protect" class="docs-nav-link">🛡️ Consecutive Protect Decay (1/3)ⁿ</a></li>
+                    <li><a href="#pp-pressure-struggle" class="docs-nav-link">🔋 PP Tracking, Pressure & Struggle</a></li>
+                    <li><a href="#thermal-well-baked-hazards" class="docs-nav-link">🔥 Thermal Exchange, Well-Baked & Hazards</a></li>
+                    <li><a href="#crash-damage" class="docs-nav-link">💥 High Jump Kick Crash Recoil</a></li>
+                    <li><a href="#booster-energy" class="docs-nav-link">⚡ Booster Energy & Paradox Procs</a></li>
+                    <li><a href="#special-moves" class="docs-nav-link">⚡ Electro Shot & Freeze-Dry</a></li>
+                    <li><a href="#weather-terrains" class="docs-nav-link">🌧️ Weather & Terrain Mastery</a></li>
+                    <li><a href="#spread-scaling" class="docs-nav-link">💥 Doubles Spread Damage</a></li>
+                    <li><a href="#screens-veil" class="docs-nav-link">🔮 Screens & Aurora Veil</a></li>
+                    <li><a href="#trick-choice" class="docs-nav-link">🎒 Trick, Choice Locks & Mega Stones</a></li>
+                    <li><a href="#priority-brackets" class="docs-nav-link">⚡ Priority & Psychic Terrain</a></li>
+                    <li><a href="#status-management" class="docs-nav-link">🔥 Status Effects & Berries</a></li>
+                </ul>
+            </div>
+
+            <div class="docs-nav-group">
+                <div class="docs-nav-title">7. FAQ & Help</div>
+                <ul class="docs-nav-list">
+                    <li><a href="#faq" class="docs-nav-link">❓ FAQ & Cache Recovery</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <!-- Hero -->
+            <section class="docs-hero">
+                <div class="docs-badge-row">
+                    <span class="badge-pill">📘 Operational Manual</span>
+                    <span class="badge-pill badge-pill--green">✅ VGC 2026 & Smogon OU Ready</span>
+                    <span class="badge-pill">⚡ 100% Offline-First</span>
+                </div>
+                <h1>PokéDex Hub Master Guide</h1>
+                <p class="docs-hero-lead">
+                    Learn how to utilize the full power of PokéDex Hub: explore complete competitive databases, 
+                    build championship-caliber teams with 4-tier diagnostic verification, and master the turn-based 
+                    battle simulator against self-learning AI.
+                </p>
+            </section>
+
+            <!-- 1. Getting Started -->
+            <section id="intro" class="docs-section">
+                <h2><span>🌟</span> Overview & Philosophy</h2>
+                <p>
+                    <strong>PokéDex Hub</strong> is built from the ground up to solve the fragmentation of modern competitive Pokémon tools. 
+                    Instead of having to open a Pokédex in one tab, a damage calculator in another, Smogon in a third, and Pokémon Showdown in a fourth, 
+                    PokéDex Hub unifies everything into one seamless, blazingly fast web application.
+                </p>
+
+                <div class="docs-card-grid">
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>⚡</span> Instant Offline-First Caching</div>
+                        <p>All 1,025+ Pokémon, 900+ moves, abilities, items, and evolutions are persisted to local JSON disk caches. Pages load in sub-10 milliseconds without external API lag.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>👥</span> Tournament-Grade Teambuilder</div>
+                        <p>Pre-populated with 60 championship archetypes. Includes real-time offensive coverage checks against all 18 types, defensive weakness matrices, and dynamic speed tier comparisons.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title"><span>🏟️</span> Turn-by-Turn Simulator</div>
+                        <p>Play against an AI that scales from casual random plays (Level 1) to Champion-level minimax predictive lookahead (Level 100) with a self-learning knowledge cache.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">💡</span>
+                    <div>
+                        <strong>Pro Tip:</strong> All user data, custom teams, and favorite Pokémon persist automatically in your browser's LocalStorage and the local server cache. No login or cloud account is required.
+                    </div>
+                </div>
+            </section>
+
+            <section id="quickstart" class="docs-section">
+                <h3><span>🚀</span> Quickstart Workflow</h3>
+                <p>To master competitive battling or casual exploration, follow this 4-step loop:</p>
+
+                <!-- Visual Workflow Pipeline -->
+                <div class="arch-pipeline">
+                    <div class="arch-row">
+                        <div class="arch-node arch-node--client">
+                            <div class="arch-node-title">1. Research</div>
+                            <div class="arch-node-sub">Pokédex, MoveDex, ItemDex</div>
+                        </div>
+                        <div class="arch-connector">➔</div>
+                        <div class="arch-node arch-node--flask">
+                            <div class="arch-node-title">2. Analyze</div>
+                            <div class="arch-node-sub">Type Tool & Dual Matchups</div>
+                        </div>
+                        <div class="arch-connector">➔</div>
+                        <div class="arch-node arch-node--engine">
+                            <div class="arch-node-title">3. Draft & Tune</div>
+                            <div class="arch-node-sub">Teambuilder & 4 Diagnostics</div>
+                        </div>
+                        <div class="arch-connector">➔</div>
+                        <div class="arch-node arch-node--storage">
+                            <div class="arch-node-title">4. Battle Test</div>
+                            <div class="arch-node-sub">Simulator vs 1–100 AI</div>
+                        </div>
+                    </div>
+                </div>
+
+                <ol>
+                    <li><strong>Research in Pokédex & MoveDex:</strong> Search for meta threats (e.g. <code>Flutter Mane</code>, <code>Kingambit</code>, <code>Incineroar</code>) to inspect base speed, resistances, and optimal movesets.</li>
+                    <li><strong>Analyze in Type Tool:</strong> Cross-check quad weaknesses, immunities, and ability interactions before finalizing defensive rosters.</li>
+                    <li><strong>Draft in Championship Teambuilder:</strong> Pick a tournament sample archetype or craft a team from scratch. Watch the <strong>Offensive Coverage</strong> and <strong>Defensive Matrix</strong> update dynamically to eliminate shared gaps.</li>
+                    <li><strong>Battle in the Simulator:</strong> Take your team straight into the Battle Simulator against the AI, test your lead matchups, and watch the central move animations and alternating battle logs.</li>
+                </ol>
+            </section>
+
+            <section id="navigation" class="docs-section">
+                <h3><span>🧭</span> Navigation & Theme Controls</h3>
+                <ul>
+                    <li><strong>Theme Toggle (🌙 / ☀️):</strong> Click the moon/sun icon in the top right navbar to toggle high-contrast Dark Mode or Crisp Light Mode. Your preference is remembered across all sessions.</li>
+                    <li><strong>Random Dice (🎲 Random):</strong> Need sudden inspiration? Click the dice button to instantly load a random Pokémon, battle move, or ability.</li>
+                    <li><strong>Sticky Navbar:</strong> Quick-jump between Pokédex, Moves, Abilities, Items, Type Tool, Teambuilder, Simulator, and Documentation from any screen.</li>
+                </ul>
+            </section>
+
+            <!-- 2. Pokédex & Databases -->
+            <section id="pokedex-search" class="docs-section">
+                <h2><span>📖</span> Mastering the Pokédex & Sub-Dexes</h2>
+                <p>
+                    The Pokédex module showcases all 1,025+ species from Generation 1 (Kanto) to Generation 9 (Paldea + DLC).
+                </p>
+
+                <h3>Search & Dual-Type Filters</h3>
+                <p>
+                    The Pokédex header features a fast client-side live filter with regex support:
+                </p>
+                <ul>
+                    <li><strong>Exact & Prefix Matching:</strong> Type <code>Iron</code> to see all Future Paradox Pokémon (Iron Bundle, Iron Valiant, Iron Hands).</li>
+                    <li><strong>Compact 2-Row Type Grid:</strong> Click any type button to filter species by primary or secondary type. The 2-row layout ensures all 18 types are visible without horizontal scrolling. Click "Clear" to reset.</li>
+                </ul>
+
+                <h4>Power User: Regex Search Cheat Sheet</h4>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Regex Pattern</th>
+                                <th>What It Finds</th>
+                                <th>Practical Example Matches</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>^iron-</code></td>
+                                <td>All Future Paradox Pokémon (starts with "iron-")</td>
+                                <td>Iron Bundle, Iron Valiant, Iron Hands, Iron Leaves</td>
+                            </tr>
+                            <tr>
+                                <td><code>^roaring-|^flutter-|^scream-</code></td>
+                                <td>Ancient Paradox Pokémon</td>
+                                <td>Roaring Moon, Flutter Mane, Scream Tail</td>
+                            </tr>
+                            <tr>
+                                <td><code>-alola$|-galar$|-hisui$|-paldea$</code></td>
+                                <td>All Regional Variant Forms</td>
+                                <td>Ninetales (Alola), Weezing (Galar), Arcanine (Hisui), Tauros (Paldea)</td>
+                            </tr>
+                            <tr>
+                                <td><code>-mega</code></td>
+                                <td>All Mega Evolutions</td>
+                                <td>Mega Charizard X/Y, Mega Rayquaza, Mega Kangaskhan</td>
+                            </tr>
+                            <tr>
+                                <td><code>-gmax$</code></td>
+                                <td>All Gigantamax Battle Forms</td>
+                                <td>Charizard-Gmax, Gengar-Gmax, Snorlax-Gmax</td>
+                            </tr>
+                            <tr>
+                                <td><code>^tapu-</code></td>
+                                <td>Alolan Island Guardian Deities</td>
+                                <td>Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini</td>
+                            </tr>
+                            <tr>
+                                <td><code>^o-o$|kommo-o</code></td>
+                                <td>Jangmo-o evolutionary pseudo-legendary line</td>
+                                <td>Jangmo-o, Hakamo-o, Kommo-o</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="special-filters"><span>⭐</span> Special Pokémon Categories Filter</h3>
+                <p>
+                    Directly below the type selector, an expandable row of special categories allows instant isolation of rare and tournament-relevant forms:
+                </p>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Category Chip</th>
+                                <th>Description</th>
+                                <th>Notable Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Legendary</strong></td>
+                                <td>Box-art and major legendaries with restricted tournament status.</td>
+                                <td>Koraidon, Miraidon, Zacian, Kyogre, Rayquaza</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sub-Legendary</strong></td>
+                                <td>Tournament-legal legendary Pokémon (Treasures of Ruin, Genies, Birds).</td>
+                                <td>Chien-Pao, Flutter Mane, Landorus, Urshifu</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mythical</strong></td>
+                                <td>Event-exclusive Pokémon.</td>
+                                <td>Mew, Jirachi, Darkrai, Pecharunt</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ultra Beast</strong></td>
+                                <td>Extradimensional creatures introduced in Gen 7.</td>
+                                <td>Nihilego, Kartana, Blacephalon</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Regional Forms</strong></td>
+                                <td>Alolan, Galarian, Hisuian, and Paldean regional adaptations.</td>
+                                <td>Ninetales-Alola, Weezing-Galar, Arcanine-Hisui</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Megas & G-Max</strong></td>
+                                <td>Mega Evolutions and Gigantamax battle forms.</td>
+                                <td>Mega Rayquaza, Mega Kangaskhan, Charizard-Gmax</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 id="favorites-system"><span>💖</span> Favorites Quick-Access Cache</h3>
+                <p>
+                    Every Pokémon card in the Pokédex displays a heart icon. Clicking the heart toggles that Pokémon into your personal 
+                    <strong>Favorites List</strong>. Click the <strong>"💖 Favorites (<span id="fav-count">X</span>)"</strong> filter at the top 
+                    to view only your bookmarked Pokémon. This list persists directly to disk in <code>data/favorites_cache.json</code>.
+                </p>
+
+                <h3 id="shiny-mode"><span>✨</span> Shiny Sprite Visual Toggle</h3>
+                <p>
+                    Want to see your favorite Pokémon in their ultra-rare alternate colors? Click the <strong>"✨ Shiny"</strong> button in the top navigation bar of the Pokédex. 
+                    This dynamically switches the artwork across all 1,025+ Pokémon cards to their canonical shiny sprites in real time without reloading the page. 
+                    Click it again to instantly revert to standard official artwork.
+                </p>
+
+                <h3 id="sub-dexes"><span>⚔️</span> MoveDex, AbilityDex, & ItemDex</h3>
+                <p>
+                    Beyond species, PokéDex Hub contains three dedicated sub-databases accessible from the top navbar:
+                </p>
+                <ul>
+                    <li><strong>MoveDex:</strong> Filter 900+ moves by Physical, Special, or Status. Inspect Base Power, Accuracy, Priority (+5 to -7), PP, and see an exhaustive list of every Pokémon that learns the move.</li>
+                    <li><strong>AbilityDex:</strong> Detailed descriptions of all 300+ abilities, competitive viability ratings, hidden ability indicators, and species rosters.</li>
+                    <li><strong>ItemDex:</strong> Explains competitive held items: Choice Band/Specs/Scarf multipliers, Booster Energy triggers, Focus Sash thresholds, and Lum Berry status cures with quick links directly from team slots.</li>
+                </ul>
+
+                <h3 id="pokemon-details"><span>📊</span> Species Detail Sheet: Radars, Cries & Learnsets</h3>
+                <p>
+                    Clicking any Pokémon card in the Pokédex opens its exhaustive detail sheet (<code>/pokemon/&lt;name&gt;</code>), designed for deep competitive analysis:
+                </p>
+                <ul>
+                    <li><strong>Base Stat Polygon Radar:</strong> Interactive SVG visualization benchmarking HP, Atk, Def, SpA, SpD, and Spe against meta baselines.</li>
+                    <li><strong>EV/IV Formula Stat Calculator:</strong> Real-time stat projections for both Level 50 (VGC tournament standard) and Level 100 (Smogon OU standard). Adjust IVs (0 to 31), EVs (0 to 252), and positive/negative Natures with live stat recalculations.</li>
+                    <li><strong>Interactive Learnset Matrix:</strong> Filterable table of every move the Pokémon can learn across all categories (Level Up, TM/HM, Egg Moves, Move Tutor) with damage class badges (Physical ⚔️, Special 🔮, Status 🛡️), base power, accuracy, and PP.</li>
+                    <li><strong>Official Audio Cry Player:</strong> High-fidelity audio playback of the Pokémon's canonical Generation 9 cry (and legacy cries for classic species).</li>
+                    <li><strong>Evolutionary Tree Chain:</strong> Full branching progression paths showing exact evolution triggers (level thresholds, evolutionary stones, trade requirements, friendship levels, time-of-day conditions, and moves).</li>
+                </ul>
+            </section>
+
+            <!-- 3. Battle Analytics -->
+            <section id="type-tool" class="docs-section">
+                <h2><span>🛡️</span> Type Effectiveness & Defensive Matrix Tool</h2>
+                <p>
+                    Located at <code>/type_tool</code>, this calculator computes single and dual-type matchups across all 18 Pokémon types:
+                </p>
+                <ul>
+                    <li><strong>Double Super-Effective (4×):</strong> Highlights catastrophic 4× vulnerabilities (e.g., Ice against Dragon/Flying Dragonite, Ground against Poison/Steel Gholdengo).</li>
+                    <li><strong>Super-Effective (2×):</strong> Standard offensive advantages.</li>
+                    <li><strong>Resistances (0.5× / 0.25×):</strong> Damage reductions for strategic defensive switching.</li>
+                    <li><strong>Immunities (0×):</strong> Full damage cancellations (Normal vs Ghost, Electric vs Ground, Dragon vs Fairy).</li>
+                </ul>
+
+                <h3 id="ability-interactions"><span>✨</span> Ability Overrides</h3>
+                <p>
+                    The Type Tool factors in defensive passive abilities. For example, selecting <strong>Levitate</strong> converts Ground-type damage from 2× or 1× to <strong>0× Immunity</strong>; <strong>Flash Fire</strong> absorbs Fire-type moves; <strong>Water Absorb</strong> heals from Water attacks.
+                </p>
+            </section>
+
+            <!-- 4. Championship Teambuilder -->
+            <section id="teambuilder-overview" class="docs-section">
+                <h2><span>👥</span> Championship Teambuilder & Strategy</h2>
+                <p>
+                    The Teambuilder (<code>/teambuilder</code>) provides a tournament-ready drafting environment built for both 
+                    <strong>VGC Champions Doubles</strong> and <strong>Smogon OU Singles</strong>.
+                </p>
+
+                <h3 id="sample-teams"><span>🌟</span> 60 Cached Championship Sample Teams</h3>
+                <p>
+                    If you don't want to build a team from scratch, click the <strong>"🌟 Sample Teams (60)"</strong> button in the toolbar. 
+                    You can instantly load pre-configured tournament archetypes:
+                </p>
+                <div class="docs-card-grid">
+                    <div class="docs-card">
+                        <div class="docs-card-title">🌧️ Rain Offense Core</div>
+                        <p><strong>Pelipper + Archaludon + Palafin:</strong> Drizzle activates immediate 1-turn Electro Shot and Swift Swim Hydro Pumps while boosting Archaludon's stamina defense.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">⏳ Trick Room Bulky Core</div>
+                        <p><strong>Farigiraf + Bloodmoon Ursaluna + Torkoal:</strong> Armor Tail blocks opponent priority Fake Out, allowing immediate Trick Room setup followed by massive Guts and Eruption sweeps.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">🌀 Double Pivot Balance</div>
+                        <p><strong>Incineroar + Rillaboom:</strong> Cycles Intimidate, Grassy Surge, Fake Out, Parting Shot, and U-Turn to control tempo and dictate opponent positioning.</p>
+                    </div>
+                </div>
+
+                <h3 id="mega-stone-items"><span>💎</span> Held Mega Stones & Champions Format Legality</h3>
+                <p>
+                    PokéDex Hub integrates full competitive held item support, including all <strong>58 canonical Mega Stones</strong> dynamically synchronized into <code>data/competitive_items.json</code>:
+                </p>
+                <ul>
+                    <li><strong>Mega Stone Selection:</strong> In the Slot Editor Modal, equipping the correct Mega Stone (e.g. <code>Charizardite X</code>, <code>Charizardite Y</code>, <code>Lucarionite</code>, <code>Gengarite</code>, <code>Mewtwonite X</code>, <code>Mewtwonite Y</code>, or canonical upcoming variants like <strong>Mega Z</strong>) unlocks Mega Evolution during battle.</li>
+                    <li><strong>Competitive Protection:</strong> Unlike standard items, Mega Stones can never be removed or disabled by <code>Knock Off</code>, nor swapped away using <code>Trick</code> or <code>Switcheroo</code>.</li>
+                    <li><strong>Champions Format Roster Legality:</strong> The Teambuilder dynamically validates your roster against official tournament legality rules derived from Serebii Champions (<code>data/champions_roster.json</code>).
+                        Instead of crude blanket legendary bans, the system evaluates tournament rules accurately: for example, <strong>Heatran</strong> is strictly banned in current Champions play, whereas competitive staples like <strong>Archaludon</strong> are fully tournament-legal.
+                    </li>
+                </ul>
+
+                <h3 id="ev-iv-tuning"><span>📈</span> EV/IV & Nature Sliders</h3>
+                <p>
+                    Click any Pokémon slot card to open the <strong>Slot Editor Modal</strong>. Here you can configure:
+                </p>
+                <ul>
+                    <li><strong>Species & Nickname:</strong> Instant autocomplete across all 1,025+ Pokémon.</li>
+                    <li><strong>Held Item & Ability:</strong> Searchable dropdown with automatic hidden ability tagging.</li>
+                    <li><strong>Tera Type:</strong> Select any of the 18 Tera Types (or Stellar) to adjust defensive vulnerabilities and STAB bonuses.</li>
+                    <li><strong>Nature Dropdown:</strong> Automatically calculates the +10% boosted stat (colored in red) and -10% decreased stat (colored in blue).</li>
+                    <li><strong>EV Sliders with 508 Cap:</strong> Live sliders for HP, Atk, Def, SpA, SpD, and Spe. The "EVs Remaining" badge prevents invalid tournament spreads.</li>
+                </ul>
+
+                <h3 id="defensive-matrix"><span>🛡️</span> The 4 Championship Diagnostics</h3>
+                <p>
+                    Beneath your roster, PokéDex Hub evaluates your team using four championship-level diagnostic engines:
+                </p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div>
+                        <strong>1. Defensive Matrix & High Shared Weakness Warning:</strong><br>
+                        Shows a complete color-coded grid of how each of your 6 team members fares against all 18 attacking types. 
+                        If <strong>3 or more Pokémon</strong> share a vulnerability to the same type (e.g. Ground or Fairy), an alert banner triggers 
+                        urging you to adjust Tera Types or swap a member to prevent whole-team wipes.
+                    </div>
+                </div>
+
+                <div class="callout callout-tip" id="offensive-coverage">
+                    <span class="callout-icon">✅</span>
+                    <div>
+                        <strong>2. Offensive Super-Effective (2× / 4×) Coverage:</strong><br>
+                        Scans your team's combined 24 moves to verify which types you can hit super-effectively. 
+                        Includes special competitive moves like <code>Freeze-Dry</code> (which hits Water for 2× super-effective damage) 
+                        and <code>Thousand Arrows</code> (which hits Flying). Hovering over any type chip reveals the exact Pokémon and moves covering it!
+                    </div>
+                </div>
+
+                <h3 id="speed-benchmarks"><span>⚡</span> 3. Dynamic Speed Tier Benchmarks</h3>
+                <p>
+                    Plots each of your Pokémon's calculated Speed stat on a ladder compared against premier tournament speed benchmarks:
+                </p>
+                <ul>
+                    <li><strong>Doubles Benchmarks:</strong> Max Spe Dragapult (213), Booster Energy Flutter Mane (205), Jolly Urshifu (149), Kingambit (70), Min Spe Bloodmoon Ursaluna (51).</li>
+                    <li><strong>Singles Benchmarks:</strong> Deoxys-Speed (504), Dragapult (421), Zamazenta (412), Iron Valiant (364), Great Tusk (273).</li>
+                </ul>
+
+                <h3 id="archetype-checklist"><span>📋</span> 4. Tournament Archetype Roles Checklist</h3>
+                <p>
+                    Ensures your team has the tactical components required to compete at high levels: 
+                    <strong>Speed Control</strong> (Tailwind, Trick Room), <strong>Weather/Terrain Setters</strong>, 
+                    <strong>Entry Hazard Setters & Removers</strong> (Stealth Rock, Rapid Spin), <strong>Pivots</strong> (Volt Switch, U-Turn, Parting Shot), 
+                    and <strong>Disruption</strong> (Taunt, Will-O-Wisp, Spore, Fake Out).
+                </p>
+
+                <h3 id="import-export"><span>📤</span> Showdown Export & Import Compatibility</h3>
+                <p>
+                    Click <strong>"📤 Export / Import"</strong> in the Teambuilder header. You can copy the standard Pokémon Showdown export text 
+                    directly into Pokémon Showdown, or paste any existing team export text into PokéDex Hub to import it in one click!
+                </p>
+            </section>
+
+            <!-- 5. Battle Simulator -->
+            <section id="simulator-rules" class="docs-section">
+                <h2><span>🏟️</span> Battle Simulator: Rules, Controls & Mechanics</h2>
+                <p>
+                    The Battle Simulator (<code>/simulator</code>) allows you to test teams in real turn-by-turn combat. 
+                    It follows official competitive Gen 9 Pokémon battle mechanics.
+                </p>
+
+                <h3 id="pre-battle-setup"><span>⚙️</span> Pre-Battle Launchpad & Match Setup</h3>
+                <p>
+                    When you enter the Simulator, you are greeted by the <strong>Pre-Battle Launchpad</strong> rather than an unconfigured auto-started match. 
+                    From here you can either jump straight into rapid play with <strong>"🎲 Quick Random Battle"</strong> or click <strong>"⚙️ Match Setup"</strong> to configure your match:
+                </p>
+                <ul>
+                    <li><strong>Custom Human Trainer Name:</strong> Enter your custom trainer name (e.g. "Francis", "Ash", "Red"). Your chosen name persists in your browser's <code>localStorage</code> and appears in top HUD match banners, turn execution callouts, and live battle logs instead of team names.</li>
+                    <li><strong>AI Opponent Selection:</strong> Battle against legendary Pokémon Champions (Cynthia, Steven, Leon, Nemona, Blue, Red, Kieran, Geeta, Lance, Iris, Diantha, Volkner, Raihan, Grusha, Larry). Click <strong>"🎲 Random"</strong> to randomly roll an opponent Champion!</li>
+                    <li><strong>Game Mode:</strong> Switch between <strong>Player vs AI</strong> (interactive player commands) and <strong>AI vs AI</strong> (hands-off spectator mode where you watch two AI bots clash with optional coaching insights).</li>
+                    <li><strong>Format & Ruleset:</strong> Choose between <strong>Singles 6v6</strong> (standard competitive singles) and <strong>Doubles 4v4</strong> (official VGC Championship format).</li>
+                    <li><strong>Team 1 & Team 2 Selectors:</strong> Load your <strong>Active Team from the Championship Teambuilder</strong>, select any of the <strong>60 preloaded Championship Archetypes</strong>, or choose <strong>🎲 Random Competitive Team</strong>.</li>
+                    <li><strong>AI Difficulty (1–100):</strong> Adjust the Minimax lookahead and heuristic depth slider (Novice, Gym Leader, Elite Four, World Champion).</li>
+                    <li><strong>Turn Timer Limit:</strong> Choose between 45 Seconds (standard competitive), 30 Seconds (Blitz), 60 Seconds, or Unlimited (No Timer).</li>
+                </ul>
+
+                <h3 id="battle-modes"><span>🤖</span> Battle Modes</h3>
+                <ul>
+                    <li><strong>Player vs AI:</strong> You command Side 1 (Blue) and the computer commands Side 2 (Red). Choose any custom team or sample team for either side.</li>
+                    <li><strong>AI vs AI (Spectator Mode):</strong> Let two AI bots battle each other! Perfect for watching strategy archetypes clash or training the AI's knowledge cache. You can configure turn delay timers (1 second for spectating, or 0 seconds for rapid machine learning self-play).</li>
+                    <li><strong>AI Coach Mode:</strong> The heuristic coach analyzes the state of the battle after each turn and provides feedback on miss-plays, positioning errors, and win conditions.</li>
+                </ul>
+
+                <h3 id="ai-difficulty"><span>🎚️</span> AI Difficulty Slider (1 to 100)</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Difficulty Level</th>
+                                <th>Behavior & Logic</th>
+                                <th>Predictive Ability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Level 1 (Easy / Random)</strong></td>
+                                <td>Selects moves and switches completely at random without checking type matchups or damage output.</td>
+                                <td>None.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 25–50 (Intermediate)</strong></td>
+                                <td>Prefers STAB and super-effective attacks. Only switches when forced or severely disadvantaged.</td>
+                                <td>Reactive; does not predict switches.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 75–90 (Expert)</strong></td>
+                                <td>Calculates damage multipliers, uses setup moves when safe, preserves low-HP win conditions, and switches defensively.</td>
+                                <td>Anticipates obvious super-effective attacks and swaps to resists.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Level 100 (World Champion)</strong></td>
+                                <td>Full Minimax depth with Lookahead. Leverages the <strong>Knowledge Cache</strong> to anticipate your next turn switch, baits attacks, and activates Terastallization to turn disadvantages into sweeps.</td>
+                                <td>Predicts opponent switches, double pivots, and defensive Tera timings.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- How the AI Uses the Battle Knowledge Cache -->
+                <h3 id="ai-knowledge-cache"><span>🧠</span> How the Championship AI Uses the Battle Knowledge Cache</h3>
+                <p>
+                    Unlike static scripted bots that treat every battle in isolation, the PokéDex Hub Championship AI features an active **Battle Knowledge Cache** (persisted in <code>data/battle_knowledge_cache.json</code>). This allows the AI to learn from its past wins and losses against your teams over time.
+                </p>
+                <ul>
+                    <li><strong>1. Automatic Post-Battle Learning:</strong>
+                        <p>
+                            Whenever a match ends, the AI analyzes the entire battle log. It looks at every knockout: which Pokémon fainted, which Pokémon dealt the finishing blow, and which move was used. If that knockout contributed to winning the overall match, the AI registers that move as a high-value tactic against that specific species.
+                        </p>
+                    </li>
+                    <li><strong>2. Empirical Win-Rate Weighting:</strong>
+                        <p>
+                            The AI tracks a weighted win-rate for every observed matchup (e.g. <code>kingambit_vs_metagross</code> or <code>dragapult_vs_baxcalibur</code>). The win-rate updates using an Exponential Moving Average:
+                            <br>
+                            $$\text{WinRate}_{\text{new}} = (\text{WinRate}_{\text{current}} \times 0.8) + (\text{Target} \times 0.2)$$
+                            <br>
+                            This prevents a lucky critical hit from skewing the AI's memory while ensuring consistent tournament trends are rapidly remembered.
+                        </p>
+                    </li>
+                    <li><strong>3. Live In-Battle Move Selection (Difficulty &ge; 70):</strong>
+                        <p>
+                            When you set the AI slider to <strong>Difficulty 70 or higher</strong> (Elite Four and World Champion tiers), the AI checks its Knowledge Cache at the start of every turn:
+                        </p>
+                        <ul>
+                            <li>It compares its active Pokémon against your active Pokémon to find matching historical records.</li>
+                            <li>If it has a record of a move that previously secured a KO and match victory, that move receives a massive <strong>score boost of up to +40.0 points</strong> ($\text{WinRate} \times 40.0$).</li>
+                            <li>This directly influences the AI's decision to strike with proven counters or activate its <strong>Omni Ring</strong> (Mega Evolution, Gigantamax, or Terastallization) on turn 1 to replicate past winning conditions!</li>
+                        </ul>
+                    </li>
+                    <li><strong>4. Viewing and Resetting AI Knowledge:</strong>
+                        <p>
+                            You can view real-time AI knowledge statistics (total battles analyzed, AI win/loss ratio, and recent tactical debriefs) on the <strong>Developer Diagnostics Hub</strong> on the Home page (<code>/</code>). If you want to reset the AI's memory and face a completely fresh computer opponent, simply click the red <strong>"Reset AI Knowledge"</strong> button or send a POST request to <code>/api/simulator/knowledge/reset</code>.
+                        </p>
+                    </li>
+                </ul>
+
+                <h3 id="arena-ui"><span>🎬</span> Battle Arena UI & Visual Animations</h3>
+                <p>
+                    The simulator arena is designed to fit cleanly on a standard screen in a compact 460px viewport without requiring vertical scrolling during live combat:
+                </p>
+                <ul>
+                    <li><strong>Turn Announcement Banner:</strong> At the start of every turn, a high-contrast banner flashes <code>TURN X</code> across the battlefield so you instantly know a new turn has started without checking the log.</li>
+                    <li><strong>Edge-Docked Layout & Centered Sprites:</strong> Your active Pokémon card is cleanly docked to the left edge below your horizontal Team Roster, while the opponent's active card is docked to the right edge above their roster. Sprites are centered horizontally in the arena field adjacent to their cards, maximizing visibility and providing a clean, spacious presentation.</li>
+                    <li><strong>Smooth Central Announcement Cards with Gradual Fade:</strong> In the center of the battlefield, a dedicated announcement card displays the move's name, type badge, and damage category or status notifications in real time. Announcements linger comfortably for 1.8 seconds before smoothly dissolving with gradual opacity fadeout, preventing overlap with Pokémon sprites and health cards.</li>
+                    <li><strong>Clean Fainted Flow & Direct Roster Selection:</strong> When your Pokémon faints, redundant bottom cards have been removed. A clean central notice alerts you, and your team roster rail pulses into replacement mode—allowing you to directly click any healthy teammate from the roster to send them out immediately.</li>
+                    <li><strong>Dynamic Field Backgrounds:</strong> Backgrounds visually animate to reflect active <strong>Weather</strong> (Rain downpours, Harsh Sunlight, Snowstorms, Sandstorms), <strong>Terrains</strong> (Grassy, Electric, Psychic, Misty), and <strong>Room dimensions</strong> (Trick Room).</li>
+                    <li><strong>On-Field Defensive Screens:</strong> Active screens (<code>Reflect</code>, <code>Light Screen</code>, <code>Aurora Veil</code>) are badged on the battlefield with live remaining-turn countdown timers for each side.</li>
+                    <li><strong>Entry Hazards Tracking:</strong> Badges indicate active <code>Stealth Rock</code>, <code>Spikes</code> layers, <code>Toxic Spikes</code>, and <code>Sticky Web</code> per side.</li>
+                </ul>
+
+                <h3 id="in-battle-actions"><span>⚔️</span> In-Battle Actions & Omni Ring Mechanics</h3>
+                <ul>
+                    <li><strong>Move Selection:</strong> Choose from 4 move buttons displaying move type, category (Physical 💥 / Special 🔮 / Status 🛡️), Base Power, Accuracy, and PP.</li>
+                    <li><strong>💍 Omni Ring System:</strong> Each trainer may activate exactly ONE generational gimmick per match from the Omni Ring dock:
+                        <ul>
+                            <li><strong>💎 Terastallization (TERA):</strong> Shifts defensive and offensive typing into your pure Tera type for the entire match.</li>
+                            <li><strong>🧬 Mega Evolution (MEGA):</strong> Mega Evolution strictly validates that your active Pokémon is holding its canonical Mega Stone (e.g. <code>Charizardite X</code> for Mega X, <code>Charizardite Y</code> for Mega Y, <code>Lucarionite</code>, <code>Mewtwonite X/Y</code>, Rayquaza knowing <code>Dragon Ascent</code>, and upcoming canonical forms such as <strong>Mega Z</strong>). If the stone is held, it mega-evolves instantly into its ultimate form with enhanced base stats, ability shifts, and custom sprites.</li>
+                            <li><strong>⚡ Gigantamax (G-MAX):</strong> Transforms the Pokémon into a colossal titan for 3 turns with 1.5x Max HP and converts all moves into powerful <strong>Max Moves</strong>:
+                                <ul>
+                                    <li><strong>Max Guard:</strong> All status moves (e.g. <code>Protect</code>, <code>Roost</code>, <code>Swords Dance</code>) become Max Guard (priority +4, protecting 100% from all attacks including Max Moves).</li>
+                                    <li><strong>Standard Max Moves:</strong> Damaging moves convert by type into moves like <code>Max Quake</code> (+1 SpD), <code>Max Strike</code> (-1 Spe), <code>Max Knuckle</code> (+1 Atk), <code>Max Flare</code> (sets Sun), <code>Max Geyser</code> (sets Rain), <code>Max Lightning</code> (sets Electric Terrain), and <code>Max Hailstorm</code> (sets Snow).</li>
+                                    <li><strong>Exclusive G-Max Moves:</strong> Signature Gigantamax species trigger exclusive moves such as Lapras's <code>G-Max Resonance</code> (sets Aurora Veil for 5 turns!), Charizard's <code>G-Max Wildfire</code> (sets Sun), Urshifu's <code>G-Max One Blow</code> / <code>G-Max Rapid Flow</code> (pierces Max Guard), and Corviknight's <code>G-Max Wind Rage</code> (clears screens and hazards).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Choice Lock Enforcement:</strong> If holding a <code>Choice Band</code>, <code>Choice Specs</code>, or <code>Choice Scarf</code>, after your first move is chosen, the other three move buttons are disabled and tagged <code>LOCKED</code> until the Pokémon switches out (suspended while Dynamaxed).</li>
+                    <li><strong>Assault Vest Status Protection:</strong> Holding an <code>Assault Vest</code> automatically disables selecting status moves (tagged <code>AV BLOCKED</code>), adhering to tournament rules.</li>
+                    <li><strong>Switching Move Synchronization:</strong> Pivot moves like <code>U-Turn</code> and <code>Volt Switch</code> deal damage and immediately allow you to bring in a benched teammate on the same turn.</li>
+                </ul>
+
+                <h3 id="battle-log"><span>📜</span> Alternating High-Contrast Battle Log</h3>
+                <p>
+                    Every event is chronicled in the live battle log with alternating background colors for crystal-clear readability. 
+                    Ability triggers (e.g. <code>[Pelipper's Drizzle]</code>, <code>[Archaludon's Stamina]</code>), 
+                    item consumptions (<code>Lum Berry</code>, <code>Flame Orb</code>), critical hits, and super-effective multipliers are highlighted with emojis.
+                </p>
+            </section>
+
+            <!-- 6. Pro Tactics -->
+            <section id="pro-pivoting" class="docs-section">
+                <h2><span>🔄</span> Championship Tactics & Pro Strategies</h2>
+                
+                <h3>Double Pivoting & Board Positioning</h3>
+                <p>
+                    In competitive Doubles (VGC), momentum is everything. Leading with a pairing like <strong>Incineroar + Rillaboom</strong> 
+                    allows you to cycle <code>Fake Out</code> flinches, drop the opponent's offensive stats with <code>Parting Shot</code>, 
+                    and cycle your heavy sweepers (like <code>Archaludon</code> or <code>Ursaluna</code>) into favorable positions without taking damage.
+                </p>
+
+                <!-- Dynamic Speed Shifts -->
+                <h3 id="dynamic-speed-tactics"><span>⚡</span> Dynamic Mid-Turn Speed Shifts</h3>
+                <p>
+                    Following modern official competitive engine standards (Gen 7/8/9), turn order is <strong>dynamically recalculated mid-turn</strong>:
+                </p>
+                <ul>
+                    <li><strong>Mega Evolution Speed Shifts:</strong> As soon as a Pokémon Mega Evolves (such as Gengar Mega Evolving into Mega Gengar with 130 Base Speed), its new speed stat takes effect immediately on that exact turn. Slower actions queued for later in the turn are re-ordered behind it!</li>
+                    <li><strong>Tailwind Mid-Turn Acceleration:</strong> When a teammate or opponent executes <code>Tailwind</code> (+100% team Speed for 4 turns), the dynamic speed recalculation immediately pushes the remaining partners up the action queue on that very turn.</li>
+                </ul>
+
+                <!-- Standard Stat Abbreviations -->
+                <h3 id="stat-standards"><span>📊</span> Official Stat Abbreviations Standard</h3>
+                <div class="docs-table-wrap">
+                    <table class="docs-table">
+                        <thead>
+                            <tr>
+                                <th>Abbreviation</th>
+                                <th>Full Stat Name</th>
+                                <th>Role & Mechanics</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>HP</strong></td><td>Hit Points</td><td>Base health pool determining fainted thresholds.</td></tr>
+                            <tr><td><strong>Atk</strong></td><td>Attack</td><td>Calculates physical damage output.</td></tr>
+                            <tr><td><strong>Def</strong></td><td>Defense</td><td>Mitigates physical damage received. (Substituted for Atk on <code>Body Press</code>).</td></tr>
+                            <tr><td><strong>SpA</strong></td><td>Special Attack</td><td>Calculates special damage output (e.g. <code>Weather Ball</code>, <code>Thunder</code>, <code>Electro Shot</code>).</td></tr>
+                            <tr><td><strong>SpD</strong></td><td>Special Defense</td><td>Mitigates special damage received. Boosted by 50% for Rock-types in Sandstorm.</td></tr>
+                            <tr><td><strong>Spe</strong></td><td>Speed</td><td>Determines turn move order. Dynamically updated mid-turn. Inverted under Trick Room. (Never confuse <strong>Spe</strong> with <strong>SpA</strong>!).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Defensive Abilities: Disguise & Multiscale -->
+                <h3 id="abilities-defense"><span>🛡️</span> Signature Defensive Abilities: Disguise & Multiscale</h3>
+                <ul>
+                    <li><strong>Mimikyu's Disguise:</strong> Protects Mimikyu from taking HP damage from the very first damaging attack it receives. When hit by a damaging move, its disguise busts and Mimikyu takes a minor recoil penalty of 1/8 (12.5%) max HP. Attacks that deal 0 damage due to type immunity (such as a Dragon-type <code>Draco Meteor</code> targeting Fairy/Ghost Mimikyu) do <strong>NOT</strong> bust Disguise! Attacks from Pokémon possessing <code>Mold Breaker</code>, <code>Teravolt</code>, or <code>Turboblaze</code> bypass Disguise completely and deal direct damage.</li>
+                    <li><strong>Dragonite's Multiscale:</strong> When Dragonite is at 100% full HP, all incoming damage from attacks is <strong>cut in half (50% reduction)</strong>! This allows Dragonite to easily survive normally fatal 4× Ice-type attacks to set up Dragon Dance or retaliate.</li>
+                    <li><strong>Kingambit's Supreme Overlord:</strong> Kingambit receives a <strong>+10% boost to attack power for every ally on its team that has fainted</strong> (up to +50% in standard 6v6 battles), turning it into a devastating late-game reverse sweeper.</li>
+                </ul>
+
+                <!-- Semi-Invulnerable Moves -->
+                <h3 id="semi-invulnerable"><span>👻</span> Semi-Invulnerable Moves & Protect Piercing</h3>
+                <ul>
+                    <li><strong>Phantom Force & Shadow Force:</strong> On Turn 1, the Pokémon vanishes into deep shadows in a semi-invulnerable state, avoiding incoming attacks. On Turn 2, the strike lands with full force. Crucially, <strong>Phantom Force and Shadow Force bypass and break opposing Protect, Detect, and Max Guard</strong>, leaving the opponent exposed for the rest of the turn!</li>
+                    <li><strong>Fly, Dig, Dive & Bounce:</strong> Enter elevated/underground semi-invulnerable states on Turn 1 and strike on Turn 2, evading ground-level or standard attacks during their charging turn.</li>
+                </ul>
+
+                <!-- Substitute Mechanics -->
+                <h3 id="substitute-tactics"><span>🧸</span> Generation 9 Substitute Mechanics & Decoy Protection</h3>
+                <p>
+                    <code>Substitute</code> is a cornerstone competitive tactical move that creates a decoy doll at the cost of 25% max HP:
+                </p>
+                <ul>
+                    <li><strong>Cost & Usage Limit:</strong> Costs exactly <strong>25% of the user's max HP</strong> ($\lfloor\text{max\_hp} \times 0.25\rfloor$). The move strictly fails if the user's remaining HP is $\le 25\%$ max HP (preventing self-KO) or if a substitute is already active.</li>
+                    <li><strong>Zero Spillover Damage Rule:</strong> Incoming attacks strike the substitute first. Even if an attack inflicts 500 damage against a substitute with only 1 HP remaining, <strong>the substitute breaks and the Pokémon sustains 0 spillover damage</strong>!</li>
+                    <li><strong>Full Status & Secondary Effect Immunity:</strong>
+                        <ul>
+                            <li>Direct status moves (<code>Will-O-Wisp</code>, <code>Toxic</code>, <code>Thunder Wave</code>, <code>Spore</code>, <code>Yawn</code>, <code>Taunt</code>, <code>Attract</code>, <code>Trick</code>) fail against a target behind a substitute.</li>
+                            <li>Secondary attack procs (flinching, secondary stat drops, burn/paralysis/freeze/poison, <code>Knock Off</code> item stripping) are completely blocked.</li>
+                            <li>Defender held items and abilities are shielded: <code>Focus Sash</code> does not pop, <code>Air Balloon</code> does not burst, and <code>Rough Skin</code> / <code>Rocky Helmet</code> contact recoil does not trigger.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Bypass Exceptions (Gen 6+):</strong>
+                        <ul>
+                            <li><strong>Sound-based moves</strong> (<code>Boomburst</code>, <code>Bug Buzz</code>, <code>Hyper Voice</code>, <code>Torch Song</code>, <code>Snarl</code>, <code>Roar</code>, <code>Perish Song</code>) bypass the substitute completely to damage the Pokémon directly.</li>
+                            <li>Pokémon with the <code>Infiltrator</code> ability (e.g. Dragapult) bypass the substitute directly on all attacks.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Team Baton Passing & Shed Tail:</strong> An active substitute (and its remaining HP) is passed to incoming teammates via <code>Baton Pass</code>. Additionally, <code>Shed Tail</code> (Cyclizar, Orthworm) cuts 50% max HP, creates a 25% max HP substitute, and pivots out to gift the decoy to the switch-in.</li>
+                    <li><strong>HUD Visualization:</strong> The active Pokémon card renders a <code>🧸 SUB (X HP)</code> badge while protected.</li>
+                </ul>
+
+                <!-- Consecutive Protection Decay -->
+                <h3 id="consecutive-protect"><span>🛡️</span> Consecutive Protection Decay & Failure Formula</h3>
+                <p>
+                    In official competitive Pokémon (Generations 6 through 9), defensive protection moves cannot be spammed indefinitely. Each consecutive use suffers a sharp exponential decay in accuracy:
+                </p>
+                <ul>
+                    <li><strong>The $(1/3)^n$ Degradation Formula:</strong>
+                        <ul>
+                            <li><strong>1st Turn:</strong> <strong>100%</strong> success rate ($1/1$).</li>
+                            <li><strong>2nd Consecutive Turn:</strong> <strong>33.3%</strong> success rate ($1/3$).</li>
+                            <li><strong>3rd Consecutive Turn:</strong> <strong>11.1%</strong> success rate ($1/9$).</li>
+                            <li><strong>4th Consecutive Turn:</strong> <strong>3.7%</strong> success rate ($1/27$).</li>
+                            <li><strong>5th Consecutive Turn:</strong> <strong>1.2%</strong> success rate ($1/81$).</li>
+                            <li><strong>6th Consecutive Turn:</strong> <strong>0.4%</strong> success rate ($1/243$).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Shared Protection Moves:</strong> The consecutive counter is shared across all protection variants: <code>Protect</code>, <code>Detect</code>, <code>Spiky Shield</code>, <code>Baneful Bunker</code>, <code>King's Shield</code>, <code>Obstruct</code>, <code>Silk Trap</code>, <code>Burning Bulwark</code>, <code>Max Guard</code>, and <code>Endure</code>.</li>
+                    <li><strong>Counter Reset Triggers:</strong> The consecutive streak immediately resets back to <strong>0</strong> (restoring 100% accuracy on the next attempt) if:
+                        <ul>
+                            <li>A protection move fails (e.g. rolls failure or is blocked).</li>
+                            <li>The Pokémon uses <em>any</em> other move (damaging attack or non-protection status move).</li>
+                            <li>The Pokémon switches out or is forced out.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Protection Targeting Scope:</strong> <code>Protect</code> and <code>Detect</code> only shield against moves that <em>target the protecting Pokémon</em> (damaging attacks and targeted status debuffs like Taunt, Will-O-Wisp, and Screech). <strong>Protect NEVER blocks self-targeting status moves</strong> (Bulk Up, Swords Dance, Calm Mind, Dragon Dance, Recover, Substitute, Shell Smash) or field/entry hazard moves (Stealth Rock, Spikes, Tailwind, Rain Dance)!</li>
+                    <li><strong>AI Protection Anti-Spam:</strong> Champion AI dynamically factors in this degradation formula. If Protect was used on the preceding turn, the AI receives a severe score penalty ($\Delta -120.0$), ensuring it attacks or pivots rather than gambling on a 33% or 11% survival roll.</li>
+                </ul>
+
+                <!-- PP Deduction, Pressure & Struggle -->
+                <h3 id="pp-pressure-struggle"><span>🔋</span> PP Tracking, Pressure Ability & Struggle Fallback</h3>
+                <p>
+                    Every move in battle has a dedicated Power Points (PP) pool that decrements on every turn it is used:
+                </p>
+                <ul>
+                    <li><strong>Standard Deduction:</strong> Successfully attempting a move consumes <strong>1 PP</strong> from the Pokémon's move pool.</li>
+                    <li><strong>Pressure Ability:</strong> When an active Pokémon has the <code>Pressure</code> ability (e.g. Corviknight, Dusclops, Zapdos, Mewtwo), any opponent move that targets it consumes <strong>2 PP</strong> instead of 1. Pressure also announces its presence upon entering the battlefield.</li>
+                    <li><strong>Zero PP Move Lock:</strong> Moves with 0 PP are greyed out and cannot be clicked in the simulator HUD.</li>
+                    <li><strong>Struggle Execution:</strong> If a Pokémon has exhausted all PP across all 4 of its moves, a dedicated <strong>Struggle</strong> button appears. Struggle deals <strong>50 Base Power typeless physical damage</strong> (hitting Ghost types for neutral $1.0\times$), but inflicts recoil equal to <strong>25% of the user's maximum HP</strong>.</li>
+                </ul>
+
+                <!-- Absorption Abilities & Hazard Faint -->
+                <h3 id="thermal-well-baked-hazards"><span>🔥</span> Signature Absorption Abilities & Switch-In Hazard Faint Rule</h3>
+                <ul>
+                    <li><strong>Thermal Exchange (Baxcalibur):</strong>
+                        <ul>
+                            <li><strong>Burn Immunity:</strong> Baxcalibur is completely immune to burns from status moves (e.g. Will-O-Wisp, Flame Orb) and secondary move effects (e.g. Scald, Flamethrower).</li>
+                            <li><strong>Attack Boost:</strong> Whenever Baxcalibur is struck by any damaging Fire-type attack, it sustains normal damage and immediately raises its physical <strong>Attack by +1 stage</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Well-Baked Body (Dachsbun):</strong>
+                        <ul>
+                            <li><strong>Fire Immunity:</strong> Completely negates all damage from Fire-type attacks ($0.0\times$ damage multiplier).</li>
+                            <li><strong>Defense Boost:</strong> When targeted or struck by a Fire-type attack, Dachsbun immediately raises its <strong>Defense sharply by +2 stages</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Elemental Absorption Suite:</strong> The simulator also enforces complete damage immunity and procs for:
+                        <ul>
+                            <li><code>Earth Eater</code> (Orthworm): Restores 25% max HP when targeted by Ground moves.</li>
+                            <li><code>Water Absorb</code> / <code>Dry Skin</code>: Restores 25% max HP when hit by Water moves.</li>
+                            <li><code>Volt Absorb</code>: Restores 25% max HP when hit by Electric moves.</li>
+                            <li><code>Lightning Rod</code> / <code>Storm Drain</code>: Draws Electric/Water moves, grants 0 damage, and raises Special Attack (+1 SpA).</li>
+                            <li><code>Motor Drive</code>: Grants 0 damage and raises Speed (+1 Spe) when hit by Electric moves.</li>
+                            <li><code>Sap Sipper</code>: Grants 0 damage and raises Attack (+1 Atk) when hit by Grass moves.</li>
+                            <li><code>Flash Fire</code>: Grants 0 damage from Fire moves and activates a 1.5× boost to the user's own Fire attacks.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hazard Faint Switch-In Ability Suppression:</strong>
+                        <p>In accordance with official Pokémon championship rules, if a Pokémon faints upon switching in due to entry hazards (such as Stealth Rock, Spikes, or Steelsurge), its switch-in ability (<code>Intimidate</code>, <code>Drizzle</code>, <code>Drought</code>, <code>Electric Surge</code>, <code>Psychic Surge</code>, <code>Pressure</code>, etc.) <strong>DOES NOT ACTIVATE</strong>. The trainer is prompted immediately to select another Pokémon to send out into battle.</p>
+                    </li>
+                </ul>
+
+                <!-- Crash Damage -->
+                <h3 id="crash-damage"><span>💥</span> High Jump Kick & Jump Kick Crash Recoil</h3>
+                <p>
+                    High-power jumping attacks carry extreme competitive risk:
+                </p>
+                <ul>
+                    <li>If <code>High Jump Kick</code> (130 BP) or <code>Jump Kick</code> (100 BP) misses its target due to an accuracy roll, or if the target blocks with <code>Protect</code>, <code>Detect</code>, or <code>Max Guard</code>, the attacker crashes to the ground and sustains <strong>50% of their maximum HP as crash recoil damage</strong>!</li>
+                </ul>
+
+                <!-- Booster Energy & Paradox -->
+                <h3 id="booster-energy"><span>⚡</span> Booster Energy & Paradox Protosynthesis / Quark Drive</h3>
+                <ul>
+                    <li><strong>Instant Turn-1 Consumption:</strong> When a Paradox Pokémon (e.g. Flutter Mane, Iron Bundle, Roaring Moon, Iron Hands) holds a <code>Booster Energy</code>, the item is consumed immediately on its first active turn on the battlefield.</li>
+                    <li><strong>Stat Amplification:</strong> Grants a <strong>+30% boost to the Pokémon's highest stat (+50% if the highest stat is Speed)</strong> without requiring manual Sun (Drought) or Electric Terrain setup.</li>
+                </ul>
+
+                <!-- Special Move Mechanics -->
+                <h3 id="special-moves"><span>⚡</span> Special Move Mechanics: Electro Shot, Freeze-Dry & Body Press</h3>
+                <ul>
+                    <li><strong>Last Respects & Kingambit Supreme Overlord (Fallen Ally Scaling):</strong>
+                        <ul>
+                            <li><code>Last Respects</code> (Ghost Physical): Signature move of Houndstone and Basculegion. Starts at <strong>50 Base Power</strong> and dynamically gains <strong>+20 BP for each fainted ally</strong> on the user's team ($\text{Power} = 50 + 20 \times \text{allies}$). With 5 teammates fainted, Last Respects unleashes a devastating <strong>150 Base Power</strong> physical Ghost attack! Active BP is dynamically reported in the HUD move details and combat log.</li>
+                            <li><code>Supreme Overlord</code> (Kingambit Ability): Grants a <strong>+10% damage multiplier for every fainted ally</strong> on Kingambit's team, capping at <strong>+50% (1.5× total damage)</strong> when 5 allies have fallen. When Kingambit enters battle with fallen allies, Supreme Overlord triggers an entry announcement communicating its heightened power.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Multi-Hit Moves, Skill Link & Loaded Dice Suite:</strong>
+                        <ul>
+                            <li><code>2–5 Hit Moves</code> (Icicle Spear, Bullet Seed, Rock Blast, Scale Shot, Tail Slap, Pin Missile, Arm Thrust): Normally land 2 hits (35%), 3 hits (35%), 4 hits (15%), or 5 hits (15%).</li>
+                            <li><code>Skill Link Ability</code> (Cloyster, Cinccino): Guarantees the maximum <strong>5 hits (100%)</strong> on every execution!</li>
+                            <li><code>Loaded Dice Held Item</code> (Baxcalibur, Breloom): Guarantees <strong>4 or 5 hits (50%/50%)</strong>, eliminating low 2-hit or 3-hit rolls. For Population Bomb, guarantees at least 4 to 10 hits!</li>
+                            <li><code>Fixed Multi-Hit Moves</code>: <code>Dragon Darts</code> (2 hits, 50 BP each), <code>Dual Wingbeat</code> (2 hits, 40 BP each), <code>Surging Strikes</code> (3 hits, 25 BP each, always crits), <code>Triple Dive</code> (3 hits, 30 BP each).</li>
+                            <li><code>Substitutes & Disguise Bypass</code>: In competitive Pokémon, multi-hit moves are the ultimate counter to decoys! Hit 1 busts Mimikyu's Disguise, while hits 2, 3, 4, and 5 deal full damage directly to Mimikyu's HP. Against a Substitute, strikes deplete the decoy; if broken, all subsequent strikes hit the Pokémon directly!</li>
+                            <li><code>Focus Sash & Sturdy Shattering</code>: Multi-hit moves easily bypass Focus Sash and Sturdy — the initial lethal strike reduces the target to 1 HP, and the subsequent strikes knock the defender out!</li>
+                            <li><code>On-Hit Synergies</code>: Each individual hit triggers Archaludon's <code>Stamina</code> (+1 Defense per hit, up to +5 in one turn) and increments defender's <code>Rage Fist</code> counter!</li>
+                        </ul>
+                    </li>
+                    <li><strong>Poison-Type Toxic Accuracy Bypass:</strong>
+                        <ul>
+                            <li>Since Generation 6 and continuing in Gen 9, if <code>Toxic</code> is used by any <strong>Poison-type Pokémon</strong> (e.g. Clodsire, Toxapex, Gengar, Glimmora), it <strong>bypasses all accuracy checks to never miss</strong>!</li>
+                            <li>Furthermore, Poison-type Toxic hits opponents even during semi-invulnerable turns (<code>Fly</code>, <code>Bounce</code>, <code>Dig</code>, <code>Dive</code>)! Non-Poison Pokémon retain standard 90% accuracy.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Generation 9 Status Conditions & Mechanics:</strong>
+                        <ul>
+                            <li><code>Burn</code>: Deals <strong>1/16 (6.25%) max HP</strong> chip damage at the end of each turn. Cuts the Pokémon's effective physical Attack stat by <strong>50% (0.5×)</strong>. Pokémon with the <code>Guts</code> ability completely ignore the attack penalty and gain a <strong>+50% (1.5×) Attack boost</strong> instead! Fire-types are immune to burn; Baxcalibur's <code>Thermal Exchange</code> provides complete burn immunity.</li>
+                            <li><code>Regular Poison</code>: Deals <strong>1/8 (12.5%) max HP</strong> chip damage at the end of each turn. Poison and Steel types are completely immune.</li>
+                            <li><code>Bad Poison (Toxic)</code>: Deals escalating damage equal to <strong>$N/16$ max HP</strong> ($1/16$ on Turn 1, $2/16$ on Turn 2, $3/16$ on Turn 3, etc.). The damage counter resets to 1 upon switching out.</li>
+                            <li><code>Sleep</code>: Lasts 1 to 3 turns, preventing moves (except Sleep Talk/Snore). Electric Terrain and Misty Terrain prevent grounded Pokémon from falling asleep. Waking up allows acting on that same turn.</li>
+                            <li><code>Freeze</code>: Preserved in Gen 9 SV (unlike Legends: Arceus Frostbite). Has a <strong>20% chance to thaw out naturally</strong> each turn. Using thawing Fire moves (<code>Flare Blitz</code>, <code>Flame Wheel</code>, <code>Sacred Fire</code>, <code>Scald</code>, <code>Pyro Ball</code>) immediately thaws the user before attacking! Damaging Fire attacks also thaw frozen targets. Ice-types cannot be frozen.</li>
+                            <li><code>Paralysis</code>: Reduces Speed by <strong>50% (0.5×)</strong> (in Gen 7+) and gives a <strong>25% chance of being fully paralyzed</strong> on each turn. Electric-types and Limber Pokémon are immune.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rage Fist Dynamic Hit Scaling (Annihilape / Primeape Signature Move):</strong>
+                        <ul>
+                            <li><code>Base Power Progression</code>: Starts at <strong>50 Base Power</strong> and increases by <strong>+50 BP for every damaging attack that hits the user</strong>, capping at an enormous <strong>350 Base Power</strong> (after 6 hits).</li>
+                            <li><code>Any Damaging Attack Counts</code>: Unlike a common misconception, Rage Fist does <em>not</em> require contact moves — <strong>any physical or special attack that deals direct damage</strong> to the Pokémon increases the counter! Hits absorbed by Mimikyu's Disguise also increment the counter.</li>
+                            <li><code>Multi-Hit Move Stacking</code>: Each individual strike of a multi-hit move (such as Dragon Darts, Icicle Spear, Bullet Seed, or Population Bomb) counts as a separate hit, allowing Annihilape to gain multiple stacks in a single turn!</li>
+                            <li><code>Permanent Battle Persistence</code>: The hits counter <strong>does not reset upon switching out to the bench or fainting</strong>. Once Annihilape absorbs hits, Rage Fist retains its accumulated power for the remainder of the battle.</li>
+                            <li><code>Exceptions</code>: Attacks absorbed by a Substitute, blocked by Protect, passive hazard damage (Stealth Rock, Spikes), weather chip (Sandstorm), status damage (Burn, Poison), and self-confusion damage do <em>not</em> increment the counter.</li>
+                            <li><code>Iron Fist Synergy</code>: As a recognized punching move, Rage Fist gains an additional <strong>20% (1.2×) damage boost</strong> from the <code>Iron Fist</code> ability.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Fixed-Damage Attacks & Suicide Moves (Final Gambit, Seismic Toss, Super Fang, Explosion):</strong> Specialized moves that deal direct, calculable damage independent of standard defensive stats and base power formulas:
+                        <ul>
+                            <li><code>Final Gambit</code> (Fighting Special): Inflicts <strong>flat damage equal to the user's exact current HP</strong> at the moment of execution, and the <strong>user immediately faints</strong>. Bypasses defenses, screens, and Multiscale. However, if the opponent is a <strong>Ghost-type</strong>, the attack fails ($0\times$ immunity), deals 0 damage, and the user <strong>does not faint</strong>! Similarly, if blocked by <code>Protect</code> or if it misses, the user does not faint.</li>
+                            <li><code>Seismic Toss</code> & <code>Night Shade</code>: Deal fixed damage equal to the user's level (50 HP at level 50). Seismic Toss fails against Ghost-types; Night Shade fails against Normal-types.</li>
+                            <li><code>Super Fang</code>, <code>Ruination</code> & <code>Nature's Madness</code>: Deal flat damage equal to <strong>50% of the defender's current HP</strong>. Super Fang is blocked by Ghost immunity; Ruination and Nature's Madness affect all types.</li>
+                            <li><code>Endeavor</code>: Sets the defender's current HP equal to the user's current HP (inflicting current HP difference). Fails against Ghost-types.</li>
+                            <li><code>Explosion</code> & <code>Self-Destruct</code>: High base power moves (250 BP / 200 BP) where the user self-destructs (faints) after attacking.</li>
+                            <li><em>Tournament Tiebreak Rule:</em> If both trainers lose their last Pokémon to a suicide move (Final Gambit or Explosion), official competitive rules dictate that the user of the suicide move loses the battle.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Self-Stat Drop Drawback Attacks (Clanging Scales, Close Combat, Draco Meteor):</strong> High-power attacks with self-stat penalties execute their drops immediately upon successfully landing damage (or hitting an opponent's Substitute):
+                        <ul>
+                            <li><code>Clanging Scales</code> (110 BP Dragon Special): Sound-based signature attack of Kommo-o that bypasses Substitute and lowers the user's <strong>Defense by 1 stage (-1 Def)</strong>.</li>
+                            <li><code>Close Combat</code>, <code>Armor Cannon</code> & <code>Headlong Rush</code>: Lowers Defense and Special Defense by 1 stage (-1 Def, -1 SpD).</li>
+                            <li><code>Superpower</code>: Lowers Attack and Defense by 1 stage (-1 Atk, -1 Def).</li>
+                            <li><code>Draco Meteor</code>, <code>Overheat</code> & <code>Leaf Storm</code>: Harshly lowers Special Attack by 2 stages (-2 SpA).</li>
+                            <li><code>Make It Rain</code>: Lowers Special Attack by 1 stage (-1 SpA).</li>
+                            <li><em>Canonical Rule:</em> If the attack misses, is blocked by Protect, or deals 0 damage due to type immunity (e.g. Clanging Scales against a Fairy-type Pokémon), <strong>no user stats are dropped</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Electro Shot in Rain vs Two-Turn Charging:</strong> Under normal conditions, Electro Shot is a two-turn move: on Turn 1 it charges and boosts Special Attack by +1 stage (+50%), and on Turn 2 it unleashes a 130 Base Power Electric blast. <strong>Under Rain (Drizzle or Rain Dance), Electro Shot executes in a single turn</strong>, granting +1 SpA and attacking immediately!</li>
+                    <li><strong>Freeze-Dry Super-Effective Override:</strong> Freeze-Dry is a specialized Ice-type attack (70 BP) that is <strong>super-effective (2×) against Water-type Pokémon</strong> instead of resisted! It deals a catastrophic <strong>4× damage</strong> to dual-type Water/Dragon Pokémon (Kingdra, Dracovish, Walking Wake) and Water/Ground Pokémon (Swampert, Gastrodon, Quagsire).</li>
+                    <li><strong>Weather Ball Dynamics:</strong> Normally a 50 BP Normal-type move. In weather, its power doubles to <strong>100 Base Power</strong> and changes type: Water in Rain, Fire in Sun, Ice in Snow, and Rock in Sandstorm.</li>
+                    <li><strong>Body Press Defense Substitution:</strong> Calculates damage using the user's current physical <strong>Defense</strong> stat (including Iron Defense boosts) instead of Attack. However, because it remains a Fighting-type attack, <strong>Ghost-type opponents retain 100% immunity (0× damage)</strong>!</li>
+                </ul>
+
+                <h3 id="weather-terrains"><span>🌧️</span> Weather & Terrain Wars</h3>
+                <p>
+                    Controlling field effects can completely turn the tide of battle:
+                </p>
+                <ul>
+                    <li><strong>Sandstorm Rock-Type Special Defense Boost (1.5×):</strong> In a Sandstorm (<code>Sand Stream</code> or <code>Sandstorm</code>), all Rock-type Pokémon receive an automatic <strong>+50% (1.5×) boost to their Special Defense</strong>! For example, Tyranitar's effective Sp. Def increases from 100 to 150 base equivalent, significantly cushioning super-effective special hits like Moonblast or Focus Blast. Non-Rock/Ground/Steel Pokémon take 1/16 max HP chip damage each turn.</li>
+                    <li><strong>Snow Ice-Type Physical Defense Boost (1.5×):</strong> In Snow (Generation 9 canonical mechanic replacing Hail), all Ice-type Pokémon receive an automatic <strong>+50% (1.5×) boost to their physical Defense</strong>! This dramatically increases the physical bulk of defensive Ice types like Baxcalibur, Alolan Ninetales, and Cetitan without inflicting residual hail damage.</li>
+                    <li><strong>Rain Accuracy Bypasses (Thunder & Hurricane):</strong> Under Rain (<code>Drizzle</code> or <code>Rain Dance</code>), both <code>Hurricane</code> and <code>Thunder</code> bypass accuracy checks and <strong>cannot miss (100% accuracy)</strong>, unless negated by weather-suppressing abilities like <code>Cloud Nine</code> or <code>Air Lock</code>, or replaced by sun/snow/sand! In Harsh Sun, their accuracy plummets to 50%.</li>
+                    <li><strong>Snow Accuracy Bypass (Blizzard):</strong> In Snow or Hail, <code>Blizzard</code> bypasses accuracy checks and cannot miss (100% accuracy).</li>
+                    <li><strong>Electric Terrain:</strong> Boosts Electric moves by 30% and prevents all grounded Pokémon from falling asleep, completely countering Amoonguss's Spore.</li>
+                    <li><strong>Psychic Terrain Priority Shield:</strong> Boosts Psychic moves by 30% and protects all grounded Pokémon from incoming priority attacks!</li>
+                </ul>
+
+                <h3 id="spread-scaling"><span>💥</span> Doubles Spread Damage Scaling (75% vs 100%)</h3>
+                <p>
+                    In competitive Doubles (4v4), spread moves that strike both opponents simultaneously (such as <code>Muddy Water</code>, <code>Bleakwind Storm</code>, <code>Heat Wave</code>, <code>Earthquake</code>, <code>Dazzling Gleam</code>, and <code>Rock Slide</code>) undergo official VGC damage scaling:
+                </p>
+                <ul>
+                    <li><strong>Dual Targets Present:</strong> If both opposing Pokémon are active on the field, the attack deals <strong>75% (0.75×) scaled damage</strong> to each target.</li>
+                    <li><strong>Solo Target Remaining:</strong> If one opposing Pokémon has already fainted or switched out, the spread penalty is removed, dealing <strong>100% (1.0×) full damage</strong> to the lone defender!</li>
+                </ul>
+
+                <h3 id="screens-veil"><span>🔮</span> Defensive Screens & Aurora Veil Mitigation</h3>
+                <ul>
+                    <li><strong>Light Screen:</strong> Reduces all incoming Special damage by <strong>50% in Singles</strong> (33% in Doubles) for 5 turns (8 turns with Light Clay).</li>
+                    <li><strong>Reflect:</strong> Reduces all incoming Physical damage by <strong>50% in Singles</strong> (33% in Doubles) for 5 turns (8 turns with Light Clay).</li>
+                    <li><strong>Aurora Veil:</strong> Can only be activated during Snow or Hail; establishes both Reflect and Light Screen simultaneously in a single turn!</li>
+                    <li>Active screens and remaining turn countdowns are clearly visible in the simulator arena.</li>
+                </ul>
+
+                <h3 id="trick-choice"><span>🎒</span> Item Swapping, Choice Move Locks & Mega Stones</h3>
+                <ul>
+                    <li><strong>Trick & Switcheroo:</strong> Swaps held items between the user and the target. This can be used offensively to cripple an opposing defensive wall (like Amoonguss or Ting-Lu) by giving them a Choice item.</li>
+                    <li><strong>Mega Stone Anti-Removal Security:</strong> Mega Stones (58 canonical stones) are permanently attached competitive artifacts. They <strong>cannot</strong> be removed by <code>Knock Off</code>, nor swapped using <code>Trick</code> or <code>Switcheroo</code>!</li>
+                    <li><strong>Choice Items (Band, Specs, Scarf):</strong>
+                        <ul>
+                            <li><code>Choice Band</code>: Boosts Attack by +50% (1.5×).</li>
+                            <li><code>Choice Specs</code>: Boosts Special Attack by +50% (1.5×).</li>
+                            <li><code>Choice Scarf</code>: Boosts Speed by +50% (1.5×).</li>
+                            <li><strong>Choice Lock Drawback:</strong> The user is locked into repeating the very first move they select. They cannot choose any other move until they switch out! If a Pokémon holding a Choice item uses <code>Trick</code>, they swap items, release their Choice lock, and can select any move freely on the following turn. Conversely, the recipient immediately becomes Choice-locked on their next move.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Assault Vest:</strong> Boosts Special Defense by +50% (1.5×), but completely prevents the bearer from selecting any status moves.</li>
+                    <li><strong>Air Balloon:</strong> Grants the holder complete immunity to Ground-type attacks and entry hazards (Spikes, Toxic Spikes) until popped by a direct damaging hit.</li>
+                    <li><strong>Weakness Policy:</strong> When the holder is struck by a super-effective attack ($> 1.0\times$ effectiveness) and survives with remaining HP, Weakness Policy is consumed and sharply boosts both <strong>Attack (+2) and Special Attack (+2)</strong> stages (+100% damage)! Ideal on bulky dynamax/terastallized tanks like Tyranitar, Dragonite, and Metagross. Does not trigger if the holder faints or if hitting a Substitute.</li>
+                    <li><strong>White Herb:</strong> Single-use cleansing herb automatically consumed whenever any stat stage drops below neutral ($< 0$). It resets all lowered stats back to 0 while preserving positive stat boosts! Triggers on Intimidate, Sticky Web, self-stat drop attacks (Close Combat, Draco Meteor, Clanging Scales), status self-drops (Shell Smash clearing -1 Def/-1 SpD while preserving +2 Atk/+2 SpA/+2 Spe), and opponent stat debuffs.</li>
+                    <li><strong>Power Herb:</strong> Single-use herb allowing two-turn charging attacks to strike immediately on turn one without charging! Works with <code>Meteor Beam</code> (+1 SpA and immediate attack), <code>Solar Beam</code>, <code>Solar Blade</code>, <code>Skull Bash</code> (+1 Def and immediate attack), <code>Geomancy</code> (instant +2 SpA, +2 SpD, +2 Spe), <code>Sky Attack</code>, and two-turn semi-invulnerable attacks (<code>Fly</code>, <code>Bounce</code>, <code>Phantom Force</code>).</li>
+                </ul>
+
+                <h3 id="priority-brackets"><span>⚡</span> Priority Brackets & Sucker Punch Rules</h3>
+                <ul>
+                    <li><strong>Fake Out:</strong> Has +3 Priority, but only works on the <em>very first turn</em> the user enters the field (<code>turnsOnField == 1</code>). If used on subsequent turns without switching out first, it automatically fails!</li>
+                    <li><strong>Sucker Punch:</strong> Has +1 Priority, but <em>only succeeds if the target selects a damaging attack</em>. If the opponent uses a status move (like Swords Dance or Protect) or switches out, Sucker Punch automatically fails!</li>
+                    <li><strong>Psychic Terrain Priority Blocking:</strong> Grounded Pokémon targeted by priority moves (Sucker Punch, Fake Out, Extreme Speed, Aqua Jet) are protected by the terrain and take 0 damage.</li>
+                    <li><strong>Prankster:</strong> Grants +1 priority to status moves (e.g., Tailwind, Spore, Taunt), but Dark-type opponents are completely immune to Prankster-boosted moves.</li>
+                </ul>
+
+                <h3 id="status-management"><span>🔥</span> Status Conditions & Item Management</h3>
+                <p>
+                    Managing non-volatile status effects is crucial for championship survival:
+                </p>
+                <ul>
+                    <li><strong>Burn:</strong> Cuts physical attack damage by 50% and chips 1/16 HP per turn. However, Pokémon with the <code>Guts</code> ability (like Ursaluna) gain a 50% Attack boost instead!</li>
+                    <li><strong>Lum Berry:</strong> Automatically consumed to cure any non-volatile status condition (burn, freeze, paralysis, sleep, poison) or confusion immediately upon infliction.</li>
+                    <li><strong>Flame Orb:</strong> Activates at the end of Turn 1 to trigger Guts without taking outside sleep or paralysis.</li>
+                </ul>
+            </section>
+
+            <!-- 7. FAQ & Troubleshooting -->
+            <section id="faq" class="docs-section">
+                <h2><span>❓</span> Frequently Asked Questions & Troubleshooting</h2>
+                <div class="docs-card-grid">
+                    <div class="docs-card">
+                        <div class="docs-card-title">How do I reset or back up my data?</div>
+                        <p>Go to the <strong>🏠 Home</strong> page and scroll down to the <strong>⚡ Cache Diagnostics</strong> section. You can backup, clear, or recover caches for Pokémon, Moves, Abilities, Items, and Teams with one click.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">Why can't I Mega Evolve my Pokémon?</div>
+                        <p>Mega Evolution strictly requires holding the specific Mega Stone as your held item (e.g. <code>Charizardite X/Y</code> for Charizard, <code>Lucarionite</code> for Lucario, <code>Mewtwonite X/Y</code> for Mewtwo, Rayquaza knowing <code>Dragon Ascent</code>, and canonical forms like Mega Z). Check your held item in the Teambuilder or Slot Editor.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">Why is Heatran marked not legal in Champions format?</div>
+                        <p>Champions format legality strictly follows the official Serebii Champions roster (<code>data/champions_roster.json</code>). Heatran is currently banned from Champions tournament play. Conversely, competitive staples like Archaludon are fully legal.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">How do I cleanly purge old AI battle knowledge?</div>
+                        <p>Click the <strong>Reset Knowledge</strong> button in the Simulator or submit <code>POST /api/simulator/knowledge/reset</code>. This flushes both active in-memory caches and disk cache simultaneously, preventing stale or phantom knowledge from reappearing.</p>
+                    </div>
+                    <div class="docs-card">
+                        <div class="docs-card-title">Why did my move fail?</div>
+                        <p>Check the battle log! The move might have failed due to type immunities (e.g. Body Press on Ghost), Sucker Punch conditionality, terrain protections (Psychic Terrain blocking priority), or Protect shields.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('pokemon_theme', isDark ? 'dark' : 'light');
+            document.getElementById('dark-mode-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Initialize Theme from localStorage
+        (function() {
+            const savedTheme = localStorage.getItem('pokemon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark');
+                document.getElementById('dark-mode-toggle').textContent = '☀️';
+            }
+        })();
+
+        function toggleSidebar() {
+            document.getElementById('docs-sidebar').classList.toggle('open');
+        }
+
+        // Live Topic Filter
+        function filterTopics() {
+            const query = document.getElementById('docs-filter-input').value.toLowerCase().trim();
+            const links = document.querySelectorAll('.docs-nav-link');
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const li = link.parentElement;
+                if (!query || text.includes(query)) {
+                    li.style.display = '';
+                } else {
+                    li.style.display = 'none';
+                }
+            });
+        }
+
+        // Scrollspy for active nav link
+        window.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('.docs-nav-link');
+            const sections = document.querySelectorAll('.docs-section, .docs-section h3');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const top = section.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                if (current) {
+                    links.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${current}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
