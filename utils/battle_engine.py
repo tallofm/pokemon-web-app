@@ -131,6 +131,37 @@ def build_dynamic_types_registry(cache: dict) -> Dict[str, List[str]]:
 # Dynamic Mega Evolutions Registry (Omni Ring)
 # --------------------------------------------------------------------------- #
 
+def parse_mega_entry_from_data(slug: str, data: dict, base_data: Optional[dict] = None) -> Dict[str, Any]:
+    """Helper to parse a Mega / Primal form dictionary into a normalized registry entry."""
+    base_species = (data.get("species", {}).get("name") or slug.split("-mega")[0].split("-primal")[0]).lower().strip()
+    types = [t["type"]["name"].lower() for t in data.get("types", []) if isinstance(t.get("type"), dict)]
+    abilities = [a["ability"]["name"].lower() for a in data.get("abilities", []) if isinstance(a.get("ability"), dict)]
+    sprites = data.get("sprites", {})
+    other = sprites.get("other", {})
+    showdown = other.get("showdown", {})
+    official = other.get("official-artwork", {})
+    sprite = showdown.get("front_default") or sprites.get("front_default") or official.get("front_default")
+
+    stat_boosts: Dict[str, int] = {}
+    if base_data:
+        m_stats = {s["stat"]["name"]: s.get("base_stat", 0) for s in data.get("stats", []) if isinstance(s.get("stat"), dict)}
+        b_stats = {s["stat"]["name"]: s.get("base_stat", 0) for s in base_data.get("stats", []) if isinstance(s.get("stat"), dict)}
+        for k, v in m_stats.items():
+            diff = v - b_stats.get(k, 0)
+            if diff != 0:
+                stat_boosts[k] = diff
+
+    display_name = humanize_name(slug)
+    return {
+        "mega_species": slug,
+        "name": display_name,
+        "types": types,
+        "ability": abilities[0] if abilities else "",
+        "stat_boosts": stat_boosts,
+        "sprite": sprite
+    }
+
+
 def build_dynamic_mega_registry(cache: dict) -> Dict[str, Dict[str, Any]]:
     """
     Dynamically scans Pokédex cache for all Mega and Primal forms (97+ forms).
@@ -140,34 +171,8 @@ def build_dynamic_mega_registry(cache: dict) -> Dict[str, Dict[str, Any]]:
     for slug, data in (cache or {}).items():
         if "-mega" in slug or "-primal" in slug:
             base_species = (data.get("species", {}).get("name") or slug.split("-mega")[0].split("-primal")[0]).lower().strip()
-            types = [t["type"]["name"].lower() for t in data.get("types", []) if isinstance(t.get("type"), dict)]
-            abilities = [a["ability"]["name"].lower() for a in data.get("abilities", []) if isinstance(a.get("ability"), dict)]
-            sprites = data.get("sprites", {})
-            other = sprites.get("other", {})
-            showdown = other.get("showdown", {})
-            official = other.get("official-artwork", {})
-            sprite = showdown.get("front_default") or sprites.get("front_default") or official.get("front_default")
-            
-            # Stat boosts relative to base form
             base_data = (cache or {}).get(base_species)
-            stat_boosts: Dict[str, int] = {}
-            if base_data:
-                m_stats = {s["stat"]["name"]: s.get("base_stat", 0) for s in data.get("stats", []) if isinstance(s.get("stat"), dict)}
-                b_stats = {s["stat"]["name"]: s.get("base_stat", 0) for s in base_data.get("stats", []) if isinstance(s.get("stat"), dict)}
-                for k, v in m_stats.items():
-                    diff = v - b_stats.get(k, 0)
-                    if diff != 0:
-                        stat_boosts[k] = diff
-                        
-            display_name = humanize_name(slug)
-            entry = {
-                "mega_species": slug,
-                "name": display_name,
-                "types": types,
-                "ability": abilities[0] if abilities else "",
-                "stat_boosts": stat_boosts,
-                "sprite": sprite
-            }
+            entry = parse_mega_entry_from_data(slug, data, base_data)
             # Key by mega form slug
             registry[slug] = entry
             # Key by base species (prioritize canonical -mega, then -mega-y)
@@ -183,7 +188,7 @@ def build_dynamic_mega_registry(cache: dict) -> Dict[str, Dict[str, Any]]:
             if should_set:
                 registry[base_species] = entry
                 registry[base_species.replace("-", "")] = entry
-            
+
     return registry
 
 
@@ -259,6 +264,50 @@ def get_pokemon_types(species_name: str) -> List[str]:
 MEGA_STONE_MAP: Dict[str, Dict[str, str]] = get_mega_stone_map()
 
 MEGA_EVOLUTIONS: Dict[str, Dict[str, Any]] = build_dynamic_mega_registry(pokemon_cache)
+
+def ensure_mega_in_registry(mega_slug: Optional[str]) -> Optional[Dict[str, Any]]:
+    """
+    Ensures a specific Mega Evolution form is registered in MEGA_EVOLUTIONS.
+    If missing from memory, checks pokemon_cache, or fetches on demand via PokéAPI,
+    updates pokemon_cache on disk, and dynamically registers it into MEGA_EVOLUTIONS.
+    """
+    if not mega_slug:
+        return None
+    slug = str(mega_slug).lower().strip()
+    if slug in MEGA_EVOLUTIONS:
+        return MEGA_EVOLUTIONS[slug]
+
+    data = None
+    try:
+        from utils.cache import get_pokemon_cached, pokemon_cache
+        from utils.pokeapi import get_pokemon as pokeapi_get_pokemon
+        if slug in pokemon_cache:
+            data = pokemon_cache[slug]
+        else:
+            data = get_pokemon_cached(slug, pokeapi_get_pokemon)
+    except Exception:
+        pass
+
+    if not data or not isinstance(data, dict):
+        return None
+
+    base_species = (data.get("species", {}).get("name") or slug.split("-mega")[0].split("-primal")[0]).lower().strip()
+    base_data = None
+    try:
+        if base_species in pokemon_cache:
+            base_data = pokemon_cache[base_species]
+        else:
+            base_data = get_pokemon_cached(base_species, pokeapi_get_pokemon)
+    except Exception:
+        pass
+
+    entry = parse_mega_entry_from_data(slug, data, base_data)
+    MEGA_EVOLUTIONS[slug] = entry
+    if base_species not in MEGA_EVOLUTIONS:
+        MEGA_EVOLUTIONS[base_species] = entry
+        MEGA_EVOLUTIONS[base_species.replace("-", "")] = entry
+
+    return entry
 GMAX_SPECIES: Dict[str, Dict[str, Any]] = build_dynamic_gmax_registry(pokemon_cache)
 SPECIES_GMAX_MOVES: Dict[str, Dict[str, Any]] = SPECIES_GMAX_MOVES_MAP
 
@@ -797,7 +846,11 @@ class PokemonState:
         """Determines if the Pokémon is eligible to Mega Evolve (requires holding the matching Mega Stone, or Rayquaza with Dragon Ascent)."""
         if self.is_mega or self.is_gmax or self.is_terastallized:
             return False
-        return self.get_mega_species_for_item() is not None
+        target_mega = self.get_mega_species_for_item()
+        if not target_mega:
+            return False
+        mega_info = ensure_mega_in_registry(target_mega) or MEGA_EVOLUTIONS.get(target_mega) or MEGA_EVOLUTIONS.get(f"{self.species}-{target_mega}")
+        return mega_info is not None
 
     def get_mega_species_for_item(self) -> Optional[str]:
         """Resolves the specific Mega Evolution form granted by the Pokémon's held Mega Stone (or Dragon Ascent for Rayquaza)."""
@@ -852,7 +905,7 @@ class PokemonState:
         target_mega = self.get_mega_species_for_item()
         if not target_mega:
             return None
-        mega_info = MEGA_EVOLUTIONS.get(target_mega) or MEGA_EVOLUTIONS.get(f"{self.species}-{target_mega}")
+        mega_info = ensure_mega_in_registry(target_mega) or MEGA_EVOLUTIONS.get(target_mega) or MEGA_EVOLUTIONS.get(f"{self.species}-{target_mega}")
         if not mega_info:
             return None
         self.is_mega = True
@@ -975,10 +1028,10 @@ class PokemonState:
             "isGmax": self.is_gmax,
             "gmaxTurns": self.gmax_turns,
             "canMega": self.can_mega,
-            "megaDetails": MEGA_EVOLUTIONS.get(self.get_mega_species_for_item() or ""),
+            "megaDetails": ensure_mega_in_registry(self.get_mega_species_for_item()) or MEGA_EVOLUTIONS.get(self.get_mega_species_for_item() or ""),
             "targetMegaSpecies": self.get_mega_species_for_item(),
-            "targetMegaName": (MEGA_EVOLUTIONS.get(self.get_mega_species_for_item() or "") or {}).get("name"),
-            "availableMegas": [MEGA_EVOLUTIONS[self.get_mega_species_for_item()]] if self.get_mega_species_for_item() and self.get_mega_species_for_item() in MEGA_EVOLUTIONS else [],
+            "targetMegaName": ((ensure_mega_in_registry(self.get_mega_species_for_item()) or MEGA_EVOLUTIONS.get(self.get_mega_species_for_item() or "")) or {}).get("name"),
+            "availableMegas": [ensure_mega_in_registry(self.get_mega_species_for_item())] if self.get_mega_species_for_item() and (ensure_mega_in_registry(self.get_mega_species_for_item()) or self.get_mega_species_for_item() in MEGA_EVOLUTIONS) else [],
             "canGmax": self.can_gmax,
             "gmaxDetails": GMAX_SPECIES.get(self.species) or GMAX_SPECIES.get(f"{self.species}-gmax"),
             "item": self.item,
@@ -1022,6 +1075,10 @@ class BattleSide:
         self.team: List[PokemonState] = [PokemonState(p, side_id, idx, level) for idx, p in enumerate(team_raw)]
         for p in self.team:
             p.side = self
+            if p.has_item:
+                target = p.get_mega_species_for_item()
+                if target:
+                    ensure_mega_in_registry(target)
         if self.team:
             self.team[0].revealed = True
         self.active_index = 0
