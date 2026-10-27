@@ -2168,13 +2168,17 @@ if attacker.ability == "supreme-overlord":
                     <li>Add the move to <code>KNOWN_MOVES_DATA</code> in <code>templates/teambuilder.html</code> so teambuilder diagnostics register it immediately.</li>
                 </ol>
 
-                <h3 id="test-routines"><span>🧪</span> Automated Verification Commands</h3>
+                <h3 id="test-routines"><span>🧪</span> Automated Verification & Unit Test Suite</h3>
+                <p>The codebase includes a comprehensive <code>unittest</code> suite in <code>tests/</code> covering damage formulas, type effectiveness matrices, name humanization LRU caching, route status codes, and active battle memory bounds.</p>
                 <div class="code-box">
 <div class="code-box-header"><span>TERMINAL VERIFICATION COMMANDS</span><span>SHELL</span></div>
-<pre class="ascii-diagram"># Test all core routes and API endpoints
-./pokemon-web-app/.venv/bin/python -c "
+<pre class="ascii-diagram"># Run the full automated unit test suite (21 test cases)
+cd /Users/francistallo/Desktop/ag_coding/Pokemon/pokemon-web-app
+./.venv/bin/python -m unittest discover -s tests
+
+# Test all core web routes and API endpoints
+./.venv/bin/python -c "
 import sys
-sys.path.insert(0, 'pokemon-web-app')
 from app import app
 client = app.test_client()
 for r in ['/', '/pokedex', '/teambuilder', '/simulator', '/guide', '/developer']:

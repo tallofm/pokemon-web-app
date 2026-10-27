@@ -1,7 +1,7 @@
 {
   "vgc-reg-h-balance": {
     "id": "vgc-reg-h-balance",
-    "name": "\ud83c\udfc6 VGC Reg H Championship Balance",
+    "name": "🏆 VGC Reg H Championship Balance",
     "mode": "champions_doubles",
     "archetype": "balance",
     "level": 50,
@@ -335,7 +335,7 @@
   },
   "vgc-rain-offense": {
     "id": "vgc-rain-offense",
-    "name": "\ud83c\udf27\ufe0f VGC Pelipper Rain & Swift Swim",
+    "name": "🌧️ VGC Pelipper Rain & Swift Swim",
     "mode": "champions_doubles",
     "archetype": "weather",
     "level": 50,
@@ -669,7 +669,7 @@
   },
   "vgc-hard-trick-room": {
     "id": "vgc-hard-trick-room",
-    "name": "\ud83c\udf00 VGC Hard Trick Room & Bloodmoon",
+    "name": "🌀 VGC Hard Trick Room & Bloodmoon",
     "mode": "champions_doubles",
     "archetype": "trickroom",
     "level": 50,
@@ -1003,7 +1003,7 @@
   },
   "vgc-tailwind-hyper-offense": {
     "id": "vgc-tailwind-hyper-offense",
-    "name": "\ud83d\udca8 VGC Whimsicott Tailwind Hyper Offense",
+    "name": "💨 VGC Whimsicott Tailwind Hyper Offense",
     "mode": "champions_doubles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -1338,7 +1338,7 @@
   },
   "vgc-snow-veil-offense": {
     "id": "vgc-snow-veil-offense",
-    "name": "\u2744\ufe0f VGC Alolan Ninetales Snow & Veil",
+    "name": "❄️ VGC Alolan Ninetales Snow & Veil",
     "mode": "champions_doubles",
     "archetype": "weather",
     "level": 50,
@@ -1672,7 +1672,7 @@
   },
   "vgc-dondozo-commander": {
     "id": "vgc-dondozo-commander",
-    "name": "\ud83d\udc1f VGC Dondozo Commander Setup",
+    "name": "🐟 VGC Dondozo Commander Setup",
     "mode": "champions_doubles",
     "archetype": "setup",
     "level": 50,
@@ -2006,7 +2006,7 @@
   },
   "vgc-sun-room-offense": {
     "id": "vgc-sun-room-offense",
-    "name": "\u2600\ufe0f VGC Torkoal Sun & Chlorophyll Room",
+    "name": "☀️ VGC Torkoal Sun & Chlorophyll Room",
     "mode": "champions_doubles",
     "archetype": "weather",
     "level": 50,
@@ -2340,7 +2340,7 @@
   },
   "vgc-psyspam-expanding-force": {
     "id": "vgc-psyspam-expanding-force",
-    "name": "\ud83d\udd2e VGC Psyspam Expanding Force",
+    "name": "🔮 VGC Psyspam Expanding Force",
     "mode": "champions_doubles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -2674,7 +2674,7 @@
   },
   "vgc-whimsicott-beat-up": {
     "id": "vgc-whimsicott-beat-up",
-    "name": "\ud83e\udd4a VGC Beat Up Annihilape Rage Fist",
+    "name": "🥊 VGC Beat Up Annihilape Rage Fist",
     "mode": "champions_doubles",
     "archetype": "setup",
     "level": 50,
@@ -3008,7 +3008,7 @@
   },
   "vgc-clefairy-friend-guard": {
     "id": "vgc-clefairy-friend-guard",
-    "name": "\ud83d\udee1\ufe0f VGC Friend Guard Bulky Goodstuff",
+    "name": "🛡️ VGC Friend Guard Bulky Goodstuff",
     "mode": "champions_doubles",
     "archetype": "balance",
     "level": 50,
@@ -3341,7 +3341,7 @@
   },
   "vgc-palafin-hero-balance": {
     "id": "vgc-palafin-hero-balance",
-    "name": "\ud83d\udc2c VGC Palafin Hero Form Pivot",
+    "name": "🐬 VGC Palafin Hero Form Pivot",
     "mode": "champions_doubles",
     "archetype": "balance",
     "level": 50,
@@ -3675,7 +3675,7 @@
   },
   "vgc-sand-stream-rush": {
     "id": "vgc-sand-stream-rush",
-    "name": "\ud83c\udfdc\ufe0f VGC Tyranitar & Excadrill Sand Rush",
+    "name": "🏜️ VGC Tyranitar & Excadrill Sand Rush",
     "mode": "champions_doubles",
     "archetype": "weather",
     "level": 50,
@@ -4010,7 +4010,7 @@
   },
   "vgc-glimmora-toxic-debris": {
     "id": "vgc-glimmora-toxic-debris",
-    "name": "\ud83e\udea8 VGC Glimmora Toxic Debris & Pressure",
+    "name": "🪨 VGC Glimmora Toxic Debris & Pressure",
     "mode": "champions_doubles",
     "archetype": "balance",
     "level": 50,
@@ -4345,7 +4345,7 @@
   },
   "vgc-reg-h-grass-pledge": {
     "id": "vgc-reg-h-grass-pledge",
-    "name": "\ud83c\udf3f VGC Grass-Water Pledge Swamp",
+    "name": "🌿 VGC Grass-Water Pledge Swamp",
     "mode": "champions_doubles",
     "archetype": "balance",
     "level": 50,
@@ -4679,7 +4679,7 @@
   },
   "vgc-volcarona-quiver-dance": {
     "id": "vgc-volcarona-quiver-dance",
-    "name": "\ud83e\udd8b VGC Volcarona Redirection & Setup",
+    "name": "🦋 VGC Volcarona Redirection & Setup",
     "mode": "champions_doubles",
     "archetype": "setup",
     "level": 50,
@@ -5012,7 +5012,7 @@
   },
   "bss-dragonite-kingambit-core": {
     "id": "bss-dragonite-kingambit-core",
-    "name": "\ud83d\udc09 BSS Dragonite + Kingambit Premier Core",
+    "name": "🐉 BSS Dragonite + Kingambit Premier Core",
     "mode": "champions_singles",
     "archetype": "balance",
     "level": 50,
@@ -5347,7 +5347,7 @@
   },
   "bss-bloodmoon-trick-room": {
     "id": "bss-bloodmoon-trick-room",
-    "name": "\ud83d\udc3b BSS Bloodmoon Ursaluna + Mimikyu TR",
+    "name": "🐻 BSS Bloodmoon Ursaluna + Mimikyu TR",
     "mode": "champions_singles",
     "archetype": "trickroom",
     "level": 50,
@@ -5681,7 +5681,7 @@
   },
   "bss-gliscor-clodsire-hazard": {
     "id": "bss-gliscor-clodsire-hazard",
-    "name": "\ud83c\udffa BSS Gliscor + Clodsire Hazard Stack",
+    "name": "🏺 BSS Gliscor + Clodsire Hazard Stack",
     "mode": "champions_singles",
     "archetype": "balance",
     "level": 50,
@@ -6016,7 +6016,7 @@
   },
   "bss-gliscor-toxic-stall": {
     "id": "bss-gliscor-toxic-stall",
-    "name": "\ud83e\udd82 BSS Gliscor Poison Heal Stall",
+    "name": "🦂 BSS Gliscor Poison Heal Stall",
     "mode": "champions_singles",
     "archetype": "stall",
     "level": 50,
@@ -6349,7 +6349,7 @@
   },
   "bss-volcarona-quiver-dance": {
     "id": "bss-volcarona-quiver-dance",
-    "name": "\ud83e\udd8b BSS Volcarona Quiver Dance Sweeper",
+    "name": "🦋 BSS Volcarona Quiver Dance Sweeper",
     "mode": "champions_singles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -6684,7 +6684,7 @@
   },
   "bss-dondozo-unaware-wall": {
     "id": "bss-dondozo-unaware-wall",
-    "name": "\ud83d\udc1f BSS Dondozo Unaware RestTalk",
+    "name": "🐟 BSS Dondozo Unaware RestTalk",
     "mode": "champions_singles",
     "archetype": "stall",
     "level": 50,
@@ -7018,7 +7018,7 @@
   },
   "bss-dragapult-screens-ho": {
     "id": "bss-dragapult-screens-ho",
-    "name": "\ud83d\udc7b BSS Dragapult Dual Screens HO",
+    "name": "👻 BSS Dragapult Dual Screens HO",
     "mode": "champions_singles",
     "archetype": "screens",
     "level": 50,
@@ -7353,7 +7353,7 @@
   },
   "bss-mimikyu-curse-sweeper": {
     "id": "bss-mimikyu-curse-sweeper",
-    "name": "\ud83e\uddf8 BSS Mimikyu Disguise & Trick Room",
+    "name": "🧸 BSS Mimikyu Disguise & Trick Room",
     "mode": "champions_singles",
     "archetype": "trickroom",
     "level": 50,
@@ -7687,7 +7687,7 @@
   },
   "bss-scarf-gholdengo-trick": {
     "id": "bss-scarf-gholdengo-trick",
-    "name": "\ud83e\ude99 BSS Scarf Gholdengo Trick & Pivot",
+    "name": "🪙 BSS Scarf Gholdengo Trick & Pivot",
     "mode": "champions_singles",
     "archetype": "balance",
     "level": 50,
@@ -8021,7 +8021,7 @@
   },
   "bss-sneasler-unburden-sweep": {
     "id": "bss-sneasler-unburden-sweep",
-    "name": "\ud83e\udd4a BSS Sneasler Grassy Seed Unburden",
+    "name": "🥊 BSS Sneasler Grassy Seed Unburden",
     "mode": "champions_singles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -8355,7 +8355,7 @@
   },
   "bss-archaludon-stamina-press": {
     "id": "bss-archaludon-stamina-press",
-    "name": "\ud83c\udf09 BSS Archaludon Stamina Body Press",
+    "name": "🌉 BSS Archaludon Stamina Body Press",
     "mode": "champions_singles",
     "archetype": "weather",
     "level": 50,
@@ -8689,7 +8689,7 @@
   },
   "bss-baxcalibur-snow-sweep": {
     "id": "bss-baxcalibur-snow-sweep",
-    "name": "\u2744\ufe0f BSS Baxcalibur Thermal Exchange",
+    "name": "❄️ BSS Baxcalibur Thermal Exchange",
     "mode": "champions_singles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -9024,7 +9024,7 @@
   },
   "bss-skeledirge-unaware-torch": {
     "id": "bss-skeledirge-unaware-torch",
-    "name": "\ud83d\udc0a BSS Skeledirge Unaware Torch Song",
+    "name": "🐊 BSS Skeledirge Unaware Torch Song",
     "mode": "champions_singles",
     "archetype": "balance",
     "level": 50,
@@ -9359,7 +9359,7 @@
   },
   "bss-meowscarada-spikes-lead": {
     "id": "bss-meowscarada-spikes-lead",
-    "name": "\ud83d\udc31 BSS Meowscarada Protean Hazard Lead",
+    "name": "🐱 BSS Meowscarada Protean Hazard Lead",
     "mode": "champions_singles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -9694,7 +9694,7 @@
   },
   "bss-sun-chlorophyll-offense": {
     "id": "bss-sun-chlorophyll-offense",
-    "name": "\u2600\ufe0f BSS Sun Chlorophyll Sweeper",
+    "name": "☀️ BSS Sun Chlorophyll Sweeper",
     "mode": "champions_singles",
     "archetype": "hyperoffense",
     "level": 50,
@@ -10028,7 +10028,7 @@
   },
   "dou-chienpao-dragonite-espeed": {
     "id": "dou-chienpao-dragonite-espeed",
-    "name": "\u2694\ufe0f DOU Chien-Pao Sword of Ruin + E-Speed",
+    "name": "⚔️ DOU Chien-Pao Sword of Ruin + E-Speed",
     "mode": "smogon_doubles",
     "archetype": "hyperoffense",
     "level": 100,
@@ -10362,7 +10362,7 @@
   },
   "dou-pelipper-basculegion-rain": {
     "id": "dou-pelipper-basculegion-rain",
-    "name": "\ud83c\udf27\ufe0f DOU Pelipper + Basculegion Swift Swim",
+    "name": "🌧️ DOU Pelipper + Basculegion Swift Swim",
     "mode": "smogon_doubles",
     "archetype": "weather",
     "level": 100,
@@ -10696,7 +10696,7 @@
   },
   "dou-torkoal-chiyu-sun": {
     "id": "dou-torkoal-chiyu-sun",
-    "name": "\u2600\ufe0f DOU Torkoal + Chi-Yu Beads of Ruin",
+    "name": "☀️ DOU Torkoal + Chi-Yu Beads of Ruin",
     "mode": "smogon_doubles",
     "archetype": "weather",
     "level": 100,
@@ -11030,7 +11030,7 @@
   },
   "dou-ursaluna-guts-trick-room": {
     "id": "dou-ursaluna-guts-trick-room",
-    "name": "\ud83c\udf00 DOU Ursaluna Flame Orb Guts TR",
+    "name": "🌀 DOU Ursaluna Flame Orb Guts TR",
     "mode": "smogon_doubles",
     "archetype": "trickroom",
     "level": 100,
@@ -11364,7 +11364,7 @@
   },
   "dou-tornadus-tailroom-balance": {
     "id": "dou-tornadus-tailroom-balance",
-    "name": "\ud83d\udca8 DOU Tornadus + Farigiraf TailRoom",
+    "name": "💨 DOU Tornadus + Farigiraf TailRoom",
     "mode": "smogon_doubles",
     "archetype": "balance",
     "level": 100,
@@ -11698,7 +11698,7 @@
   },
   "dou-rillaboom-heatran-core": {
     "id": "dou-rillaboom-heatran-core",
-    "name": "\ud83c\udf3f DOU Rillaboom + Heatran Grassy Core",
+    "name": "🌿 DOU Rillaboom + Heatran Grassy Core",
     "mode": "smogon_doubles",
     "archetype": "balance",
     "level": 100,
@@ -12032,7 +12032,7 @@
   },
   "dou-psyspam-expanding-force": {
     "id": "dou-psyspam-expanding-force",
-    "name": "\ud83d\udd2e DOU Psyspam Expanding Force",
+    "name": "🔮 DOU Psyspam Expanding Force",
     "mode": "smogon_doubles",
     "archetype": "hyperoffense",
     "level": 100,
@@ -12367,7 +12367,7 @@
   },
   "dou-ninetales-kyurem-snow": {
     "id": "dou-ninetales-kyurem-snow",
-    "name": "\u2744\ufe0f DOU Alolan Ninetales + Kyurem Snow",
+    "name": "❄️ DOU Alolan Ninetales + Kyurem Snow",
     "mode": "smogon_doubles",
     "archetype": "weather",
     "level": 100,
@@ -12701,7 +12701,7 @@
   },
   "dou-iron-hands-heavy-slam": {
     "id": "dou-iron-hands-heavy-slam",
-    "name": "\ud83e\udd4a DOU Iron Hands Heavy Slam Pivot",
+    "name": "🥊 DOU Iron Hands Heavy Slam Pivot",
     "mode": "smogon_doubles",
     "archetype": "balance",
     "level": 100,
@@ -13035,7 +13035,7 @@
   },
   "dou-walking-wake-hydro-steam": {
     "id": "dou-walking-wake-hydro-steam",
-    "name": "\ud83c\udf0a DOU Walking Wake Hydro Steam Sun",
+    "name": "🌊 DOU Walking Wake Hydro Steam Sun",
     "mode": "smogon_doubles",
     "archetype": "weather",
     "level": 100,
@@ -13368,7 +13368,7 @@
   },
   "dou-gholdengo-make-it-rain": {
     "id": "dou-gholdengo-make-it-rain",
-    "name": "\ud83e\ude99 DOU Gholdengo Nasty Plot + Tailwind",
+    "name": "🪙 DOU Gholdengo Nasty Plot + Tailwind",
     "mode": "smogon_doubles",
     "archetype": "hyperoffense",
     "level": 100,
@@ -13703,7 +13703,7 @@
   },
   "dou-diancie-diamond-storm-tr": {
     "id": "dou-diancie-diamond-storm-tr",
-    "name": "\ud83d\udc8e DOU Diancie Diamond Storm TR",
+    "name": "💎 DOU Diancie Diamond Storm TR",
     "mode": "smogon_doubles",
     "archetype": "trickroom",
     "level": 100,
@@ -14038,7 +14038,7 @@
   },
   "dou-ogerpon-cornerstone-sturdy": {
     "id": "dou-ogerpon-cornerstone-sturdy",
-    "name": "\ud83e\udea8 DOU Ogerpon-Cornerstone Sturdy Core",
+    "name": "🪨 DOU Ogerpon-Cornerstone Sturdy Core",
     "mode": "smogon_doubles",
     "archetype": "balance",
     "level": 100,
@@ -14372,7 +14372,7 @@
   },
   "dou-sinistcha-hospitality-bulk": {
     "id": "dou-sinistcha-hospitality-bulk",
-    "name": "\ud83c\udf75 DOU Sinistcha Hospitality Pivot",
+    "name": "🍵 DOU Sinistcha Hospitality Pivot",
     "mode": "smogon_doubles",
     "archetype": "balance",
     "level": 100,
@@ -14707,7 +14707,7 @@
   },
   "dou-annihilape-beat-up": {
     "id": "dou-annihilape-beat-up",
-    "name": "\ud83d\udc7b DOU Beat Up Annihilape Rage Fist",
+    "name": "👻 DOU Beat Up Annihilape Rage Fist",
     "mode": "smogon_doubles",
     "archetype": "setup",
     "level": 100,
@@ -15039,7 +15039,7 @@
   },
   "ou-hazard-stack-ho": {
     "id": "ou-hazard-stack-ho",
-    "name": "\u26a1 Smogon OU Fast Hazard Stack & Sweep",
+    "name": "⚡ Smogon OU Fast Hazard Stack & Sweep",
     "mode": "smogon_singles",
     "archetype": "hyperoffense",
     "level": 100,
@@ -15374,7 +15374,7 @@
   },
   "ou-balanced-core-pivots": {
     "id": "ou-balanced-core-pivots",
-    "name": "\ud83d\udee1\ufe0f Smogon OU Balance & Regenerator Pivot",
+    "name": "🛡️ Smogon OU Balance & Regenerator Pivot",
     "mode": "smogon_singles",
     "archetype": "balance",
     "level": 100,
@@ -15709,7 +15709,7 @@
   },
   "ou-hyper-rain-offense": {
     "id": "ou-hyper-rain-offense",
-    "name": "\ud83c\udf27\ufe0f Smogon OU Pelipper Barraskewda Rain",
+    "name": "🌧️ Smogon OU Pelipper Barraskewda Rain",
     "mode": "smogon_singles",
     "archetype": "weather",
     "level": 100,
@@ -16043,7 +16043,7 @@
   },
   "ou-big-stall-passive": {
     "id": "ou-big-stall-passive",
-    "name": "\ud83e\uddf1 Smogon OU Clodsire & Dondozo Big Stall",
+    "name": "🧱 Smogon OU Clodsire & Dondozo Big Stall",
     "mode": "smogon_singles",
     "archetype": "stall",
     "level": 100,
@@ -16376,7 +16376,7 @@
   },
   "ou-grimmsnarl-dual-screens": {
     "id": "ou-grimmsnarl-dual-screens",
-    "name": "\ud83d\udd2e Smogon OU Grimmsnarl Dual Screens",
+    "name": "🔮 Smogon OU Grimmsnarl Dual Screens",
     "mode": "smogon_singles",
     "archetype": "screens",
     "level": 100,
@@ -16711,7 +16711,7 @@
   },
   "ou-torkoal-walking-wake-sun": {
     "id": "ou-torkoal-walking-wake-sun",
-    "name": "\u2600\ufe0f Smogon OU Protosynthesis Sun",
+    "name": "☀️ Smogon OU Protosynthesis Sun",
     "mode": "smogon_singles",
     "archetype": "weather",
     "level": 100,
@@ -17045,7 +17045,7 @@
   },
   "ou-ninetales-veil-baxcalibur": {
     "id": "ou-ninetales-veil-baxcalibur",
-    "name": "\u2744\ufe0f Smogon OU Aurora Veil Snow",
+    "name": "❄️ Smogon OU Aurora Veil Snow",
     "mode": "smogon_singles",
     "archetype": "weather",
     "level": 100,
@@ -17380,11 +17380,11 @@
   },
   "ou-ribombee-sticky-web": {
     "id": "ou-ribombee-sticky-web",
-    "name": "\ud83d\udd78\ufe0f Smogon OU Ribombee Sticky Web HO",
+    "name": "🕸️ Smogon OU Ribombee Sticky Web HO",
     "mode": "smogon_singles",
     "archetype": "hyperoffense",
     "level": 100,
-    "description": "Sticky Web lowers incoming grounded Pok\u00e9mon Speed by 1 stage, allowing heavy wallbreakers to sweep unimpeded.",
+    "description": "Sticky Web lowers incoming grounded Pokémon Speed by 1 stage, allowing heavy wallbreakers to sweep unimpeded.",
     "notes": "Ribombee leads with Sticky Web and Stun Spore. Gholdengo prevents rapid spin and defog hazard removal.",
     "members": [
       {
@@ -17715,7 +17715,7 @@
   },
   "ou-tyranitar-excadrill-sand": {
     "id": "ou-tyranitar-excadrill-sand",
-    "name": "\u23f3 Smogon OU Sand Rush Excadrill",
+    "name": "⏳ Smogon OU Sand Rush Excadrill",
     "mode": "smogon_singles",
     "archetype": "weather",
     "level": 100,
@@ -18050,7 +18050,7 @@
   },
   "ou-ting-lu-spikes-phaze": {
     "id": "ou-ting-lu-spikes-phaze",
-    "name": "\ud83c\udffa Smogon OU Ting-Lu Spikes & Whirlwind",
+    "name": "🏺 Smogon OU Ting-Lu Spikes & Whirlwind",
     "mode": "smogon_singles",
     "archetype": "balance",
     "level": 100,
@@ -18384,7 +18384,7 @@
   },
   "ou-volcarona-quiver-dance": {
     "id": "ou-volcarona-quiver-dance",
-    "name": "\ud83e\udd8b Smogon OU Bulky Volcarona QD",
+    "name": "🦋 Smogon OU Bulky Volcarona QD",
     "mode": "smogon_singles",
     "archetype": "hyperoffense",
     "level": 100,
@@ -18719,7 +18719,7 @@
   },
   "ou-ogerpon-wellspring-pivot": {
     "id": "ou-ogerpon-wellspring-pivot",
-    "name": "\ud83d\udca7 Smogon OU Ogerpon-Wellspring Balance",
+    "name": "💧 Smogon OU Ogerpon-Wellspring Balance",
     "mode": "smogon_singles",
     "archetype": "balance",
     "level": 100,
@@ -19054,7 +19054,7 @@
   },
   "ou-gliscor-toxic-protect": {
     "id": "ou-gliscor-toxic-protect",
-    "name": "\ud83e\udd82 Smogon OU Gliscor Toxic Spikes Protect",
+    "name": "🦂 Smogon OU Gliscor Toxic Spikes Protect",
     "mode": "smogon_singles",
     "archetype": "stall",
     "level": 100,
@@ -19387,7 +19387,7 @@
   },
   "ou-cinderace-court-change": {
     "id": "ou-cinderace-court-change",
-    "name": "\u26bd Smogon OU Cinderace Court Change Pivot",
+    "name": "⚽ Smogon OU Cinderace Court Change Pivot",
     "mode": "smogon_singles",
     "archetype": "balance",
     "level": 100,
@@ -19721,7 +19721,7 @@
   },
   "ou-hatterene-crawdaunt-tr": {
     "id": "ou-hatterene-crawdaunt-tr",
-    "name": "\ud83c\udf00 Smogon OU Crawdaunt & Ursaluna TR",
+    "name": "🌀 Smogon OU Crawdaunt & Ursaluna TR",
     "mode": "smogon_singles",
     "archetype": "trickroom",
     "level": 100,
@@ -20049,6 +20049,341 @@
         },
         "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/983.png",
         "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/983.png"
+      }
+    ]
+  },
+  "sample_1792608052620": {
+    "id": "sample_1792608052620",
+    "name": "Mega Golisopod",
+    "mode": "champions_singles",
+    "archetype": "balance",
+    "level": 50,
+    "author": "Trainer Custom",
+    "description": "Golisopod Offense",
+    "notes": "Archaludon's Stamina turns opposing physical hits into Body Press offensive buffs.",
+    "members": [
+      {
+        "ability": "Stamina",
+        "baseStats": {
+          "attack": 105,
+          "defense": 130,
+          "hp": 90,
+          "special-attack": 125,
+          "special-defense": 65,
+          "speed": 85
+        },
+        "displayName": "Archaludon",
+        "evs": {
+          "atk": 0,
+          "attack": 0,
+          "def": 4,
+          "defense": 4,
+          "hp": 252,
+          "spa": 156,
+          "spd": 92,
+          "spe": 4,
+          "special-attack": 156,
+          "special-defense": 92,
+          "speed": 4
+        },
+        "item": "Assault Vest",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "electro-shot",
+          "flash-cannon",
+          "draco-meteor",
+          "body-press"
+        ],
+        "nature": "Modest",
+        "species": "archaludon",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1018.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1018.png",
+        "teraType": "Electric",
+        "types": [
+          "steel",
+          "dragon"
+        ]
+      },
+      {
+        "ability": "Drizzle",
+        "baseStats": {
+          "attack": 50,
+          "defense": 100,
+          "hp": 60,
+          "special-attack": 95,
+          "special-defense": 70,
+          "speed": 65
+        },
+        "displayName": "Pelipper",
+        "evs": {
+          "atk": 0,
+          "attack": 0,
+          "def": 0,
+          "defense": 0,
+          "hp": 4,
+          "spa": 252,
+          "spd": 0,
+          "spe": 252,
+          "special-attack": 252,
+          "special-defense": 0,
+          "speed": 252
+        },
+        "item": "Focus Sash",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "weather-ball",
+          "hurricane",
+          "u-turn",
+          "tailwind"
+        ],
+        "nature": "Modest",
+        "species": "pelipper",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/279.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/279.png",
+        "teraType": "Ghost",
+        "types": [
+          "water",
+          "flying"
+        ]
+      },
+      {
+        "ability": "Swift Swim",
+        "baseStats": {
+          "attack": 123,
+          "defense": 60,
+          "hp": 61,
+          "special-attack": 60,
+          "special-defense": 50,
+          "speed": 136
+        },
+        "displayName": "Barraskewda",
+        "evs": {
+          "atk": 252,
+          "attack": 252,
+          "def": 0,
+          "defense": 0,
+          "hp": 4,
+          "spa": 0,
+          "spd": 0,
+          "spe": 252,
+          "special-attack": 0,
+          "special-defense": 0,
+          "speed": 252
+        },
+        "item": "Choice Band",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "liquidation",
+          "close-combat",
+          "aqua-jet",
+          "crunch"
+        ],
+        "nature": "Adamant",
+        "species": "barraskewda",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/847.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/847.png",
+        "teraType": "Water",
+        "types": [
+          "water"
+        ]
+      },
+      {
+        "ability": "Multiscale",
+        "baseStats": {
+          "attack": 134,
+          "defense": 95,
+          "hp": 91,
+          "special-attack": 100,
+          "special-defense": 100,
+          "speed": 80
+        },
+        "displayName": "Dragonite",
+        "evs": {
+          "atk": 252,
+          "attack": 252,
+          "def": 0,
+          "defense": 0,
+          "hp": 4,
+          "spa": 0,
+          "spd": 0,
+          "spe": 252,
+          "special-attack": 0,
+          "special-defense": 0,
+          "speed": 252
+        },
+        "item": "Lum Berry",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "dragon-dance",
+          "extreme-speed",
+          "earthquake",
+          "ice-spinner"
+        ],
+        "nature": "Adamant",
+        "species": "dragonite",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/149.png",
+        "teraType": "Normal",
+        "types": [
+          "dragon",
+          "flying"
+        ]
+      },
+      {
+        "ability": "Adaptability",
+        "baseStats": {
+          "attack": 112,
+          "defense": 65,
+          "hp": 120,
+          "special-attack": 80,
+          "special-defense": 75,
+          "speed": 78
+        },
+        "displayName": "Basculegion (Male)",
+        "evs": {
+          "atk": 252,
+          "attack": 252,
+          "def": 0,
+          "defense": 0,
+          "hp": 4,
+          "spa": 0,
+          "spd": 0,
+          "spe": 252,
+          "special-attack": 0,
+          "special-defense": 0,
+          "speed": 252
+        },
+        "item": "Life Orb",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "wave-crash",
+          "last-respects",
+          "aqua-jet",
+          "headbash"
+        ],
+        "nature": "Adamant",
+        "species": "basculegion-male",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/902.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/902.png",
+        "teraType": "Water",
+        "types": [
+          "water",
+          "ghost"
+        ]
+      },
+      {
+        "ability": "Good As Gold",
+        "baseStats": {
+          "attack": 60,
+          "defense": 95,
+          "hp": 87,
+          "special-attack": 133,
+          "special-defense": 91,
+          "speed": 84
+        },
+        "displayName": "Gholdengo",
+        "evs": {
+          "atk": 0,
+          "attack": 0,
+          "def": 0,
+          "defense": 0,
+          "hp": 4,
+          "spa": 252,
+          "spd": 0,
+          "spe": 252,
+          "special-attack": 252,
+          "special-defense": 0,
+          "speed": 252
+        },
+        "item": "Choice Specs",
+        "ivs": {
+          "atk": 31,
+          "attack": 31,
+          "def": 31,
+          "defense": 31,
+          "hp": 31,
+          "spa": 31,
+          "spd": 31,
+          "spe": 31,
+          "special-attack": 31,
+          "special-defense": 31,
+          "speed": 31
+        },
+        "moves": [
+          "make-it-rain",
+          "shadow-ball",
+          "thunderbolt",
+          "trick"
+        ],
+        "nature": "Timid",
+        "species": "gholdengo",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png",
+        "spriteShiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1000.png",
+        "teraType": "Steel",
+        "types": [
+          "steel",
+          "ghost"
+        ]
       }
     ]
   }

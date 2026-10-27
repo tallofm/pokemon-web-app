@@ -1,5 +1,16 @@
 # app.py
-"""Main Flask application for the Pokémon Pokédex and Battle Tools."""
+"""
+Pokémon Championship Web Application & Showdown Battle Engine
+=============================================================
+
+A high-performance, tournament-compliant Flask application providing:
+1. Pokédex Catalog: 1,025+ species, multi-mode search (regex, wildcard, substring), dynamic sorting.
+2. MoveDex, AbilityDex, ItemDex: Exhaustive competitive entity explorers with PokéAPI and offline caching.
+3. Type Effectiveness Tool: Multi-type offensive coverage and 8x to 0x defensive vulnerability analyzer.
+4. Championship Teambuilder: 6-slot roster builder, Serebii Champions format validation, AI coach telemetry.
+5. Showdown Battle Simulator: 4,000+ line Gen 9 competitive engine (Omni Ring, Mega Evolution, G-Max, Tera,
+   consecutive Protect decay, Struggle fallback, recoil capping, and Minimax AI lookahead).
+"""
 
 import random
 import os
@@ -295,6 +306,7 @@ def sort_and_paginate_names(
 # --------------------------------------------------------------------------- #
 
 def _admin_redirect(msg: str | None = None):
+    """Safely redirects the user back to the referring page with an optional status message query."""
     target = request.referrer or url_for("home")
     if msg:
         sep = "&" if "?" in target else "?"
@@ -304,6 +316,7 @@ def _admin_redirect(msg: str | None = None):
 
 @app.route("/toggle_logging")
 def toggle_logging():
+    """Toggles verbose disk-cache operational logging in data/cache_log.txt."""
     cache.ENABLE_VERBOSE_LOGGING = not cache.ENABLE_VERBOSE_LOGGING
     state = "enabled" if cache.ENABLE_VERBOSE_LOGGING else "disabled"
     return _admin_redirect(f"Verbose logging {state}")
@@ -311,96 +324,112 @@ def toggle_logging():
 
 @app.route("/backup_cache")
 def backup_cache_route():
+    """Creates a timestamped snapshot backup of pokemon_cache.json."""
     ok = backup_cache()
     return _admin_redirect("Backed up Pokémon cache" if ok else "Backup failed")
 
 
 @app.route("/refresh_cache")
 def refresh_cache_route():
+    """Flushes pokemon_cache in memory and on disk."""
     refresh_cache()
     return _admin_redirect("Pokémon cache refreshed")
 
 
 @app.route("/recover_cache")
 def recover_cache_route():
+    """Recovers the most recent valid backup for pokemon_cache.json."""
     ok = recover_cache()
     return _admin_redirect("Recovered Pokémon cache" if ok else "Recover failed")
 
 
 @app.route("/backup_extra_cache")
 def backup_extra_cache_route():
+    """Creates a timestamped snapshot backup of extra_cache.json."""
     ok = backup_extra_cache()
     return _admin_redirect("Backed up extra cache" if ok else "Backup failed")
 
 
 @app.route("/refresh_extra_cache")
 def refresh_extra_cache_route():
+    """Flushes extra_cache in memory and on disk."""
     refresh_extra_cache()
     return _admin_redirect("Extra cache refreshed")
 
 
 @app.route("/recover_extra_cache")
 def recover_extra_cache_route():
+    """Recovers the most recent valid backup for extra_cache.json."""
     ok = recover_extra_cache()
     return _admin_redirect("Recovered extra cache" if ok else "Recover failed")
 
 
 @app.route("/backup_moves_cache")
 def backup_moves_cache_route():
+    """Creates a timestamped snapshot backup of moves_cache.json."""
     ok = backup_moves_cache()
     return _admin_redirect("Backed up moves cache" if ok else "Backup failed")
 
 
 @app.route("/refresh_moves_cache")
 def refresh_moves_cache_route():
+    """Flushes moves_cache in memory and on disk."""
     refresh_moves_cache()
     return _admin_redirect("Moves cache refreshed")
 
 
 @app.route("/recover_moves_cache")
 def recover_moves_cache_route():
+    """Recovers the most recent valid backup for moves_cache.json."""
     ok = recover_moves_cache()
     return _admin_redirect("Recovered moves cache" if ok else "Recover failed")
 
 
 @app.route("/backup_abilities_cache")
 def backup_abilities_cache_route():
+    """Creates a timestamped snapshot backup of abilities_cache.json."""
     ok = backup_abilities_cache()
     return _admin_redirect("Backed up abilities cache" if ok else "Backup failed")
 
 
 @app.route("/refresh_abilities_cache")
 def refresh_abilities_cache_route():
+    """Flushes abilities_cache in memory and on disk."""
     refresh_abilities_cache()
     return _admin_redirect("Abilities cache refreshed")
 
 
 @app.route("/recover_abilities_cache")
 def recover_abilities_cache_route():
+    """Recovers the most recent valid backup for abilities_cache.json."""
     ok = recover_abilities_cache()
     return _admin_redirect("Recovered abilities cache" if ok else "Recover failed")
 
 
 @app.route("/backup_items_cache")
 def backup_items_cache_route():
+    """Creates a timestamped snapshot backup of items_cache.json."""
     ok = backup_items_cache()
     return _admin_redirect("Backed up items cache" if ok else "Backup failed")
 
 
 @app.route("/refresh_items_cache")
 def refresh_items_cache_route():
+    """Flushes items_cache in memory and on disk."""
     refresh_items_cache()
     return _admin_redirect("Items cache refreshed")
 
 
 @app.route("/recover_items_cache")
 def recover_items_cache_route():
+    """Recovers the most recent valid backup for items_cache.json."""
     ok = recover_items_cache()
     return _admin_redirect("Recovered items cache" if ok else "Recover failed")
 
 
 @app.route("/refresh_lists")
 def refresh_lists_route():
+    """Refreshes species names, type lists, and generational variety indexes."""
     refresh_lists()
     get_all_pokemon_names_cached()
     get_all_types_cached(exclude_special=False)
@@ -520,6 +549,15 @@ def global_random():
 
 @app.route("/pokedex")
 def pokedex():
+    """Main Pokédex catalog controller.
+    
+    Supports:
+    - Multi-mode search: Substring, wildcards (*saur, char*), and regex (re:^pik.*)
+    - Filtering: Elemental Type (18 types), Debut Generation (1-9), Special (Legendary, Paradox, Mega, etc.)
+    - Favorites filtering backed by atomic disk persistence
+    - Dynamic multi-column sorting: ID, Name, BST, individual Base Stats, Height, Weight
+    - Shiny mode toggle and responsive pagination
+    """
     limit = int(request.args.get("limit") or 12)
     offset = int(request.args.get("offset") or 0)
     sort_by = request.args.get("sort", "id")
@@ -613,12 +651,14 @@ def pokedex():
 
 @app.route("/api/favorites", methods=["GET"])
 def api_get_favorites():
+    """Returns the list and count of currently favorited Pokémon species."""
     favs = list(load_favorites())
     return jsonify({"success": True, "favorites": favs, "count": len(favs)})
 
 
 @app.route("/api/favorites/toggle", methods=["POST"])
 def api_toggle_favorite():
+    """Toggles favorite status for a given Pokémon species and persists to disk."""
     data = request.get_json() or {}
     name = data.get("name")
     if not name:
@@ -639,6 +679,7 @@ def pokemon_detail(name: str):
     """Detailed view for a single Pokémon."""
 
     def stat_color(value: int) -> str:
+        """Computes dynamic RGB spectrum color for a Pokémon stat value (0-255)."""
         if value <= 128:
             r, g = 255, int((value / 128) * 255)
         else:
@@ -904,6 +945,7 @@ def movedex():
     total_matches = len(move_list)
 
     def move_metric(m_name: str):
+        """Extracts the numeric or alphabetical metric for move sorting."""
         m = get_move_cached(m_name) or {}
         if sort_by == "power":
             return m.get("power") or 0
@@ -1039,6 +1081,7 @@ def abilitydex():
     total_matches = len(ability_list)
 
     def ability_metric(a_name: str):
+        """Extracts the numeric or alphabetical metric for ability sorting."""
         ab = get_ability_cached(a_name) or {}
         if sort_by == "id":
             return ab.get("id") or 99999
@@ -1178,6 +1221,7 @@ def itemdex():
     total_matches = len(item_list)
 
     def item_metric(i_name: str):
+        """Extracts the numeric or alphabetical metric for item sorting."""
         it = get_item_cached(i_name) or {}
         if sort_by == "id":
             return it.get("id") or 99999
@@ -1605,6 +1649,8 @@ def api_pokemon_teambuilder_data(name):
 # --------------------------------------------------------------------------- #
 
 import uuid
+import threading
+from typing import Any
 from utils.battle_engine import BattleSimulator
 from utils.battle_ai import choose_ai_action
 from utils.battle_knowledge import (
@@ -1614,7 +1660,50 @@ from utils.battle_knowledge import (
     reset_battle_knowledge,
 )
 
-ACTIVE_BATTLES = {}
+
+class ActiveBattleStore:
+    """Thread-safe bounded battle storage with LRU and finished-session eviction to prevent memory leaks."""
+
+    def __init__(self, max_size: int = 100):
+        self._battles: dict[str, Any] = {}
+        self._lock = threading.Lock()
+        self._max_size = max_size
+
+    def get(self, battle_id: str, default: Any = None) -> Any:
+        """Retrieves an active battle instance by session ID."""
+        with self._lock:
+            return self._battles.get(battle_id, default)
+
+    def set(self, battle_id: str, battle: Any) -> None:
+        """Stores a battle instance, evicting oldest finished battles if max capacity is reached."""
+        with self._lock:
+            if len(self._battles) >= self._max_size:
+                # Evict finished battles first, or oldest
+                finished = [k for k, b in self._battles.items() if getattr(b, "is_finished", False)]
+                if finished:
+                    del self._battles[finished[0]]
+                elif self._battles:
+                    first_k = next(iter(self._battles))
+                    del self._battles[first_k]
+            self._battles[battle_id] = battle
+
+    def __setitem__(self, battle_id: str, battle: Any) -> None:
+        self.set(battle_id, battle)
+
+    def __getitem__(self, battle_id: str) -> Any:
+        with self._lock:
+            return self._battles[battle_id]
+
+    def __contains__(self, battle_id: str) -> bool:
+        with self._lock:
+            return battle_id in self._battles
+
+    def __len__(self) -> int:
+        with self._lock:
+            return len(self._battles)
+
+
+ACTIVE_BATTLES = ActiveBattleStore(max_size=100)
 
 
 @app.route("/simulator")

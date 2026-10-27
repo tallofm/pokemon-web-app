@@ -1,6 +1,7 @@
 # utils/type_effectiveness.py
 """Calculates Pokémon type effectiveness for defense, offense, and multi-type tooling."""
 
+import functools
 from fractions import Fraction
 from typing import Dict, List
 from utils.cache import get_type_cached
@@ -40,7 +41,8 @@ def get_type_damage_relations(type_name: str) -> dict:
     t = get_type_cached(type_name) or {}
     rel = t.get("damage_relations", {})
 
-    def names(key):
+    def names(key: str) -> List[str]:
+        """Extract type names from PokéAPI damage relation structure."""
         return [x["name"] if isinstance(x, dict) else x for x in rel.get(key, [])]
 
     return {
@@ -88,8 +90,12 @@ def build_effectiveness(pokemon_types: List[str]) -> Dict[str, Dict]:
     return {"defense": defense, "offense": offense}
 
 
+@functools.lru_cache(maxsize=512)
 def mult_vs(attacking_type: str, defender_type: str) -> Fraction:
-    """Return multiplier of attacking_type vs defender_type as a Fraction (0, 1/2, 1, 2)."""
+    """Return multiplier of attacking_type vs defender_type as a Fraction (0, 1/2, 1, 2).
+
+    Memoized with LRU cache (512 slots) covering all 324 type pairings with zero recomputation.
+    """
     t = get_type_cached(attacking_type) or {}
     rel = t.get("damage_relations") or {}
 

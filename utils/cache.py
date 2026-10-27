@@ -428,6 +428,7 @@ def refresh_lists(keys: list[str] | None = None) -> None:
 # --------------------------------------------------------------------------- #
 
 def get_ability_cached(name: str) -> dict:
+    """Fetch and cache ability definition by name from memory, disk, or PokéAPI."""
     name = str(name).lower().strip()
     with _abilities_cache_lock:
         if name in abilities_cache and abilities_cache[name]:
@@ -448,6 +449,7 @@ def get_ability_cached(name: str) -> dict:
 
 
 def get_form_cached(name: str) -> dict:
+    """Fetch and cache Pokémon form details by form identifier."""
     name = str(name).lower().strip()
     with _extra_cache_lock:
         forms_cache = extra_cache.setdefault("forms", {})
@@ -465,6 +467,7 @@ def get_form_cached(name: str) -> dict:
 
 
 def get_pokemon_cached(name, get_pokemon_fn):
+    """Fetch and cache trimmed Pokémon JSON by species or variety name."""
     name = str(name).lower().strip()
     with _pokemon_cache_lock:
         if name in pokemon_cache:
@@ -486,6 +489,7 @@ def get_pokemon_cached(name, get_pokemon_fn):
 
 
 def get_species_cached(name, autosave: bool = True) -> dict:
+    """Fetch and cache species data by species slug."""
     name = str(name).lower().strip()
     with _extra_cache_lock:
         species_dict = extra_cache.setdefault("species", {})
@@ -507,6 +511,7 @@ def get_species_cached(name, autosave: bool = True) -> dict:
 
 
 def get_evolution_chain_cached(species_data: dict) -> list[str]:
+    """Fetch and cache ordered species names in the evolution chain."""
     url = (species_data or {}).get("evolution_chain", {}).get("url")
     if not url:
         return []
@@ -530,6 +535,7 @@ def get_evolution_chain_cached(species_data: dict) -> list[str]:
 
 
 def get_generation_cached(gen_id) -> dict | None:
+    """Fetch and cache generational species list by generation number or slug."""
     key = str(gen_id).strip()
     with _extra_cache_lock:
         gen_dict = extra_cache.setdefault("generation", {})
@@ -557,6 +563,7 @@ def get_generation_cached(gen_id) -> dict | None:
 
 
 def get_type_cached(type_name: str) -> dict | None:
+    """Fetch and cache type damage relations and matching Pokémon list."""
     type_name = str(type_name).lower().strip()
     with _extra_cache_lock:
         m = extra_cache.setdefault("type", {})
@@ -586,6 +593,7 @@ def get_type_cached(type_name: str) -> dict | None:
 
 
 def get_default_variety_cached(species_name: str) -> str:
+    """Resolve and cache the default variety slug for a base species."""
     key = str(species_name).lower().strip()
     with _extra_cache_lock:
         m = extra_cache.setdefault("species_default", {})
@@ -605,6 +613,7 @@ def get_default_variety_cached(species_name: str) -> str:
 
 
 def bulk_prime_default_varieties(species_names: list[str]) -> list[str]:
+    """Batch resolve and prime default varieties for a collection of species names."""
     added = 0
     out = []
     for s in species_names:
@@ -686,11 +695,13 @@ def refresh_cache() -> None:
 
 
 def backup_cache() -> bool:
+    """Creates a timestamped snapshot backup of pokemon_cache.json."""
     save_cache(sync=True)
     return _create_backup("pokemon_cache", pokemon_cache, _pokemon_cache_lock)
 
 
 def recover_cache() -> bool:
+    """Restores the latest valid backup snapshot for pokemon_cache.json."""
     ok, recovered = _recover_backup("pokemon_cache", CACHE_FILE)
     if ok and recovered is not None:
         global pokemon_cache
@@ -702,6 +713,7 @@ def recover_cache() -> bool:
 
 
 def backup_extra_cache() -> bool:
+    """Creates a timestamped snapshot backup of extra_cache.json."""
     save_extra_cache(sync=True)
     return _create_backup("extra_cache", extra_cache, _extra_cache_lock)
 
@@ -722,6 +734,7 @@ def refresh_extra_cache() -> None:
 
 
 def recover_extra_cache() -> bool:
+    """Restores the latest valid backup snapshot for extra_cache.json."""
     ok, recovered = _recover_backup("extra_cache", EXTRA_CACHE_FILE)
     if ok and recovered is not None:
         for k in REQUIRED_EXTRA_KEYS:
@@ -750,6 +763,7 @@ def _perform_save_moves_cache() -> None:
 
 
 def save_moves_cache(sync: bool = False) -> None:
+    """Saves moves cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_moves_cache()
     else:
@@ -757,6 +771,7 @@ def save_moves_cache(sync: bool = False) -> None:
 
 
 def get_move_cached(name: str) -> dict | None:
+    """Fetch and cache move definition by name from memory, disk, or PokéAPI."""
     name = str(name).lower().strip()
     with _moves_cache_lock:
         if name in moves_cache and moves_cache[name]:
@@ -844,11 +859,13 @@ def refresh_moves_cache() -> None:
 
 
 def backup_moves_cache() -> bool:
+    """Creates a timestamped snapshot backup of moves_cache.json."""
     save_moves_cache(sync=True)
     return _create_backup("moves_cache", moves_cache, _moves_cache_lock)
 
 
 def recover_moves_cache() -> bool:
+    """Restores the latest valid backup snapshot for moves_cache.json."""
     ok, recovered = _recover_backup("moves_cache", MOVES_CACHE_FILE)
     if ok and recovered is not None:
         global moves_cache
@@ -874,6 +891,7 @@ def _perform_save_abilities_cache() -> None:
 
 
 def save_abilities_cache(sync: bool = False) -> None:
+    """Saves abilities cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_abilities_cache()
     else:
@@ -918,11 +936,13 @@ def refresh_abilities_cache() -> None:
 
 
 def backup_abilities_cache() -> bool:
+    """Creates a timestamped snapshot backup of abilities_cache.json."""
     save_abilities_cache(sync=True)
     return _create_backup("abilities_cache", abilities_cache, _abilities_cache_lock)
 
 
 def recover_abilities_cache() -> bool:
+    """Restores the latest valid backup snapshot for abilities_cache.json."""
     ok, recovered = _recover_backup("abilities_cache", ABILITIES_CACHE_FILE)
     if ok and recovered is not None:
         global abilities_cache
@@ -948,6 +968,7 @@ def _perform_save_items_cache() -> None:
 
 
 def save_items_cache(sync: bool = False) -> None:
+    """Saves items cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_items_cache()
     else:
@@ -955,6 +976,7 @@ def save_items_cache(sync: bool = False) -> None:
 
 
 def get_item_cached(name: str) -> dict | None:
+    """Fetch and cache item definition by name from memory, disk, or PokéAPI."""
     name = str(name).lower().strip()
     with _items_cache_lock:
         if name in items_cache and items_cache[name]:
@@ -1022,11 +1044,13 @@ def refresh_items_cache() -> None:
 
 
 def backup_items_cache() -> bool:
+    """Creates a timestamped snapshot backup of items_cache.json."""
     save_items_cache(sync=True)
     return _create_backup("items_cache", items_cache, _items_cache_lock)
 
 
 def recover_items_cache() -> bool:
+    """Restores the latest valid backup snapshot for items_cache.json."""
     ok, recovered = _recover_backup("items_cache", ITEMS_CACHE_FILE)
     if ok and recovered is not None:
         global items_cache
@@ -1053,6 +1077,7 @@ def _perform_save_mega_stones_cache() -> None:
 
 
 def save_mega_stones_cache(sync: bool = False) -> None:
+    """Saves mega stones cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_mega_stones_cache()
     else:
@@ -1171,6 +1196,7 @@ def _perform_save_gmax_moves_cache() -> None:
 
 
 def save_gmax_moves_cache(sync: bool = False) -> None:
+    """Saves Gigantamax moves cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_gmax_moves_cache()
     else:
@@ -1246,6 +1272,7 @@ def _perform_save_move_overrides_cache() -> None:
 
 
 def save_move_overrides_cache(sync: bool = False) -> None:
+    """Saves competitive move overrides cache to disk synchronously or via debounced timer."""
     if sync:
         _perform_save_move_overrides_cache()
     else:

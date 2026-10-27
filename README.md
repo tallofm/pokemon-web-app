@@ -167,12 +167,19 @@ pokemon-web-app/
 - Flask & Requests
 
 ### 2. Running the App
-Activate the virtual environment and start the development server:
+The project is located under `ag_coding/Pokemon/pokemon-web-app`. Activate the virtual environment and start the development server:
 
 ```bash
-cd pokemon-web-app
+cd /Users/francistallo/Desktop/ag_coding/Pokemon/pokemon-web-app
 source .venv/bin/activate
 python app.py
 ```
 
 The application will start at `http://127.0.0.1:5001/` (configured to port 5001 by default to avoid macOS AirPlay Receiver conflicts on port 5000).
+
+### 3. Running Automated Unit Tests
+Execute the full test suite (verifying damage formulas, type effectiveness, naming cache, routes, and memory bounds):
+
+```bash
+./.venv/bin/python -m unittest discover -s tests
+```

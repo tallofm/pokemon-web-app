@@ -181,6 +181,7 @@ def get_evolution_chain(species_json: dict) -> list[str]:
     evolution_line = []
 
     def traverse(node):
+        """Recursively traverses PokéAPI evolution chain nodes."""
         if not node:
             return
         sp_name = node.get("species", {}).get("name")

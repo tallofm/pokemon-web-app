@@ -980,6 +980,7 @@ def delete_sample_team(team_id: str) -> Dict[str, Any]:
 # --------------------------------------------------------------------------- #
 
 def get_competitive_items_internal() -> List[Dict[str, Any]]:
+    """Internal reader loading competitive items from disk or falling back to defaults."""
     if os.path.exists(COMPETITIVE_ITEMS_FILE):
         try:
             with open(COMPETITIVE_ITEMS_FILE, "r", encoding="utf-8") as f:
@@ -990,6 +991,7 @@ def get_competitive_items_internal() -> List[Dict[str, Any]]:
 
 
 def save_competitive_items_internal(items: List[Dict[str, Any]]) -> None:
+    """Internal writer persisting competitive items to disk atomically."""
     tmp_path = COMPETITIVE_ITEMS_FILE + ".tmp"
     with open(tmp_path, "w", encoding="utf-8") as f:
         json.dump(items, f, indent=2, ensure_ascii=False)
@@ -997,6 +999,7 @@ def save_competitive_items_internal(items: List[Dict[str, Any]]) -> None:
 
 
 def get_sample_teams_internal() -> Dict[str, Any]:
+    """Internal reader loading pre-loaded competitive sample teams from disk."""
     if os.path.exists(SAMPLE_TEAMS_FILE):
         try:
             with open(SAMPLE_TEAMS_FILE, "r", encoding="utf-8") as f:
@@ -1007,6 +1010,7 @@ def get_sample_teams_internal() -> Dict[str, Any]:
 
 
 def save_sample_teams_internal(teams: Dict[str, Any]) -> None:
+    """Internal writer persisting competitive sample teams to disk atomically."""
     tmp_path = SAMPLE_TEAMS_FILE + ".tmp"
     with open(tmp_path, "w", encoding="utf-8") as f:
         json.dump(teams, f, indent=2, ensure_ascii=False)

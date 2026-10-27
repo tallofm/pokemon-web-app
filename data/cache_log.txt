@@ -21801,3 +21801,2573 @@
 [2026-10-22 01:19:07] CACHE MISS: ability electromorphosis - Fetching from API
 [2026-10-22 01:19:08] CACHE MISS: ability mega-launcher - Fetching from API
 [2026-10-22 01:53:10] moves_cache.json persisted to disk
+[2026-10-22 02:45:03] moves_cache.json persisted to disk
+[2026-10-22 02:45:11] moves_cache.json persisted to disk
+[2026-10-22 08:23:14] CACHE MISS: male - Fetching from API
+[2026-10-22 08:23:17] CACHE MISS: male - Fetching from API
+[2026-10-22 08:24:05] CACHE MISS: male - Fetching from API
+[2026-10-22 08:24:05] CACHE MISS: male - Fetching from API
+[2026-10-22 08:24:10] CACHE MISS: male - Fetching from API
+[2026-10-22 08:40:58] CACHE MISS: ability turboblaze - Fetching from API
+[2026-10-22 08:41:02] CACHE MISS: ability fire-mane - Fetching from API
+[2026-10-22 08:41:02] CACHE MISS: ability shackle - Fetching from API
+[2026-10-22 08:41:02] CACHE MISS: ability storm-drain - Fetching from API
+[2026-10-22 08:41:02] CACHE MISS: ability fur-coat - Fetching from API
+[2026-10-22 08:41:03] CACHE MISS: ability mega-sol - Fetching from API
+[2026-10-22 08:41:03] CACHE MISS: ability stall - Fetching from API
+[2026-10-22 08:41:04] CACHE MISS: ability hero - Fetching from API
+[2026-10-22 08:41:04] CACHE MISS: ability magic-guard - Fetching from API
+[2026-10-22 08:41:05] CACHE MISS: ability nurse - Fetching from API
+[2026-10-22 08:41:05] CACHE MISS: ability life-force - Fetching from API
+[2026-10-22 08:41:07] abilities_cache.json persisted to disk
+[2026-10-22 09:09:51] extra_cache.json persisted to disk
+[2026-10-22 09:09:51] moves_cache.json persisted to disk
+[2026-10-22 09:10:23] extra_cache.json persisted to disk
+[2026-10-22 09:10:41] extra_cache.json persisted to disk
+[2026-10-22 09:10:41] moves_cache.json persisted to disk
+[2026-10-22 09:11:18] CACHE MISS: ability stance-change - Fetching from API
+[2026-10-22 09:11:19] CACHE MISS: ability ripen - Fetching from API
+[2026-10-22 09:11:19] CACHE MISS: ability steelworker - Fetching from API
+[2026-10-22 09:11:19] CACHE MISS: ability receiver - Fetching from API
+[2026-10-22 09:11:20] CACHE MISS: ability fortune - Fetching from API
+[2026-10-22 09:11:20] CACHE MISS: ability frisk - Fetching from API
+[2026-10-22 09:11:20] CACHE MISS: ability herbivore - Fetching from API
+[2026-10-22 09:11:22] abilities_cache.json persisted to disk
+[2026-10-22 10:27:07] CACHE MISS: ability liquid-ooze - Fetching from API
+[2026-10-22 10:27:11] CACHE MISS: ability slush-rush - Fetching from API
+[2026-10-22 10:27:11] CACHE MISS: ability toxic-boost - Fetching from API
+[2026-10-22 10:27:11] CACHE MISS: ability high-rise - Fetching from API
+[2026-10-22 10:27:12] CACHE MISS: ability soul-heart - Fetching from API
+[2026-10-22 10:27:12] CACHE MISS: ability normalize - Fetching from API
+[2026-10-22 10:27:12] CACHE MISS: ability honey-gather - Fetching from API
+[2026-10-22 10:27:14] abilities_cache.json persisted to disk
+[2026-10-22 10:27:35] CACHE HIT: ability adaptability
+[2026-10-22 10:27:35] CACHE HIT: ability aerilate
+[2026-10-22 10:27:35] CACHE HIT: ability aftermath
+[2026-10-22 10:27:35] CACHE HIT: ability air-lock
+[2026-10-22 10:27:35] CACHE HIT: ability analytic
+[2026-10-22 10:27:35] CACHE HIT: ability anger-point
+[2026-10-22 10:27:35] CACHE HIT: ability anger-shell
+[2026-10-22 10:27:35] CACHE HIT: ability anticipation
+[2026-10-22 10:27:35] CACHE HIT: ability aqua-boost
+[2026-10-22 10:27:35] CACHE HIT: ability arena-trap
+[2026-10-22 10:27:35] CACHE HIT: ability armor-tail
+[2026-10-22 10:27:35] CACHE HIT: ability aroma-veil
+[2026-10-22 10:27:35] CACHE HIT: ability as-one-glastrier
+[2026-10-22 10:27:35] CACHE HIT: ability as-one-spectrier
+[2026-10-22 10:27:35] CACHE HIT: ability aura-break
+[2026-10-22 10:27:35] CACHE HIT: ability aura-guard
+[2026-10-22 10:27:35] CACHE HIT: ability bad-dreams
+[2026-10-22 10:27:35] CACHE HIT: ability ball-fetch
+[2026-10-22 10:27:35] CACHE HIT: ability battery
+[2026-10-22 10:27:35] CACHE HIT: ability battle-armor
+[2026-10-22 10:27:35] CACHE HIT: ability battle-bond
+[2026-10-22 10:27:35] CACHE HIT: ability beads-of-ruin
+[2026-10-22 10:27:35] CACHE HIT: ability beast-boost
+[2026-10-22 10:27:35] CACHE HIT: ability berserk
+[2026-10-22 10:27:37] CACHE HIT: ability torrent
+[2026-10-22 10:27:37] CACHE HIT: ability sheer-force
+[2026-10-22 10:27:37] CACHE HIT: ability white-smoke
+[2026-10-22 10:27:37] CACHE HIT: ability light-metal
+[2026-10-22 10:27:37] CACHE HIT: ability aftermath
+[2026-10-22 10:27:37] CACHE HIT: ability neutralizing-gas
+[2026-10-22 10:27:37] CACHE HIT: ability strong-jaw
+[2026-10-22 10:27:37] CACHE HIT: ability gluttony
+[2026-10-22 10:27:37] CACHE HIT: ability rivalry
+[2026-10-22 10:27:37] CACHE HIT: ability rks-system
+[2026-10-22 10:27:37] CACHE HIT: ability prism-armor
+[2026-10-22 10:27:37] CACHE HIT: ability huge-power
+[2026-10-22 10:27:37] CACHE MISS: ability supersweet-syrup - Fetching from API
+[2026-10-22 10:27:37] CACHE HIT: ability truant
+[2026-10-22 10:27:37] CACHE HIT: ability shackle
+[2026-10-22 10:27:37] CACHE MISS: ability swarm - Fetching from API
+[2026-10-22 10:27:38] CACHE HIT: ability healer
+[2026-10-22 10:27:38] CACHE MISS: ability melee - Fetching from API
+[2026-10-22 10:27:38] CACHE HIT: ability stall
+[2026-10-22 10:27:38] CACHE MISS: ability snow-cloak - Fetching from API
+[2026-10-22 10:27:39] CACHE MISS: ability perish-body - Fetching from API
+[2026-10-22 10:27:39] CACHE HIT: ability suction-cups
+[2026-10-22 10:27:39] CACHE HIT: ability aura-guard
+[2026-10-22 10:27:39] CACHE HIT: ability hero
+[2026-10-22 10:27:40] abilities_cache.json persisted to disk
+[2026-10-22 10:27:43] CACHE HIT: ability shield-dust
+[2026-10-22 10:27:43] CACHE MISS: ability motor-drive - Fetching from API
+[2026-10-22 10:27:43] CACHE HIT: ability weak-armor
+[2026-10-22 10:27:43] CACHE HIT: ability cute-charm
+[2026-10-22 10:27:43] CACHE HIT: ability rks-system
+[2026-10-22 10:27:43] CACHE HIT: ability cheek-pouch
+[2026-10-22 10:27:43] CACHE HIT: ability defeatist
+[2026-10-22 10:27:43] CACHE MISS: ability parry - Fetching from API
+[2026-10-22 10:27:44] CACHE MISS: ability sharpness - Fetching from API
+[2026-10-22 10:27:44] CACHE HIT: ability dark-aura
+[2026-10-22 10:27:44] CACHE HIT: ability big-pecks
+[2026-10-22 10:27:44] CACHE MISS: ability piercing-drill - Fetching from API
+[2026-10-22 10:27:44] CACHE HIT: ability thick-fat
+[2026-10-22 10:27:44] CACHE HIT: ability trace
+[2026-10-22 10:27:44] CACHE HIT: ability climber
+[2026-10-22 10:27:44] CACHE HIT: ability levitate
+[2026-10-22 10:27:44] CACHE HIT: ability volt-absorb
+[2026-10-22 10:27:44] CACHE HIT: ability surge-surfer
+[2026-10-22 10:27:44] CACHE MISS: ability steam-engine - Fetching from API
+[2026-10-22 10:27:45] CACHE HIT: ability decoy
+[2026-10-22 10:27:45] CACHE HIT: ability corrosion
+[2026-10-22 10:27:45] CACHE MISS: ability prankster - Fetching from API
+[2026-10-22 10:27:45] CACHE HIT: ability black-hole
+[2026-10-22 10:27:45] CACHE HIT: ability electric-surge
+[2026-10-22 10:27:46] CACHE HIT: ability own-tempo
+[2026-10-22 10:27:46] CACHE HIT: ability zero-to-hero
+[2026-10-22 10:27:46] CACHE HIT: ability soul-heart
+[2026-10-22 10:27:46] CACHE HIT: ability flame-body
+[2026-10-22 10:27:46] CACHE HIT: ability sand-stream
+[2026-10-22 10:27:46] CACHE MISS: ability instinct - Fetching from API
+[2026-10-22 10:27:46] CACHE MISS: ability sand-spit - Fetching from API
+[2026-10-22 10:27:47] CACHE HIT: ability fur-coat
+[2026-10-22 10:27:47] CACHE HIT: ability battle-bond
+[2026-10-22 10:27:47] CACHE HIT: ability intimidate
+[2026-10-22 10:27:47] CACHE HIT: ability victory-star
+[2026-10-22 10:27:47] CACHE HIT: ability calming
+[2026-10-22 10:27:47] CACHE HIT: ability lightning-rod
+[2026-10-22 10:27:47] CACHE MISS: ability tablets-of-ruin - Fetching from API
+[2026-10-22 10:27:47] CACHE HIT: ability zen-mode
+[2026-10-22 10:27:47] CACHE MISS: ability unaware - Fetching from API
+[2026-10-22 10:27:47] CACHE MISS: ability omnipotent - Fetching from API
+[2026-10-22 10:27:47] CACHE HIT: ability shadow-tag
+[2026-10-22 10:27:47] CACHE HIT: ability surge-surfer
+[2026-10-22 10:27:47] CACHE MISS: ability fluffy - Fetching from API
+[2026-10-22 10:27:48] CACHE HIT: ability motor-drive
+[2026-10-22 10:27:48] CACHE HIT: ability adaptability
+[2026-10-22 10:27:48] CACHE HIT: ability cute-charm
+[2026-10-22 10:27:48] CACHE HIT: ability turboblaze
+[2026-10-22 10:27:49] abilities_cache.json persisted to disk
+[2026-10-22 10:28:36] CACHE HIT: all_pokemon list
+[2026-10-22 10:28:36] CACHE HIT: all_types
+[2026-10-22 10:28:36] CACHE HIT: bulbasaur
+[2026-10-22 10:28:36] CACHE HIT: ivysaur
+[2026-10-22 10:28:36] CACHE HIT: venusaur
+[2026-10-22 10:28:36] CACHE HIT: charmander
+[2026-10-22 10:28:36] CACHE HIT: charmeleon
+[2026-10-22 10:28:36] CACHE HIT: charizard
+[2026-10-22 10:28:36] CACHE HIT: squirtle
+[2026-10-22 10:28:36] CACHE HIT: wartortle
+[2026-10-22 10:28:36] CACHE HIT: blastoise
+[2026-10-22 10:28:36] CACHE HIT: caterpie
+[2026-10-22 10:28:36] CACHE HIT: metapod
+[2026-10-22 10:28:36] CACHE HIT: butterfree
+[2026-10-22 10:28:36] CACHE HIT: weedle
+[2026-10-22 10:28:36] CACHE HIT: kakuna
+[2026-10-22 10:28:36] CACHE HIT: beedrill
+[2026-10-22 10:28:36] CACHE HIT: pidgey
+[2026-10-22 10:28:36] CACHE HIT: pidgeotto
+[2026-10-22 10:28:36] CACHE HIT: pidgeot
+[2026-10-22 10:28:36] CACHE HIT: rattata
+[2026-10-22 10:28:36] CACHE HIT: raticate
+[2026-10-22 10:28:36] CACHE HIT: spearow
+[2026-10-22 10:28:36] CACHE HIT: fearow
+[2026-10-22 10:28:36] CACHE HIT: ekans
+[2026-10-22 10:28:36] CACHE HIT: arbok
+[2026-10-22 10:28:36] CACHE HIT: pikachu
+[2026-10-22 10:28:36] CACHE HIT: raichu
+[2026-10-22 10:28:36] CACHE HIT: sandshrew
+[2026-10-22 10:28:36] CACHE HIT: sandslash
+[2026-10-22 10:28:36] CACHE HIT: nidoran-f
+[2026-10-22 10:28:36] CACHE HIT: nidorina
+[2026-10-22 10:28:36] CACHE HIT: nidoqueen
+[2026-10-22 10:28:36] CACHE HIT: nidoran-m
+[2026-10-22 10:28:36] CACHE HIT: nidorino
+[2026-10-22 10:28:36] CACHE HIT: nidoking
+[2026-10-22 10:28:36] CACHE HIT: clefairy
+[2026-10-22 10:28:36] CACHE HIT: clefable
+[2026-10-22 10:28:36] CACHE HIT: vulpix
+[2026-10-22 10:28:36] CACHE HIT: ninetales
+[2026-10-22 10:28:36] CACHE HIT: jigglypuff
+[2026-10-22 10:28:36] CACHE HIT: wigglytuff
+[2026-10-22 10:28:36] CACHE HIT: zubat
+[2026-10-22 10:28:36] CACHE HIT: golbat
+[2026-10-22 10:28:36] CACHE HIT: oddish
+[2026-10-22 10:28:36] CACHE HIT: gloom
+[2026-10-22 10:28:36] CACHE HIT: vileplume
+[2026-10-22 10:28:36] CACHE HIT: paras
+[2026-10-22 10:28:36] CACHE HIT: parasect
+[2026-10-22 10:28:36] CACHE HIT: venonat
+[2026-10-22 10:28:36] CACHE HIT: venomoth
+[2026-10-22 10:28:36] CACHE HIT: diglett
+[2026-10-22 10:28:36] CACHE HIT: dugtrio
+[2026-10-22 10:28:36] CACHE HIT: meowth
+[2026-10-22 10:28:36] CACHE HIT: persian
+[2026-10-22 10:28:36] CACHE HIT: psyduck
+[2026-10-22 10:28:36] CACHE HIT: golduck
+[2026-10-22 10:28:36] CACHE HIT: mankey
+[2026-10-22 10:28:36] CACHE HIT: primeape
+[2026-10-22 10:28:36] CACHE HIT: growlithe
+[2026-10-22 10:28:36] CACHE HIT: arcanine
+[2026-10-22 10:28:36] CACHE HIT: poliwag
+[2026-10-22 10:28:36] CACHE HIT: poliwhirl
+[2026-10-22 10:28:36] CACHE HIT: poliwrath
+[2026-10-22 10:28:36] CACHE HIT: abra
+[2026-10-22 10:28:36] CACHE HIT: kadabra
+[2026-10-22 10:28:36] CACHE HIT: alakazam
+[2026-10-22 10:28:36] CACHE HIT: machop
+[2026-10-22 10:28:36] CACHE HIT: machoke
+[2026-10-22 10:28:36] CACHE HIT: machamp
+[2026-10-22 10:28:36] CACHE HIT: bellsprout
+[2026-10-22 10:28:36] CACHE HIT: weepinbell
+[2026-10-22 10:28:36] CACHE HIT: victreebel
+[2026-10-22 10:28:36] CACHE HIT: tentacool
+[2026-10-22 10:28:36] CACHE HIT: tentacruel
+[2026-10-22 10:28:36] CACHE HIT: geodude
+[2026-10-22 10:28:36] CACHE HIT: graveler
+[2026-10-22 10:28:36] CACHE HIT: golem
+[2026-10-22 10:28:36] CACHE HIT: ponyta
+[2026-10-22 10:28:36] CACHE HIT: rapidash
+[2026-10-22 10:28:36] CACHE HIT: slowpoke
+[2026-10-22 10:28:36] CACHE HIT: slowbro
+[2026-10-22 10:28:36] CACHE HIT: magnemite
+[2026-10-22 10:28:36] CACHE HIT: magneton
+[2026-10-22 10:28:36] CACHE HIT: farfetchd
+[2026-10-22 10:28:36] CACHE HIT: doduo
+[2026-10-22 10:28:36] CACHE HIT: dodrio
+[2026-10-22 10:28:36] CACHE HIT: seel
+[2026-10-22 10:28:36] CACHE HIT: dewgong
+[2026-10-22 10:28:36] CACHE HIT: grimer
+[2026-10-22 10:28:36] CACHE HIT: muk
+[2026-10-22 10:28:36] CACHE HIT: shellder
+[2026-10-22 10:28:36] CACHE HIT: cloyster
+[2026-10-22 10:28:36] CACHE HIT: gastly
+[2026-10-22 10:28:36] CACHE HIT: haunter
+[2026-10-22 10:28:36] CACHE HIT: gengar
+[2026-10-22 10:28:36] CACHE HIT: onix
+[2026-10-22 10:28:36] CACHE HIT: drowzee
+[2026-10-22 10:28:36] CACHE HIT: hypno
+[2026-10-22 10:28:36] CACHE HIT: krabby
+[2026-10-22 10:28:36] CACHE HIT: kingler
+[2026-10-22 10:28:36] CACHE HIT: voltorb
+[2026-10-22 10:28:36] CACHE HIT: electrode
+[2026-10-22 10:28:36] CACHE HIT: exeggcute
+[2026-10-22 10:28:36] CACHE HIT: exeggutor
+[2026-10-22 10:28:36] CACHE HIT: cubone
+[2026-10-22 10:28:36] CACHE HIT: marowak
+[2026-10-22 10:28:36] CACHE HIT: hitmonlee
+[2026-10-22 10:28:36] CACHE HIT: hitmonchan
+[2026-10-22 10:28:36] CACHE HIT: lickitung
+[2026-10-22 10:28:36] CACHE HIT: koffing
+[2026-10-22 10:28:36] CACHE HIT: weezing
+[2026-10-22 10:28:36] CACHE HIT: rhyhorn
+[2026-10-22 10:28:36] CACHE HIT: rhydon
+[2026-10-22 10:28:36] CACHE HIT: chansey
+[2026-10-22 10:28:36] CACHE HIT: tangela
+[2026-10-22 10:28:36] CACHE HIT: kangaskhan
+[2026-10-22 10:28:36] CACHE HIT: horsea
+[2026-10-22 10:28:36] CACHE HIT: seadra
+[2026-10-22 10:28:36] CACHE HIT: goldeen
+[2026-10-22 10:28:36] CACHE HIT: seaking
+[2026-10-22 10:28:36] CACHE HIT: staryu
+[2026-10-22 10:28:36] CACHE HIT: starmie
+[2026-10-22 10:28:36] CACHE HIT: mr-mime
+[2026-10-22 10:28:36] CACHE HIT: scyther
+[2026-10-22 10:28:36] CACHE HIT: jynx
+[2026-10-22 10:28:36] CACHE HIT: electabuzz
+[2026-10-22 10:28:36] CACHE HIT: magmar
+[2026-10-22 10:28:36] CACHE HIT: pinsir
+[2026-10-22 10:28:36] CACHE HIT: tauros
+[2026-10-22 10:28:36] CACHE HIT: magikarp
+[2026-10-22 10:28:36] CACHE HIT: gyarados
+[2026-10-22 10:28:36] CACHE HIT: lapras
+[2026-10-22 10:28:36] CACHE HIT: ditto
+[2026-10-22 10:28:36] CACHE HIT: eevee
+[2026-10-22 10:28:36] CACHE HIT: vaporeon
+[2026-10-22 10:28:36] CACHE HIT: jolteon
+[2026-10-22 10:28:36] CACHE HIT: flareon
+[2026-10-22 10:28:36] CACHE HIT: porygon
+[2026-10-22 10:28:36] CACHE HIT: omanyte
+[2026-10-22 10:28:36] CACHE HIT: omastar
+[2026-10-22 10:28:36] CACHE HIT: kabuto
+[2026-10-22 10:28:36] CACHE HIT: kabutops
+[2026-10-22 10:28:36] CACHE HIT: aerodactyl
+[2026-10-22 10:28:36] CACHE HIT: snorlax
+[2026-10-22 10:28:36] CACHE HIT: articuno
+[2026-10-22 10:28:36] CACHE HIT: zapdos
+[2026-10-22 10:28:36] CACHE HIT: moltres
+[2026-10-22 10:28:36] CACHE HIT: dratini
+[2026-10-22 10:28:36] CACHE HIT: dragonair
+[2026-10-22 10:28:36] CACHE HIT: dragonite
+[2026-10-22 10:28:36] CACHE HIT: mewtwo
+[2026-10-22 10:28:36] CACHE HIT: mew
+[2026-10-22 10:28:36] CACHE HIT: chikorita
+[2026-10-22 10:28:36] CACHE HIT: bayleef
+[2026-10-22 10:28:36] CACHE HIT: meganium
+[2026-10-22 10:28:36] CACHE HIT: cyndaquil
+[2026-10-22 10:28:36] CACHE HIT: quilava
+[2026-10-22 10:28:36] CACHE HIT: typhlosion
+[2026-10-22 10:28:36] CACHE HIT: totodile
+[2026-10-22 10:28:36] CACHE HIT: croconaw
+[2026-10-22 10:28:36] CACHE HIT: feraligatr
+[2026-10-22 10:28:36] CACHE HIT: sentret
+[2026-10-22 10:28:36] CACHE HIT: furret
+[2026-10-22 10:28:36] CACHE HIT: hoothoot
+[2026-10-22 10:28:36] CACHE HIT: noctowl
+[2026-10-22 10:28:36] CACHE HIT: ledyba
+[2026-10-22 10:28:36] CACHE HIT: ledian
+[2026-10-22 10:28:36] CACHE HIT: spinarak
+[2026-10-22 10:28:36] CACHE HIT: ariados
+[2026-10-22 10:28:36] CACHE HIT: crobat
+[2026-10-22 10:28:36] CACHE HIT: chinchou
+[2026-10-22 10:28:36] CACHE HIT: lanturn
+[2026-10-22 10:28:36] CACHE HIT: pichu
+[2026-10-22 10:28:36] CACHE HIT: cleffa
+[2026-10-22 10:28:36] CACHE HIT: igglybuff
+[2026-10-22 10:28:36] CACHE HIT: togepi
+[2026-10-22 10:28:36] CACHE HIT: togetic
+[2026-10-22 10:28:36] CACHE HIT: natu
+[2026-10-22 10:28:36] CACHE HIT: xatu
+[2026-10-22 10:28:36] CACHE HIT: mareep
+[2026-10-22 10:28:36] CACHE HIT: flaaffy
+[2026-10-22 10:28:36] CACHE HIT: ampharos
+[2026-10-22 10:28:36] CACHE HIT: bellossom
+[2026-10-22 10:28:36] CACHE HIT: marill
+[2026-10-22 10:28:36] CACHE HIT: azumarill
+[2026-10-22 10:28:36] CACHE HIT: sudowoodo
+[2026-10-22 10:28:36] CACHE HIT: politoed
+[2026-10-22 10:28:36] CACHE HIT: hoppip
+[2026-10-22 10:28:36] CACHE HIT: skiploom
+[2026-10-22 10:28:36] CACHE HIT: jumpluff
+[2026-10-22 10:28:36] CACHE HIT: aipom
+[2026-10-22 10:28:36] CACHE HIT: sunkern
+[2026-10-22 10:28:36] CACHE HIT: sunflora
+[2026-10-22 10:28:36] CACHE HIT: yanma
+[2026-10-22 10:28:36] CACHE HIT: wooper
+[2026-10-22 10:28:36] CACHE HIT: quagsire
+[2026-10-22 10:28:36] CACHE HIT: espeon
+[2026-10-22 10:28:36] CACHE HIT: umbreon
+[2026-10-22 10:28:36] CACHE HIT: murkrow
+[2026-10-22 10:28:36] CACHE HIT: slowking
+[2026-10-22 10:28:36] CACHE HIT: misdreavus
+[2026-10-22 10:28:36] CACHE HIT: unown
+[2026-10-22 10:28:36] CACHE HIT: wobbuffet
+[2026-10-22 10:28:36] CACHE HIT: girafarig
+[2026-10-22 10:28:36] CACHE HIT: pineco
+[2026-10-22 10:28:36] CACHE HIT: forretress
+[2026-10-22 10:28:36] CACHE HIT: dunsparce
+[2026-10-22 10:28:36] CACHE HIT: gligar
+[2026-10-22 10:28:36] CACHE HIT: steelix
+[2026-10-22 10:28:36] CACHE HIT: snubbull
+[2026-10-22 10:28:36] CACHE HIT: granbull
+[2026-10-22 10:28:36] CACHE HIT: qwilfish
+[2026-10-22 10:28:36] CACHE HIT: scizor
+[2026-10-22 10:28:36] CACHE HIT: shuckle
+[2026-10-22 10:28:36] CACHE HIT: heracross
+[2026-10-22 10:28:36] CACHE HIT: sneasel
+[2026-10-22 10:28:36] CACHE HIT: teddiursa
+[2026-10-22 10:28:36] CACHE HIT: ursaring
+[2026-10-22 10:28:36] CACHE HIT: slugma
+[2026-10-22 10:28:36] CACHE HIT: magcargo
+[2026-10-22 10:28:36] CACHE HIT: swinub
+[2026-10-22 10:28:36] CACHE HIT: piloswine
+[2026-10-22 10:28:36] CACHE HIT: corsola
+[2026-10-22 10:28:36] CACHE HIT: remoraid
+[2026-10-22 10:28:36] CACHE HIT: octillery
+[2026-10-22 10:28:36] CACHE HIT: delibird
+[2026-10-22 10:28:36] CACHE HIT: mantine
+[2026-10-22 10:28:36] CACHE HIT: skarmory
+[2026-10-22 10:28:36] CACHE HIT: houndour
+[2026-10-22 10:28:36] CACHE HIT: houndoom
+[2026-10-22 10:28:36] CACHE HIT: kingdra
+[2026-10-22 10:28:36] CACHE HIT: phanpy
+[2026-10-22 10:28:36] CACHE HIT: donphan
+[2026-10-22 10:28:36] CACHE HIT: porygon2
+[2026-10-22 10:28:36] CACHE HIT: stantler
+[2026-10-22 10:28:36] CACHE HIT: smeargle
+[2026-10-22 10:28:36] CACHE HIT: tyrogue
+[2026-10-22 10:28:36] CACHE HIT: hitmontop
+[2026-10-22 10:28:36] CACHE HIT: smoochum
+[2026-10-22 10:28:36] CACHE HIT: elekid
+[2026-10-22 10:28:36] CACHE HIT: magby
+[2026-10-22 10:28:36] CACHE HIT: miltank
+[2026-10-22 10:28:36] CACHE HIT: blissey
+[2026-10-22 10:28:36] CACHE HIT: raikou
+[2026-10-22 10:28:36] CACHE HIT: entei
+[2026-10-22 10:28:36] CACHE HIT: suicune
+[2026-10-22 10:28:36] CACHE HIT: larvitar
+[2026-10-22 10:28:36] CACHE HIT: pupitar
+[2026-10-22 10:28:36] CACHE HIT: tyranitar
+[2026-10-22 10:28:36] CACHE HIT: lugia
+[2026-10-22 10:28:36] CACHE HIT: ho-oh
+[2026-10-22 10:28:36] CACHE HIT: celebi
+[2026-10-22 10:28:36] CACHE HIT: treecko
+[2026-10-22 10:28:36] CACHE HIT: grovyle
+[2026-10-22 10:28:36] CACHE HIT: sceptile
+[2026-10-22 10:28:36] CACHE HIT: torchic
+[2026-10-22 10:28:36] CACHE HIT: combusken
+[2026-10-22 10:28:36] CACHE HIT: blaziken
+[2026-10-22 10:28:36] CACHE HIT: mudkip
+[2026-10-22 10:28:36] CACHE HIT: marshtomp
+[2026-10-22 10:28:36] CACHE HIT: swampert
+[2026-10-22 10:28:36] CACHE HIT: poochyena
+[2026-10-22 10:28:36] CACHE HIT: mightyena
+[2026-10-22 10:28:36] CACHE HIT: zigzagoon
+[2026-10-22 10:28:36] CACHE HIT: linoone
+[2026-10-22 10:28:36] CACHE HIT: wurmple
+[2026-10-22 10:28:36] CACHE HIT: silcoon
+[2026-10-22 10:28:36] CACHE HIT: beautifly
+[2026-10-22 10:28:36] CACHE HIT: cascoon
+[2026-10-22 10:28:36] CACHE HIT: dustox
+[2026-10-22 10:28:36] CACHE HIT: lotad
+[2026-10-22 10:28:36] CACHE HIT: lombre
+[2026-10-22 10:28:36] CACHE HIT: ludicolo
+[2026-10-22 10:28:36] CACHE HIT: seedot
+[2026-10-22 10:28:36] CACHE HIT: nuzleaf
+[2026-10-22 10:28:36] CACHE HIT: shiftry
+[2026-10-22 10:28:36] CACHE HIT: taillow
+[2026-10-22 10:28:36] CACHE HIT: swellow
+[2026-10-22 10:28:36] CACHE HIT: wingull
+[2026-10-22 10:28:36] CACHE HIT: pelipper
+[2026-10-22 10:28:36] CACHE HIT: ralts
+[2026-10-22 10:28:36] CACHE HIT: kirlia
+[2026-10-22 10:28:36] CACHE HIT: gardevoir
+[2026-10-22 10:28:36] CACHE HIT: surskit
+[2026-10-22 10:28:36] CACHE HIT: masquerain
+[2026-10-22 10:28:36] CACHE HIT: shroomish
+[2026-10-22 10:28:36] CACHE HIT: breloom
+[2026-10-22 10:28:36] CACHE HIT: slakoth
+[2026-10-22 10:28:36] CACHE HIT: vigoroth
+[2026-10-22 10:28:36] CACHE HIT: slaking
+[2026-10-22 10:28:36] CACHE HIT: nincada
+[2026-10-22 10:28:36] CACHE HIT: ninjask
+[2026-10-22 10:28:36] CACHE HIT: shedinja
+[2026-10-22 10:28:36] CACHE HIT: whismur
+[2026-10-22 10:28:36] CACHE HIT: loudred
+[2026-10-22 10:28:36] CACHE HIT: exploud
+[2026-10-22 10:28:36] CACHE HIT: makuhita
+[2026-10-22 10:28:36] CACHE HIT: hariyama
+[2026-10-22 10:28:36] CACHE HIT: azurill
+[2026-10-22 10:28:36] CACHE HIT: nosepass
+[2026-10-22 10:28:36] CACHE HIT: skitty
+[2026-10-22 10:28:36] CACHE HIT: delcatty
+[2026-10-22 10:28:36] CACHE HIT: sableye
+[2026-10-22 10:28:36] CACHE HIT: mawile
+[2026-10-22 10:28:36] CACHE HIT: aron
+[2026-10-22 10:28:36] CACHE HIT: lairon
+[2026-10-22 10:28:36] CACHE HIT: aggron
+[2026-10-22 10:28:36] CACHE HIT: meditite
+[2026-10-22 10:28:36] CACHE HIT: medicham
+[2026-10-22 10:28:36] CACHE HIT: electrike
+[2026-10-22 10:28:36] CACHE HIT: manectric
+[2026-10-22 10:28:36] CACHE HIT: plusle
+[2026-10-22 10:28:36] CACHE HIT: minun
+[2026-10-22 10:28:36] CACHE HIT: volbeat
+[2026-10-22 10:28:36] CACHE HIT: illumise
+[2026-10-22 10:28:36] CACHE HIT: roselia
+[2026-10-22 10:28:36] CACHE HIT: gulpin
+[2026-10-22 10:28:36] CACHE HIT: swalot
+[2026-10-22 10:28:36] CACHE HIT: carvanha
+[2026-10-22 10:28:36] CACHE HIT: sharpedo
+[2026-10-22 10:28:36] CACHE HIT: wailmer
+[2026-10-22 10:28:36] CACHE HIT: wailord
+[2026-10-22 10:28:36] CACHE HIT: numel
+[2026-10-22 10:28:36] CACHE HIT: camerupt
+[2026-10-22 10:28:36] CACHE HIT: torkoal
+[2026-10-22 10:28:36] CACHE HIT: spoink
+[2026-10-22 10:28:36] CACHE HIT: grumpig
+[2026-10-22 10:28:36] CACHE HIT: spinda
+[2026-10-22 10:28:36] CACHE HIT: trapinch
+[2026-10-22 10:28:36] CACHE HIT: vibrava
+[2026-10-22 10:28:36] CACHE HIT: flygon
+[2026-10-22 10:28:36] CACHE HIT: cacnea
+[2026-10-22 10:28:36] CACHE HIT: cacturne
+[2026-10-22 10:28:36] CACHE HIT: swablu
+[2026-10-22 10:28:36] CACHE HIT: altaria
+[2026-10-22 10:28:36] CACHE HIT: zangoose
+[2026-10-22 10:28:36] CACHE HIT: seviper
+[2026-10-22 10:28:36] CACHE HIT: lunatone
+[2026-10-22 10:28:36] CACHE HIT: solrock
+[2026-10-22 10:28:36] CACHE HIT: barboach
+[2026-10-22 10:28:36] CACHE HIT: whiscash
+[2026-10-22 10:28:36] CACHE HIT: corphish
+[2026-10-22 10:28:36] CACHE HIT: crawdaunt
+[2026-10-22 10:28:36] CACHE HIT: baltoy
+[2026-10-22 10:28:36] CACHE HIT: claydol
+[2026-10-22 10:28:36] CACHE HIT: lileep
+[2026-10-22 10:28:36] CACHE HIT: cradily
+[2026-10-22 10:28:36] CACHE HIT: anorith
+[2026-10-22 10:28:36] CACHE HIT: armaldo
+[2026-10-22 10:28:36] CACHE HIT: feebas
+[2026-10-22 10:28:36] CACHE HIT: milotic
+[2026-10-22 10:28:36] CACHE HIT: castform
+[2026-10-22 10:28:36] CACHE HIT: kecleon
+[2026-10-22 10:28:36] CACHE HIT: shuppet
+[2026-10-22 10:28:36] CACHE HIT: banette
+[2026-10-22 10:28:36] CACHE HIT: duskull
+[2026-10-22 10:28:36] CACHE HIT: dusclops
+[2026-10-22 10:28:36] CACHE HIT: tropius
+[2026-10-22 10:28:36] CACHE HIT: chimecho
+[2026-10-22 10:28:36] CACHE HIT: absol
+[2026-10-22 10:28:36] CACHE HIT: wynaut
+[2026-10-22 10:28:36] CACHE HIT: snorunt
+[2026-10-22 10:28:36] CACHE HIT: glalie
+[2026-10-22 10:28:36] CACHE HIT: spheal
+[2026-10-22 10:28:36] CACHE HIT: sealeo
+[2026-10-22 10:28:36] CACHE HIT: walrein
+[2026-10-22 10:28:36] CACHE HIT: clamperl
+[2026-10-22 10:28:36] CACHE HIT: huntail
+[2026-10-22 10:28:36] CACHE HIT: gorebyss
+[2026-10-22 10:28:36] CACHE HIT: relicanth
+[2026-10-22 10:28:36] CACHE HIT: luvdisc
+[2026-10-22 10:28:36] CACHE HIT: bagon
+[2026-10-22 10:28:36] CACHE HIT: shelgon
+[2026-10-22 10:28:36] CACHE HIT: salamence
+[2026-10-22 10:28:36] CACHE HIT: beldum
+[2026-10-22 10:28:36] CACHE HIT: metang
+[2026-10-22 10:28:36] CACHE HIT: metagross
+[2026-10-22 10:28:36] CACHE HIT: regirock
+[2026-10-22 10:28:36] CACHE HIT: regice
+[2026-10-22 10:28:36] CACHE HIT: registeel
+[2026-10-22 10:28:36] CACHE HIT: latias
+[2026-10-22 10:28:36] CACHE HIT: latios
+[2026-10-22 10:28:36] CACHE HIT: kyogre
+[2026-10-22 10:28:36] CACHE HIT: groudon
+[2026-10-22 10:28:36] CACHE HIT: rayquaza
+[2026-10-22 10:28:36] CACHE HIT: jirachi
+[2026-10-22 10:28:36] CACHE HIT: deoxys-normal
+[2026-10-22 10:28:36] CACHE HIT: turtwig
+[2026-10-22 10:28:36] CACHE HIT: grotle
+[2026-10-22 10:28:36] CACHE HIT: torterra
+[2026-10-22 10:28:36] CACHE HIT: chimchar
+[2026-10-22 10:28:36] CACHE HIT: monferno
+[2026-10-22 10:28:36] CACHE HIT: infernape
+[2026-10-22 10:28:36] CACHE HIT: piplup
+[2026-10-22 10:28:36] CACHE HIT: prinplup
+[2026-10-22 10:28:36] CACHE HIT: empoleon
+[2026-10-22 10:28:36] CACHE HIT: starly
+[2026-10-22 10:28:36] CACHE HIT: staravia
+[2026-10-22 10:28:36] CACHE HIT: staraptor
+[2026-10-22 10:28:36] CACHE HIT: bidoof
+[2026-10-22 10:28:36] CACHE HIT: bibarel
+[2026-10-22 10:28:36] CACHE HIT: kricketot
+[2026-10-22 10:28:36] CACHE HIT: kricketune
+[2026-10-22 10:28:36] CACHE HIT: shinx
+[2026-10-22 10:28:36] CACHE HIT: luxio
+[2026-10-22 10:28:36] CACHE HIT: luxray
+[2026-10-22 10:28:36] CACHE HIT: budew
+[2026-10-22 10:28:36] CACHE HIT: roserade
+[2026-10-22 10:28:36] CACHE HIT: cranidos
+[2026-10-22 10:28:36] CACHE HIT: rampardos
+[2026-10-22 10:28:36] CACHE HIT: shieldon
+[2026-10-22 10:28:36] CACHE HIT: bastiodon
+[2026-10-22 10:28:36] CACHE HIT: burmy
+[2026-10-22 10:28:36] CACHE HIT: wormadam-plant
+[2026-10-22 10:28:36] CACHE HIT: mothim
+[2026-10-22 10:28:36] CACHE HIT: combee
+[2026-10-22 10:28:36] CACHE HIT: vespiquen
+[2026-10-22 10:28:36] CACHE HIT: pachirisu
+[2026-10-22 10:28:36] CACHE HIT: buizel
+[2026-10-22 10:28:36] CACHE HIT: floatzel
+[2026-10-22 10:28:36] CACHE HIT: cherubi
+[2026-10-22 10:28:36] CACHE HIT: cherrim
+[2026-10-22 10:28:36] CACHE HIT: shellos
+[2026-10-22 10:28:36] CACHE HIT: gastrodon
+[2026-10-22 10:28:36] CACHE HIT: ambipom
+[2026-10-22 10:28:36] CACHE HIT: drifloon
+[2026-10-22 10:28:36] CACHE HIT: drifblim
+[2026-10-22 10:28:36] CACHE HIT: buneary
+[2026-10-22 10:28:36] CACHE HIT: lopunny
+[2026-10-22 10:28:36] CACHE HIT: mismagius
+[2026-10-22 10:28:36] CACHE HIT: honchkrow
+[2026-10-22 10:28:36] CACHE HIT: glameow
+[2026-10-22 10:28:36] CACHE HIT: purugly
+[2026-10-22 10:28:36] CACHE HIT: chingling
+[2026-10-22 10:28:36] CACHE HIT: stunky
+[2026-10-22 10:28:36] CACHE HIT: skuntank
+[2026-10-22 10:28:36] CACHE HIT: bronzor
+[2026-10-22 10:28:36] CACHE HIT: bronzong
+[2026-10-22 10:28:36] CACHE HIT: bonsly
+[2026-10-22 10:28:36] CACHE HIT: mime-jr
+[2026-10-22 10:28:36] CACHE HIT: happiny
+[2026-10-22 10:28:36] CACHE HIT: chatot
+[2026-10-22 10:28:36] CACHE HIT: spiritomb
+[2026-10-22 10:28:36] CACHE HIT: gible
+[2026-10-22 10:28:36] CACHE HIT: gabite
+[2026-10-22 10:28:36] CACHE HIT: garchomp
+[2026-10-22 10:28:36] CACHE HIT: munchlax
+[2026-10-22 10:28:36] CACHE HIT: riolu
+[2026-10-22 10:28:36] CACHE HIT: lucario
+[2026-10-22 10:28:36] CACHE HIT: hippopotas
+[2026-10-22 10:28:36] CACHE HIT: hippowdon
+[2026-10-22 10:28:36] CACHE HIT: skorupi
+[2026-10-22 10:28:36] CACHE HIT: drapion
+[2026-10-22 10:28:36] CACHE HIT: croagunk
+[2026-10-22 10:28:36] CACHE HIT: toxicroak
+[2026-10-22 10:28:36] CACHE HIT: carnivine
+[2026-10-22 10:28:36] CACHE HIT: finneon
+[2026-10-22 10:28:36] CACHE HIT: lumineon
+[2026-10-22 10:28:36] CACHE HIT: mantyke
+[2026-10-22 10:28:36] CACHE HIT: snover
+[2026-10-22 10:28:36] CACHE HIT: abomasnow
+[2026-10-22 10:28:36] CACHE HIT: weavile
+[2026-10-22 10:28:36] CACHE HIT: magnezone
+[2026-10-22 10:28:36] CACHE HIT: lickilicky
+[2026-10-22 10:28:36] CACHE HIT: rhyperior
+[2026-10-22 10:28:36] CACHE HIT: tangrowth
+[2026-10-22 10:28:36] CACHE HIT: electivire
+[2026-10-22 10:28:36] CACHE HIT: magmortar
+[2026-10-22 10:28:36] CACHE HIT: togekiss
+[2026-10-22 10:28:36] CACHE HIT: yanmega
+[2026-10-22 10:28:36] CACHE HIT: leafeon
+[2026-10-22 10:28:36] CACHE HIT: glaceon
+[2026-10-22 10:28:36] CACHE HIT: gliscor
+[2026-10-22 10:28:36] CACHE HIT: mamoswine
+[2026-10-22 10:28:36] CACHE HIT: porygon-z
+[2026-10-22 10:28:36] CACHE HIT: gallade
+[2026-10-22 10:28:36] CACHE HIT: probopass
+[2026-10-22 10:28:36] CACHE HIT: dusknoir
+[2026-10-22 10:28:36] CACHE HIT: froslass
+[2026-10-22 10:28:36] CACHE HIT: rotom
+[2026-10-22 10:28:36] CACHE HIT: uxie
+[2026-10-22 10:28:36] CACHE HIT: mesprit
+[2026-10-22 10:28:36] CACHE HIT: azelf
+[2026-10-22 10:28:36] CACHE HIT: dialga
+[2026-10-22 10:28:36] CACHE HIT: palkia
+[2026-10-22 10:28:36] CACHE HIT: heatran
+[2026-10-22 10:28:36] CACHE HIT: regigigas
+[2026-10-22 10:28:36] CACHE HIT: giratina-altered
+[2026-10-22 10:28:36] CACHE HIT: cresselia
+[2026-10-22 10:28:36] CACHE HIT: phione
+[2026-10-22 10:28:36] CACHE HIT: manaphy
+[2026-10-22 10:28:36] CACHE HIT: darkrai
+[2026-10-22 10:28:36] CACHE HIT: shaymin-land
+[2026-10-22 10:28:36] CACHE HIT: arceus
+[2026-10-22 10:28:36] CACHE HIT: victini
+[2026-10-22 10:28:36] CACHE HIT: snivy
+[2026-10-22 10:28:36] CACHE HIT: servine
+[2026-10-22 10:28:36] CACHE HIT: serperior
+[2026-10-22 10:28:36] CACHE HIT: tepig
+[2026-10-22 10:28:36] CACHE HIT: pignite
+[2026-10-22 10:28:36] CACHE HIT: emboar
+[2026-10-22 10:28:36] CACHE HIT: oshawott
+[2026-10-22 10:28:36] CACHE HIT: dewott
+[2026-10-22 10:28:36] CACHE HIT: samurott
+[2026-10-22 10:28:36] CACHE HIT: patrat
+[2026-10-22 10:28:36] CACHE HIT: watchog
+[2026-10-22 10:28:36] CACHE HIT: lillipup
+[2026-10-22 10:28:36] CACHE HIT: herdier
+[2026-10-22 10:28:36] CACHE HIT: stoutland
+[2026-10-22 10:28:36] CACHE HIT: purrloin
+[2026-10-22 10:28:36] CACHE HIT: liepard
+[2026-10-22 10:28:36] CACHE HIT: pansage
+[2026-10-22 10:28:36] CACHE HIT: simisage
+[2026-10-22 10:28:36] CACHE HIT: pansear
+[2026-10-22 10:28:36] CACHE HIT: simisear
+[2026-10-22 10:28:36] CACHE HIT: panpour
+[2026-10-22 10:28:36] CACHE HIT: simipour
+[2026-10-22 10:28:36] CACHE HIT: munna
+[2026-10-22 10:28:36] CACHE HIT: musharna
+[2026-10-22 10:28:36] CACHE HIT: pidove
+[2026-10-22 10:28:36] CACHE HIT: tranquill
+[2026-10-22 10:28:36] CACHE HIT: unfezant
+[2026-10-22 10:28:36] CACHE HIT: blitzle
+[2026-10-22 10:28:36] CACHE HIT: zebstrika
+[2026-10-22 10:28:36] CACHE HIT: roggenrola
+[2026-10-22 10:28:36] CACHE HIT: boldore
+[2026-10-22 10:28:36] CACHE HIT: gigalith
+[2026-10-22 10:28:36] CACHE HIT: woobat
+[2026-10-22 10:28:36] CACHE HIT: swoobat
+[2026-10-22 10:28:36] CACHE HIT: drilbur
+[2026-10-22 10:28:36] CACHE HIT: excadrill
+[2026-10-22 10:28:36] CACHE HIT: audino
+[2026-10-22 10:28:36] CACHE HIT: timburr
+[2026-10-22 10:28:36] CACHE HIT: gurdurr
+[2026-10-22 10:28:36] CACHE HIT: conkeldurr
+[2026-10-22 10:28:36] CACHE HIT: tympole
+[2026-10-22 10:28:36] CACHE HIT: palpitoad
+[2026-10-22 10:28:36] CACHE HIT: seismitoad
+[2026-10-22 10:28:36] CACHE HIT: throh
+[2026-10-22 10:28:36] CACHE HIT: sawk
+[2026-10-22 10:28:36] CACHE HIT: sewaddle
+[2026-10-22 10:28:36] CACHE HIT: swadloon
+[2026-10-22 10:28:36] CACHE HIT: leavanny
+[2026-10-22 10:28:36] CACHE HIT: venipede
+[2026-10-22 10:28:36] CACHE HIT: whirlipede
+[2026-10-22 10:28:36] CACHE HIT: scolipede
+[2026-10-22 10:28:36] CACHE HIT: cottonee
+[2026-10-22 10:28:36] CACHE HIT: whimsicott
+[2026-10-22 10:28:36] CACHE HIT: petilil
+[2026-10-22 10:28:36] CACHE HIT: lilligant
+[2026-10-22 10:28:36] CACHE HIT: basculin-red-striped
+[2026-10-22 10:28:36] CACHE HIT: sandile
+[2026-10-22 10:28:36] CACHE HIT: krokorok
+[2026-10-22 10:28:36] CACHE HIT: krookodile
+[2026-10-22 10:28:36] CACHE HIT: darumaka
+[2026-10-22 10:28:36] CACHE HIT: darmanitan-standard
+[2026-10-22 10:28:36] CACHE HIT: maractus
+[2026-10-22 10:28:36] CACHE HIT: dwebble
+[2026-10-22 10:28:36] CACHE HIT: crustle
+[2026-10-22 10:28:36] CACHE HIT: scraggy
+[2026-10-22 10:28:36] CACHE HIT: scrafty
+[2026-10-22 10:28:36] CACHE HIT: sigilyph
+[2026-10-22 10:28:36] CACHE HIT: yamask
+[2026-10-22 10:28:36] CACHE HIT: cofagrigus
+[2026-10-22 10:28:36] CACHE HIT: tirtouga
+[2026-10-22 10:28:36] CACHE HIT: carracosta
+[2026-10-22 10:28:36] CACHE HIT: archen
+[2026-10-22 10:28:36] CACHE HIT: archeops
+[2026-10-22 10:28:36] CACHE HIT: trubbish
+[2026-10-22 10:28:36] CACHE HIT: garbodor
+[2026-10-22 10:28:36] CACHE HIT: zorua
+[2026-10-22 10:28:36] CACHE HIT: zoroark
+[2026-10-22 10:28:36] CACHE HIT: minccino
+[2026-10-22 10:28:36] CACHE HIT: cinccino
+[2026-10-22 10:28:36] CACHE HIT: gothita
+[2026-10-22 10:28:36] CACHE HIT: gothorita
+[2026-10-22 10:28:36] CACHE HIT: gothitelle
+[2026-10-22 10:28:36] CACHE HIT: solosis
+[2026-10-22 10:28:36] CACHE HIT: duosion
+[2026-10-22 10:28:36] CACHE HIT: reuniclus
+[2026-10-22 10:28:36] CACHE HIT: ducklett
+[2026-10-22 10:28:36] CACHE HIT: swanna
+[2026-10-22 10:28:36] CACHE HIT: vanillite
+[2026-10-22 10:28:36] CACHE HIT: vanillish
+[2026-10-22 10:28:36] CACHE HIT: vanilluxe
+[2026-10-22 10:28:36] CACHE HIT: deerling
+[2026-10-22 10:28:36] CACHE HIT: sawsbuck
+[2026-10-22 10:28:36] CACHE HIT: emolga
+[2026-10-22 10:28:36] CACHE HIT: karrablast
+[2026-10-22 10:28:36] CACHE HIT: escavalier
+[2026-10-22 10:28:36] CACHE HIT: foongus
+[2026-10-22 10:28:36] CACHE HIT: amoonguss
+[2026-10-22 10:28:36] CACHE HIT: frillish-male
+[2026-10-22 10:28:36] CACHE HIT: jellicent-male
+[2026-10-22 10:28:36] CACHE HIT: alomomola
+[2026-10-22 10:28:36] CACHE HIT: joltik
+[2026-10-22 10:28:36] CACHE HIT: galvantula
+[2026-10-22 10:28:36] CACHE HIT: ferroseed
+[2026-10-22 10:28:36] CACHE HIT: ferrothorn
+[2026-10-22 10:28:36] CACHE HIT: klink
+[2026-10-22 10:28:36] CACHE HIT: klang
+[2026-10-22 10:28:36] CACHE HIT: klinklang
+[2026-10-22 10:28:36] CACHE HIT: tynamo
+[2026-10-22 10:28:36] CACHE HIT: eelektrik
+[2026-10-22 10:28:36] CACHE HIT: eelektross
+[2026-10-22 10:28:36] CACHE HIT: elgyem
+[2026-10-22 10:28:36] CACHE HIT: beheeyem
+[2026-10-22 10:28:36] CACHE HIT: litwick
+[2026-10-22 10:28:36] CACHE HIT: lampent
+[2026-10-22 10:28:36] CACHE HIT: chandelure
+[2026-10-22 10:28:36] CACHE HIT: axew
+[2026-10-22 10:28:36] CACHE HIT: fraxure
+[2026-10-22 10:28:36] CACHE HIT: haxorus
+[2026-10-22 10:28:36] CACHE HIT: cubchoo
+[2026-10-22 10:28:36] CACHE HIT: beartic
+[2026-10-22 10:28:36] CACHE HIT: cryogonal
+[2026-10-22 10:28:36] CACHE HIT: shelmet
+[2026-10-22 10:28:36] CACHE HIT: accelgor
+[2026-10-22 10:28:36] CACHE HIT: stunfisk
+[2026-10-22 10:28:36] CACHE HIT: mienfoo
+[2026-10-22 10:28:36] CACHE HIT: mienshao
+[2026-10-22 10:28:36] CACHE HIT: druddigon
+[2026-10-22 10:28:36] CACHE HIT: golett
+[2026-10-22 10:28:36] CACHE HIT: golurk
+[2026-10-22 10:28:36] CACHE HIT: pawniard
+[2026-10-22 10:28:36] CACHE HIT: bisharp
+[2026-10-22 10:28:36] CACHE HIT: bouffalant
+[2026-10-22 10:28:36] CACHE HIT: rufflet
+[2026-10-22 10:28:36] CACHE HIT: braviary
+[2026-10-22 10:28:36] CACHE HIT: vullaby
+[2026-10-22 10:28:36] CACHE HIT: mandibuzz
+[2026-10-22 10:28:36] CACHE HIT: heatmor
+[2026-10-22 10:28:36] CACHE HIT: durant
+[2026-10-22 10:28:36] CACHE HIT: deino
+[2026-10-22 10:28:36] CACHE HIT: zweilous
+[2026-10-22 10:28:36] CACHE HIT: hydreigon
+[2026-10-22 10:28:36] CACHE HIT: larvesta
+[2026-10-22 10:28:36] CACHE HIT: volcarona
+[2026-10-22 10:28:36] CACHE HIT: cobalion
+[2026-10-22 10:28:36] CACHE HIT: terrakion
+[2026-10-22 10:28:36] CACHE HIT: virizion
+[2026-10-22 10:28:36] CACHE HIT: tornadus-incarnate
+[2026-10-22 10:28:36] CACHE HIT: thundurus-incarnate
+[2026-10-22 10:28:36] CACHE HIT: reshiram
+[2026-10-22 10:28:36] CACHE HIT: zekrom
+[2026-10-22 10:28:36] CACHE HIT: landorus-incarnate
+[2026-10-22 10:28:36] CACHE HIT: kyurem
+[2026-10-22 10:28:36] CACHE HIT: keldeo-ordinary
+[2026-10-22 10:28:36] CACHE HIT: meloetta-aria
+[2026-10-22 10:28:36] CACHE HIT: genesect
+[2026-10-22 10:28:36] CACHE HIT: chespin
+[2026-10-22 10:28:36] CACHE HIT: quilladin
+[2026-10-22 10:28:36] CACHE HIT: chesnaught
+[2026-10-22 10:28:36] CACHE HIT: fennekin
+[2026-10-22 10:28:36] CACHE HIT: braixen
+[2026-10-22 10:28:36] CACHE HIT: delphox
+[2026-10-22 10:28:36] CACHE HIT: froakie
+[2026-10-22 10:28:36] CACHE HIT: frogadier
+[2026-10-22 10:28:36] CACHE HIT: greninja
+[2026-10-22 10:28:36] CACHE HIT: bunnelby
+[2026-10-22 10:28:36] CACHE HIT: diggersby
+[2026-10-22 10:28:36] CACHE HIT: fletchling
+[2026-10-22 10:28:36] CACHE HIT: fletchinder
+[2026-10-22 10:28:36] CACHE HIT: talonflame
+[2026-10-22 10:28:36] CACHE HIT: scatterbug
+[2026-10-22 10:28:36] CACHE HIT: spewpa
+[2026-10-22 10:28:36] CACHE HIT: vivillon
+[2026-10-22 10:28:36] CACHE HIT: litleo
+[2026-10-22 10:28:36] CACHE HIT: pyroar-male
+[2026-10-22 10:28:36] CACHE HIT: flabebe
+[2026-10-22 10:28:36] CACHE HIT: floette
+[2026-10-22 10:28:36] CACHE HIT: florges
+[2026-10-22 10:28:36] CACHE HIT: skiddo
+[2026-10-22 10:28:36] CACHE HIT: gogoat
+[2026-10-22 10:28:36] CACHE HIT: pancham
+[2026-10-22 10:28:36] CACHE HIT: pangoro
+[2026-10-22 10:28:36] CACHE HIT: furfrou
+[2026-10-22 10:28:36] CACHE HIT: espurr
+[2026-10-22 10:28:36] CACHE HIT: meowstic-male
+[2026-10-22 10:28:36] CACHE HIT: honedge
+[2026-10-22 10:28:36] CACHE HIT: doublade
+[2026-10-22 10:28:36] CACHE HIT: aegislash-shield
+[2026-10-22 10:28:36] CACHE HIT: spritzee
+[2026-10-22 10:28:36] CACHE HIT: aromatisse
+[2026-10-22 10:28:36] CACHE HIT: swirlix
+[2026-10-22 10:28:36] CACHE HIT: slurpuff
+[2026-10-22 10:28:36] CACHE HIT: inkay
+[2026-10-22 10:28:36] CACHE HIT: malamar
+[2026-10-22 10:28:36] CACHE HIT: binacle
+[2026-10-22 10:28:36] CACHE HIT: barbaracle
+[2026-10-22 10:28:36] CACHE HIT: skrelp
+[2026-10-22 10:28:36] CACHE HIT: dragalge
+[2026-10-22 10:28:36] CACHE HIT: clauncher
+[2026-10-22 10:28:36] CACHE HIT: clawitzer
+[2026-10-22 10:28:36] CACHE HIT: helioptile
+[2026-10-22 10:28:36] CACHE HIT: heliolisk
+[2026-10-22 10:28:36] CACHE HIT: tyrunt
+[2026-10-22 10:28:36] CACHE HIT: tyrantrum
+[2026-10-22 10:28:36] CACHE HIT: amaura
+[2026-10-22 10:28:36] CACHE HIT: aurorus
+[2026-10-22 10:28:36] CACHE HIT: sylveon
+[2026-10-22 10:28:36] CACHE HIT: hawlucha
+[2026-10-22 10:28:36] CACHE HIT: dedenne
+[2026-10-22 10:28:36] CACHE HIT: carbink
+[2026-10-22 10:28:36] CACHE HIT: goomy
+[2026-10-22 10:28:36] CACHE HIT: sliggoo
+[2026-10-22 10:28:36] CACHE HIT: goodra
+[2026-10-22 10:28:36] CACHE HIT: klefki
+[2026-10-22 10:28:36] CACHE HIT: phantump
+[2026-10-22 10:28:36] CACHE HIT: trevenant
+[2026-10-22 10:28:36] CACHE HIT: pumpkaboo-average
+[2026-10-22 10:28:36] CACHE HIT: gourgeist-average
+[2026-10-22 10:28:36] CACHE HIT: bergmite
+[2026-10-22 10:28:36] CACHE HIT: avalugg
+[2026-10-22 10:28:36] CACHE HIT: noibat
+[2026-10-22 10:28:36] CACHE HIT: noivern
+[2026-10-22 10:28:36] CACHE HIT: xerneas
+[2026-10-22 10:28:36] CACHE HIT: yveltal
+[2026-10-22 10:28:36] CACHE HIT: zygarde-50
+[2026-10-22 10:28:36] CACHE HIT: diancie
+[2026-10-22 10:28:36] CACHE HIT: hoopa
+[2026-10-22 10:28:36] CACHE HIT: volcanion
+[2026-10-22 10:28:36] CACHE HIT: rowlet
+[2026-10-22 10:28:36] CACHE HIT: dartrix
+[2026-10-22 10:28:36] CACHE HIT: decidueye
+[2026-10-22 10:28:36] CACHE HIT: litten
+[2026-10-22 10:28:36] CACHE HIT: torracat
+[2026-10-22 10:28:36] CACHE HIT: incineroar
+[2026-10-22 10:28:36] CACHE HIT: popplio
+[2026-10-22 10:28:36] CACHE HIT: brionne
+[2026-10-22 10:28:36] CACHE HIT: primarina
+[2026-10-22 10:28:36] CACHE HIT: pikipek
+[2026-10-22 10:28:36] CACHE HIT: trumbeak
+[2026-10-22 10:28:36] CACHE HIT: toucannon
+[2026-10-22 10:28:36] CACHE HIT: yungoos
+[2026-10-22 10:28:36] CACHE HIT: gumshoos
+[2026-10-22 10:28:36] CACHE HIT: grubbin
+[2026-10-22 10:28:36] CACHE HIT: charjabug
+[2026-10-22 10:28:36] CACHE HIT: vikavolt
+[2026-10-22 10:28:36] CACHE HIT: crabrawler
+[2026-10-22 10:28:36] CACHE HIT: crabominable
+[2026-10-22 10:28:36] CACHE HIT: oricorio-baile
+[2026-10-22 10:28:36] CACHE HIT: cutiefly
+[2026-10-22 10:28:36] CACHE HIT: ribombee
+[2026-10-22 10:28:36] CACHE HIT: rockruff
+[2026-10-22 10:28:36] CACHE HIT: lycanroc-midday
+[2026-10-22 10:28:36] CACHE HIT: wishiwashi-solo
+[2026-10-22 10:28:36] CACHE HIT: mareanie
+[2026-10-22 10:28:36] CACHE HIT: toxapex
+[2026-10-22 10:28:36] CACHE HIT: mudbray
+[2026-10-22 10:28:36] CACHE HIT: mudsdale
+[2026-10-22 10:28:36] CACHE HIT: dewpider
+[2026-10-22 10:28:36] CACHE HIT: araquanid
+[2026-10-22 10:28:36] CACHE HIT: fomantis
+[2026-10-22 10:28:36] CACHE HIT: lurantis
+[2026-10-22 10:28:36] CACHE HIT: morelull
+[2026-10-22 10:28:36] CACHE HIT: shiinotic
+[2026-10-22 10:28:36] CACHE HIT: salandit
+[2026-10-22 10:28:36] CACHE HIT: salazzle
+[2026-10-22 10:28:36] CACHE HIT: stufful
+[2026-10-22 10:28:36] CACHE HIT: bewear
+[2026-10-22 10:28:36] CACHE HIT: bounsweet
+[2026-10-22 10:28:36] CACHE HIT: steenee
+[2026-10-22 10:28:36] CACHE HIT: tsareena
+[2026-10-22 10:28:36] CACHE HIT: comfey
+[2026-10-22 10:28:36] CACHE HIT: oranguru
+[2026-10-22 10:28:36] CACHE HIT: passimian
+[2026-10-22 10:28:36] CACHE HIT: wimpod
+[2026-10-22 10:28:36] CACHE HIT: golisopod
+[2026-10-22 10:28:36] CACHE HIT: sandygast
+[2026-10-22 10:28:36] CACHE HIT: palossand
+[2026-10-22 10:28:36] CACHE HIT: pyukumuku
+[2026-10-22 10:28:36] CACHE HIT: type-null
+[2026-10-22 10:28:36] CACHE HIT: silvally
+[2026-10-22 10:28:36] CACHE HIT: minior-red-meteor
+[2026-10-22 10:28:36] CACHE HIT: komala
+[2026-10-22 10:28:36] CACHE HIT: turtonator
+[2026-10-22 10:28:36] CACHE HIT: togedemaru
+[2026-10-22 10:28:36] CACHE HIT: mimikyu-disguised
+[2026-10-22 10:28:36] CACHE HIT: bruxish
+[2026-10-22 10:28:36] CACHE HIT: drampa
+[2026-10-22 10:28:36] CACHE HIT: dhelmise
+[2026-10-22 10:28:36] CACHE HIT: jangmo-o
+[2026-10-22 10:28:36] CACHE HIT: hakamo-o
+[2026-10-22 10:28:36] CACHE HIT: kommo-o
+[2026-10-22 10:28:36] CACHE HIT: tapu-koko
+[2026-10-22 10:28:36] CACHE HIT: tapu-lele
+[2026-10-22 10:28:36] CACHE HIT: tapu-bulu
+[2026-10-22 10:28:36] CACHE HIT: tapu-fini
+[2026-10-22 10:28:36] CACHE HIT: cosmog
+[2026-10-22 10:28:36] CACHE HIT: cosmoem
+[2026-10-22 10:28:36] CACHE HIT: solgaleo
+[2026-10-22 10:28:36] CACHE HIT: lunala
+[2026-10-22 10:28:36] CACHE HIT: nihilego
+[2026-10-22 10:28:36] CACHE HIT: buzzwole
+[2026-10-22 10:28:36] CACHE HIT: pheromosa
+[2026-10-22 10:28:36] CACHE HIT: xurkitree
+[2026-10-22 10:28:36] CACHE HIT: celesteela
+[2026-10-22 10:28:36] CACHE HIT: kartana
+[2026-10-22 10:28:36] CACHE HIT: guzzlord
+[2026-10-22 10:28:36] CACHE HIT: necrozma
+[2026-10-22 10:28:36] CACHE HIT: magearna
+[2026-10-22 10:28:36] CACHE HIT: marshadow
+[2026-10-22 10:28:36] CACHE HIT: poipole
+[2026-10-22 10:28:36] CACHE HIT: naganadel
+[2026-10-22 10:28:36] CACHE HIT: stakataka
+[2026-10-22 10:28:36] CACHE HIT: blacephalon
+[2026-10-22 10:28:36] CACHE HIT: zeraora
+[2026-10-22 10:28:36] CACHE HIT: meltan
+[2026-10-22 10:28:36] CACHE HIT: melmetal
+[2026-10-22 10:28:36] CACHE HIT: grookey
+[2026-10-22 10:28:36] CACHE HIT: thwackey
+[2026-10-22 10:28:36] CACHE HIT: rillaboom
+[2026-10-22 10:28:36] CACHE HIT: scorbunny
+[2026-10-22 10:28:36] CACHE HIT: raboot
+[2026-10-22 10:28:36] CACHE HIT: cinderace
+[2026-10-22 10:28:36] CACHE HIT: sobble
+[2026-10-22 10:28:36] CACHE HIT: drizzile
+[2026-10-22 10:28:36] CACHE HIT: inteleon
+[2026-10-22 10:28:36] CACHE HIT: skwovet
+[2026-10-22 10:28:36] CACHE HIT: greedent
+[2026-10-22 10:28:36] CACHE HIT: rookidee
+[2026-10-22 10:28:36] CACHE HIT: corvisquire
+[2026-10-22 10:28:36] CACHE HIT: corviknight
+[2026-10-22 10:28:36] CACHE HIT: blipbug
+[2026-10-22 10:28:36] CACHE HIT: dottler
+[2026-10-22 10:28:36] CACHE HIT: orbeetle
+[2026-10-22 10:28:36] CACHE HIT: nickit
+[2026-10-22 10:28:36] CACHE HIT: thievul
+[2026-10-22 10:28:36] CACHE HIT: gossifleur
+[2026-10-22 10:28:36] CACHE HIT: eldegoss
+[2026-10-22 10:28:36] CACHE HIT: wooloo
+[2026-10-22 10:28:36] CACHE HIT: dubwool
+[2026-10-22 10:28:36] CACHE HIT: chewtle
+[2026-10-22 10:28:36] CACHE HIT: drednaw
+[2026-10-22 10:28:36] CACHE HIT: yamper
+[2026-10-22 10:28:36] CACHE HIT: boltund
+[2026-10-22 10:28:36] CACHE HIT: rolycoly
+[2026-10-22 10:28:36] CACHE HIT: carkol
+[2026-10-22 10:28:36] CACHE HIT: coalossal
+[2026-10-22 10:28:36] CACHE HIT: applin
+[2026-10-22 10:28:36] CACHE HIT: flapple
+[2026-10-22 10:28:36] CACHE HIT: appletun
+[2026-10-22 10:28:36] CACHE HIT: silicobra
+[2026-10-22 10:28:36] CACHE HIT: sandaconda
+[2026-10-22 10:28:36] CACHE HIT: cramorant
+[2026-10-22 10:28:36] CACHE HIT: arrokuda
+[2026-10-22 10:28:36] CACHE HIT: barraskewda
+[2026-10-22 10:28:36] CACHE HIT: toxel
+[2026-10-22 10:28:36] CACHE HIT: toxtricity-amped
+[2026-10-22 10:28:36] CACHE HIT: sizzlipede
+[2026-10-22 10:28:36] CACHE HIT: centiskorch
+[2026-10-22 10:28:36] CACHE HIT: clobbopus
+[2026-10-22 10:28:36] CACHE HIT: grapploct
+[2026-10-22 10:28:36] CACHE HIT: sinistea
+[2026-10-22 10:28:36] CACHE HIT: polteageist
+[2026-10-22 10:28:36] CACHE HIT: hatenna
+[2026-10-22 10:28:36] CACHE HIT: hattrem
+[2026-10-22 10:28:36] CACHE HIT: hatterene
+[2026-10-22 10:28:36] CACHE HIT: impidimp
+[2026-10-22 10:28:36] CACHE HIT: morgrem
+[2026-10-22 10:28:36] CACHE HIT: grimmsnarl
+[2026-10-22 10:28:36] CACHE HIT: obstagoon
+[2026-10-22 10:28:36] CACHE HIT: perrserker
+[2026-10-22 10:28:36] CACHE HIT: cursola
+[2026-10-22 10:28:36] CACHE HIT: sirfetchd
+[2026-10-22 10:28:36] CACHE HIT: mr-rime
+[2026-10-22 10:28:36] CACHE HIT: runerigus
+[2026-10-22 10:28:36] CACHE HIT: milcery
+[2026-10-22 10:28:36] CACHE HIT: alcremie
+[2026-10-22 10:28:36] CACHE HIT: falinks
+[2026-10-22 10:28:36] CACHE HIT: pincurchin
+[2026-10-22 10:28:36] CACHE HIT: snom
+[2026-10-22 10:28:36] CACHE HIT: frosmoth
+[2026-10-22 10:28:36] CACHE HIT: stonjourner
+[2026-10-22 10:28:36] CACHE HIT: eiscue-ice
+[2026-10-22 10:28:36] CACHE HIT: indeedee-male
+[2026-10-22 10:28:36] CACHE HIT: morpeko-full-belly
+[2026-10-22 10:28:36] CACHE HIT: cufant
+[2026-10-22 10:28:36] CACHE HIT: copperajah
+[2026-10-22 10:28:36] CACHE HIT: dracozolt
+[2026-10-22 10:28:36] CACHE HIT: arctozolt
+[2026-10-22 10:28:36] CACHE HIT: dracovish
+[2026-10-22 10:28:36] CACHE HIT: arctovish
+[2026-10-22 10:28:36] CACHE HIT: duraludon
+[2026-10-22 10:28:36] CACHE HIT: dreepy
+[2026-10-22 10:28:36] CACHE HIT: drakloak
+[2026-10-22 10:28:36] CACHE HIT: dragapult
+[2026-10-22 10:28:36] CACHE HIT: zacian
+[2026-10-22 10:28:36] CACHE HIT: zamazenta
+[2026-10-22 10:28:36] CACHE HIT: eternatus
+[2026-10-22 10:28:36] CACHE HIT: kubfu
+[2026-10-22 10:28:36] CACHE HIT: urshifu-single-strike
+[2026-10-22 10:28:36] CACHE HIT: zarude
+[2026-10-22 10:28:36] CACHE HIT: regieleki
+[2026-10-22 10:28:36] CACHE HIT: regidrago
+[2026-10-22 10:28:36] CACHE HIT: glastrier
+[2026-10-22 10:28:36] CACHE HIT: spectrier
+[2026-10-22 10:28:36] CACHE HIT: calyrex
+[2026-10-22 10:28:36] CACHE HIT: wyrdeer
+[2026-10-22 10:28:36] CACHE HIT: kleavor
+[2026-10-22 10:28:36] CACHE HIT: ursaluna
+[2026-10-22 10:28:36] CACHE HIT: basculegion-male
+[2026-10-22 10:28:36] CACHE HIT: sneasler
+[2026-10-22 10:28:36] CACHE HIT: overqwil
+[2026-10-22 10:28:36] CACHE HIT: enamorus-incarnate
+[2026-10-22 10:28:36] CACHE HIT: sprigatito
+[2026-10-22 10:28:36] CACHE HIT: floragato
+[2026-10-22 10:28:36] CACHE HIT: meowscarada
+[2026-10-22 10:28:36] CACHE HIT: fuecoco
+[2026-10-22 10:28:36] CACHE HIT: crocalor
+[2026-10-22 10:28:36] CACHE HIT: skeledirge
+[2026-10-22 10:28:36] CACHE HIT: quaxly
+[2026-10-22 10:28:36] CACHE HIT: quaxwell
+[2026-10-22 10:28:36] CACHE HIT: quaquaval
+[2026-10-22 10:28:36] CACHE HIT: lechonk
+[2026-10-22 10:28:36] CACHE HIT: oinkologne-male
+[2026-10-22 10:28:36] CACHE HIT: tarountula
+[2026-10-22 10:28:36] CACHE HIT: spidops
+[2026-10-22 10:28:36] CACHE HIT: nymble
+[2026-10-22 10:28:36] CACHE HIT: lokix
+[2026-10-22 10:28:36] CACHE HIT: pawmi
+[2026-10-22 10:28:36] CACHE HIT: pawmo
+[2026-10-22 10:28:36] CACHE HIT: pawmot
+[2026-10-22 10:28:36] CACHE HIT: tandemaus
+[2026-10-22 10:28:36] CACHE HIT: maushold-family-of-four
+[2026-10-22 10:28:36] CACHE HIT: fidough
+[2026-10-22 10:28:36] CACHE HIT: dachsbun
+[2026-10-22 10:28:36] CACHE HIT: smoliv
+[2026-10-22 10:28:36] CACHE HIT: dolliv
+[2026-10-22 10:28:36] CACHE HIT: arboliva
+[2026-10-22 10:28:36] CACHE HIT: squawkabilly-green-plumage
+[2026-10-22 10:28:36] CACHE HIT: nacli
+[2026-10-22 10:28:36] CACHE HIT: naclstack
+[2026-10-22 10:28:36] CACHE HIT: garganacl
+[2026-10-22 10:28:36] CACHE HIT: charcadet
+[2026-10-22 10:28:36] CACHE HIT: armarouge
+[2026-10-22 10:28:36] CACHE HIT: ceruledge
+[2026-10-22 10:28:36] CACHE HIT: tadbulb
+[2026-10-22 10:28:36] CACHE HIT: bellibolt
+[2026-10-22 10:28:36] CACHE HIT: wattrel
+[2026-10-22 10:28:36] CACHE HIT: kilowattrel
+[2026-10-22 10:28:36] CACHE HIT: maschiff
+[2026-10-22 10:28:36] CACHE HIT: mabosstiff
+[2026-10-22 10:28:36] CACHE HIT: shroodle
+[2026-10-22 10:28:36] CACHE HIT: grafaiai
+[2026-10-22 10:28:36] CACHE HIT: bramblin
+[2026-10-22 10:28:36] CACHE HIT: brambleghast
+[2026-10-22 10:28:36] CACHE HIT: toedscool
+[2026-10-22 10:28:36] CACHE HIT: toedscruel
+[2026-10-22 10:28:36] CACHE HIT: klawf
+[2026-10-22 10:28:36] CACHE HIT: capsakid
+[2026-10-22 10:28:36] CACHE HIT: scovillain
+[2026-10-22 10:28:36] CACHE HIT: rellor
+[2026-10-22 10:28:36] CACHE HIT: rabsca
+[2026-10-22 10:28:36] CACHE HIT: flittle
+[2026-10-22 10:28:36] CACHE HIT: espathra
+[2026-10-22 10:28:36] CACHE HIT: tinkatink
+[2026-10-22 10:28:36] CACHE HIT: tinkatuff
+[2026-10-22 10:28:36] CACHE HIT: tinkaton
+[2026-10-22 10:28:36] CACHE HIT: wiglett
+[2026-10-22 10:28:36] CACHE HIT: wugtrio
+[2026-10-22 10:28:36] CACHE HIT: bombirdier
+[2026-10-22 10:28:36] CACHE HIT: finizen
+[2026-10-22 10:28:36] CACHE HIT: palafin-zero
+[2026-10-22 10:28:36] CACHE HIT: varoom
+[2026-10-22 10:28:36] CACHE HIT: revavroom
+[2026-10-22 10:28:36] CACHE HIT: cyclizar
+[2026-10-22 10:28:36] CACHE HIT: orthworm
+[2026-10-22 10:28:36] CACHE HIT: glimmet
+[2026-10-22 10:28:36] CACHE HIT: glimmora
+[2026-10-22 10:28:36] CACHE HIT: greavard
+[2026-10-22 10:28:36] CACHE HIT: houndstone
+[2026-10-22 10:28:36] CACHE HIT: flamigo
+[2026-10-22 10:28:36] CACHE HIT: cetoddle
+[2026-10-22 10:28:36] CACHE HIT: cetitan
+[2026-10-22 10:28:36] CACHE HIT: veluza
+[2026-10-22 10:28:36] CACHE HIT: dondozo
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-curly
+[2026-10-22 10:28:36] CACHE HIT: annihilape
+[2026-10-22 10:28:36] CACHE HIT: clodsire
+[2026-10-22 10:28:36] CACHE HIT: farigiraf
+[2026-10-22 10:28:36] CACHE HIT: dudunsparce-two-segment
+[2026-10-22 10:28:36] CACHE HIT: kingambit
+[2026-10-22 10:28:36] CACHE HIT: great-tusk
+[2026-10-22 10:28:36] CACHE HIT: scream-tail
+[2026-10-22 10:28:36] CACHE HIT: brute-bonnet
+[2026-10-22 10:28:36] CACHE HIT: flutter-mane
+[2026-10-22 10:28:36] CACHE HIT: slither-wing
+[2026-10-22 10:28:36] CACHE HIT: sandy-shocks
+[2026-10-22 10:28:36] CACHE HIT: iron-treads
+[2026-10-22 10:28:36] CACHE HIT: iron-bundle
+[2026-10-22 10:28:36] CACHE HIT: iron-hands
+[2026-10-22 10:28:36] CACHE HIT: iron-jugulis
+[2026-10-22 10:28:36] CACHE HIT: iron-moth
+[2026-10-22 10:28:36] CACHE HIT: iron-thorns
+[2026-10-22 10:28:36] CACHE HIT: frigibax
+[2026-10-22 10:28:36] CACHE HIT: arctibax
+[2026-10-22 10:28:36] CACHE HIT: baxcalibur
+[2026-10-22 10:28:36] CACHE HIT: gimmighoul
+[2026-10-22 10:28:36] CACHE HIT: gholdengo
+[2026-10-22 10:28:36] CACHE HIT: wo-chien
+[2026-10-22 10:28:36] CACHE HIT: chien-pao
+[2026-10-22 10:28:36] CACHE HIT: ting-lu
+[2026-10-22 10:28:36] CACHE HIT: chi-yu
+[2026-10-22 10:28:36] CACHE HIT: roaring-moon
+[2026-10-22 10:28:36] CACHE HIT: iron-valiant
+[2026-10-22 10:28:36] CACHE HIT: koraidon
+[2026-10-22 10:28:36] CACHE HIT: miraidon
+[2026-10-22 10:28:36] CACHE HIT: walking-wake
+[2026-10-22 10:28:36] CACHE HIT: iron-leaves
+[2026-10-22 10:28:36] CACHE HIT: dipplin
+[2026-10-22 10:28:36] CACHE HIT: poltchageist
+[2026-10-22 10:28:36] CACHE HIT: sinistcha
+[2026-10-22 10:28:36] CACHE HIT: okidogi
+[2026-10-22 10:28:36] CACHE HIT: munkidori
+[2026-10-22 10:28:36] CACHE HIT: fezandipiti
+[2026-10-22 10:28:36] CACHE HIT: ogerpon
+[2026-10-22 10:28:36] CACHE HIT: archaludon
+[2026-10-22 10:28:36] CACHE HIT: hydrapple
+[2026-10-22 10:28:36] CACHE HIT: gouging-fire
+[2026-10-22 10:28:36] CACHE HIT: raging-bolt
+[2026-10-22 10:28:36] CACHE HIT: iron-boulder
+[2026-10-22 10:28:36] CACHE HIT: iron-crown
+[2026-10-22 10:28:36] CACHE HIT: terapagos
+[2026-10-22 10:28:36] CACHE HIT: pecharunt
+[2026-10-22 10:28:36] CACHE HIT: deoxys-attack
+[2026-10-22 10:28:36] CACHE HIT: deoxys-defense
+[2026-10-22 10:28:36] CACHE HIT: deoxys-speed
+[2026-10-22 10:28:36] CACHE HIT: wormadam-sandy
+[2026-10-22 10:28:36] CACHE HIT: wormadam-trash
+[2026-10-22 10:28:36] CACHE HIT: shaymin-sky
+[2026-10-22 10:28:36] CACHE HIT: giratina-origin
+[2026-10-22 10:28:36] CACHE HIT: rotom-heat
+[2026-10-22 10:28:36] CACHE HIT: rotom-wash
+[2026-10-22 10:28:36] CACHE HIT: rotom-frost
+[2026-10-22 10:28:36] CACHE HIT: rotom-fan
+[2026-10-22 10:28:36] CACHE HIT: rotom-mow
+[2026-10-22 10:28:36] CACHE HIT: castform-sunny
+[2026-10-22 10:28:36] CACHE HIT: castform-rainy
+[2026-10-22 10:28:36] CACHE HIT: castform-snowy
+[2026-10-22 10:28:36] CACHE HIT: basculin-blue-striped
+[2026-10-22 10:28:36] CACHE HIT: darmanitan-zen
+[2026-10-22 10:28:36] CACHE HIT: meloetta-pirouette
+[2026-10-22 10:28:36] CACHE HIT: tornadus-therian
+[2026-10-22 10:28:36] CACHE HIT: thundurus-therian
+[2026-10-22 10:28:36] CACHE HIT: landorus-therian
+[2026-10-22 10:28:36] CACHE HIT: kyurem-black
+[2026-10-22 10:28:36] CACHE HIT: kyurem-white
+[2026-10-22 10:28:36] CACHE HIT: keldeo-resolute
+[2026-10-22 10:28:36] CACHE HIT: meowstic-female
+[2026-10-22 10:28:36] CACHE HIT: aegislash-blade
+[2026-10-22 10:28:36] CACHE HIT: pumpkaboo-small
+[2026-10-22 10:28:36] CACHE HIT: pumpkaboo-large
+[2026-10-22 10:28:36] CACHE HIT: pumpkaboo-super
+[2026-10-22 10:28:36] CACHE HIT: gourgeist-small
+[2026-10-22 10:28:36] CACHE HIT: gourgeist-large
+[2026-10-22 10:28:36] CACHE HIT: gourgeist-super
+[2026-10-22 10:28:36] CACHE HIT: venusaur-mega
+[2026-10-22 10:28:36] CACHE HIT: charizard-mega-x
+[2026-10-22 10:28:36] CACHE HIT: charizard-mega-y
+[2026-10-22 10:28:36] CACHE HIT: blastoise-mega
+[2026-10-22 10:28:36] CACHE HIT: alakazam-mega
+[2026-10-22 10:28:36] CACHE HIT: gengar-mega
+[2026-10-22 10:28:36] CACHE HIT: kangaskhan-mega
+[2026-10-22 10:28:36] CACHE HIT: pinsir-mega
+[2026-10-22 10:28:36] CACHE HIT: gyarados-mega
+[2026-10-22 10:28:36] CACHE HIT: aerodactyl-mega
+[2026-10-22 10:28:36] CACHE HIT: mewtwo-mega-x
+[2026-10-22 10:28:36] CACHE HIT: mewtwo-mega-y
+[2026-10-22 10:28:36] CACHE HIT: ampharos-mega
+[2026-10-22 10:28:36] CACHE HIT: scizor-mega
+[2026-10-22 10:28:36] CACHE HIT: heracross-mega
+[2026-10-22 10:28:36] CACHE HIT: houndoom-mega
+[2026-10-22 10:28:36] CACHE HIT: tyranitar-mega
+[2026-10-22 10:28:36] CACHE HIT: blaziken-mega
+[2026-10-22 10:28:36] CACHE HIT: gardevoir-mega
+[2026-10-22 10:28:36] CACHE HIT: mawile-mega
+[2026-10-22 10:28:36] CACHE HIT: aggron-mega
+[2026-10-22 10:28:36] CACHE HIT: medicham-mega
+[2026-10-22 10:28:36] CACHE HIT: manectric-mega
+[2026-10-22 10:28:36] CACHE HIT: banette-mega
+[2026-10-22 10:28:36] CACHE HIT: absol-mega
+[2026-10-22 10:28:36] CACHE HIT: garchomp-mega
+[2026-10-22 10:28:36] CACHE HIT: lucario-mega
+[2026-10-22 10:28:36] CACHE HIT: abomasnow-mega
+[2026-10-22 10:28:36] CACHE HIT: floette-eternal
+[2026-10-22 10:28:36] CACHE HIT: latias-mega
+[2026-10-22 10:28:36] CACHE HIT: latios-mega
+[2026-10-22 10:28:36] CACHE HIT: swampert-mega
+[2026-10-22 10:28:36] CACHE HIT: sceptile-mega
+[2026-10-22 10:28:36] CACHE HIT: sableye-mega
+[2026-10-22 10:28:36] CACHE HIT: altaria-mega
+[2026-10-22 10:28:36] CACHE HIT: gallade-mega
+[2026-10-22 10:28:36] CACHE HIT: audino-mega
+[2026-10-22 10:28:36] CACHE HIT: sharpedo-mega
+[2026-10-22 10:28:36] CACHE HIT: slowbro-mega
+[2026-10-22 10:28:36] CACHE HIT: steelix-mega
+[2026-10-22 10:28:36] CACHE HIT: pidgeot-mega
+[2026-10-22 10:28:36] CACHE HIT: glalie-mega
+[2026-10-22 10:28:36] CACHE HIT: diancie-mega
+[2026-10-22 10:28:36] CACHE HIT: metagross-mega
+[2026-10-22 10:28:36] CACHE HIT: kyogre-primal
+[2026-10-22 10:28:36] CACHE HIT: groudon-primal
+[2026-10-22 10:28:36] CACHE HIT: rayquaza-mega
+[2026-10-22 10:28:36] CACHE HIT: pikachu-rock-star
+[2026-10-22 10:28:36] CACHE HIT: pikachu-belle
+[2026-10-22 10:28:36] CACHE HIT: pikachu-pop-star
+[2026-10-22 10:28:36] CACHE HIT: pikachu-phd
+[2026-10-22 10:28:36] CACHE HIT: pikachu-libre
+[2026-10-22 10:28:36] CACHE HIT: pikachu-cosplay
+[2026-10-22 10:28:36] CACHE HIT: hoopa-unbound
+[2026-10-22 10:28:36] CACHE HIT: camerupt-mega
+[2026-10-22 10:28:36] CACHE HIT: lopunny-mega
+[2026-10-22 10:28:36] CACHE HIT: salamence-mega
+[2026-10-22 10:28:36] CACHE HIT: beedrill-mega
+[2026-10-22 10:28:36] CACHE HIT: rattata-alola
+[2026-10-22 10:28:36] CACHE HIT: raticate-alola
+[2026-10-22 10:28:36] CACHE HIT: raticate-totem-alola
+[2026-10-22 10:28:36] CACHE HIT: pikachu-original-cap
+[2026-10-22 10:28:36] CACHE HIT: pikachu-hoenn-cap
+[2026-10-22 10:28:36] CACHE HIT: pikachu-sinnoh-cap
+[2026-10-22 10:28:36] CACHE HIT: pikachu-unova-cap
+[2026-10-22 10:28:36] CACHE HIT: pikachu-kalos-cap
+[2026-10-22 10:28:36] CACHE HIT: pikachu-alola-cap
+[2026-10-22 10:28:36] CACHE HIT: raichu-alola
+[2026-10-22 10:28:36] CACHE HIT: sandshrew-alola
+[2026-10-22 10:28:36] CACHE HIT: sandslash-alola
+[2026-10-22 10:28:36] CACHE HIT: vulpix-alola
+[2026-10-22 10:28:36] CACHE HIT: ninetales-alola
+[2026-10-22 10:28:36] CACHE HIT: diglett-alola
+[2026-10-22 10:28:36] CACHE HIT: dugtrio-alola
+[2026-10-22 10:28:36] CACHE HIT: meowth-alola
+[2026-10-22 10:28:36] CACHE HIT: persian-alola
+[2026-10-22 10:28:36] CACHE HIT: geodude-alola
+[2026-10-22 10:28:36] CACHE HIT: graveler-alola
+[2026-10-22 10:28:36] CACHE HIT: golem-alola
+[2026-10-22 10:28:36] CACHE HIT: grimer-alola
+[2026-10-22 10:28:36] CACHE HIT: muk-alola
+[2026-10-22 10:28:36] CACHE HIT: exeggutor-alola
+[2026-10-22 10:28:36] CACHE HIT: marowak-alola
+[2026-10-22 10:28:36] CACHE HIT: greninja-battle-bond
+[2026-10-22 10:28:36] CACHE HIT: greninja-ash
+[2026-10-22 10:28:36] CACHE HIT: zygarde-10-power-construct
+[2026-10-22 10:28:36] CACHE HIT: zygarde-50-power-construct
+[2026-10-22 10:28:36] CACHE HIT: zygarde-complete
+[2026-10-22 10:28:36] CACHE HIT: gumshoos-totem
+[2026-10-22 10:28:36] CACHE HIT: vikavolt-totem
+[2026-10-22 10:28:36] CACHE HIT: oricorio-pom-pom
+[2026-10-22 10:28:36] CACHE HIT: oricorio-pau
+[2026-10-22 10:28:36] CACHE HIT: oricorio-sensu
+[2026-10-22 10:28:36] CACHE HIT: lycanroc-midnight
+[2026-10-22 10:28:36] CACHE HIT: wishiwashi-school
+[2026-10-22 10:28:36] CACHE HIT: lurantis-totem
+[2026-10-22 10:28:36] CACHE HIT: salazzle-totem
+[2026-10-22 10:28:36] CACHE HIT: minior-orange-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-yellow-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-green-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-blue-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-indigo-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-violet-meteor
+[2026-10-22 10:28:36] CACHE HIT: minior-red
+[2026-10-22 10:28:36] CACHE HIT: minior-orange
+[2026-10-22 10:28:36] CACHE HIT: minior-yellow
+[2026-10-22 10:28:36] CACHE HIT: minior-green
+[2026-10-22 10:28:36] CACHE HIT: minior-blue
+[2026-10-22 10:28:36] CACHE HIT: minior-indigo
+[2026-10-22 10:28:36] CACHE HIT: minior-violet
+[2026-10-22 10:28:36] CACHE HIT: mimikyu-busted
+[2026-10-22 10:28:36] CACHE HIT: mimikyu-totem-disguised
+[2026-10-22 10:28:36] CACHE HIT: mimikyu-totem-busted
+[2026-10-22 10:28:36] CACHE HIT: kommo-o-totem
+[2026-10-22 10:28:36] CACHE HIT: magearna-original
+[2026-10-22 10:28:36] CACHE HIT: pikachu-partner-cap
+[2026-10-22 10:28:36] CACHE HIT: marowak-totem
+[2026-10-22 10:28:36] CACHE HIT: ribombee-totem
+[2026-10-22 10:28:36] CACHE HIT: rockruff-own-tempo
+[2026-10-22 10:28:36] CACHE HIT: lycanroc-dusk
+[2026-10-22 10:28:36] CACHE HIT: araquanid-totem
+[2026-10-22 10:28:36] CACHE HIT: togedemaru-totem
+[2026-10-22 10:28:36] CACHE HIT: necrozma-dusk
+[2026-10-22 10:28:36] CACHE HIT: necrozma-dawn
+[2026-10-22 10:28:36] CACHE HIT: necrozma-ultra
+[2026-10-22 10:28:36] CACHE HIT: pikachu-starter
+[2026-10-22 10:28:36] CACHE HIT: eevee-starter
+[2026-10-22 10:28:36] CACHE HIT: pikachu-world-cap
+[2026-10-22 10:28:36] CACHE HIT: meowth-galar
+[2026-10-22 10:28:36] CACHE HIT: ponyta-galar
+[2026-10-22 10:28:36] CACHE HIT: rapidash-galar
+[2026-10-22 10:28:36] CACHE HIT: slowpoke-galar
+[2026-10-22 10:28:36] CACHE HIT: slowbro-galar
+[2026-10-22 10:28:36] CACHE HIT: farfetchd-galar
+[2026-10-22 10:28:36] CACHE HIT: weezing-galar
+[2026-10-22 10:28:36] CACHE HIT: mr-mime-galar
+[2026-10-22 10:28:36] CACHE HIT: articuno-galar
+[2026-10-22 10:28:36] CACHE HIT: zapdos-galar
+[2026-10-22 10:28:36] CACHE HIT: moltres-galar
+[2026-10-22 10:28:36] CACHE HIT: slowking-galar
+[2026-10-22 10:28:36] CACHE HIT: corsola-galar
+[2026-10-22 10:28:36] CACHE HIT: zigzagoon-galar
+[2026-10-22 10:28:36] CACHE HIT: linoone-galar
+[2026-10-22 10:28:36] CACHE HIT: darumaka-galar
+[2026-10-22 10:28:36] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:28:36] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:28:36] CACHE HIT: yamask-galar
+[2026-10-22 10:28:36] CACHE HIT: stunfisk-galar
+[2026-10-22 10:28:36] CACHE HIT: zygarde-10
+[2026-10-22 10:28:36] CACHE HIT: cramorant-gulping
+[2026-10-22 10:28:36] CACHE HIT: cramorant-gorging
+[2026-10-22 10:28:36] CACHE HIT: toxtricity-low-key
+[2026-10-22 10:28:36] CACHE HIT: eiscue-noice
+[2026-10-22 10:28:36] CACHE HIT: indeedee-female
+[2026-10-22 10:28:36] CACHE HIT: morpeko-hangry
+[2026-10-22 10:28:36] CACHE HIT: zacian-crowned
+[2026-10-22 10:28:36] CACHE HIT: zamazenta-crowned
+[2026-10-22 10:28:36] CACHE HIT: eternatus-eternamax
+[2026-10-22 10:28:36] CACHE HIT: urshifu-rapid-strike
+[2026-10-22 10:28:36] CACHE HIT: zarude-dada
+[2026-10-22 10:28:36] CACHE HIT: calyrex-ice
+[2026-10-22 10:28:36] CACHE HIT: calyrex-shadow
+[2026-10-22 10:28:36] CACHE HIT: venusaur-gmax
+[2026-10-22 10:28:36] CACHE HIT: charizard-gmax
+[2026-10-22 10:28:36] CACHE HIT: blastoise-gmax
+[2026-10-22 10:28:36] CACHE HIT: butterfree-gmax
+[2026-10-22 10:28:36] CACHE HIT: pikachu-gmax
+[2026-10-22 10:28:36] CACHE HIT: meowth-gmax
+[2026-10-22 10:28:36] CACHE HIT: machamp-gmax
+[2026-10-22 10:28:36] CACHE HIT: gengar-gmax
+[2026-10-22 10:28:36] CACHE HIT: kingler-gmax
+[2026-10-22 10:28:36] CACHE HIT: lapras-gmax
+[2026-10-22 10:28:36] CACHE HIT: eevee-gmax
+[2026-10-22 10:28:36] CACHE HIT: snorlax-gmax
+[2026-10-22 10:28:36] CACHE HIT: garbodor-gmax
+[2026-10-22 10:28:36] CACHE HIT: melmetal-gmax
+[2026-10-22 10:28:36] CACHE HIT: rillaboom-gmax
+[2026-10-22 10:28:36] CACHE HIT: cinderace-gmax
+[2026-10-22 10:28:36] CACHE HIT: inteleon-gmax
+[2026-10-22 10:28:36] CACHE HIT: corviknight-gmax
+[2026-10-22 10:28:36] CACHE HIT: orbeetle-gmax
+[2026-10-22 10:28:36] CACHE HIT: drednaw-gmax
+[2026-10-22 10:28:36] CACHE HIT: coalossal-gmax
+[2026-10-22 10:28:36] CACHE HIT: flapple-gmax
+[2026-10-22 10:28:36] CACHE HIT: appletun-gmax
+[2026-10-22 10:28:36] CACHE HIT: sandaconda-gmax
+[2026-10-22 10:28:36] CACHE HIT: toxtricity-amped-gmax
+[2026-10-22 10:28:36] CACHE HIT: centiskorch-gmax
+[2026-10-22 10:28:36] CACHE HIT: hatterene-gmax
+[2026-10-22 10:28:36] CACHE HIT: grimmsnarl-gmax
+[2026-10-22 10:28:36] CACHE HIT: alcremie-gmax
+[2026-10-22 10:28:36] CACHE HIT: copperajah-gmax
+[2026-10-22 10:28:36] CACHE HIT: duraludon-gmax
+[2026-10-22 10:28:36] CACHE HIT: urshifu-single-strike-gmax
+[2026-10-22 10:28:36] CACHE HIT: urshifu-rapid-strike-gmax
+[2026-10-22 10:28:36] CACHE HIT: toxtricity-low-key-gmax
+[2026-10-22 10:28:36] CACHE HIT: growlithe-hisui
+[2026-10-22 10:28:36] CACHE HIT: arcanine-hisui
+[2026-10-22 10:28:36] CACHE HIT: voltorb-hisui
+[2026-10-22 10:28:36] CACHE HIT: electrode-hisui
+[2026-10-22 10:28:36] CACHE HIT: typhlosion-hisui
+[2026-10-22 10:28:36] CACHE HIT: qwilfish-hisui
+[2026-10-22 10:28:36] CACHE HIT: sneasel-hisui
+[2026-10-22 10:28:36] CACHE HIT: samurott-hisui
+[2026-10-22 10:28:36] CACHE HIT: lilligant-hisui
+[2026-10-22 10:28:36] CACHE HIT: zorua-hisui
+[2026-10-22 10:28:36] CACHE HIT: zoroark-hisui
+[2026-10-22 10:28:36] CACHE HIT: braviary-hisui
+[2026-10-22 10:28:36] CACHE HIT: sliggoo-hisui
+[2026-10-22 10:28:36] CACHE HIT: goodra-hisui
+[2026-10-22 10:28:36] CACHE HIT: avalugg-hisui
+[2026-10-22 10:28:36] CACHE HIT: decidueye-hisui
+[2026-10-22 10:28:36] CACHE HIT: dialga-origin
+[2026-10-22 10:28:36] CACHE HIT: palkia-origin
+[2026-10-22 10:28:36] CACHE HIT: basculin-white-striped
+[2026-10-22 10:28:36] CACHE HIT: basculegion-female
+[2026-10-22 10:28:36] CACHE HIT: enamorus-therian
+[2026-10-22 10:28:36] CACHE HIT: tauros-paldea-combat-breed
+[2026-10-22 10:28:36] CACHE HIT: tauros-paldea-blaze-breed
+[2026-10-22 10:28:36] CACHE HIT: tauros-paldea-aqua-breed
+[2026-10-22 10:28:36] CACHE HIT: wooper-paldea
+[2026-10-22 10:28:36] CACHE HIT: oinkologne-female
+[2026-10-22 10:28:36] CACHE HIT: dudunsparce-three-segment
+[2026-10-22 10:28:36] CACHE HIT: palafin-hero
+[2026-10-22 10:28:36] CACHE HIT: maushold-family-of-three
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-droopy
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-stretchy
+[2026-10-22 10:28:36] CACHE HIT: squawkabilly-blue-plumage
+[2026-10-22 10:28:36] CACHE HIT: squawkabilly-yellow-plumage
+[2026-10-22 10:28:36] CACHE HIT: squawkabilly-white-plumage
+[2026-10-22 10:28:36] CACHE HIT: gimmighoul-roaming
+[2026-10-22 10:28:36] CACHE HIT: koraidon-limited-build
+[2026-10-22 10:28:36] CACHE HIT: koraidon-sprinting-build
+[2026-10-22 10:28:36] CACHE HIT: koraidon-swimming-build
+[2026-10-22 10:28:36] CACHE HIT: koraidon-gliding-build
+[2026-10-22 10:28:36] CACHE HIT: miraidon-low-power-mode
+[2026-10-22 10:28:36] CACHE HIT: miraidon-drive-mode
+[2026-10-22 10:28:36] CACHE HIT: miraidon-aquatic-mode
+[2026-10-22 10:28:36] CACHE HIT: miraidon-glide-mode
+[2026-10-22 10:28:36] CACHE HIT: ursaluna-bloodmoon
+[2026-10-22 10:28:36] CACHE HIT: ogerpon-wellspring-mask
+[2026-10-22 10:28:36] CACHE HIT: ogerpon-hearthflame-mask
+[2026-10-22 10:28:36] CACHE HIT: ogerpon-cornerstone-mask
+[2026-10-22 10:28:36] CACHE HIT: terapagos-terastal
+[2026-10-22 10:28:36] CACHE HIT: terapagos-stellar
+[2026-10-22 10:28:36] CACHE HIT: clefable-mega
+[2026-10-22 10:28:36] CACHE HIT: victreebel-mega
+[2026-10-22 10:28:36] CACHE HIT: starmie-mega
+[2026-10-22 10:28:36] CACHE HIT: dragonite-mega
+[2026-10-22 10:28:36] CACHE HIT: meganium-mega
+[2026-10-22 10:28:36] CACHE HIT: feraligatr-mega
+[2026-10-22 10:28:36] CACHE HIT: skarmory-mega
+[2026-10-22 10:28:36] CACHE HIT: froslass-mega
+[2026-10-22 10:28:36] CACHE HIT: emboar-mega
+[2026-10-22 10:28:36] CACHE HIT: excadrill-mega
+[2026-10-22 10:28:36] CACHE HIT: scolipede-mega
+[2026-10-22 10:28:36] CACHE HIT: scrafty-mega
+[2026-10-22 10:28:36] CACHE HIT: eelektross-mega
+[2026-10-22 10:28:36] CACHE HIT: chandelure-mega
+[2026-10-22 10:28:36] CACHE HIT: chesnaught-mega
+[2026-10-22 10:28:36] CACHE HIT: delphox-mega
+[2026-10-22 10:28:36] CACHE HIT: greninja-mega
+[2026-10-22 10:28:36] CACHE HIT: pyroar-mega
+[2026-10-22 10:28:36] CACHE HIT: floette-mega
+[2026-10-22 10:28:36] CACHE HIT: malamar-mega
+[2026-10-22 10:28:36] CACHE HIT: barbaracle-mega
+[2026-10-22 10:28:36] CACHE HIT: dragalge-mega
+[2026-10-22 10:28:36] CACHE HIT: hawlucha-mega
+[2026-10-22 10:28:36] CACHE HIT: zygarde-mega
+[2026-10-22 10:28:36] CACHE HIT: drampa-mega
+[2026-10-22 10:28:36] CACHE HIT: falinks-mega
+[2026-10-22 10:28:36] CACHE HIT: raichu-mega-x
+[2026-10-22 10:28:36] CACHE HIT: raichu-mega-y
+[2026-10-22 10:28:36] CACHE HIT: chimecho-mega
+[2026-10-22 10:28:36] CACHE HIT: absol-mega-z
+[2026-10-22 10:28:36] CACHE HIT: staraptor-mega
+[2026-10-22 10:28:36] CACHE HIT: garchomp-mega-z
+[2026-10-22 10:28:36] CACHE HIT: lucario-mega-z
+[2026-10-22 10:28:36] CACHE HIT: heatran-mega
+[2026-10-22 10:28:36] CACHE HIT: darkrai-mega
+[2026-10-22 10:28:36] CACHE HIT: golurk-mega
+[2026-10-22 10:28:36] CACHE HIT: meowstic-male-mega
+[2026-10-22 10:28:36] CACHE HIT: crabominable-mega
+[2026-10-22 10:28:36] CACHE HIT: golisopod-mega
+[2026-10-22 10:28:36] CACHE HIT: magearna-mega
+[2026-10-22 10:28:36] CACHE HIT: magearna-original-mega
+[2026-10-22 10:28:36] CACHE HIT: zeraora-mega
+[2026-10-22 10:28:36] CACHE HIT: scovillain-mega
+[2026-10-22 10:28:36] CACHE HIT: glimmora-mega
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-curly-mega
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-droopy-mega
+[2026-10-22 10:28:36] CACHE HIT: tatsugiri-stretchy-mega
+[2026-10-22 10:28:36] CACHE HIT: baxcalibur-mega
+[2026-10-22 10:28:36] CACHE HIT: meowstic-female-mega
+[2026-10-22 10:28:36] CACHE HIT: bulbasaur
+[2026-10-22 10:28:36] CACHE HIT: ivysaur
+[2026-10-22 10:28:36] CACHE HIT: venusaur
+[2026-10-22 10:28:36] CACHE HIT: charmander
+[2026-10-22 10:28:36] CACHE HIT: charmeleon
+[2026-10-22 10:28:36] CACHE HIT: charizard
+[2026-10-22 10:28:36] CACHE HIT: squirtle
+[2026-10-22 10:28:36] CACHE HIT: wartortle
+[2026-10-22 10:28:36] CACHE HIT: blastoise
+[2026-10-22 10:28:36] CACHE HIT: caterpie
+[2026-10-22 10:28:36] CACHE HIT: metapod
+[2026-10-22 10:28:36] CACHE HIT: butterfree
+[2026-10-22 10:28:42] CACHE HIT: all_pokemon list
+[2026-10-22 10:28:42] CACHE HIT: all_types
+[2026-10-22 10:28:42] CACHE HIT: magikarp
+[2026-10-22 10:28:42] CACHE HIT: rampardos
+[2026-10-22 10:28:42] CACHE HIT: giratina-origin
+[2026-10-22 10:28:42] CACHE HIT: cyndaquil
+[2026-10-22 10:28:42] CACHE HIT: zygarde-50
+[2026-10-22 10:28:42] CACHE HIT: caterpie
+[2026-10-22 10:28:42] CACHE HIT: muk
+[2026-10-22 10:28:42] CACHE HIT: koraidon-gliding-build
+[2026-10-22 10:28:42] CACHE HIT: glimmora-mega
+[2026-10-22 10:28:42] CACHE HIT: excadrill
+[2026-10-22 10:28:42] CACHE HIT: cursola
+[2026-10-22 10:28:42] CACHE HIT: floette-mega
+[2026-10-22 10:28:50] CACHE HIT: all_pokemon list
+[2026-10-22 10:28:50] CACHE HIT: all_types
+[2026-10-22 10:28:50] CACHE HIT: cranidos
+[2026-10-22 10:28:50] CACHE HIT: pyukumuku
+[2026-10-22 10:28:50] CACHE HIT: guzzlord
+[2026-10-22 10:28:50] CACHE HIT: grafaiai
+[2026-10-22 10:28:50] CACHE HIT: arcanine-hisui
+[2026-10-22 10:28:50] CACHE HIT: chansey
+[2026-10-22 10:28:50] CACHE HIT: basculegion-male
+[2026-10-22 10:28:50] CACHE HIT: pikachu-gmax
+[2026-10-22 10:28:50] CACHE HIT: vanillite
+[2026-10-22 10:28:50] CACHE HIT: dudunsparce-three-segment
+[2026-10-22 10:28:50] CACHE HIT: mareanie
+[2026-10-22 10:28:50] CACHE HIT: duraludon-gmax
+[2026-10-22 10:28:54] CACHE HIT: all_pokemon list
+[2026-10-22 10:28:54] CACHE HIT: all_types
+[2026-10-22 10:28:54] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:28:54] CACHE HIT: beedrill
+[2026-10-22 10:28:54] CACHE HIT: kricketune
+[2026-10-22 10:28:54] CACHE HIT: koraidon-sprinting-build
+[2026-10-22 10:28:54] CACHE HIT: mimikyu-totem-busted
+[2026-10-22 10:28:54] CACHE HIT: pinsir
+[2026-10-22 10:28:54] CACHE HIT: trapinch
+[2026-10-22 10:28:54] CACHE HIT: litwick
+[2026-10-22 10:28:54] CACHE HIT: porygon
+[2026-10-22 10:28:54] CACHE HIT: volcarona
+[2026-10-22 10:28:54] CACHE HIT: cramorant-gulping
+[2026-10-22 10:28:54] CACHE HIT: grafaiai
+[2026-10-22 10:29:01] CACHE HIT: all_pokemon list
+[2026-10-22 10:29:01] CACHE HIT: all_types
+[2026-10-22 10:29:01] CACHE HIT: wiglett
+[2026-10-22 10:29:01] CACHE HIT: mabosstiff
+[2026-10-22 10:29:01] CACHE HIT: smoochum
+[2026-10-22 10:29:01] CACHE HIT: dragapult
+[2026-10-22 10:29:01] CACHE HIT: dreepy
+[2026-10-22 10:29:01] CACHE HIT: cradily
+[2026-10-22 10:29:01] CACHE HIT: stunky
+[2026-10-22 10:29:01] CACHE HIT: goodra-hisui
+[2026-10-22 10:29:01] CACHE HIT: meowstic-female
+[2026-10-22 10:29:01] CACHE HIT: bagon
+[2026-10-22 10:29:01] CACHE HIT: graveler-alola
+[2026-10-22 10:29:01] CACHE HIT: slowking
+[2026-10-22 10:29:10] CACHE HIT: all_pokemon list
+[2026-10-22 10:29:10] CACHE HIT: all_types
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-standard
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-zen
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-standard
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-zen
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:10] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:14] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:15] CACHE HIT: darmanitan-standard
+[2026-10-22 10:29:15] CACHE HIT: darmanitan-zen
+[2026-10-22 10:29:15] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:15] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:15] CACHE HIT: darumaka
+[2026-10-22 10:29:15] CACHE MISS: darmanitan - Fetching from API
+[2026-10-22 10:29:15] CACHE HIT: type ice
+[2026-10-22 10:29:15] CACHE HIT: type fire
+[2026-10-22 10:29:15] CACHE HIT: type ice
+[2026-10-22 10:29:15] CACHE HIT: type fire
+[2026-10-22 10:29:15] CACHE HIT: ability gorilla-tactics
+[2026-10-22 10:29:15] CACHE HIT: ability zen-mode
+[2026-10-22 10:29:15] CACHE HIT: move mega-punch
+[2026-10-22 10:29:15] CACHE HIT: move fire-punch
+[2026-10-22 10:29:15] CACHE HIT: move ice-punch
+[2026-10-22 10:29:15] CACHE HIT: move mega-kick
+[2026-10-22 10:29:15] CACHE HIT: move headbutt
+[2026-10-22 10:29:15] CACHE HIT: move tackle
+[2026-10-22 10:29:15] CACHE HIT: move body-slam
+[2026-10-22 10:29:15] CACHE HIT: move thrash
+[2026-10-22 10:29:15] CACHE HIT: move bite
+[2026-10-22 10:29:15] CACHE HIT: move flamethrower
+[2026-10-22 10:29:15] CACHE HIT: move ice-beam
+[2026-10-22 10:29:15] CACHE HIT: move blizzard
+[2026-10-22 10:29:15] CACHE HIT: move hyper-beam
+[2026-10-22 10:29:15] CACHE HIT: move solar-beam
+[2026-10-22 10:29:15] CACHE HIT: move fire-spin
+[2026-10-22 10:29:15] CACHE HIT: move earthquake
+[2026-10-22 10:29:15] CACHE HIT: move dig
+[2026-10-22 10:29:15] CACHE HIT: move psychic
+[2026-10-22 10:29:15] CACHE HIT: move focus-energy
+[2026-10-22 10:29:15] CACHE HIT: move fire-blast
+[2026-10-22 10:29:15] CACHE HIT: move rest
+[2026-10-22 10:29:15] CACHE HIT: move rock-slide
+[2026-10-22 10:29:15] CACHE HIT: move substitute
+[2026-10-22 10:29:15] CACHE HIT: move thief
+[2026-10-22 10:29:15] CACHE HIT: move snore
+[2026-10-22 10:29:15] CACHE HIT: move reversal
+[2026-10-22 10:29:15] CACHE HIT: move powder-snow
+[2026-10-22 10:29:15] CACHE HIT: move protect
+[2026-10-22 10:29:15] CACHE HIT: move belly-drum
+[2026-10-22 10:29:15] CACHE HIT: move endure
+[2026-10-22 10:29:15] CACHE HIT: move attract
+[2026-10-22 10:29:15] CACHE HIT: move sleep-talk
+[2026-10-22 10:29:15] CACHE HIT: move encore
+[2026-10-22 10:29:15] CACHE HIT: move sunny-day
+[2026-10-22 10:29:15] CACHE HIT: move uproar
+[2026-10-22 10:29:15] CACHE HIT: move heat-wave
+[2026-10-22 10:29:15] CACHE HIT: move will-o-wisp
+[2026-10-22 10:29:15] CACHE HIT: move facade
+[2026-10-22 10:29:15] CACHE HIT: move taunt
+[2026-10-22 10:29:15] CACHE HIT: move superpower
+[2026-10-22 10:29:15] CACHE HIT: move brick-break
+[2026-10-22 10:29:15] CACHE HIT: move overheat
+[2026-10-22 10:29:15] CACHE HIT: move rock-tomb
+[2026-10-22 10:29:15] CACHE HIT: move iron-defense
+[2026-10-22 10:29:15] CACHE HIT: move bulk-up
+[2026-10-22 10:29:15] CACHE HIT: move gyro-ball
+[2026-10-22 10:29:15] CACHE HIT: move u-turn
+[2026-10-22 10:29:15] CACHE HIT: move payback
+[2026-10-22 10:29:15] CACHE HIT: move fling
+[2026-10-22 10:29:15] CACHE HIT: move flare-blitz
+[2026-10-22 10:29:15] CACHE HIT: move focus-blast
+[2026-10-22 10:29:15] CACHE HIT: move giga-impact
+[2026-10-22 10:29:15] CACHE HIT: move avalanche
+[2026-10-22 10:29:15] CACHE HIT: move ice-fang
+[2026-10-22 10:29:15] CACHE HIT: move fire-fang
+[2026-10-22 10:29:15] CACHE HIT: move zen-headbutt
+[2026-10-22 10:29:15] CACHE HIT: move iron-head
+[2026-10-22 10:29:15] CACHE HIT: move stone-edge
+[2026-10-22 10:29:15] CACHE HIT: move grass-knot
+[2026-10-22 10:29:15] CACHE HIT: move round
+[2026-10-22 10:29:15] CACHE HIT: move bulldoze
+[2026-10-22 10:29:15] CACHE HIT: move work-up
+[2026-10-22 10:29:16] CACHE HIT: move body-press
+[2026-10-22 10:29:16] CACHE HIT: move burning-jealousy
+[2026-10-22 10:29:16] CACHE HIT: move lash-out
+[2026-10-22 10:29:18] extra_cache.json persisted to disk
+[2026-10-22 10:29:18] moves_cache.json persisted to disk
+[2026-10-22 10:29:56] CACHE HIT: ability gorilla-tactics
+[2026-10-22 10:29:56] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:56] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:59] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:59] CACHE HIT: species darmanitan
+[2026-10-22 10:29:59] CACHE HIT: darmanitan-standard
+[2026-10-22 10:29:59] CACHE HIT: darmanitan-zen
+[2026-10-22 10:29:59] CACHE HIT: darmanitan-galar-standard
+[2026-10-22 10:29:59] CACHE HIT: darmanitan-galar-zen
+[2026-10-22 10:29:59] CACHE HIT: evolution https://pokeapi.co/api/v2/evolution-chain/282/
+[2026-10-22 10:29:59] CACHE HIT: darumaka
+[2026-10-22 10:29:59] CACHE MISS: darmanitan - Fetching from API
+[2026-10-22 10:29:59] CACHE HIT: type ice
+[2026-10-22 10:29:59] CACHE HIT: type ice
+[2026-10-22 10:29:59] CACHE HIT: ability gorilla-tactics
+[2026-10-22 10:29:59] CACHE HIT: ability zen-mode
+[2026-10-22 10:29:59] CACHE HIT: move mega-punch
+[2026-10-22 10:29:59] CACHE HIT: move fire-punch
+[2026-10-22 10:29:59] CACHE HIT: move ice-punch
+[2026-10-22 10:29:59] CACHE HIT: move mega-kick
+[2026-10-22 10:29:59] CACHE HIT: move headbutt
+[2026-10-22 10:29:59] CACHE HIT: move tackle
+[2026-10-22 10:29:59] CACHE HIT: move body-slam
+[2026-10-22 10:29:59] CACHE HIT: move thrash
+[2026-10-22 10:29:59] CACHE HIT: move bite
+[2026-10-22 10:29:59] CACHE HIT: move flamethrower
+[2026-10-22 10:29:59] CACHE HIT: move ice-beam
+[2026-10-22 10:29:59] CACHE HIT: move blizzard
+[2026-10-22 10:29:59] CACHE HIT: move hyper-beam
+[2026-10-22 10:29:59] CACHE HIT: move solar-beam
+[2026-10-22 10:29:59] CACHE HIT: move fire-spin
+[2026-10-22 10:29:59] CACHE HIT: move earthquake
+[2026-10-22 10:29:59] CACHE HIT: move dig
+[2026-10-22 10:29:59] CACHE HIT: move psychic
+[2026-10-22 10:29:59] CACHE HIT: move focus-energy
+[2026-10-22 10:29:59] CACHE HIT: move fire-blast
+[2026-10-22 10:29:59] CACHE HIT: move rest
+[2026-10-22 10:29:59] CACHE HIT: move rock-slide
+[2026-10-22 10:29:59] CACHE HIT: move substitute
+[2026-10-22 10:29:59] CACHE HIT: move thief
+[2026-10-22 10:29:59] CACHE HIT: move snore
+[2026-10-22 10:29:59] CACHE HIT: move reversal
+[2026-10-22 10:29:59] CACHE HIT: move powder-snow
+[2026-10-22 10:29:59] CACHE HIT: move protect
+[2026-10-22 10:29:59] CACHE HIT: move belly-drum
+[2026-10-22 10:29:59] CACHE HIT: move endure
+[2026-10-22 10:29:59] CACHE HIT: move attract
+[2026-10-22 10:29:59] CACHE HIT: move sleep-talk
+[2026-10-22 10:29:59] CACHE HIT: move encore
+[2026-10-22 10:29:59] CACHE HIT: move sunny-day
+[2026-10-22 10:29:59] CACHE HIT: move uproar
+[2026-10-22 10:29:59] CACHE HIT: move heat-wave
+[2026-10-22 10:29:59] CACHE HIT: move will-o-wisp
+[2026-10-22 10:29:59] CACHE HIT: move facade
+[2026-10-22 10:29:59] CACHE HIT: move taunt
+[2026-10-22 10:29:59] CACHE HIT: move superpower
+[2026-10-22 10:29:59] CACHE HIT: move brick-break
+[2026-10-22 10:29:59] CACHE HIT: move overheat
+[2026-10-22 10:29:59] CACHE HIT: move rock-tomb
+[2026-10-22 10:29:59] CACHE HIT: move iron-defense
+[2026-10-22 10:29:59] CACHE HIT: move bulk-up
+[2026-10-22 10:29:59] CACHE HIT: move gyro-ball
+[2026-10-22 10:29:59] CACHE HIT: move u-turn
+[2026-10-22 10:29:59] CACHE HIT: move payback
+[2026-10-22 10:29:59] CACHE HIT: move fling
+[2026-10-22 10:29:59] CACHE HIT: move flare-blitz
+[2026-10-22 10:29:59] CACHE HIT: move focus-blast
+[2026-10-22 10:29:59] CACHE HIT: move giga-impact
+[2026-10-22 10:29:59] CACHE HIT: move avalanche
+[2026-10-22 10:29:59] CACHE HIT: move ice-fang
+[2026-10-22 10:29:59] CACHE HIT: move fire-fang
+[2026-10-22 10:29:59] CACHE HIT: move zen-headbutt
+[2026-10-22 10:29:59] CACHE HIT: move iron-head
+[2026-10-22 10:29:59] CACHE HIT: move stone-edge
+[2026-10-22 10:29:59] CACHE HIT: move grass-knot
+[2026-10-22 10:29:59] CACHE HIT: move round
+[2026-10-22 10:29:59] CACHE HIT: move bulldoze
+[2026-10-22 10:29:59] CACHE HIT: move work-up
+[2026-10-22 10:29:59] CACHE HIT: move icicle-crash
+[2026-10-22 10:29:59] CACHE HIT: move body-press
+[2026-10-22 10:29:59] CACHE HIT: move burning-jealousy
+[2026-10-22 10:29:59] CACHE HIT: move lash-out
+[2026-10-22 10:30:02] extra_cache.json persisted to disk
+[2026-10-22 10:30:03] CACHE HIT: all_types_no_special
+[2026-10-22 10:30:03] CACHE HIT: all_pokemon list
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type grass
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type fire
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type electric
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type psychic
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type dark
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type fairy
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type ice
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type dragon
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type normal
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type flying
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type fighting
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type bug
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type poison
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type ground
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type rock
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type ghost
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type steel
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: alomomola
+[2026-10-22 10:30:03] CACHE HIT: araquanid
+[2026-10-22 10:30:03] CACHE HIT: araquanid-totem
+[2026-10-22 10:30:03] CACHE HIT: arctovish
+[2026-10-22 10:30:03] CACHE HIT: arrokuda
+[2026-10-22 10:30:03] CACHE HIT: azumarill
+[2026-10-22 10:30:03] CACHE HIT: barbaracle
+[2026-10-22 10:30:03] CACHE HIT: barboach
+[2026-10-22 10:30:03] CACHE HIT: barraskewda
+[2026-10-22 10:30:03] CACHE HIT: basculegion-female
+[2026-10-22 10:30:03] CACHE HIT: basculegion-male
+[2026-10-22 10:30:03] CACHE HIT: basculin-blue-striped
+[2026-10-22 10:30:03] CACHE HIT: basculin-red-striped
+[2026-10-22 10:30:03] CACHE HIT: basculin-white-striped
+[2026-10-22 10:30:03] CACHE HIT: bibarel
+[2026-10-22 10:30:03] CACHE HIT: binacle
+[2026-10-22 10:30:03] CACHE HIT: blastoise
+[2026-10-22 10:30:03] CACHE HIT: blastoise-gmax
+[2026-10-22 10:30:03] CACHE HIT: blastoise-mega
+[2026-10-22 10:30:03] CACHE HIT: brionne
+[2026-10-22 10:30:03] CACHE HIT: bruxish
+[2026-10-22 10:30:03] CACHE HIT: buizel
+[2026-10-22 10:30:03] CACHE HIT: carracosta
+[2026-10-22 10:30:03] CACHE HIT: carvanha
+[2026-10-22 10:30:03] CACHE HIT: castform-rainy
+[2026-10-22 10:30:03] CACHE HIT: chewtle
+[2026-10-22 10:30:03] CACHE HIT: chinchou
+[2026-10-22 10:30:03] CACHE HIT: clamperl
+[2026-10-22 10:30:03] CACHE HIT: clauncher
+[2026-10-22 10:30:03] CACHE HIT: clawitzer
+[2026-10-22 10:30:03] CACHE HIT: cloyster
+[2026-10-22 10:30:03] CACHE HIT: corphish
+[2026-10-22 10:30:03] CACHE HIT: corsola
+[2026-10-22 10:30:03] CACHE HIT: cramorant
+[2026-10-22 10:30:03] CACHE HIT: cramorant-gorging
+[2026-10-22 10:30:03] CACHE HIT: cramorant-gulping
+[2026-10-22 10:30:03] CACHE HIT: crawdaunt
+[2026-10-22 10:30:03] CACHE HIT: croconaw
+[2026-10-22 10:30:03] CACHE HIT: dewgong
+[2026-10-22 10:30:03] CACHE HIT: dewott
+[2026-10-22 10:30:03] CACHE HIT: dewpider
+[2026-10-22 10:30:03] CACHE HIT: dondozo
+[2026-10-22 10:30:03] CACHE HIT: dracovish
+[2026-10-22 10:30:03] CACHE HIT: drednaw
+[2026-10-22 10:30:03] CACHE HIT: drednaw-gmax
+[2026-10-22 10:30:03] CACHE HIT: drizzile
+[2026-10-22 10:30:03] CACHE HIT: ducklett
+[2026-10-22 10:30:03] CACHE HIT: empoleon
+[2026-10-22 10:30:03] CACHE HIT: feebas
+[2026-10-22 10:30:03] CACHE HIT: feraligatr
+[2026-10-22 10:30:03] CACHE HIT: feraligatr-mega
+[2026-10-22 10:30:03] CACHE HIT: finizen
+[2026-10-22 10:30:03] CACHE HIT: finneon
+[2026-10-22 10:30:03] CACHE HIT: floatzel
+[2026-10-22 10:30:03] CACHE HIT: frillish-male
+[2026-10-22 10:30:03] CACHE HIT: froakie
+[2026-10-22 10:30:03] CACHE HIT: frogadier
+[2026-10-22 10:30:03] CACHE HIT: gastrodon
+[2026-10-22 10:30:03] CACHE HIT: goldeen
+[2026-10-22 10:30:03] CACHE HIT: golduck
+[2026-10-22 10:30:03] CACHE HIT: golisopod
+[2026-10-22 10:30:03] CACHE HIT: gorebyss
+[2026-10-22 10:30:03] CACHE HIT: greninja
+[2026-10-22 10:30:03] CACHE HIT: greninja-ash
+[2026-10-22 10:30:03] CACHE HIT: greninja-battle-bond
+[2026-10-22 10:30:03] CACHE HIT: greninja-mega
+[2026-10-22 10:30:03] CACHE HIT: gyarados
+[2026-10-22 10:30:03] CACHE HIT: gyarados-mega
+[2026-10-22 10:30:03] CACHE HIT: horsea
+[2026-10-22 10:30:03] CACHE HIT: huntail
+[2026-10-22 10:30:03] CACHE HIT: inteleon
+[2026-10-22 10:30:03] CACHE HIT: inteleon-gmax
+[2026-10-22 10:30:03] CACHE HIT: iron-bundle
+[2026-10-22 10:30:03] CACHE HIT: jellicent-male
+[2026-10-22 10:30:03] CACHE HIT: kabuto
+[2026-10-22 10:30:03] CACHE HIT: kabutops
+[2026-10-22 10:30:03] CACHE HIT: keldeo-ordinary
+[2026-10-22 10:30:03] CACHE HIT: keldeo-resolute
+[2026-10-22 10:30:03] CACHE HIT: kingdra
+[2026-10-22 10:30:03] CACHE HIT: kingler
+[2026-10-22 10:30:03] CACHE HIT: kingler-gmax
+[2026-10-22 10:30:03] CACHE HIT: krabby
+[2026-10-22 10:30:03] CACHE HIT: kyogre
+[2026-10-22 10:30:03] CACHE HIT: kyogre-primal
+[2026-10-22 10:30:03] CACHE HIT: lanturn
+[2026-10-22 10:30:03] CACHE HIT: lapras
+[2026-10-22 10:30:03] CACHE HIT: lapras-gmax
+[2026-10-22 10:30:03] CACHE HIT: lombre
+[2026-10-22 10:30:03] CACHE HIT: lotad
+[2026-10-22 10:30:03] CACHE HIT: ludicolo
+[2026-10-22 10:30:03] CACHE HIT: lumineon
+[2026-10-22 10:30:03] CACHE HIT: luvdisc
+[2026-10-22 10:30:03] CACHE HIT: magikarp
+[2026-10-22 10:30:03] CACHE HIT: manaphy
+[2026-10-22 10:30:03] CACHE HIT: mantine
+[2026-10-22 10:30:03] CACHE HIT: mantyke
+[2026-10-22 10:30:03] CACHE HIT: mareanie
+[2026-10-22 10:30:03] CACHE HIT: marill
+[2026-10-22 10:30:03] CACHE HIT: marshtomp
+[2026-10-22 10:30:03] CACHE HIT: milotic
+[2026-10-22 10:30:03] CACHE HIT: mudkip
+[2026-10-22 10:30:03] CACHE HIT: octillery
+[2026-10-22 10:30:03] CACHE HIT: ogerpon-wellspring-mask
+[2026-10-22 10:30:03] CACHE HIT: omanyte
+[2026-10-22 10:30:03] CACHE HIT: omastar
+[2026-10-22 10:30:03] CACHE HIT: oshawott
+[2026-10-22 10:30:03] CACHE HIT: palafin-hero
+[2026-10-22 10:30:03] CACHE HIT: palafin-zero
+[2026-10-22 10:30:03] CACHE HIT: palkia
+[2026-10-22 10:30:03] CACHE HIT: palkia-origin
+[2026-10-22 10:30:03] CACHE HIT: palpitoad
+[2026-10-22 10:30:03] CACHE HIT: panpour
+[2026-10-22 10:30:03] CACHE HIT: pelipper
+[2026-10-22 10:30:03] CACHE HIT: phione
+[2026-10-22 10:30:03] CACHE HIT: piplup
+[2026-10-22 10:30:03] CACHE HIT: politoed
+[2026-10-22 10:30:03] CACHE HIT: poliwag
+[2026-10-22 10:30:03] CACHE HIT: poliwhirl
+[2026-10-22 10:30:03] CACHE HIT: poliwrath
+[2026-10-22 10:30:03] CACHE HIT: popplio
+[2026-10-22 10:30:03] CACHE HIT: primarina
+[2026-10-22 10:30:03] CACHE HIT: prinplup
+[2026-10-22 10:30:03] CACHE HIT: psyduck
+[2026-10-22 10:30:03] CACHE HIT: pyukumuku
+[2026-10-22 10:30:03] CACHE HIT: quagsire
+[2026-10-22 10:30:03] CACHE HIT: quaquaval
+[2026-10-22 10:30:03] CACHE HIT: quaxly
+[2026-10-22 10:30:03] CACHE HIT: quaxwell
+[2026-10-22 10:30:03] CACHE HIT: qwilfish
+[2026-10-22 10:30:03] CACHE HIT: relicanth
+[2026-10-22 10:30:03] CACHE HIT: remoraid
+[2026-10-22 10:30:03] CACHE HIT: rotom-wash
+[2026-10-22 10:30:03] CACHE HIT: samurott
+[2026-10-22 10:30:03] CACHE HIT: samurott-hisui
+[2026-10-22 10:30:03] CACHE HIT: seadra
+[2026-10-22 10:30:03] CACHE HIT: seaking
+[2026-10-22 10:30:03] CACHE HIT: sealeo
+[2026-10-22 10:30:03] CACHE HIT: seel
+[2026-10-22 10:30:03] CACHE HIT: seismitoad
+[2026-10-22 10:30:03] CACHE HIT: sharpedo
+[2026-10-22 10:30:03] CACHE HIT: sharpedo-mega
+[2026-10-22 10:30:03] CACHE HIT: shellder
+[2026-10-22 10:30:03] CACHE HIT: shellos
+[2026-10-22 10:30:03] CACHE HIT: simipour
+[2026-10-22 10:30:03] CACHE HIT: skrelp
+[2026-10-22 10:30:03] CACHE HIT: slowbro
+[2026-10-22 10:30:03] CACHE HIT: slowbro-mega
+[2026-10-22 10:30:03] CACHE HIT: slowking
+[2026-10-22 10:30:03] CACHE HIT: slowpoke
+[2026-10-22 10:30:03] CACHE HIT: sobble
+[2026-10-22 10:30:03] CACHE HIT: spheal
+[2026-10-22 10:30:03] CACHE HIT: squirtle
+[2026-10-22 10:30:03] CACHE HIT: starmie
+[2026-10-22 10:30:03] CACHE HIT: starmie-mega
+[2026-10-22 10:30:03] CACHE HIT: staryu
+[2026-10-22 10:30:03] CACHE HIT: suicune
+[2026-10-22 10:30:03] CACHE HIT: surskit
+[2026-10-22 10:30:03] CACHE HIT: swampert
+[2026-10-22 10:30:03] CACHE HIT: swampert-mega
+[2026-10-22 10:30:03] CACHE HIT: swanna
+[2026-10-22 10:30:03] CACHE HIT: tapu-fini
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-curly
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-curly-mega
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-droopy
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-droopy-mega
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-stretchy
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-stretchy-mega
+[2026-10-22 10:30:03] CACHE HIT: tauros-paldea-aqua-breed
+[2026-10-22 10:30:03] CACHE HIT: tentacool
+[2026-10-22 10:30:03] CACHE HIT: tentacruel
+[2026-10-22 10:30:03] CACHE HIT: tirtouga
+[2026-10-22 10:30:03] CACHE HIT: totodile
+[2026-10-22 10:30:03] CACHE HIT: toxapex
+[2026-10-22 10:30:03] CACHE HIT: tympole
+[2026-10-22 10:30:03] CACHE HIT: urshifu-rapid-strike
+[2026-10-22 10:30:03] CACHE HIT: urshifu-rapid-strike-gmax
+[2026-10-22 10:30:03] CACHE HIT: vaporeon
+[2026-10-22 10:30:03] CACHE HIT: veluza
+[2026-10-22 10:30:03] CACHE HIT: volcanion
+[2026-10-22 10:30:03] CACHE HIT: wailmer
+[2026-10-22 10:30:03] CACHE HIT: wailord
+[2026-10-22 10:30:03] CACHE HIT: walking-wake
+[2026-10-22 10:30:03] CACHE HIT: walrein
+[2026-10-22 10:30:03] CACHE HIT: wartortle
+[2026-10-22 10:30:03] CACHE HIT: whiscash
+[2026-10-22 10:30:03] CACHE HIT: wiglett
+[2026-10-22 10:30:03] CACHE HIT: wimpod
+[2026-10-22 10:30:03] CACHE HIT: wingull
+[2026-10-22 10:30:03] CACHE HIT: wishiwashi-school
+[2026-10-22 10:30:03] CACHE HIT: wishiwashi-solo
+[2026-10-22 10:30:03] CACHE HIT: wooper
+[2026-10-22 10:30:03] CACHE HIT: wugtrio
+[2026-10-22 10:30:03] CACHE HIT: type water
+[2026-10-22 10:30:03] CACHE HIT: alomomola
+[2026-10-22 10:30:03] CACHE HIT: araquanid
+[2026-10-22 10:30:03] CACHE HIT: araquanid-totem
+[2026-10-22 10:30:03] CACHE HIT: arctovish
+[2026-10-22 10:30:03] CACHE HIT: arrokuda
+[2026-10-22 10:30:03] CACHE HIT: azumarill
+[2026-10-22 10:30:03] CACHE HIT: barbaracle
+[2026-10-22 10:30:03] CACHE HIT: barboach
+[2026-10-22 10:30:03] CACHE HIT: barraskewda
+[2026-10-22 10:30:03] CACHE HIT: basculegion-female
+[2026-10-22 10:30:03] CACHE HIT: basculegion-male
+[2026-10-22 10:30:03] CACHE HIT: basculin-blue-striped
+[2026-10-22 10:30:03] CACHE HIT: basculin-red-striped
+[2026-10-22 10:30:03] CACHE HIT: basculin-white-striped
+[2026-10-22 10:30:03] CACHE HIT: bibarel
+[2026-10-22 10:30:03] CACHE HIT: binacle
+[2026-10-22 10:30:03] CACHE HIT: blastoise
+[2026-10-22 10:30:03] CACHE HIT: blastoise-gmax
+[2026-10-22 10:30:03] CACHE HIT: blastoise-mega
+[2026-10-22 10:30:03] CACHE HIT: brionne
+[2026-10-22 10:30:03] CACHE HIT: bruxish
+[2026-10-22 10:30:03] CACHE HIT: buizel
+[2026-10-22 10:30:03] CACHE HIT: carracosta
+[2026-10-22 10:30:03] CACHE HIT: carvanha
+[2026-10-22 10:30:03] CACHE HIT: castform-rainy
+[2026-10-22 10:30:03] CACHE HIT: chewtle
+[2026-10-22 10:30:03] CACHE HIT: chinchou
+[2026-10-22 10:30:03] CACHE HIT: clamperl
+[2026-10-22 10:30:03] CACHE HIT: clauncher
+[2026-10-22 10:30:03] CACHE HIT: clawitzer
+[2026-10-22 10:30:03] CACHE HIT: cloyster
+[2026-10-22 10:30:03] CACHE HIT: corphish
+[2026-10-22 10:30:03] CACHE HIT: corsola
+[2026-10-22 10:30:03] CACHE HIT: cramorant
+[2026-10-22 10:30:03] CACHE HIT: cramorant-gorging
+[2026-10-22 10:30:03] CACHE HIT: cramorant-gulping
+[2026-10-22 10:30:03] CACHE HIT: crawdaunt
+[2026-10-22 10:30:03] CACHE HIT: croconaw
+[2026-10-22 10:30:03] CACHE HIT: dewgong
+[2026-10-22 10:30:03] CACHE HIT: dewott
+[2026-10-22 10:30:03] CACHE HIT: dewpider
+[2026-10-22 10:30:03] CACHE HIT: dondozo
+[2026-10-22 10:30:03] CACHE HIT: dracovish
+[2026-10-22 10:30:03] CACHE HIT: drednaw
+[2026-10-22 10:30:03] CACHE HIT: drednaw-gmax
+[2026-10-22 10:30:03] CACHE HIT: drizzile
+[2026-10-22 10:30:03] CACHE HIT: ducklett
+[2026-10-22 10:30:03] CACHE HIT: empoleon
+[2026-10-22 10:30:03] CACHE HIT: feebas
+[2026-10-22 10:30:03] CACHE HIT: feraligatr
+[2026-10-22 10:30:03] CACHE HIT: feraligatr-mega
+[2026-10-22 10:30:03] CACHE HIT: finizen
+[2026-10-22 10:30:03] CACHE HIT: finneon
+[2026-10-22 10:30:03] CACHE HIT: floatzel
+[2026-10-22 10:30:03] CACHE HIT: frillish-male
+[2026-10-22 10:30:03] CACHE HIT: froakie
+[2026-10-22 10:30:03] CACHE HIT: frogadier
+[2026-10-22 10:30:03] CACHE HIT: gastrodon
+[2026-10-22 10:30:03] CACHE HIT: goldeen
+[2026-10-22 10:30:03] CACHE HIT: golduck
+[2026-10-22 10:30:03] CACHE HIT: golisopod
+[2026-10-22 10:30:03] CACHE HIT: gorebyss
+[2026-10-22 10:30:03] CACHE HIT: greninja
+[2026-10-22 10:30:03] CACHE HIT: greninja-ash
+[2026-10-22 10:30:03] CACHE HIT: greninja-battle-bond
+[2026-10-22 10:30:03] CACHE HIT: greninja-mega
+[2026-10-22 10:30:03] CACHE HIT: gyarados
+[2026-10-22 10:30:03] CACHE HIT: gyarados-mega
+[2026-10-22 10:30:03] CACHE HIT: horsea
+[2026-10-22 10:30:03] CACHE HIT: huntail
+[2026-10-22 10:30:03] CACHE HIT: inteleon
+[2026-10-22 10:30:03] CACHE HIT: inteleon-gmax
+[2026-10-22 10:30:03] CACHE HIT: iron-bundle
+[2026-10-22 10:30:03] CACHE HIT: jellicent-male
+[2026-10-22 10:30:03] CACHE HIT: kabuto
+[2026-10-22 10:30:03] CACHE HIT: kabutops
+[2026-10-22 10:30:03] CACHE HIT: keldeo-ordinary
+[2026-10-22 10:30:03] CACHE HIT: keldeo-resolute
+[2026-10-22 10:30:03] CACHE HIT: kingdra
+[2026-10-22 10:30:03] CACHE HIT: kingler
+[2026-10-22 10:30:03] CACHE HIT: kingler-gmax
+[2026-10-22 10:30:03] CACHE HIT: krabby
+[2026-10-22 10:30:03] CACHE HIT: kyogre
+[2026-10-22 10:30:03] CACHE HIT: kyogre-primal
+[2026-10-22 10:30:03] CACHE HIT: lanturn
+[2026-10-22 10:30:03] CACHE HIT: lapras
+[2026-10-22 10:30:03] CACHE HIT: lapras-gmax
+[2026-10-22 10:30:03] CACHE HIT: lombre
+[2026-10-22 10:30:03] CACHE HIT: lotad
+[2026-10-22 10:30:03] CACHE HIT: ludicolo
+[2026-10-22 10:30:03] CACHE HIT: lumineon
+[2026-10-22 10:30:03] CACHE HIT: luvdisc
+[2026-10-22 10:30:03] CACHE HIT: magikarp
+[2026-10-22 10:30:03] CACHE HIT: manaphy
+[2026-10-22 10:30:03] CACHE HIT: mantine
+[2026-10-22 10:30:03] CACHE HIT: mantyke
+[2026-10-22 10:30:03] CACHE HIT: mareanie
+[2026-10-22 10:30:03] CACHE HIT: marill
+[2026-10-22 10:30:03] CACHE HIT: marshtomp
+[2026-10-22 10:30:03] CACHE HIT: milotic
+[2026-10-22 10:30:03] CACHE HIT: mudkip
+[2026-10-22 10:30:03] CACHE HIT: octillery
+[2026-10-22 10:30:03] CACHE HIT: ogerpon-wellspring-mask
+[2026-10-22 10:30:03] CACHE HIT: omanyte
+[2026-10-22 10:30:03] CACHE HIT: omastar
+[2026-10-22 10:30:03] CACHE HIT: oshawott
+[2026-10-22 10:30:03] CACHE HIT: palafin-hero
+[2026-10-22 10:30:03] CACHE HIT: palafin-zero
+[2026-10-22 10:30:03] CACHE HIT: palkia
+[2026-10-22 10:30:03] CACHE HIT: palkia-origin
+[2026-10-22 10:30:03] CACHE HIT: palpitoad
+[2026-10-22 10:30:03] CACHE HIT: panpour
+[2026-10-22 10:30:03] CACHE HIT: pelipper
+[2026-10-22 10:30:03] CACHE HIT: phione
+[2026-10-22 10:30:03] CACHE HIT: piplup
+[2026-10-22 10:30:03] CACHE HIT: politoed
+[2026-10-22 10:30:03] CACHE HIT: poliwag
+[2026-10-22 10:30:03] CACHE HIT: poliwhirl
+[2026-10-22 10:30:03] CACHE HIT: poliwrath
+[2026-10-22 10:30:03] CACHE HIT: popplio
+[2026-10-22 10:30:03] CACHE HIT: primarina
+[2026-10-22 10:30:03] CACHE HIT: prinplup
+[2026-10-22 10:30:03] CACHE HIT: psyduck
+[2026-10-22 10:30:03] CACHE HIT: pyukumuku
+[2026-10-22 10:30:03] CACHE HIT: quagsire
+[2026-10-22 10:30:03] CACHE HIT: quaquaval
+[2026-10-22 10:30:03] CACHE HIT: quaxly
+[2026-10-22 10:30:03] CACHE HIT: quaxwell
+[2026-10-22 10:30:03] CACHE HIT: qwilfish
+[2026-10-22 10:30:03] CACHE HIT: relicanth
+[2026-10-22 10:30:03] CACHE HIT: remoraid
+[2026-10-22 10:30:03] CACHE HIT: rotom-wash
+[2026-10-22 10:30:03] CACHE HIT: samurott
+[2026-10-22 10:30:03] CACHE HIT: samurott-hisui
+[2026-10-22 10:30:03] CACHE HIT: seadra
+[2026-10-22 10:30:03] CACHE HIT: seaking
+[2026-10-22 10:30:03] CACHE HIT: sealeo
+[2026-10-22 10:30:03] CACHE HIT: seel
+[2026-10-22 10:30:03] CACHE HIT: seismitoad
+[2026-10-22 10:30:03] CACHE HIT: sharpedo
+[2026-10-22 10:30:03] CACHE HIT: sharpedo-mega
+[2026-10-22 10:30:03] CACHE HIT: shellder
+[2026-10-22 10:30:03] CACHE HIT: shellos
+[2026-10-22 10:30:03] CACHE HIT: simipour
+[2026-10-22 10:30:03] CACHE HIT: skrelp
+[2026-10-22 10:30:03] CACHE HIT: slowbro
+[2026-10-22 10:30:03] CACHE HIT: slowbro-mega
+[2026-10-22 10:30:03] CACHE HIT: slowking
+[2026-10-22 10:30:03] CACHE HIT: slowpoke
+[2026-10-22 10:30:03] CACHE HIT: sobble
+[2026-10-22 10:30:03] CACHE HIT: spheal
+[2026-10-22 10:30:03] CACHE HIT: squirtle
+[2026-10-22 10:30:03] CACHE HIT: starmie
+[2026-10-22 10:30:03] CACHE HIT: starmie-mega
+[2026-10-22 10:30:03] CACHE HIT: staryu
+[2026-10-22 10:30:03] CACHE HIT: suicune
+[2026-10-22 10:30:03] CACHE HIT: surskit
+[2026-10-22 10:30:03] CACHE HIT: swampert
+[2026-10-22 10:30:03] CACHE HIT: swampert-mega
+[2026-10-22 10:30:03] CACHE HIT: swanna
+[2026-10-22 10:30:03] CACHE HIT: tapu-fini
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-curly
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-curly-mega
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-droopy
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-droopy-mega
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-stretchy
+[2026-10-22 10:30:03] CACHE HIT: tatsugiri-stretchy-mega
+[2026-10-22 10:30:03] CACHE HIT: tauros-paldea-aqua-breed
+[2026-10-22 10:30:03] CACHE HIT: tentacool
+[2026-10-22 10:30:03] CACHE HIT: tentacruel
+[2026-10-22 10:30:03] CACHE HIT: tirtouga
+[2026-10-22 10:30:03] CACHE HIT: totodile
+[2026-10-22 10:30:03] CACHE HIT: toxapex
+[2026-10-22 10:30:03] CACHE HIT: tympole
+[2026-10-22 10:30:03] CACHE HIT: urshifu-rapid-strike
+[2026-10-22 10:30:03] CACHE HIT: urshifu-rapid-strike-gmax
+[2026-10-22 10:30:03] CACHE HIT: vaporeon
+[2026-10-22 10:30:03] CACHE HIT: veluza
+[2026-10-22 10:30:03] CACHE HIT: volcanion
+[2026-10-22 10:30:03] CACHE HIT: wailmer
+[2026-10-22 10:30:03] CACHE HIT: wailord
+[2026-10-22 10:30:03] CACHE HIT: walking-wake
+[2026-10-22 10:30:03] CACHE HIT: walrein
+[2026-10-22 10:30:03] CACHE HIT: wartortle
+[2026-10-22 10:30:03] CACHE HIT: whiscash
+[2026-10-22 10:30:03] CACHE HIT: wiglett
+[2026-10-22 10:30:03] CACHE HIT: wimpod
+[2026-10-22 10:30:03] CACHE HIT: wingull
+[2026-10-22 10:30:03] CACHE HIT: wishiwashi-school
+[2026-10-22 10:30:03] CACHE HIT: wishiwashi-solo
+[2026-10-22 10:30:03] CACHE HIT: wooper
+[2026-10-22 10:30:03] CACHE HIT: wugtrio
+[2026-10-22 10:30:05] CACHE HIT: item ability-capsule
+[2026-10-22 10:30:05] CACHE HIT: item ability-patch
+[2026-10-22 10:30:05] CACHE HIT: item ability-shield
+[2026-10-22 10:30:05] CACHE HIT: item ability-urge
+[2026-10-22 10:30:05] CACHE HIT: item abomasite
+[2026-10-22 10:30:05] CACHE HIT: item abra-candy
+[2026-10-22 10:30:05] CACHE HIT: item absolite
+[2026-10-22 10:30:05] CACHE HIT: item absolite-z
+[2026-10-22 10:30:05] CACHE HIT: item absorb-bulb
+[2026-10-22 10:30:05] CACHE HIT: item academy-ball
+[2026-10-22 10:30:05] CACHE HIT: item academy-bottle
+[2026-10-22 10:30:05] CACHE HIT: item academy-cup
+[2026-10-22 10:30:05] CACHE HIT: item academy-tablecloth
+[2026-10-22 10:30:05] CACHE HIT: item acro-bike
+[2026-10-22 10:30:05] CACHE HIT: item adamant-crystal
+[2026-10-22 10:30:05] CACHE HIT: item adamant-mint
+[2026-10-22 10:30:05] CACHE HIT: item adamant-orb
+[2026-10-22 10:30:05] CACHE HIT: item adrenaline-orb
+[2026-10-22 10:30:05] CACHE HIT: item adventure-rules
+[2026-10-22 10:30:05] CACHE HIT: item aerodactyl-candy
+[2026-10-22 10:30:05] CACHE HIT: item aerodactylite
+[2026-10-22 10:30:05] CACHE HIT: item aggronite
+[2026-10-22 10:30:05] CACHE HIT: item aguav-berry
+[2026-10-22 10:30:05] CACHE HIT: item aipom-hair
+[2026-10-22 10:30:06] CACHE HIT: ability adaptability
+[2026-10-22 10:30:06] CACHE HIT: ability aerilate
+[2026-10-22 10:30:06] CACHE HIT: ability aftermath
+[2026-10-22 10:30:06] CACHE HIT: ability air-lock
+[2026-10-22 10:30:06] CACHE HIT: ability analytic
+[2026-10-22 10:30:06] CACHE HIT: ability anger-point
+[2026-10-22 10:30:06] CACHE HIT: ability anger-shell
+[2026-10-22 10:30:06] CACHE HIT: ability anticipation
+[2026-10-22 10:30:06] CACHE HIT: ability aqua-boost
+[2026-10-22 10:30:06] CACHE HIT: ability arena-trap
+[2026-10-22 10:30:06] CACHE HIT: ability armor-tail
+[2026-10-22 10:30:06] CACHE HIT: ability aroma-veil
+[2026-10-22 10:30:06] CACHE HIT: ability as-one-glastrier
+[2026-10-22 10:30:06] CACHE HIT: ability as-one-spectrier
+[2026-10-22 10:30:06] CACHE HIT: ability aura-break
+[2026-10-22 10:30:06] CACHE HIT: ability aura-guard
+[2026-10-22 10:30:06] CACHE HIT: ability bad-dreams
+[2026-10-22 10:30:06] CACHE HIT: ability ball-fetch
+[2026-10-22 10:30:06] CACHE HIT: ability battery
+[2026-10-22 10:30:06] CACHE HIT: ability battle-armor
+[2026-10-22 10:30:06] CACHE HIT: ability battle-bond
+[2026-10-22 10:30:06] CACHE HIT: ability beads-of-ruin
+[2026-10-22 10:30:06] CACHE HIT: ability beast-boost
+[2026-10-22 10:30:06] CACHE HIT: ability berserk
+[2026-10-22 10:30:19] CACHE HIT: item health-candy-xl
+[2026-10-22 10:30:19] CACHE HIT: item pidgey-candy
+[2026-10-22 10:30:19] CACHE HIT: item z-power-ring
+[2026-10-22 10:30:19] CACHE HIT: item ducklett-feather
+[2026-10-22 10:30:19] CACHE HIT: item dive-ball
+[2026-10-22 10:30:19] CACHE HIT: item lift-key
+[2026-10-22 10:30:19] CACHE HIT: item lucky-egg
+[2026-10-22 10:30:19] CACHE HIT: item legendary-clue-2
+[2026-10-22 10:30:19] CACHE HIT: item tm06
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-cru4730
+[2026-10-22 10:30:19] CACHE HIT: item meadow-plate
+[2026-10-22 10:30:19] CACHE HIT: item tr06
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-ori1879
+[2026-10-22 10:30:19] CACHE HIT: item electirizer
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-gru8425
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-dra6536
+[2026-10-22 10:30:19] CACHE HIT: item cherish-ball
+[2026-10-22 10:30:19] CACHE HIT: item x-sp-def-3
+[2026-10-22 10:30:19] CACHE HIT: item tm87
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-eri1084
+[2026-10-22 10:30:19] CACHE HIT: item green-dish
+[2026-10-22 10:30:19] CACHE HIT: item dynamax-crystal-cas21
+[2026-10-22 10:30:19] CACHE HIT: item azure-flute
+[2026-10-22 10:30:19] CACHE HIT: item tm80

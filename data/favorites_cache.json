@@ -1,12 +1,18 @@
 {
   "favorites": [
-    "charizard",
+    "absol-mega-z",
+    "charizard-mega-x",
+    "eelektross-mega",
+    "floette-mega",
+    "greninja-mega",
     "iron-valiant",
     "metagross",
     "metagross-mega",
     "regieleki",
     "roaring-moon",
-    "scovillain-mega"
+    "scovillain-mega",
+    "zoroark-hisui",
+    "zygarde-mega"
   ],
-  "count": 7
+  "count": 13
 }

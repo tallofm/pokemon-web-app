@@ -107,6 +107,7 @@ STAT_ABBR_MAP: Dict[str, str] = {
 }
 
 def format_stat_name(stat: str) -> str:
+    """Format canonical stat identifier into competitive abbreviation (e.g. 'special-attack' -> 'SpA')."""
     s = str(stat or "").lower().strip()
     return STAT_ABBR_MAP.get(s, s.capitalize())
 
@@ -685,6 +686,7 @@ class PokemonState:
 
     @property
     def is_fainted(self) -> bool:
+        """Indicates whether this Pokémon's HP has been reduced to zero."""
         return self.current_hp <= 0
 
     def get_effective_stat(self, stat_name: str, field: Any = None) -> int:
@@ -1096,28 +1098,34 @@ class BattleSide:
 
     @property
     def tera_used(self) -> bool:
+        """Indicates whether this side has activated its once-per-battle generational gimmick."""
         return self.omni_used
 
     @tera_used.setter
     def tera_used(self, val: bool):
+        """Sets gimmick usage and defaults to Terastallization if not specified."""
         self.omni_used = val
         if val and not self.omni_mechanic:
             self.omni_mechanic = "tera"
 
     @property
     def active_pokemon(self) -> Optional[PokemonState]:
+        """Returns the currently active Pokémon on field for this combatant side."""
         if 0 <= self.active_index < len(self.team):
             return self.team[self.active_index]
         return None
 
     @property
     def has_alive_pokemon(self) -> bool:
+        """True if this side has at least one conscious Pokémon remaining."""
         return any(not p.is_fainted for p in self.team)
 
     def get_alive_bench_indices(self) -> List[int]:
+        """Returns team slot indices of conscious teammates currently on the bench."""
         return [idx for idx, p in enumerate(self.team) if not p.is_fainted and idx != self.active_index]
 
     def to_dict(self) -> Dict[str, Any]:
+        """Serializes battle side state, hazards, screens, and active roster for UI/telemetry."""
         return {
             "sideId": self.side_id,
             "name": self.name,
@@ -1191,10 +1199,6 @@ class BattleSimulator:
         if p.has_item and p.item == "air-balloon":
             return False
         return True
-        if self.side1.active_pokemon:
-            self.side1.active_pokemon.can_fake_out = True
-        if self.side2.active_pokemon:
-            self.side2.active_pokemon.can_fake_out = True
 
     def log(self, event_type: str, text: str, side_id: Optional[str] = None, details: Optional[Dict[str, Any]] = None):
         """Appends an event to the battle log."""
@@ -2075,6 +2079,7 @@ class BattleSimulator:
             action2 = {"type": "move", "move": actor2.charging_move}
 
         def get_combatant_speed_prio(s: BattleSide, act: Dict[str, Any], actor: Optional[PokemonState]) -> Tuple[int, int]:
+            """Calculates action priority bracket (e.g. +7 switch, +1 Sucker Punch) and effective Speed."""
             if not actor or actor.is_fainted:
                 return -999, 0
             prio = 7 if act.get("type") == "switch" else self.get_move_priority(actor, act.get("move") or act.get("move_id") or act.get("moveId") or act.get("moveName"))
@@ -2152,6 +2157,7 @@ class BattleSimulator:
         return self.battle_log
 
     def get_move_priority(self, p: Optional[PokemonState], move_name: Optional[str]) -> int:
+        """Determines the net priority of a move considering base priority, Prankster, Gale Wings, Grassy Glide, and Triage."""
         if not move_name or not p:
             return 0
         m_data = get_move_metadata(move_name)
@@ -2173,6 +2179,10 @@ class BattleSimulator:
         # Grassy Glide in Grassy Terrain
         if move_name.lower() == "grassy-glide" and self.terrain == "grassy":
             base_prio += 1
+
+        # Triage gives +3 priority to healing moves
+        if p.ability == "triage" and (m_data.get("heal") or m_data.get("heal_drain") or move_name.lower() in ("recover", "roost", "synthesis", "soft-boiled", "slack-off", "milk-drink", "moonlight", "morning-sun", "shore-up", "strengthsap", "draining-kiss", "giga-drain", "drain-punch", "horn-leech")):
+            base_prio += 3
 
         return base_prio
 

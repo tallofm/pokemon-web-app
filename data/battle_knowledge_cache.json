@@ -1,11 +1,11 @@
 {
   "summary": {
-    "totalBattles": 7,
-    "totalTurns": 158,
-    "aiWins": 2,
-    "aiLosses": 4,
-    "spectatorBattles": 1,
-    "lastUpdated": "2026-10-22 02:22:08"
+    "totalBattles": 22,
+    "totalTurns": 452,
+    "aiWins": 4,
+    "aiLosses": 13,
+    "spectatorBattles": 5,
+    "lastUpdated": "2026-10-22 10:24:28"
   },
   "matchup_heuristics": {
     "staraptor_vs_baxcalibur": {
@@ -361,9 +361,699 @@
       "win_rate": 0.6,
       "samples": 1,
       "avg_damage": 100
+    },
+    "archaludon_vs_archaludon": {
+      "recommended_action": "move:draco-meteor",
+      "win_rate": 0.76,
+      "samples": 5,
+      "avg_damage": 100
+    },
+    "archaludon_vs_barraskewda": {
+      "recommended_action": "move:electro-shot",
+      "win_rate": 0.7,
+      "samples": 4,
+      "avg_damage": 100
+    },
+    "dragonite_vs_archaludon": {
+      "recommended_action": "move:outrage",
+      "win_rate": 0.24,
+      "samples": 5,
+      "avg_damage": 100
+    },
+    "dragonite_vs_gholdengo": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.54,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "pelipper_vs_dragonite": {
+      "recommended_action": "move:hurricane",
+      "win_rate": 0.62,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_barraskewda": {
+      "recommended_action": "move:wave-crash",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_basculegion-male": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.74,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "dragonite_vs_basculegion-male": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.26,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_dragonite": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.74,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "pelipper_vs_pelipper": {
+      "recommended_action": "move:hurricane",
+      "win_rate": 0.32,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_pelipper": {
+      "recommended_action": "move:thunderbolt",
+      "win_rate": 0.54,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "archaludon_vs_gholdengo": {
+      "recommended_action": "move:electro-shot",
+      "win_rate": 0.79,
+      "samples": 4,
+      "avg_damage": 100
+    },
+    "archaludon_vs_pelipper": {
+      "recommended_action": "move:electro-shot",
+      "win_rate": 0.68,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_archaludon": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.46,
+      "samples": 3,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_basculegion-male": {
+      "recommended_action": "move:crunch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_barraskewda": {
+      "recommended_action": "move:extreme-speed",
+      "win_rate": 0.21,
+      "samples": 4,
+      "avg_damage": 100
+    },
+    "archaludon_vs_basculegion-male": {
+      "recommended_action": "move:electro-shot",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_archaludon": {
+      "recommended_action": "move:shadow-ball",
+      "win_rate": 0.32,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_gholdengo": {
+      "recommended_action": "move:shadow-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_gouging-fire": {
+      "recommended_action": "move:shadow-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "roaring-moon_vs_gholdengo": {
+      "recommended_action": "move:knock-off",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "roaring-moon_vs_pelipper": {
+      "recommended_action": "move:knock-off",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_roaring-moon": {
+      "recommended_action": "move:close-combat",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "grimmsnarl_vs_dragonite": {
+      "recommended_action": "move:spirit-break",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_grimmsnarl": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_iron-boulder": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "iron-treads_vs_barraskewda": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_iron-treads": {
+      "recommended_action": "move:wave-crash",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "archaludon_vs_kingambit": {
+      "recommended_action": "move:body-press",
+      "win_rate": 0.79,
+      "samples": 4,
+      "avg_damage": 100
+    },
+    "volcarona_vs_pelipper": {
+      "recommended_action": "move:bug-buzz",
+      "win_rate": 0.32,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_volcarona": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.68,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "archaludon_vs_dragonite": {
+      "recommended_action": "move:draco-meteor",
+      "win_rate": 0.48,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "mimikyu-disguised_vs_archaludon": {
+      "recommended_action": "move:drain-punch",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_mimikyu-disguised": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_gholdengo": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.52,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_dragapult": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_basculegion-male": {
+      "recommended_action": "move:thunderbolt",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_incineroar": {
+      "recommended_action": "move:extreme-speed",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_pelipper": {
+      "recommended_action": "move:extreme-speed",
+      "win_rate": 0.48,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "dragonite_vs_rillaboom": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_corviknight": {
+      "recommended_action": "move:weather-ball",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_dragonite": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.68,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "dragonite_vs_skeledirge": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_clodsire": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "meowscarada_vs_dragonite": {
+      "recommended_action": "move:triple-axel",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "meowscarada_vs_archaludon": {
+      "recommended_action": "move:triple-axel",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_meowscarada": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_dondozo": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_pelipper": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_gholdengo": {
+      "recommended_action": "move:weather-ball",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_dragapult": {
+      "recommended_action": "move:hurricane",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_pelipper": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "archaludon_vs_cinderace": {
+      "recommended_action": "move:body-press",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "great-tusk_vs_dragonite": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_great-tusk": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "kingambit_vs_archaludon": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "kingambit_vs_barraskewda": {
+      "recommended_action": "move:kowtow-cleave",
+      "win_rate": 0.68,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "kingambit_vs_gholdengo": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.48,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "kingambit_vs_basculegion-male": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.48,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "landorus-therian_vs_archaludon": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_landorus-therian": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_flutter-mane": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_tornadus-incarnate": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "chi-yu_vs_dragonite": {
+      "recommended_action": "move:dark-pulse",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "chi-yu_vs_barraskewda": {
+      "recommended_action": "move:dark-pulse",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "chi-yu_vs_gholdengo": {
+      "recommended_action": "move:dark-pulse",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "chi-yu_vs_basculegion-male": {
+      "recommended_action": "move:dark-pulse",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_chi-yu": {
+      "recommended_action": "move:weather-ball",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "ogerpon-wellspring-mask_vs_pelipper": {
+      "recommended_action": "move:horn-leech",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_diancie": {
+      "recommended_action": "move:hurricane",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "archaludon_vs_incineroar": {
+      "recommended_action": "move:draco-meteor",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "ursaluna_vs_dragonite": {
+      "recommended_action": "move:facade",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_ursaluna": {
+      "recommended_action": "move:liquidation",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_amoonguss": {
+      "recommended_action": "move:make-it-rain",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_archaludon": {
+      "recommended_action": "move:close-combat",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "pelipper_vs_barraskewda": {
+      "recommended_action": "move:hurricane",
+      "win_rate": 0.52,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "primarina_vs_pelipper": {
+      "recommended_action": "move:moonblast",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "primarina_vs_barraskewda": {
+      "recommended_action": "move:moonblast",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "gholdengo_vs_sneasler": {
+      "recommended_action": "move:thunderbolt",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_dragonite": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragapult_vs_basculegion-male": {
+      "recommended_action": "move:phantom-force",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_gholdengo": {
+      "recommended_action": "move:crunch",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_ogerpon-wellspring-mask": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "great-tusk_vs_archaludon": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_heatran": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_dragonite": {
+      "recommended_action": "move:outrage",
+      "win_rate": 0.48,
+      "samples": 2,
+      "avg_damage": 100
+    },
+    "dragonite_vs_great-tusk": {
+      "recommended_action": "move:earthquake",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "chien-pao_vs_pelipper": {
+      "recommended_action": "move:sucker-punch",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "archaludon_vs_chien-pao": {
+      "recommended_action": "move:draco-meteor",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_landorus-therian": {
+      "recommended_action": "move:ice-spinner",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "dragonite_vs_chi-yu": {
+      "recommended_action": "move:extreme-speed",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "ogerpon-wellspring-mask_vs_gholdengo": {
+      "recommended_action": "move:ivy-cudgel",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "barraskewda_vs_ogerpon-wellspring-mask": {
+      "recommended_action": "move:close-combat",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "rillaboom_vs_barraskewda": {
+      "recommended_action": "move:grassy-glide",
+      "win_rate": 0.4,
+      "samples": 1,
+      "avg_damage": 100
+    },
+    "basculegion-male_vs_rillaboom": {
+      "recommended_action": "move:last-respects",
+      "win_rate": 0.6,
+      "samples": 1,
+      "avg_damage": 100
     }
   },
   "post_game_learnings": [
+    {
+      "id": "learn_22",
+      "timestamp": "2026-10-22 10:24",
+      "title": "Franco Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Basculegion (Male) KO'd Rillaboom with Last Respects. Franco capitalized on offensive positioning and preserved core counters.",
+      "winner": "Franco",
+      "loser": "Diantha"
+    },
+    {
+      "id": "learn_21",
+      "timestamp": "2026-10-22 10:22",
+      "title": "Franco Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Dragonite KO'd Great Tusk with Earthquake. Franco capitalized on offensive positioning and preserved core counters.",
+      "winner": "Franco",
+      "loser": "Diantha"
+    },
+    {
+      "id": "learn_20",
+      "timestamp": "2026-10-22 10:18",
+      "title": "Diantha Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Dragapult KO'd Basculegion (Male) with Phantom Force. Diantha capitalized on offensive positioning and preserved core counters.",
+      "winner": "Diantha",
+      "loser": "Franco"
+    },
+    {
+      "id": "learn_19",
+      "timestamp": "2026-10-22 10:16",
+      "title": "Diantha Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Basculegion (Male) KO'd Basculegion (Male) with Last Respects. Diantha capitalized on offensive positioning and preserved core counters.",
+      "winner": "Diantha",
+      "loser": "Franco"
+    },
+    {
+      "id": "learn_18",
+      "timestamp": "2026-10-22 10:14",
+      "title": "Franco Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Gholdengo KO'd Amoonguss with Make It Rain. Franco capitalized on offensive positioning and preserved core counters.",
+      "winner": "Franco",
+      "loser": "Diantha"
+    },
+    {
+      "id": "learn_17",
+      "timestamp": "2026-10-22 10:11",
+      "title": "Diantha Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Ogerpon (Wellspring) KO'd Pelipper with Horn Leech. Diantha capitalized on offensive positioning and preserved core counters.",
+      "winner": "Diantha",
+      "loser": "Franco"
+    },
+    {
+      "id": "learn_16",
+      "timestamp": "2026-10-22 10:08",
+      "title": "Diantha Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Kingambit KO'd Basculegion (Male) with Sucker Punch. Diantha capitalized on offensive positioning and preserved core counters.",
+      "winner": "Diantha",
+      "loser": "Trainer"
+    },
+    {
+      "id": "learn_15",
+      "timestamp": "2026-10-22 10:04",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Pelipper KO'd Dragonite with Hurricane. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Diantha"
+    },
+    {
+      "id": "learn_14",
+      "timestamp": "2026-10-22 08:38",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Gholdengo KO'd Dondozo with Make It Rain. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Grusha"
+    },
+    {
+      "id": "learn_13",
+      "timestamp": "2026-10-22 08:30",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Dragonite KO'd Rillaboom with Ice Spinner. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Grusha"
+    },
+    {
+      "id": "learn_12",
+      "timestamp": "2026-10-22 08:27",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Basculegion (Male) KO'd Dragapult with Last Respects. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Grusha"
+    },
+    {
+      "id": "learn_11",
+      "timestamp": "2026-10-22 08:22",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Basculegion (Male) KO'd Iron Treads with Wave Crash. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Cynthia"
+    },
+    {
+      "id": "learn_10",
+      "timestamp": "2026-10-22 08:18",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Pelipper KO'd Dragonite with Hurricane. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Cynthia"
+    },
+    {
+      "id": "learn_9",
+      "timestamp": "2026-10-22 08:15",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Gholdengo KO'd Dragonite with Make It Rain. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Cynthia"
+    },
+    {
+      "id": "learn_8",
+      "timestamp": "2026-10-22 02:44",
+      "title": "Trainer Victorious: Critical Advantage",
+      "lesson": "Decisive moment: Gholdengo KO'd Pelipper with Thunderbolt. Trainer capitalized on offensive positioning and preserved core counters.",
+      "winner": "Trainer",
+      "loser": "Larry"
+    },
     {
       "id": "learn_7",
       "timestamp": "2026-10-22 02:22",
@@ -402,22 +1092,6 @@
       "title": "Eleven Victorious: Critical Advantage",
       "lesson": "Decisive moment: Mega Metagross KO'd Kommo-o with Psychic Fangs. Eleven capitalized on offensive positioning and preserved core counters.",
       "winner": "Eleven",
-      "loser": "Steven"
-    },
-    {
-      "id": "learn_2",
-      "timestamp": "2026-10-22 00:41",
-      "title": "Steven Victorious: Critical Advantage",
-      "lesson": "Decisive moment: Great Tusk KO'd Garchomp with Ice Spinner. Steven capitalized on offensive positioning and preserved core counters.",
-      "winner": "Steven",
-      "loser": "Eleven"
-    },
-    {
-      "id": "learn_1",
-      "timestamp": "2026-10-22 00:37",
-      "title": "Player Franco Victorious: Critical Advantage",
-      "lesson": "Decisive moment: Mega Golisopod KO'd Primarina with Iron Head. Player Franco capitalized on offensive positioning and preserved core counters.",
-      "winner": "Player Franco",
       "loser": "Steven"
     }
   ],
